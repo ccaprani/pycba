@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pycba.load &#8212; PyCBA 0.1 documentation</title>
+    
+    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
+    
+    <link rel="stylesheet"
+      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/pydata-sphinx-theme.css" />
+    
+    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pycba.load.parse_LM" href="pycba.load.parse_LM.html" />
+    <link rel="prev" title="pycba.beam.Beam" href="pycba.beam.Beam.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pycba_logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../installation.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../general.html">
+  Beam Configuration
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../api.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../theory.html">
+  Theoretical Basis
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/ccaprani/pycba" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/ccaprani" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pycba.analysis.html">
+   pycba.analysis
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.analysis.BeamAnalysis.html">
+     pycba.analysis.BeamAnalysis
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pycba.beam.html">
+   pycba.beam
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.beam.Beam.html">
+     pycba.beam.Beam
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
+   pycba.load
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.parse_LM.html">
+     pycba.load.parse_LM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.Load.html">
+     pycba.load.Load
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.LoadCNL.html">
+     pycba.load.LoadCNL
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.LoadML.html">
+     pycba.load.LoadML
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.LoadMaMb.html">
+     pycba.load.LoadMaMb
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.LoadPL.html">
+     pycba.load.LoadPL
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.LoadPUDL.html">
+     pycba.load.LoadPUDL
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.LoadUDL.html">
+     pycba.load.LoadUDL
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.load.MemberResults.html">
+     pycba.load.MemberResults
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pycba.results.html">
+   pycba.results
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.results.BeamResults.html">
+     pycba.results.BeamResults
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.results.Envelopes.html">
+     pycba.results.Envelopes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pycba.bridge.html">
+   pycba.bridge
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.bridge.BridgeAnalysis.html">
+     pycba.bridge.BridgeAnalysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.bridge.Vehicle.html">
+     pycba.bridge.Vehicle
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.bridge.VehicleLibrary.html">
+     pycba.bridge.VehicleLibrary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pycba.inf_lines.html">
+   pycba.inf_lines
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.inf_lines.InfluenceLines.html">
+     pycba.inf_lines.InfluenceLines
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="pycba.utils.html">
+   pycba.utils
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pycba.utils.parse_beam_string.html">
+     pycba.utils.parse_beam_string
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+
+<nav id="bd-toc-nav">
+    
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.load.rst">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="module-pycba.load">
+<span id="pycba-load"></span><h1>pycba.load<a class="headerlink" href="#module-pycba.load" title="Permalink to this headline">¶</a></h1>
+<p>PyCBA - Load module</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="pycba.load.LoadMatrix">
+<span class="sig-name descname"><span class="pre">LoadMatrix</span></span><a class="headerlink" href="#pycba.load.LoadMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>The central part of internal API.</p>
+<p>This represents a generic version of type ‘origin’ with type arguments ‘params’.
+There are two kind of these aliases: user defined and special. The special ones
+are wrappers around builtin collections and ABCs in collections.abc. These must
+have ‘name’ always set. If ‘inst’ is False, then the alias can’t be instantiated,
+this is used by e.g. typing.List and typing.Dict.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</p>
+</dd></dl>
+
+<p>The load matrix represents the loads as a <cite>List</cite> of <cite>Lists</cite>.
+Each list entry represents a single load and must be in the following format:</p>
+<blockquote>
+<div><p>Span No. | Load Type | Load Value | Distance a | Load Cover c</p>
+</div></blockquote>
+<p>Load Types are:</p>
+<blockquote>
+<div><p>1 - <strong>Uniformly Distributed Loads</strong>, which only have a load value; distances <cite>a</cite> and <cite>c</cite> are set to “0”.</p>
+<p>2 - <strong>Point Loads</strong>, located at <cite>a</cite> from the left end of the span; distances <cite>c</cite> is set to “0”.</p>
+<p>3 - <strong>Partial UDLs</strong>, starting at <cite>a</cite> for a distance of <cite>c</cite> (i.e. the cover) where $L &gt;= a+c$.</p>
+<p>4 - <strong>Moment Load</strong>, located at <cite>a</cite>; distances <cite>c</cite> is set to “0”.</p>
+</div></blockquote>
+<p>It has dimension <cite>M</cite> x 5, where <cite>M</cite> is the number of loads applied to the beam.</p>
+<p class="rubric">Functions</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.parse_LM.html#pycba.load.parse_LM" title="pycba.load.parse_LM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_LM</span></code></a></p></td>
+<td><p>This function parses the Load Matrix and returns a list of Load objects</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.Load.html#pycba.load.Load" title="pycba.load.Load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Load</span></code></a></p></td>
+<td><p>Beam load container and processor</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadCNL.html#pycba.load.LoadCNL" title="pycba.load.LoadCNL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadCNL</span></code></a></p></td>
+<td><p>A typed namedtuple for Consistent Nodal Loads</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadML.html#pycba.load.LoadML" title="pycba.load.LoadML"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadML</span></code></a></p></td>
+<td><p>Moment load applied at a along member</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadMaMb.html#pycba.load.LoadMaMb" title="pycba.load.LoadMaMb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadMaMb</span></code></a></p></td>
+<td><p>Member end moment loads</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadPL.html#pycba.load.LoadPL" title="pycba.load.LoadPL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadPL</span></code></a></p></td>
+<td><p>Point Load class: CNLs and member results</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadPUDL.html#pycba.load.LoadPUDL" title="pycba.load.LoadPUDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadPUDL</span></code></a></p></td>
+<td><p>Concrete class for Partial UDLs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadUDL.html#pycba.load.LoadUDL" title="pycba.load.LoadUDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadUDL</span></code></a></p></td>
+<td><p>Uniformly Distributed Load: CNLs and member results</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.MemberResults.html#pycba.load.MemberResults" title="pycba.load.MemberResults"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MemberResults</span></code></a></p></td>
+<td><p>Class for storing the results for a single member</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="pycba.beam.Beam.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">pycba.beam.Beam</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="pycba.load.parse_LM.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">pycba.load.parse_LM</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2022, Colin Caprani.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

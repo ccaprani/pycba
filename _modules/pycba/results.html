@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pycba.results &#8212; PyCBA 0.1 documentation</title>
+    
+    <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
+    
+    <link rel="stylesheet"
+      href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/pydata-sphinx-theme.css" />
+    
+    <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/pycba_logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../installation.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../general.html">
+  Beam Configuration
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../api.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../theory.html">
+  Theoretical Basis
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/ccaprani/pycba" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/ccaprani" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for pycba.results</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">PyCBA - Beam Results module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+<span class="kn">from</span> <span class="nn">.beam</span> <span class="kn">import</span> <span class="n">Beam</span>
+<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">MemberResults</span><span class="p">,</span> <span class="n">LoadMaMb</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+
+<div class="viewcode-block" id="BeamResults"><a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults">[docs]</a><span class="k">class</span> <span class="nc">BeamResults</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BeamResults Class for processing and containing the results for each member</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize member results from global results</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        beam : Beam</span>
+<span class="sd">            The :class:`pycba.beam.Beam` object for which the results are to be stored.</span>
+<span class="sd">        d : np.ndarray</span>
+<span class="sd">            The vector of nodal displacements (from the stiffness method).</span>
+<span class="sd">        r : np.ndarray</span>
+<span class="sd">            The vector of reactions for the member degrees of freedom (if any).</span>
+<span class="sd">        npts : int, optional</span>
+<span class="sd">            The number of points along the member at which to calculate the load</span>
+<span class="sd">            effects. The default is 100.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="n">npts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vRes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_member_analysis</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">d</span>  <span class="c1"># nodal displacements</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">r</span>  <span class="c1"># reactions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concatenate_results</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_concatenate_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assemble the vector of results by member into a long vector of each result</span>
+<span class="sd">        and store in a :class:`pycba.MemberResults` object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        MemberResults</span>
+<span class="sd">            Stores all results along the whole beam as if it were a notional</span>
+<span class="sd">            member.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># global coordinate along member</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># bending moment</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># shear force</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># rotation</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># deflection</span>
+
+        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vRes</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">M</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+            <span class="n">V</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
+            <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+            <span class="n">D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_member_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Establish the results for each member from the stiffness method results.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        beam : Beam</span>
+<span class="sd">            The :class:`pycba.beam.Beam` object for which the results are required.</span>
+<span class="sd">        d : np.ndarray</span>
+<span class="sd">            The vector of nodal displacements from the stiffness analysis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[MemberResults]</span>
+<span class="sd">            A list of the :class:`pycba.MemberResults` objects for each member.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">vRes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sumL</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">no_spans</span><span class="p">):</span>
+            <span class="n">kb</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">get_span_k</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">dof_i</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
+            <span class="n">dmbr</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span>
+            <span class="n">fmbr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">fmbr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">kb</span><span class="p">[</span><span class="n">j</span><span class="p">][:]</span> <span class="o">*</span> <span class="n">dmbr</span><span class="p">[:])</span>
+            <span class="n">fmbr</span> <span class="o">+=</span> <span class="n">beam</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_member_values</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">fmbr</span><span class="p">,</span> <span class="n">dmbr</span><span class="p">)</span>
+            <span class="c1"># Shift x vals by location of mbr starting point</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">sumL</span>
+            <span class="n">sumL</span> <span class="o">+=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">vRes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vRes</span>
+
+    <span class="k">def</span> <span class="nf">_member_values</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the load effects along a single member given its nodal</span>
+<span class="sd">        displacements and forces.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        beam : Beam</span>
+<span class="sd">            The :class:`pycba.beam.Beam` object for which the results are required.</span>
+<span class="sd">        i_span : : int</span>
+<span class="sd">            The index of the member along the beam.</span>
+<span class="sd">        f : List[float]</span>
+<span class="sd">            The vector of nodal forces from the stiffness analysis.</span>
+<span class="sd">        d : List[float]</span>
+<span class="sd">            The vector of nodal displacements from the stiffness analysis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        MemberResults</span>
+<span class="sd">            The load effects values along the member.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">L</span>
+
+        <span class="c1"># Get the results for the end moments alone</span>
+        <span class="n">MaMb</span> <span class="o">=</span> <span class="n">LoadMaMb</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="n">i_span</span><span class="p">,</span> <span class="n">Ma</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Mb</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">MaMb</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+
+        <span class="c1"># Now get the results for all the applied loads on a simple span</span>
+        <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">beam</span><span class="o">.</span><span class="n">loads</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">!=</span> <span class="n">i_span</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="c1"># And superimpose end displacements using Moment-Area</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span>
+        <span class="n">EI</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+
+        <span class="n">R</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dx</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">EI</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Envelopes"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes">[docs]</a><span class="k">class</span> <span class="nc">Envelopes</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Envelopes load effects from a vector of BeamResults</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vResults</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs the envelope of each load effect given a vector of results for</span>
+<span class="sd">        the beam.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vResults : List[MemberResults]</span>
+<span class="sd">            The vector of results from each analysis that are to be enveloped.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="n">vResults</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nres</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vResults</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsup</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_envelope_V</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_envelope_M</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_envelope_R</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_envelope_V</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the envelopes for shear.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vmax : np.ndarray</span>
+<span class="sd">            The vector of enveloped maximum values.</span>
+<span class="sd">        Vmin : np.ndarray</span>
+<span class="sd">            The vector of enveloped minimum values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">:</span>
+            <span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
+            <span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">Vmin</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_envelope_M</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the envelopes for moment.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Mmax : np.ndarray</span>
+<span class="sd">            The vector of enveloped maximum values.</span>
+<span class="sd">        Mmin : np.ndarray</span>
+<span class="sd">            The vector of enveloped minimum values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">:</span>
+            <span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+            <span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_envelope_R</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the envelopes for reaction. Strictly this is not an envelope but</span>
+<span class="sd">        the history of reaction as the vehicle traverses the bridge.</span>
+
+<span class="sd">        The returned matrices are of dimension `[nps,nsup]`:</span>
+
+<span class="sd">            - `npts` is the number of positions the load was moved</span>
+<span class="sd">            - `nsup` is the number of full vertical supports</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Rmax : np.ndarray</span>
+<span class="sd">            The matrix of enveloped maximum values.</span>
+<span class="sd">        Rmin : np.ndarray</span>
+<span class="sd">            The matrix of enveloped minimum values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span>
+        <span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">):</span>
+            <span class="n">Rmax</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>  <span class="c1"># remove negatives</span>
+            <span class="n">Rmin</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>  <span class="c1"># remove positives</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Rmax</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Envelopes.zero_like"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.zero_like">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">zero_like</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a zeroed zet of envelopes like the reference :class:`pycba.results.Envelopes`.</span>
+<span class="sd">        This is necessary since a :class:`pycba.results.Envelopes` object stores information</span>
+<span class="sd">        about the beam from which it came. This facilitates the creation of an</span>
+<span class="sd">        envelope of envelopes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        env : Envelopes</span>
+<span class="sd">            A :class:`pycba.results.Envelopes` to be used as the basis for a zeroed</span>
+<span class="sd">            :class:`pycba.results.Envelopes` object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Envelopes</span>
+<span class="sd">            A :class:`pycba.results.Envelopes` object of zero-valued envelopes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">zero_env</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">):</span>
+            <span class="n">zero_env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nres</span><span class="p">)</span>
+            <span class="n">zero_env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nres</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">zero_env</span></div>
+
+<div class="viewcode-block" id="Envelopes.augment"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.augment">[docs]</a>    <span class="k">def</span> <span class="nf">augment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Augments this set of envelopes with another compatible set, making this the</span>
+<span class="sd">        envelopes of the two sets of envelopes.</span>
+
+<span class="sd">        All envelopes must be from the same :class:`pycba.bridge.BridgeAnalysis` object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        env : Envelopes</span>
+<span class="sd">            A compatible :class:`pycba.results.Envelopes` object.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            All envelopes must be for the same bridge.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">nres</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">npts</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsup</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot augment with an inconsistent envelope&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">)</span></div></div>
+</pre></div>
+
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+    <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2022, Colin Caprani.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
