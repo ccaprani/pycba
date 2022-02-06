@@ -21,9 +21,9 @@ def parse_beam_string(
         - E - encastre (i.e. fully-fixed) - can only occur at beam extremity
         - F - free (e.g. cantilever end) - can only occur at beam extremity
         - H - hinge - can only occur internally in the beam
-    
+
     Examples of beam strings are:
-        
+
         - *P40R20R* - 2-span, 60 m long, with pinned-roller-roller supports
         - *E20H30R10F* - 3-span, 60 m long, encastre-hinge-roller-free
 
@@ -55,7 +55,7 @@ def parse_beam_string(
     -------
     This example creates a four-span beam with fixed extreme supports and
     an internal hinge. ::
-    
+
         beam_str = "E30R30H30R30E"
         (L, EI, R, eType) = cba.parse_beam_string(beam_str)
         ils = cba.InfluenceLines(L, EI, R, eType)

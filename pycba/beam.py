@@ -253,7 +253,7 @@ class Beam:
     def get_cnl(self, i_span: int) -> LoadCNL:
         """
         Returns Consistent Nodal Loads for the member
-        
+
         Parameters
         ----------
         ispan : int
@@ -305,7 +305,7 @@ class Beam:
     def k_FF(self, EI: float, L: float) -> np.ndarray:
         """
         Stiffness matrix for a fixed-fixed element
-        
+
         Parameters
         ----------
         EI : float
@@ -318,8 +318,8 @@ class Beam:
         k : np.ndarray
             The stiffness matrix for the member
         """
-        L2 = L ** 2
-        L3 = L ** 3
+        L2 = L**2
+        L3 = L**3
 
         kfv = 12 * EI / L3
         kmv = 6 * EI / L2
@@ -341,7 +341,7 @@ class Beam:
     def k_FP(self, EI: float, L: float) -> np.ndarray:
         """
         Stiffness matrix for a fixed-pinned element
-                
+
         Parameters
         ----------
         EI : float
@@ -354,8 +354,8 @@ class Beam:
         k : np.ndarray
             The stiffness matrix for the member
         """
-        L2 = L ** 2
-        L3 = L ** 3
+        L2 = L**2
+        L3 = L**3
 
         kfv = 3 * EI / L3
         kmv = 3 * EI / L2
@@ -376,7 +376,7 @@ class Beam:
     def k_PF(self, EI: float, L: float) -> np.ndarray:
         """
         Stiffness matrix for a pinned-fixed element
-                
+
         Parameters
         ----------
         EI : float
@@ -389,8 +389,8 @@ class Beam:
         k : np.ndarray
             The stiffness matrix for the member
         """
-        L2 = L ** 2
-        L3 = L ** 3
+        L2 = L**2
+        L3 = L**3
 
         kfv = 3 * EI / L3
         kmv = 3 * EI / L2
@@ -411,7 +411,7 @@ class Beam:
     def k_PP(self, EI: float, L: float) -> np.ndarray:
         """
         Stiffness matrix for a pinned-pinned element
-                
+
         Parameters
         ----------
         EI : float

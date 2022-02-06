@@ -27,7 +27,7 @@ class BeamAnalysis:
     ):
         """
         Constructs a beam analysis object given the structural information necessary.
-        
+
 
         Parameters
         ----------
@@ -41,7 +41,7 @@ class BeamAnalysis:
             The load matrix: a list of loads on the beam; each load with several parameters.
         eletype : Optional[np.ndarray]
             A vector of the member types. Defaults to a fixed-fixed element.
-            
+
 
         Returns
         -------
@@ -73,7 +73,7 @@ class BeamAnalysis:
     def set_loads(self, LM: LoadMatrix):
         """
         Set load matrix for pre-defined beam
-        
+
         Parameters
         ----------
         LM : List[List[Union[int, float]]]
@@ -82,22 +82,22 @@ class BeamAnalysis:
         Returns
         -------
         None.
-        
+
         """
         self._beam.loads = LM
 
     def analyze(self) -> int:
         """
         Conducts the analysis on the constructed BeamAnalysis object
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         0 for a succesful execution
-        
+
         """
         fU = self._forces()
         f = np.copy(fU)
@@ -113,7 +113,7 @@ class BeamAnalysis:
     def _forces(self) -> np.ndarray:
         """
         Construct the nodal force vector
-        
+
         Parameters
         ----------
         None
@@ -122,7 +122,7 @@ class BeamAnalysis:
         -------
         f : np.ndarray
             The global nodal force vector
-        
+
         """
         f = np.zeros(self._nDOF)
 
@@ -135,8 +135,8 @@ class BeamAnalysis:
 
     def _assemble(self) -> np.ndarray:
         """
-        Construct the unrestricted global stiffness matrix        
-                
+        Construct the unrestricted global stiffness matrix
+
         Parameters
         ----------
         None
@@ -145,7 +145,7 @@ class BeamAnalysis:
         -------
         ksys : np.ndarray
             The global stiffness matrix
-        
+
         """
         ksys = np.zeros((self._nDOF, self._nDOF))
 
@@ -192,7 +192,7 @@ class BeamAnalysis:
     def _reactions(self, k: np.ndarray, d: np.ndarray, f: np.ndarray) -> np.ndarray:
         """
         Calculate the reactions
-        
+
         Parameters
         ----------
         k : np.ndarray
@@ -220,7 +220,7 @@ class BeamAnalysis:
     def _solver(self, A: np.ndarray, b: np.ndarray) -> np.ndarray:
         """
         Solves the matrix equation
-        
+
         Parameters
         ----------
         A : np.ndarray
@@ -231,7 +231,7 @@ class BeamAnalysis:
         Returns
         -------
         x : np.ndarray
-            The nodal displacements        
+            The nodal displacements
         """
         x = np.linalg.solve(A, b)
         return x

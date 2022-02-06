@@ -55,7 +55,7 @@ class MemberResults:
     ):
         """
         Construct the class with a tuple of the vectors of results along the member.
-        
+
         Parameters
         ----------
         vals : Optional[Tuple[np.array, np.array, np.ndarray, np.ndarray, np.ndarray, np.ndarray]], optional
@@ -90,12 +90,12 @@ class MemberResults:
     def _zero(self, n: int):
         """
         Creates a zero arrays of results
-        
+
         Parameters
         ----------
         n : int
             The number of entries for results along the member
-        
+
         Returns
         -------
         None
@@ -309,8 +309,8 @@ class LoadUDL(Load):
             Va=w * L / 2.0,
             Vb=w * L / 2.0,
             # Moments
-            Ma=w * L ** 2 / 12.0,
-            Mb=-w * L ** 2 / 12.0,
+            Ma=w * L**2 / 12.0,
+            Mb=-w * L**2 / 12.0,
         )
 
         return self.released_end_forces(cnl, L, eType)
@@ -337,12 +337,12 @@ class LoadUDL(Load):
         res.x = x
 
         Va = self.w * L / 2
-        Ra = -self.w * L ** 3 / 24
+        Ra = -self.w * L**3 / 24
 
         res.V = Va - self.w * x
-        res.M = Va * x - self.w / 2 * x ** 2
-        res.R = (Va / 2) * x ** 2 - (self.w / 6) * x ** 3 + Ra
-        res.D = (Va / 6) * x ** 3 - (self.w / 24) * x ** 4 + Ra * x
+        res.M = Va * x - self.w / 2 * x**2
+        res.R = (Va / 2) * x**2 - (self.w / 6) * x**3 + Ra
+        res.D = (Va / 6) * x**3 - (self.w / 24) * x**4 + Ra * x
 
         res.V[0] = 0
         res.V[npts - 1] = 0
@@ -403,11 +403,11 @@ class LoadPL(Load):
 
         cnl = LoadCNL(
             # Shears
-            Va=P / L ** 3 * (b * L ** 2 - a ** 2 * b + a * b ** 2),
-            Vb=P / L ** 3 * (a * L ** 2 + a ** 2 * b - a * b ** 2),
+            Va=P / L**3 * (b * L**2 - a**2 * b + a * b**2),
+            Vb=P / L**3 * (a * L**2 + a**2 * b - a * b**2),
             # Moments
-            Ma=P * a * b ** 2 / L ** 2,
-            Mb=-P * a ** 2 * b / L ** 2,
+            Ma=P * a * b**2 / L**2,
+            Mb=-P * a**2 * b / L**2,
         )
         # implicit conversion to tuple in correct order
         return self.released_end_forces(cnl, L, eType)
@@ -438,12 +438,12 @@ class LoadPL(Load):
         b = max(L - a, 0)
 
         Va = P * b / L
-        Ra = P * b * (b ** 2 - L ** 2) / (6 * L)
+        Ra = P * b * (b**2 - L**2) / (6 * L)
 
         res.V = Va - P * self.H(x - a)
         res.M = Va * x - P * self.MB(x - a)
-        res.R = (Va / 2) * x ** 2 - (P / 2) * self.MB(x - a) ** 2 + Ra
-        res.D = (Va / 6) * x ** 3 - (P / 6) * self.MB(x - a) ** 3 + Ra * x
+        res.R = (Va / 2) * x**2 - (P / 2) * self.MB(x - a) ** 2 + Ra
+        res.D = (Va / 6) * x**3 - (P / 6) * self.MB(x - a) ** 3 + Ra * x
 
         res.V[0] = 0
         res.V[npts - 1] = 0
@@ -498,11 +498,11 @@ class LoadPUDL(Load):
 
         cnl = LoadCNL(
             # Shears
-            Va=(w * c / L ** 3) * ((2 * s + L) * t ** 2 + (s - t) * c ** 2 / 4),
-            Vb=w * c - (w * c / L ** 3) * ((2 * s + L) * t ** 2 + (s - t) * c ** 2 / 4),
+            Va=(w * c / L**3) * ((2 * s + L) * t**2 + (s - t) * c**2 / 4),
+            Vb=w * c - (w * c / L**3) * ((2 * s + L) * t**2 + (s - t) * c**2 / 4),
             # Moments
-            Ma=(w * c / L ** 2) * (s * t ** 2 + (s - 2 * t) * c ** 2 / 12),
-            Mb=-(w * c / L ** 2) * (t * s ** 2 + (t - 2 * s) * c ** 2 / 12),
+            Ma=(w * c / L**2) * (s * t**2 + (s - 2 * t) * c**2 / 12),
+            Mb=-(w * c / L**2) * (t * s**2 + (t - 2 * s) * c**2 / 12),
         )
         # implicit conversion to tuple in correct order
         return self.released_end_forces(cnl, L, eType)
@@ -535,7 +535,7 @@ class LoadPUDL(Load):
 
         Va = (L - b + c / 2) * c * w / L
         Ra = (
-            -((Va / 6) * L ** 3 + (w / 24) * (L - b) ** 4 - (w / 24) * (L - a) ** 4) / L
+            -((Va / 6) * L**3 + (w / 24) * (L - b) ** 4 - (w / 24) * (L - a) ** 4) / L
         )
 
         res.V = Va - w * self.MB(x - a) + w * self.MB(x - b)
@@ -543,13 +543,13 @@ class LoadPUDL(Load):
             Va * x - (w / 2) * (self.MB(x - a)) ** 2 + (w / 2) * (self.MB(x - b)) ** 2
         )
         res.R = (
-            (Va / 2) * x ** 2
+            (Va / 2) * x**2
             - (w / 6) * (self.MB(x - a)) ** 3
             + (w / 6) * (self.MB(x - b)) ** 3
             + Ra
         )
         res.D = (
-            (Va / 6) * x ** 3
+            (Va / 6) * x**3
             - (w / 24) * (self.MB(x - a)) ** 4
             + (w / 24) * (self.MB(x - b)) ** 4
             + Ra * x
@@ -633,8 +633,8 @@ class LoadMaMb(Load):
 
         res.V = Va * np.ones(npts)
         res.M = Va * x - Ma
-        res.R = (Va / 2) * x ** 2 - Ma * x + Ra
-        res.D = (Va / 6) * x ** 3 - (Ma / 2) * x ** 2 + Ra * x
+        res.R = (Va / 2) * x**2 - Ma * x + Ra
+        res.D = (Va / 6) * x**3 - (Ma / 2) * x**2 + Ra * x
 
         res.V[0] = 0.0
         res.V[npts - 1] = 0.0
@@ -677,11 +677,11 @@ class LoadML(Load):
 
         cnl = LoadCNL(
             # Shears
-            Va=6 * m * a * b / L ** 3,
-            Vb=-6 * m * a * b / L ** 3,
+            Va=6 * m * a * b / L**3,
+            Vb=-6 * m * a * b / L**3,
             # Moments
-            Ma=(m * b / L ** 2) * (2 * a - b),
-            Mb=(m * a / L ** 2) * (2 * b - a),
+            Ma=(m * b / L**2) * (2 * a - b),
+            Mb=(m * a / L**2) * (2 * b - a),
         )
         # implicit conversion to tuple in correct order
         return self.released_end_forces(cnl, L, eType)
@@ -712,12 +712,12 @@ class LoadML(Load):
         b = L - a
 
         Va = m / L
-        Ra = (m / 6) * (3 * b ** 2 / L - L)
+        Ra = (m / 6) * (3 * b**2 / L - L)
 
         res.V = Va * np.ones(npts)
         res.M = Va * x - m * self.H(x - a)
-        res.R = (Va / 2) * x ** 2 - m * self.MB(x - a) + Ra
-        res.D = (Va / 6) * x ** 3 - (m / 2) * self.MB(x - a) ** 2 + Ra * x
+        res.R = (Va / 2) * x**2 - m * self.MB(x - a) + Ra
+        res.D = (Va / 6) * x**3 - (m / 2) * self.MB(x - a) ** 2 + Ra * x
 
         res.V[0] = 0.0
         res.V[npts - 1] = 0.0
