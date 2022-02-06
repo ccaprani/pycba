@@ -192,7 +192,7 @@
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs a beam analysis object given the structural information necessary.</span>
-<span class="sd">        </span>
+
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -206,7 +206,7 @@
 <span class="sd">            The load matrix: a list of loads on the beam; each load with several parameters.</span>
 <span class="sd">        eletype : Optional[np.ndarray]</span>
 <span class="sd">            A vector of the member types. Defaults to a fixed-fixed element.</span>
-<span class="sd">            </span>
+
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -238,7 +238,7 @@
 <div class="viewcode-block" id="BeamAnalysis.set_loads"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.set_loads">[docs]</a>    <span class="k">def</span> <span class="nf">set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set load matrix for pre-defined beam</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        LM : List[List[Union[int, float]]]</span>
@@ -247,22 +247,22 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">loads</span> <span class="o">=</span> <span class="n">LM</span></div>
 
 <div class="viewcode-block" id="BeamAnalysis.analyze"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze">[docs]</a>    <span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Conducts the analysis on the constructed BeamAnalysis object</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        None</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        0 for a succesful execution</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fU</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forces</span><span class="p">()</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fU</span><span class="p">)</span>
@@ -278,7 +278,7 @@
     <span class="k">def</span> <span class="nf">_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct the nodal force vector</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        None</span>
@@ -287,7 +287,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        f : np.ndarray</span>
 <span class="sd">            The global nodal force vector</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">)</span>
 
@@ -300,8 +300,8 @@
 
     <span class="k">def</span> <span class="nf">_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct the unrestricted global stiffness matrix        </span>
-<span class="sd">                </span>
+<span class="sd">        Construct the unrestricted global stiffness matrix</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        None</span>
@@ -310,7 +310,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        ksys : np.ndarray</span>
 <span class="sd">            The global stiffness matrix</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ksys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">))</span>
 
@@ -357,7 +357,7 @@
     <span class="k">def</span> <span class="nf">_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the reactions</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        k : np.ndarray</span>
@@ -385,7 +385,7 @@
     <span class="k">def</span> <span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solves the matrix equation</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        A : np.ndarray</span>
@@ -396,7 +396,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        x : np.ndarray</span>
-<span class="sd">            The nodal displacements        </span>
+<span class="sd">            The nodal displacements</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span>

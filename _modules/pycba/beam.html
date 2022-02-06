@@ -418,7 +418,7 @@
 <div class="viewcode-block" id="Beam.get_cnl"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_cnl">[docs]</a>    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns Consistent Nodal Loads for the member</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        ispan : int</span>
@@ -470,7 +470,7 @@
 <div class="viewcode-block" id="Beam.k_FF"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF">[docs]</a>    <span class="k">def</span> <span class="nf">k_FF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a fixed-fixed element</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        EI : float</span>
@@ -483,8 +483,8 @@
 <span class="sd">        k : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">**</span> <span class="mi">3</span>
+        <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
 
         <span class="n">kfv</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
         <span class="n">kmv</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L2</span>
@@ -506,7 +506,7 @@
 <div class="viewcode-block" id="Beam.k_FP"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FP">[docs]</a>    <span class="k">def</span> <span class="nf">k_FP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a fixed-pinned element</span>
-<span class="sd">                </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        EI : float</span>
@@ -519,8 +519,8 @@
 <span class="sd">        k : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">**</span> <span class="mi">3</span>
+        <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
 
         <span class="n">kfv</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
         <span class="n">kmv</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L2</span>
@@ -541,7 +541,7 @@
 <div class="viewcode-block" id="Beam.k_PF"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PF">[docs]</a>    <span class="k">def</span> <span class="nf">k_PF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a pinned-fixed element</span>
-<span class="sd">                </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        EI : float</span>
@@ -554,8 +554,8 @@
 <span class="sd">        k : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">**</span> <span class="mi">3</span>
+        <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
 
         <span class="n">kfv</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
         <span class="n">kmv</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L2</span>
@@ -576,7 +576,7 @@
 <div class="viewcode-block" id="Beam.k_PP"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PP">[docs]</a>    <span class="k">def</span> <span class="nf">k_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a pinned-pinned element</span>
-<span class="sd">                </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        EI : float</span>

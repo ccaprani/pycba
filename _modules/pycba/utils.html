@@ -186,9 +186,9 @@
 <span class="sd">        - E - encastre (i.e. fully-fixed) - can only occur at beam extremity</span>
 <span class="sd">        - F - free (e.g. cantilever end) - can only occur at beam extremity</span>
 <span class="sd">        - H - hinge - can only occur internally in the beam</span>
-<span class="sd">    </span>
+
 <span class="sd">    Examples of beam strings are:</span>
-<span class="sd">        </span>
+
 <span class="sd">        - *P40R20R* - 2-span, 60 m long, with pinned-roller-roller supports</span>
 <span class="sd">        - *E20H30R10F* - 3-span, 60 m long, encastre-hinge-roller-free</span>
 
@@ -220,7 +220,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    This example creates a four-span beam with fixed extreme supports and</span>
 <span class="sd">    an internal hinge. ::</span>
-<span class="sd">    </span>
+
 <span class="sd">        beam_str = &quot;E30R30H30R30E&quot;</span>
 <span class="sd">        (L, EI, R, eType) = cba.parse_beam_string(beam_str)</span>
 <span class="sd">        ils = cba.InfluenceLines(L, EI, R, eType)</span>
