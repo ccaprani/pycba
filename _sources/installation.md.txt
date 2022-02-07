@@ -5,6 +5,8 @@ Required Dependencies
 ---------------------
 - Python 3.8 or later
 - numpy
+- scipy
+- matplotlib
 
 Instructions
 ------------
