@@ -16,7 +16,7 @@ For users wishing to contribute or develop: ::
 
     git clone https://github.com/ccaprani/pycba.git
     cd pycba
-    pip install . -e
+    pip install -e .
 
 Tests
 -----

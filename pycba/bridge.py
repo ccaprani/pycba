@@ -53,6 +53,19 @@ class Vehicle:
         for i, s in enumerate(self.axs):
             self.axle_coords[i + 1] = self.axle_coords[i] + s
 
+    def reverse(self):
+        """
+        Reverses the vehicle; now the `pos` coordinate will refer to the rear axle
+        as it traverses the bridge in reverse from zero in the global x-coordinate
+        system.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.axle_coords = +self.L - self.axle_coords
+
 
 class VehicleLibrary:
     """
@@ -258,7 +271,9 @@ class VehicleLibrary:
 
 class BridgeAnalysis:
     """
-    Performs a bridge crossing analysis for a defined vehicle
+    Performs a bridge crossing analysis for a defined vehicle. The vehicle is moved
+    from the zero global x-coordinate of the beam until it has left the beam at the
+    far end.
     """
 
     def __init__(
@@ -294,6 +309,8 @@ class BridgeAnalysis:
         """
         Create and add a beam to a bridge analysis
 
+        Parameters
+        ----------
         L : np.ndarray
             A vector of span lengths.
         EI : Union[float, np.ndarray]
@@ -305,8 +322,14 @@ class BridgeAnalysis:
             parameters.
         eletype : Optional[np.ndarray]
             A vector of the member types. Defaults to a fixed-fixed element.
+
+        Returns
+        -------
+        ba : BeamAnalysis
+            A :class:`pycba.analysis.BeamAnalysis` object.
         """
         self.ba = BeamAnalysis(L=L, EI=EI, R=R, eletype=eletype)
+        return self.ba
 
     def set_bridge(self, ba: BeamAnalysis):
         """
@@ -336,8 +359,14 @@ class BridgeAnalysis:
         axle_weights : np.ndarray
             A vector of axle weights, length one greater than the length of the
             axle spacings vector.
+
+        Returns
+        -------
+        veh : Vehicle
+            A :class:`pycba.bridge.Vehicle` object.
         """
         self.veh = Vehicle(axle_spacings, axle_weights)
+        return self.veh
 
     def set_vehicle(self, veh: Vehicle):
         """
