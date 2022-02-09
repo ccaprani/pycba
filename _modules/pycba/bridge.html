@@ -216,7 +216,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">NoAxles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">axle_weights</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NoAxles</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span>
+
+<div class="viewcode-block" id="Vehicle.reverse"><a class="viewcode-back" href="../../gen/pycba.bridge.Vehicle.html#pycba.bridge.Vehicle.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reverses the vehicle; now the `pos` coordinate will refer to the rear axle</span>
+<span class="sd">        as it traverses the bridge in reverse from zero in the global x-coordinate</span>
+<span class="sd">        system.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span> <span class="o">=</span> <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span></div></div>
 
 
 <div class="viewcode-block" id="VehicleLibrary"><a class="viewcode-back" href="../../gen/pycba.bridge.VehicleLibrary.html#pycba.bridge.VehicleLibrary">[docs]</a><span class="k">class</span> <span class="nc">VehicleLibrary</span><span class="p">:</span>
@@ -423,7 +436,9 @@
 
 <div class="viewcode-block" id="BridgeAnalysis"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis">[docs]</a><span class="k">class</span> <span class="nc">BridgeAnalysis</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Performs a bridge crossing analysis for a defined vehicle</span>
+<span class="sd">    Performs a bridge crossing analysis for a defined vehicle. The vehicle is moved</span>
+<span class="sd">    from the zero global x-coordinate of the beam until it has left the beam at the</span>
+<span class="sd">    far end.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -459,6 +474,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and add a beam to a bridge analysis</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 <span class="sd">        L : np.ndarray</span>
 <span class="sd">            A vector of span lengths.</span>
 <span class="sd">        EI : Union[float, np.ndarray]</span>
@@ -470,8 +487,14 @@
 <span class="sd">            parameters.</span>
 <span class="sd">        eletype : Optional[np.ndarray]</span>
 <span class="sd">            A vector of the member types. Defaults to a fixed-fixed element.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ba : BeamAnalysis</span>
+<span class="sd">            A :class:`pycba.analysis.BeamAnalysis` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="n">eletype</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="n">eletype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span></div>
 
 <div class="viewcode-block" id="BridgeAnalysis.set_bridge"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_bridge">[docs]</a>    <span class="k">def</span> <span class="nf">set_bridge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -501,8 +524,14 @@
 <span class="sd">        axle_weights : np.ndarray</span>
 <span class="sd">            A vector of axle weights, length one greater than the length of the</span>
 <span class="sd">            axle spacings vector.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        veh : Vehicle</span>
+<span class="sd">            A :class:`pycba.bridge.Vehicle` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axle_spacings</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axle_spacings</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span></div>
 
 <div class="viewcode-block" id="BridgeAnalysis.set_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_vehicle">[docs]</a>    <span class="k">def</span> <span class="nf">set_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">veh</span><span class="p">:</span> <span class="n">Vehicle</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

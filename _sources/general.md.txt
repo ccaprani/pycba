@@ -57,8 +57,8 @@ Load Types are:
 
 **Units**: kN, kN/m, and metres.
 
-Element Types
--------------
+Element Types (`eleType`)
+-------------------------
 
 Each member can be one of several element types, depending on the presence of hinges in the beam.
 
