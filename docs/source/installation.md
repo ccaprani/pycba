@@ -14,11 +14,13 @@ The easiest way to install `PyCBA` is to use the python package index: ::
 
     pip install pycba
 
-For users wishing to contribute or develop: ::
+For users wishing to develop: ::
 
     git clone https://github.com/ccaprani/pycba.git
     cd pycba
     pip install -e .
+    
+For contributions, first fork the repo and clone from your fork. `Here <https://www.dataschool.io/how-to-contribute-on-github/>`_ is a good guide on this workflow.
 
 Tests
 -----
