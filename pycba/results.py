@@ -193,6 +193,8 @@ class Envelopes:
         self.Vmax, self.Vmin = self._get_envelope_V()
         self.Mmax, self.Mmin = self._get_envelope_M()
         self.Rmax, self.Rmin = self._get_envelope_R()
+        self.Rmaxval = self.Rmax.max(axis=1)
+        self.Rminval = self.Rmin.min(axis=1)
 
     def _get_envelope_V(self) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -297,6 +299,8 @@ class Envelopes:
         for i in range(env.nsup):
             zero_env.Rmax[i] = np.zeros(env.nres)
             zero_env.Rmin[i] = np.zeros(env.nres)
+        zero_env.Rmaxval = np.zeros(env.nsup)
+        zero_env.Rminval = np.zeros(env.nsup)
         return zero_env
 
     def augment(self, env: Envelopes):
@@ -305,6 +309,10 @@ class Envelopes:
         envelopes of the two sets of envelopes.
 
         All envelopes must be from the same :class:`pycba.bridge.BridgeAnalysis` object.
+
+        If the envelopes have a different number of analyses (due to differing vehicle
+        lengths, for example), then only the reaction extreme are retained, and not
+        the entire reaction history.
 
         Parameters
         ----------
@@ -321,7 +329,7 @@ class Envelopes:
         None.
         """
 
-        if self.nres != env.nres or self.npts != env.npts or self.nsup != env.nsup:
+        if self.npts != env.npts or self.nsup != env.nsup:
             raise ValueError("Cannot augment with an inconsistent envelope")
         self.Vmax = np.maximum(self.Vmax, env.Vmax)
         self.Vmin = np.minimum(self.Vmin, env.Vmin)
@@ -329,5 +337,13 @@ class Envelopes:
         self.Mmax = np.maximum(self.Mmax, env.Mmax)
         self.Mmin = np.minimum(self.Mmin, env.Mmin)
 
-        self.Rmax = np.maximum(self.Rmax, env.Rmax)
-        self.Rmin = np.minimum(self.Rmin, env.Rmin)
+        self.Rmaxval = np.maximum(self.Rmaxval, env.Rmaxval)
+        self.Rminval = np.minimum(self.Rminval, env.Rminval)
+
+        if self.nres == env.nres:
+            self.Rmax = np.maximum(self.Rmax, env.Rmax)
+            self.Rmin = np.minimum(self.Rmin, env.Rmin)
+        else:
+            # Ensure no misleading results returned
+            self.Rmax = np.zeros((self.nsup, self.nres))
+            self.Rmin = np.zeros((self.nsup, self.nres))
