@@ -1,7 +1,8 @@
 """
 PyCBA - Continuous Beam Analysis - Bridge Crossing Module
 """
-from typing import Optional, Union, Dict
+from __future__ import annotations  # https://bit.ly/3KYiL2o
+from typing import Optional, Union, Dict, List
 import numpy as np
 import matplotlib.pyplot as plt
 from .analysis import BeamAnalysis
@@ -65,64 +66,60 @@ class Vehicle:
 
         """
         self.axle_coords = +self.L - self.axle_coords
-    
+
     @classmethod
-    def from_vehicle_sequence(cls, vehicles: list, 
-                              vehicle_spacings: np.ndarray):
+    def from_convoy(cls, vehicles: List[Vehicle], vehicle_spacings: np.ndarray):
         """
-        Alternative constructor for :class:`pycba.bridge.Vehicle` object 
+        Alternative constructor for :class:`pycba.bridge.Vehicle` object
         as multiple :class:`pycba.bridge.Vehicle` objects
-        behind one another (eg. queued vehicles, train)
+        behind one another (eg. superload, queued vehicles, train)
 
         Parameters
         ----------
-        
+
         vehicles : List[Vehicles]
-            A list of :class:`pycba.bridge.Vehicle` objects, 
+            A list of :class:`pycba.bridge.Vehicle` objects,
             length one greater than the length of the
             vehicle spacings vector.
         vehicle_spacings : np.ndarray
-            A vector of spacings between vehicles of length one 
+            A vector of spacings between vehicles of length one
             fewer than the length of the
             list of vehicles.
 
         Raises
         ------
         ValueError
-            If the lengths of the list of vehicles and 
+            If the lengths of the list of vehicles and
             vector of spacings are inconsistent.
-        ValueError    
+        ValueError
             If all list entries are not
             :class:`pycba.bridge.Vehicle` objects
 
         Returns
         -------
-        :class:`pycba.bridge.Vehicle` object 
+        :class:`pycba.bridge.Vehicle` object
 
         """
-        
+
         if len(vehicles) - 1 != len(vehicle_spacings):
             raise ValueError("Inconsistent vehicle and spacing counts")
-            
-        if not all(isinstance(v, Vehicle) for v in vehicles): 
+
+        if not all(isinstance(v, Vehicle) for v in vehicles):
             raise ValueError("List must contain only Vehicle objects")
-        
+
         # pre-allocate axle weights and spacings
         new_vehicle_axles = np.array([])
         new_vehicle_spaces = np.array([])
-        
+
         # loop through each vehicle
-        for i,veh in enumerate(vehicles):
-            new_vehicle_axles = np.append(new_vehicle_axles,veh.axw)
-            
-            new_vehicle_spaces = np.append(new_vehicle_spaces,
-                                           np.insert(veh.axs,0,0))
-        
+        for veh in vehicles:
+            new_vehicle_axles = np.append(new_vehicle_axles, veh.axw)
+            new_vehicle_spaces = np.append(new_vehicle_spaces, np.insert(veh.axs, 0, 0))
+
         # replace 0 spacing (first axle), with vehicle spacings
-        new_vehicle_spaces[new_vehicle_spaces == 0] = np.insert(vehicle_spacings,
-                                                                0,0)
-        
-        return cls(new_vehicle_spaces[1:],new_vehicle_axles)
+        new_vehicle_spaces[new_vehicle_spaces == 0] = np.insert(vehicle_spacings, 0, 0)
+
+        return cls(new_vehicle_spaces[1:], new_vehicle_axles)
 
 
 class VehicleLibrary:
@@ -712,13 +709,12 @@ class BridgeAnalysis:
         env_ratios["Vmax"] = get_ratio(trial_env.Vmax, ref_env.Vmax)
         env_ratios["Vmin"] = get_ratio(trial_env.Vmin, ref_env.Vmin)
         env_ratios["nsup"] = ref_env.nsup
+
+        maxvals = get_ratio(trial_env.Rmaxval, ref_env.Rmaxval)
+        minvals = get_ratio(trial_env.Rminval, ref_env.Rminval)
         for i in range(ref_env.nsup):
-            env_ratios[f"Rmax{i}"] = get_ratio(
-                trial_env.Rmax[i, :].max(), ref_env.Rmax[i, :].max()
-            )
-            env_ratios[f"Rmin{i}"] = get_ratio(
-                trial_env.Rmin[i, :].min(), ref_env.Rmin[i, :].min()
-            )
+            env_ratios[f"Rmax{i}"] = maxvals[i]
+            env_ratios[f"Rmin{i}"] = minvals[i]
 
         return env_ratios
 
@@ -810,15 +806,32 @@ class BridgeAnalysis:
 
         # Reactions in right panel
         subfigs[1].suptitle("Support Reactions")
-        axsRight = subfigs[1].subplots(nreactions, 1, sharex=True)
 
-        for i, ax in enumerate(axsRight):
-            ax.plot([0, L], [0, 0], "k", lw=2)
-            ax.plot(self.pos, env.Rmax[i, :], "r")
-            ax.plot(self.pos, env.Rmin[i, :], "b")
-            ax.grid()
-            ax.set_ylabel(f"Reaction {i+1} (kN/kNm)")
-        axsRight[-1].set_xlabel("Position of Front Axle (m)")
+        # Check if consistent envelope
+        if len(self.pos) == env.Rmax.shape[1]:
+
+            axsRight = subfigs[1].subplots(nreactions, 1, sharex=True)
+            for i, ax in enumerate(axsRight):
+                ax.plot([0, L], [0, 0], "k", lw=2)
+                ax.plot(self.pos, env.Rmax[i, :], "r")
+                ax.plot(self.pos, env.Rmin[i, :], "b")
+                ax.grid()
+                ax.set_ylabel(f"Reaction {i+1} (kN/kNm)")
+            axsRight[-1].set_xlabel("Position of Front Axle (m)")
+
+        else:  # Otherwise envelope of envelopes
+
+            axsRight = subfigs[1].subplots(2, 1, sharex=True)
+            for i, (ax, le, col) in enumerate(
+                zip(axsRight, ["max", "min"], ["r", "b"])
+            ):
+                r = eval(f"env.R{le}val")  # kinda yuk!
+                ax.bar(np.arange(env.nsup), r, color=col)
+                ax.set_xticks(np.arange(env.nsup))
+                ax.set_xticklabels([f"R{i+1}" for i in range(env.nsup)])
+                ax.set_ylabel(f"Reactions [{le}]")
+                ax.grid()
+            axsRight[1].set_xlabel("Reaction ID")
 
     def plot_ratios(self, env_ratios: Dict[str, np.ndarray]):
         """
@@ -882,7 +895,7 @@ class BridgeAnalysis:
             r = np.array([env_ratios[f"R{le}{i}"] for i in range(nsup)])
             ax.bar(np.arange(nsup), r, color=col)
             ax.set_xticks(np.arange(nsup))
-            ax.set_xticklabels([f"R {i+1}" for i in range(nsup)])
+            ax.set_xticklabels([f"R{i+1}" for i in range(nsup)])
             ax.set_ylabel(f"Reaction Ratio [{le}]")
             ax.grid()
         axsRight[1].set_xlabel("Reaction ID")
