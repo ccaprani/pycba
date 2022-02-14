@@ -65,6 +65,64 @@ class Vehicle:
 
         """
         self.axle_coords = +self.L - self.axle_coords
+    
+    @classmethod
+    def from_vehicle_sequence(cls, vehicles: list, 
+                              vehicle_spacings: np.ndarray):
+        """
+        Alternative constructor for :class:`pycba.bridge.Vehicle` object 
+        as multiple :class:`pycba.bridge.Vehicle` objects
+        behind one another (eg. queued vehicles, train)
+
+        Parameters
+        ----------
+        
+        vehicles : List[Vehicles]
+            A list of :class:`pycba.bridge.Vehicle` objects, 
+            length one greater than the length of the
+            vehicle spacings vector.
+        vehicle_spacings : np.ndarray
+            A vector of spacings between vehicles of length one 
+            fewer than the length of the
+            list of vehicles.
+
+        Raises
+        ------
+        ValueError
+            If the lengths of the list of vehicles and 
+            vector of spacings are inconsistent.
+        ValueError    
+            If all list entries are not
+            :class:`pycba.bridge.Vehicle` objects
+
+        Returns
+        -------
+        :class:`pycba.bridge.Vehicle` object 
+
+        """
+        
+        if len(vehicles) - 1 != len(vehicle_spacings):
+            raise ValueError("Inconsistent vehicle and spacing counts")
+            
+        if not all(isinstance(v, Vehicle) for v in vehicles): 
+            raise ValueError("List must contain only Vehicle objects")
+        
+        # pre-allocate axle weights and spacings
+        new_vehicle_axles = np.array([])
+        new_vehicle_spaces = np.array([])
+        
+        # loop through each vehicle
+        for i,veh in enumerate(vehicles):
+            new_vehicle_axles = np.append(new_vehicle_axles,veh.axw)
+            
+            new_vehicle_spaces = np.append(new_vehicle_spaces,
+                                           np.insert(veh.axs,0,0))
+        
+        # replace 0 spacing (first axle), with vehicle spacings
+        new_vehicle_spaces[new_vehicle_spaces == 0] = np.insert(vehicle_spacings,
+                                                                0,0)
+        
+        return cls(new_vehicle_spaces[1:],new_vehicle_axles)
 
 
 class VehicleLibrary:
