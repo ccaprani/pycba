@@ -195,6 +195,28 @@
   <a class="reference internal nav-link" href="#Example-3---Access-Assessment">
    Example 3 - Access Assessment
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#Using-VehicleLibrary()">
+     Using
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       VehicleLibrary()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#Using-.from_vehicle_sequence()">
+     Using
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .from_vehicle_sequence()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -536,15 +558,24 @@ vehicle = bridge_analysis.add_vehicle(axle_spacings, axle_weights)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bridge_analysis.static_vehicle(30.0, True);
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bridge_analysis.static_vehicle(30.0, True)
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;pycba.results.BeamResults at 0x23cd9b1dcd0&gt;
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_10_0.png" src="../_images/notebooks_bridge_10_0.png" />
+<img alt="../_images/notebooks_bridge_10_1.png" src="../_images/notebooks_bridge_10_1.png" />
 </div>
 </div>
 <p>Now we run the vehicle over the bridge, returning the envelope of results. When run as a python script, the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> figure will animate each result when <code class="docutils literal notranslate"><span class="pre">plot_all=True</span></code>.</p>
@@ -552,22 +583,57 @@ vehicle = bridge_analysis.add_vehicle(axle_spacings, axle_weights)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bridge_analysis.run_vehicle(0.5, plot_env=True, plot_all=False);
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bridge_analysis.run_vehicle(0.5, plot_env=True, plot_all=False)
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;pycba.results.Envelopes at 0x23cda2ded60&gt;
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_12_0.png" src="../_images/notebooks_bridge_12_0.png" />
+<img alt="../_images/notebooks_bridge_12_1.png" src="../_images/notebooks_bridge_12_1.png" />
+</div>
+</div>
+<p>Alternatively, using the <code class="docutils literal notranslate"><span class="pre">reverse()</span></code> method, we can do an analysis for the vehicle travelling in the reverse direction.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>vehicle.reverse()
+bridge_analysis.static_vehicle(30.0, True)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;pycba.results.BeamResults at 0x23cda3f8700&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_bridge_14_1.png" src="../_images/notebooks_bridge_14_1.png" />
 </div>
 </div>
 </div>
 <div class="section" id="Example-2---Critical-Values-and-Positions">
 <h2>Example 2 - Critical Values and Positions<a class="headerlink" href="#Example-2---Critical-Values-and-Positions" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>L = [37]
@@ -577,7 +643,7 @@ R = [-1, 0, -1, 0]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bridge = cba.BeamAnalysis(L, EI, R)
@@ -590,7 +656,7 @@ env = bridge_analysis.run_vehicle(0.1)
 </div>
 <p>From the envelope, we can extract the critical values of load effects, where they are located, and the vehicle position that caused it:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cvals = bridge_analysis.critical_values(env)
@@ -599,7 +665,7 @@ env = bridge_analysis.run_vehicle(0.1)
 </div>
 <p>and so if we are interested in the maximum bending moment in particular, we can interogate the results as follows:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pos = cvals[&quot;Mmax&quot;][&quot;pos&quot;][0]
@@ -619,7 +685,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 </div>
 <p>and confirm the results with a static analysis with the vehicle at that position:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bridge_analysis.static_vehicle(pos, True);
@@ -630,7 +696,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_21_0.png" src="../_images/notebooks_bridge_21_0.png" />
+<img alt="../_images/notebooks_bridge_23_0.png" src="../_images/notebooks_bridge_23_0.png" />
 </div>
 </div>
 </div>
@@ -638,7 +704,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <h2>Example 3 - Access Assessment<a class="headerlink" href="#Example-3---Access-Assessment" title="Permalink to this headline">¶</a></h2>
 <p>This example considers the relative load effects between a reference vehicle and another vehicle. This type of analysis is commonly done to assess whether a new vehicle type would impose more onerous load effects on a bridge than some existing reference vehicle.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>L = [25, 25]
@@ -648,10 +714,12 @@ bridge = cba.BeamAnalysis(L, EI, R)
 </pre></div>
 </div>
 </div>
+<div class="section" id="Using-VehicleLibrary()">
+<h3>Using <code class="docutils literal notranslate"><span class="pre">VehicleLibrary()</span></code><a class="headerlink" href="#Using-VehicleLibrary()" title="Permalink to this headline">¶</a></h3>
 <p>Here we use a suite of reference vehicles (the Australian ABAG B-doubles) to create a “super-envelope”: an envelope of the load effect envelopes from each of the 3 reference vehicles.</p>
 <p>Firstly, obtain the vehicle from the <code class="docutils literal notranslate"><span class="pre">VehicleLibrary</span></code> and analyze for the envelope, appending it to the list of envelopes.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>envs = []
@@ -664,7 +732,7 @@ for i in range(3):
 </div>
 <p>Next, create a new zero-like envelope and augment it with the stored envelopes, such that the result is the envelope of envelopes:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>envenv = cba.Envelopes.zero_like(envs[0])
@@ -678,12 +746,12 @@ bridge_analysis.plot_envelopes(envenv)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_27_0.png" src="../_images/notebooks_bridge_27_0.png" />
+<img alt="../_images/notebooks_bridge_30_0.png" src="../_images/notebooks_bridge_30_0.png" />
 </div>
 </div>
 <p>Now analyze the permit application vehicle; here just taking an example vehicle from the <code class="docutils literal notranslate"><span class="pre">VehicleLibrary</span></code>:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>vehicle = cba.VehicleLibrary.get_example_permit()
@@ -696,12 +764,12 @@ trial_env = bridge_analysis.run_vehicle(0.5, True)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_29_0.png" src="../_images/notebooks_bridge_29_0.png" />
+<img alt="../_images/notebooks_bridge_32_0.png" src="../_images/notebooks_bridge_32_0.png" />
 </div>
 </div>
 <p>And we can plot the ratios of trial to reference envelopes</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>envr = bridge_analysis.envelopes_ratios(trial_env, envenv)
@@ -713,16 +781,82 @@ bridge_analysis.plot_ratios(envr)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_31_0.png" src="../_images/notebooks_bridge_31_0.png" />
+<img alt="../_images/notebooks_bridge_34_0.png" src="../_images/notebooks_bridge_34_0.png" />
 </div>
 </div>
 <p>As can be seen in this case, the central support reaction is greater than 1.0, as is the hogging moment (by about 7%). This vehicle is unlikely to be granted a permit as a result.</p>
+</div>
+<div class="section" id="Using-.from_vehicle_sequence()">
+<h3>Using <code class="docutils literal notranslate"><span class="pre">.from_vehicle_sequence()</span></code><a class="headerlink" href="#Using-.from_vehicle_sequence()" title="Permalink to this headline">¶</a></h3>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">Vehicle.from_vehicle_sequence</span></code> method we create vehicles as a series of <code class="docutils literal notranslate"><span class="pre">Vehicle</span></code> objects behind one another at different spacings. Here, we will explore different prime mover + platform trailer combinations commonly adopted in “superload” transport convoys.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>prime_mover = cba.Vehicle(axle_spacings=np.array([3.2,1.2]),
+                          axle_weights=np.array([6.5,9.25,9.25]))
+platform_trailer = cba.Vehicle(axle_spacings=np.array([1.8,]*9),
+                               axle_weights=np.array([12]*10))
 </pre></div>
+</div>
+</div>
+<p>Three different spacing combinations is explored for convoy comprising of two front prime movers followed by two platform trailers and then two back prime movers.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>inter_spaces = [np.array([5.0,6.3,8.0,6.0,4.8]),
+               np.array([4.8,6.0,7.5,6.0,5.0]),
+               np.array([5.0,6.3,8.0,6.3,5.0])]
+</pre></div>
+</div>
+</div>
+<p>Now, similar to the above, envelopes are run and augmented.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>envs = []
+for s in inter_spaces:
+    vehicle = cba.Vehicle.from_vehicle_sequence([prime_mover]*2 + [platform_trailer]*2 + [prime_mover]*2,s)
+    bridge_analysis = cba.BridgeAnalysis(bridge, vehicle)
+    envs.append(bridge_analysis.run_vehicle(0.1))
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>envenv = cba.Envelopes.zero_like(envs[0])
+for e in envs:
+    envenv.augment(e)
+bridge_analysis.plot_envelopes(envenv)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">~\AppData\Local\Temp/ipykernel_7856/3473479821.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">      1</span> envenv <span class="ansi-yellow-intense-fg ansi-bold">=</span> cba<span class="ansi-yellow-intense-fg ansi-bold">.</span>Envelopes<span class="ansi-yellow-intense-fg ansi-bold">.</span>zero_like<span class="ansi-yellow-intense-fg ansi-bold">(</span>envs<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">      2</span> <span class="ansi-green-intense-fg ansi-bold">for</span> e <span class="ansi-green-intense-fg ansi-bold">in</span> envs<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span><span class="ansi-yellow-intense-fg ansi-bold">     </span>envenv<span class="ansi-yellow-intense-fg ansi-bold">.</span>augment<span class="ansi-yellow-intense-fg ansi-bold">(</span>e<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">      4</span> bridge_analysis<span class="ansi-yellow-intense-fg ansi-bold">.</span>plot_envelopes<span class="ansi-yellow-intense-fg ansi-bold">(</span>envenv<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">e:\code\python\public\pycba\pycba\pycba\results.py</span> in <span class="ansi-cyan-fg">augment</span><span class="ansi-blue-intense-fg ansi-bold">(self, env)</span>
+<span class="ansi-green-fg">    323</span>
+<span class="ansi-green-fg">    324</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>nres <span class="ansi-yellow-intense-fg ansi-bold">!=</span> env<span class="ansi-yellow-intense-fg ansi-bold">.</span>nres <span class="ansi-green-intense-fg ansi-bold">or</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>npts <span class="ansi-yellow-intense-fg ansi-bold">!=</span> env<span class="ansi-yellow-intense-fg ansi-bold">.</span>npts <span class="ansi-green-intense-fg ansi-bold">or</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>nsup <span class="ansi-yellow-intense-fg ansi-bold">!=</span> env<span class="ansi-yellow-intense-fg ansi-bold">.</span>nsup<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 325</span><span class="ansi-yellow-intense-fg ansi-bold">             </span><span class="ansi-green-intense-fg ansi-bold">raise</span> ValueError<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;Cannot augment with an inconsistent envelope&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    326</span>         self<span class="ansi-yellow-intense-fg ansi-bold">.</span>Vmax <span class="ansi-yellow-intense-fg ansi-bold">=</span> np<span class="ansi-yellow-intense-fg ansi-bold">.</span>maximum<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>Vmax<span class="ansi-yellow-intense-fg ansi-bold">,</span> env<span class="ansi-yellow-intense-fg ansi-bold">.</span>Vmax<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    327</span>         self<span class="ansi-yellow-intense-fg ansi-bold">.</span>Vmin <span class="ansi-yellow-intense-fg ansi-bold">=</span> np<span class="ansi-yellow-intense-fg ansi-bold">.</span>minimum<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>Vmin<span class="ansi-yellow-intense-fg ansi-bold">,</span> env<span class="ansi-yellow-intense-fg ansi-bold">.</span>Vmin<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">ValueError</span>: Cannot augment with an inconsistent envelope
+</pre></div></div>
 </div>
 </div>
 </div>

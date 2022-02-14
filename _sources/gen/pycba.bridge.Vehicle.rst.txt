@@ -16,6 +16,7 @@
    .. autosummary::
       :nosignatures:
    
+      ~Vehicle.from_vehicle_sequence
       ~Vehicle.reverse
    
    
