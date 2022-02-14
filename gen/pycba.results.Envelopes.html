@@ -420,6 +420,9 @@ envelope of envelopes.</p>
 <dd><p>Augments this set of envelopes with another compatible set, making this the
 envelopes of the two sets of envelopes.</p>
 <p>All envelopes must be from the same <a class="reference internal" href="pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis" title="pycba.bridge.BridgeAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.BridgeAnalysis</span></code></a> object.</p>
+<p>If the envelopes have a different number of analyses (due to differing vehicle
+lengths, for example), then only the reaction extreme are retained, and not
+the entire reaction history.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>env</strong> (<a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><em>Envelopes</em></a>) – A compatible <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a> object.</p>
