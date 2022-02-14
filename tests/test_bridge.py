@@ -41,7 +41,13 @@ def test_from_convoy():
         axle_weights=np.array([6.5, 9.25, 9.25]) * 9.81,
     )
     platform_trailer = cba.Vehicle(
-        axle_spacings=np.array([1.8,] * 9), axle_weights=np.array([12] * 10) * 9.81
+        axle_spacings=np.array(
+            [
+                1.8,
+            ]
+            * 9
+        ),
+        axle_weights=np.array([12] * 10) * 9.81,
     )
 
     inter_spaces = [
