@@ -42,7 +42,6 @@ class BeamAnalysis:
         eletype : Optional[np.ndarray]
             A vector of the member types. Defaults to a fixed-fixed element.
 
-
         Returns
         -------
         None.
@@ -86,19 +85,23 @@ class BeamAnalysis:
         """
         self._beam.loads = LM
 
-    def analyze(self) -> int:
+    def analyze(self, npts: Optional[int] = None) -> int:
         """
         Conducts the analysis on the constructed BeamAnalysis object
 
         Parameters
         ----------
-        None
+        npts : Optional[int]
+            The number of evaluation points along a member for load effects.
 
         Returns
         -------
         0 for a succesful execution
 
         """
+        if npts and npts > 3:
+            self.npts = npts
+
         fU = self._forces()
         f = np.copy(fU)
         ksysU = self._assemble()
@@ -272,3 +275,5 @@ class BeamAnalysis:
         ax.grid()
         ax.set_ylabel("Deflection (mm)")
         ax.set_xlabel("Distance along beam (m)")
+
+        plt.show()

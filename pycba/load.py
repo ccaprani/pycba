@@ -1,8 +1,6 @@
 """
 PyCBA - Load module
 
-.. autodata:: LoadMatrix
-
 The load matrix represents the loads as a `List` of `Lists`. 
 Each list entry represents a single load and must be in the following format:
 
@@ -19,6 +17,11 @@ Load Types are:
     4 - **Moment Load**, located at `a`; distances `c` is set to "0".
     
 It has dimension `M` x 5, where `M` is the number of loads applied to the beam.
+
+The type alias `LoadMatrix` is defined as
+
+.. autodata:: LoadMatrix
+
 """
 
 from __future__ import annotations
@@ -196,7 +199,7 @@ class Load:
         """
         return v.clip(0.0)
 
-    def H(self, v: np.ndarray) -> np.ndarray:
+    def H(self, v: np.ndarray, value: float = 0.0) -> np.ndarray:
         """
         Heaviside step function: values less than zero are clipped to zero;
         values greater than zero are clipped to unity; zeros are retained.
@@ -205,8 +208,11 @@ class Load:
         ----------
         v : np.ndarray
             The vector to which the Heaviside function will be applied
+        value : float
+            The value of the Heaviside function at zero, usually 0, but sometimes
+            0.5 (average of adjacent values) or 1.0.
         """
-        return np.heaviside(v, 0)
+        return np.heaviside(v, value)
 
     def released_end_forces(self, cnl: LoadCNL, L: float, eType: int) -> LoadCNL:
         """
@@ -714,8 +720,18 @@ class LoadML(Load):
         Va = m / L
         Ra = (m / 6) * (3 * b**2 / L - L)
 
+        # # For moment we must insert an additional point to properly capture the step
+        # idx = np.searchsorted(x, a)
+        # if not np.any(np.isclose(x, a)):
+        #     x = np.insert(x, idx, a)
+        # x = np.insert(x, idx, a)
+        # res.x = x
+
         res.V = Va * np.ones(npts)
-        res.M = Va * x - m * self.H(x - a)
+        res.M = Va * x - m * self.H(x - a, 0.5)
+        # res.M = np.array(
+        #     [Va * xi - m if i > idx else Va * xi for i, xi in enumerate(x)]
+        # )
         res.R = (Va / 2) * x**2 - m * self.MB(x - a) + Ra
         res.D = (Va / 6) * x**3 - (m / 2) * self.MB(x - a) ** 2 + Ra * x
 

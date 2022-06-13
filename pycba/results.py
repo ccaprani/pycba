@@ -151,6 +151,7 @@ class BeamResults:
             if load.i_span != i_span:
                 continue
             res += load.get_mbr_results(x, L)
+
         # And superimpose end displacements using Moment-Area
         h = L / self.npts
         EI = beam.mbr_EIs[i_span]

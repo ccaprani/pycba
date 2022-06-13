@@ -179,3 +179,20 @@ def test_3span_hinge_il():
     (x, y) = ils.get_il(15.0, "V")
 
     assert [min(y), max(y)] == pytest.approx([-0.4009469062500001, 0.59375], abs=1e-6)
+
+
+def test_moment_load():
+    L = [10.0]
+    EI = 30 * 600e7 * np.ones(len(L)) * 1e-6
+    eType = [1]
+    R = [-1, 0, -1, 0]
+
+    for a in [0, 5, 10]:
+        LM = [[1, 4, 10, a, 0]]
+        beam_analysis = cba.BeamAnalysis(L, EI, R, LM, eType)
+        out = beam_analysis.analyze()
+        assert out == 0
+
+        # Check deflection closes
+        d = beam_analysis.beam_results.D[[0, 2]]
+        assert d == pytest.approx([0.0, 0.0])
