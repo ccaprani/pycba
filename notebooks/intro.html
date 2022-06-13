@@ -1,35 +1,37 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Introduction to PyCBA &#8212; PyCBA 0.1 documentation</title>
-    
-    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
-    
-    <link rel="stylesheet"
-      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/pydata-sphinx-theme.css" />
-    
-    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -38,34 +40,41 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Influence Lines" href="inf_lines.html" />
     <link rel="prev" title="Tutorials" href="../tutorials.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
 
     
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
 
   <div id="navbar-start">
     
     
+  
 
-<a class="navbar-brand" href="../index.html">
-  <img src="../_static/pycba_logo.png" class="logo" alt="logo">
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pycba_logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
 </a>
-
-
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="fas fa-bars"></span>
   </button>
 
   
@@ -113,6 +122,14 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
         <li class="nav-item">
           <a class="nav-link" href="https://github.com/ccaprani/pycba" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
@@ -131,13 +148,13 @@
     </nav>
     
 
-    <div class="container-xl">
-      <div class="row">
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
           
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar">
-              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -162,20 +179,21 @@
 
   </div>
 </nav>
-              </div>
-              <div class="sidebar-end-items">
-              </div>
-            </div>
-            
-          
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
 
           
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-              
-              <div class="toc-item">
-                
-<div class="tocsection onthispage pt-5 pb-3">
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
 
@@ -194,10 +212,10 @@
 </ul>
 
 </nav>
-              </div>
-              
-              <div class="toc-item">
-                
+    </div>
+    
+    <div class="toc-item">
+      
 
 <div class="tocsection editthispage">
     <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/notebooks/intro.ipynb">
@@ -205,19 +223,17 @@
     </a>
 </div>
 
-              </div>
-              
-            
-          </div>
-          
+    </div>
+    
+  
+</div>
+
 
           
           
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+          <div class="bd-content col-12 col-md-9 col-xl-7">
               
-              <div>
+              <article class="bd-article" role="main">
                 
   
 <style>
@@ -434,6 +450,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -442,10 +459,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -457,32 +478,25 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <div class="section" id="Introduction-to-PyCBA">
-<h1>Introduction to PyCBA<a class="headerlink" href="#Introduction-to-PyCBA" title="Permalink to this headline">¶</a></h1>
+<h1>Introduction to PyCBA<a class="headerlink" href="#Introduction-to-PyCBA" title="Permalink to this heading">#</a></h1>
 <p>PyCBA (Python Continuous Beam Analysis) is a general linear elastic one-dimensional beam analysis package.</p>
 <p>This introduction demonstrates the basic use of <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> and results that can be obtained. So let’s get started…</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># This cell not necessary once pycba is installed
-import sys
-sys.path.append(&quot;../../..&quot;)
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Basic imports
@@ -494,10 +508,10 @@ from IPython import display  # For images in this notebook
 </div>
 </div>
 <div class="section" id="Example-1---Basic-Analysis">
-<h2>Example 1 - Basic Analysis<a class="headerlink" href="#Example-1---Basic-Analysis" title="Permalink to this headline">¶</a></h2>
+<h2>Example 1 - Basic Analysis<a class="headerlink" href="#Example-1---Basic-Analysis" title="Permalink to this heading">#</a></h2>
 <p>Analyse a two span beam, with a UDL of 20 kN/m on each span</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display.Image(&quot;./images/intro_ex_1.png&quot;,width=800)
@@ -505,16 +519,16 @@ from IPython import display  # For images in this notebook
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_4_0.png" class="no-scaled-link" src="../_images/notebooks_intro_4_0.png" style="width: 800px;" />
+<img alt="../_images/notebooks_intro_3_0.png" class="no-scaled-link" src="../_images/notebooks_intro_3_0.png" style="width: 800px;" />
 </div>
 </div>
 <p>Here is the specification for <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>, explained below:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>L = [7.5, 7.0]
@@ -534,7 +548,7 @@ LM = [[1, 1, 20, 0, 0], [2, 1, 20, 0, 0]]
 <p>For UDLs covering the full length of the member, only the span number, load type, and value have non-zero entries.</p>
 <p>With the basic variables defined, we construct the <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object by passing these variables, we then call the <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function and plot the results:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis = cba.BeamAnalysis(L, EI, R, LM)
@@ -547,13 +561,13 @@ beam_analysis.plot_results()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_8_0.png" src="../_images/notebooks_intro_8_0.png" />
+<img alt="../_images/notebooks_intro_7_0.png" src="../_images/notebooks_intro_7_0.png" />
 </div>
 </div>
 <p>The numerical results can found from the <code class="docutils literal notranslate"><span class="pre">beam_results</span></code> member of <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object.</p>
 <p>For example, the reactions corresponding to the fully-restrained nodes are:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis.beam_results.R
@@ -561,7 +575,7 @@ beam_analysis.plot_results()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -571,7 +585,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 <p>and the maximum bending moment along the second member, <span class="math notranslate nohighlight">\(BC\)</span>, can be got from:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis.beam_results.vRes[1].M.max()
@@ -579,7 +593,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -590,10 +604,10 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 <p>Since we have been consistent with our units, the reactions are in kN and the bending moment in kNm.</p>
 </div>
 <div class="section" id="Example-2---Load-Definitions">
-<h2>Example 2 - Load Definitions<a class="headerlink" href="#Example-2---Load-Definitions" title="Permalink to this headline">¶</a></h2>
+<h2>Example 2 - Load Definitions<a class="headerlink" href="#Example-2---Load-Definitions" title="Permalink to this heading">#</a></h2>
 <p>In this example, we consider a two-span beam with a fixed remote end, and more load types.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display.Image(&quot;./images/intro_ex_2.png&quot;,width=800)
@@ -601,11 +615,11 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_15_0.png" class="no-scaled-link" src="../_images/notebooks_intro_15_0.png" style="width: 800px;" />
+<img alt="../_images/notebooks_intro_14_0.png" class="no-scaled-link" src="../_images/notebooks_intro_14_0.png" style="width: 800px;" />
 </div>
 </div>
 <p>With two loads the <em>load matrix</em> (see <code class="docutils literal notranslate"><span class="pre">pycba.load</span></code>) is a list of two lists:</p>
@@ -615,7 +629,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </ul>
 <p>Note, also that node <span class="math notranslate nohighlight">\(C\)</span> will have its two degrees of freedom restrained.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>L = [10.0, 10.0]
@@ -625,12 +639,13 @@ LM = [[1, 2, 50, 3, 0], [2, 4, 50, 4, 0]]
 </pre></div>
 </div>
 </div>
+<p>And to better evaluate the discontinuities for the moment and point loads, we can increase the number of evaluation points along each member to 500 when calling <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> as follows:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis = cba.BeamAnalysis(L, EI, R, LM)
-beam_analysis.analyze()
+beam_analysis.analyze(500)
 beam_analysis.plot_results()
 </pre></div>
 </div>
@@ -642,62 +657,59 @@ beam_analysis.plot_results()
 <img alt="../_images/notebooks_intro_18_0.png" src="../_images/notebooks_intro_18_0.png" />
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 
 
-              </div>
+              </article>
               
+
               
-              <!-- Previous / next buttons -->
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../tutorials.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Tutorials</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="inf_lines.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Influence Lines</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
+  <a class='left-prev' id="prev-link" href="../tutorials.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Tutorials</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="inf_lines.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Influence Lines</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
 </div>
+              </footer>
               
-          </main>
+          </div>
           
-
       </div>
     </div>
+
   
-    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
     &copy; Copyright 2022, Colin Caprani.<br>
 </p>
-    </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
-</p>
-    </div>
-    
   </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.1.<br>
+</p>
+  </div>
+  
+</div>
 </footer>
   </body>
 </html>
