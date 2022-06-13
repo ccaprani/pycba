@@ -1,4 +1,4 @@
-pycba.bridge.Vehicle
+﻿pycba.bridge.Vehicle
 ====================
 
 .. currentmodule:: pycba.bridge
@@ -16,6 +16,8 @@ pycba.bridge.Vehicle
    .. autosummary::
       :nosignatures:
    
+      ~Vehicle.from_convoy
+      ~Vehicle.reverse
    
    
 
