@@ -51,7 +51,7 @@ def test_2span_pl_ml_fixed():
     dmax = max(beam_analysis.beam_results.results.D)
     dmin = min(beam_analysis.beam_results.results.D)
     assert [dmax, dmin] == pytest.approx(
-        [0.00017713513888888886, -0.00042251493055555565], abs=1e-6
+        [0.00017414416666666662, -0.00042251493055555565], abs=1e-6
     )
 
 
