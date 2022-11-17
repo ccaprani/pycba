@@ -6,29 +6,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Introduction to PyCBA &#8212; PyCBA 0.1 documentation</title>
-  <script>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
   
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/6.1.2/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -50,6 +51,10 @@
   
   
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   
   <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
@@ -113,39 +118,39 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="../installation.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../installation.html">
                         Installation
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item current active">
-                    <a class="nav-link" href="../tutorials.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../tutorials.html">
                         Tutorials
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../general.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../general.html">
                         Beam Configuration
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../api.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../theory.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../theory.html">
                         Theoretical Basis
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -154,19 +159,21 @@
     </div>
 
     <div id="navbar-end">
-      <div class="navbar-end-item navbar-end__search-button-container">
-        
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-      </div>
+        </div>
+      
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -201,11 +208,13 @@
 
 
   
-  <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
   <i class="fa-solid fa-magnifying-glass"></i>
 </button>
-  </div>
+    </div>
+  
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
@@ -235,39 +244,39 @@
     </p>
     <ul id="navbar-main-elements" class="navbar-nav">
         
-                <li class="nav-item">
-                    <a class="nav-link" href="../installation.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../installation.html">
                         Installation
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item current active">
-                    <a class="nav-link" href="../tutorials.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../tutorials.html">
                         Tutorials
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../general.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../general.html">
                         Beam Configuration
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../api.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api.html">
                         API Reference
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="../theory.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../theory.html">
                         Theoretical Basis
-                    </a>
-                </li>
+                      </a>
+                    </li>
                 
     </ul>
 </nav>
@@ -281,11 +290,11 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
       </div>
       
       <div class="navbar-end-item">
@@ -344,8 +353,11 @@
     </div>
   </div>
 
+  
+  <div id="rtd-footer-container"></div>
+
       </div>
-      <main class="bd-main">
+      <main id="main-content" class="bd-main">
         
         
         <div class="bd-content">
@@ -468,10 +480,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -622,11 +635,11 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Basic imports
-import pycba as cba  # The main package
-import numpy as np  # For arrays
-import matplotlib.pyplot as plt  # For plotting
-from IPython import display  # For images in this notebook
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Basic imports</span>
+<span class="kn">import</span> <span class="nn">pycba</span> <span class="k">as</span> <span class="nn">cba</span>  <span class="c1"># The main package</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># For arrays</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># For plotting</span>
+<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span>  <span class="c1"># For images in this notebook</span>
 </pre></div>
 </div>
 </div>
@@ -637,7 +650,7 @@ from IPython import display  # For images in this notebook
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display.Image(&quot;./images/intro_ex_1.png&quot;,width=800)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;./images/intro_ex_1.png&quot;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -654,10 +667,10 @@ from IPython import display  # For images in this notebook
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>L = [7.5, 7.0]
-EI = 30 * 600e7 * 1e-6
-R = [-1, 0, -1, 0, -1, 0]
-LM = [[1, 1, 20, 0, 0], [2, 1, 20, 0, 0]]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">]</span>
+<span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">600e7</span> <span class="o">*</span> <span class="mf">1e-6</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">LM</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -674,9 +687,9 @@ LM = [[1, 1, 20, 0, 0], [2, 1, 20, 0, 0]]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis = cba.BeamAnalysis(L, EI, R, LM)
-beam_analysis.analyze()
-beam_analysis.plot_results()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -693,7 +706,7 @@ beam_analysis.plot_results()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis.beam_results.R
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">R</span>
 </pre></div>
 </div>
 </div>
@@ -711,7 +724,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis.beam_results.vRes[1].M.max()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">vRes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -733,7 +746,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display.Image(&quot;./images/intro_ex_2.png&quot;,width=800)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;./images/intro_ex_2.png&quot;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -755,10 +768,10 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>L = [10.0, 10.0]
-EI = 30 * 600e7 * 1e-6  # kNm2
-R = [-1, 0, -1, 0, -1, -1]
-LM = [[1, 2, 50, 3, 0], [2, 4, 50, 4, 0]]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">]</span>
+<span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">600e7</span> <span class="o">*</span> <span class="mf">1e-6</span>  <span class="c1"># kNm2</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">LM</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -767,9 +780,9 @@ LM = [[1, 2, 50, 3, 0], [2, 4, 50, 4, 0]]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beam_analysis = cba.BeamAnalysis(L, EI, R, LM)
-beam_analysis.analyze(500)
-beam_analysis.plot_results()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -873,7 +886,8 @@ beam_analysis.plot_results()
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -885,6 +899,16 @@ beam_analysis.plot_results()
 
 </p>
 
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
   </div>
   
   <div class="footer-item">
