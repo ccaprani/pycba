@@ -52,18 +52,28 @@ class Vehicle:
         for i, s in enumerate(self.axs):
             self.axle_coords[i + 1] = self.axle_coords[i] + s
 
-    def reverse(self):
+    def reverse(self, in_place=True):
         """
         Reverses the vehicle; now the `pos` coordinate will refer to the rear axle
         as it traverses the bridge in reverse from zero in the global x-coordinate
         system.
 
+        Parameters
+        ----------
+
+        in_place : Bool
+            Whether or not to reverse the current vehicle (`True` - default),
+            or return a new copy of this vehicle reversed (`False`).
+
         Returns
         -------
-        None.
+        None or Vehicle.
 
         """
-        self.axle_coords = +self.L - self.axle_coords
+        if in_place:
+            self.axle_coords = +self.L - self.axle_coords
+        else:
+            return Vehicle(np.copy(self.axs[::-1]), np.copy(self.axw[::-1]))
 
     @classmethod
     def from_convoy(cls, vehicles: List[Vehicle], vehicle_spacings: np.ndarray):
