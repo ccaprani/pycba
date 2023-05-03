@@ -495,7 +495,6 @@ class BridgeAnalysis:
 
         # Check if consistent envelope
         if len(self.pos) == env.Rmax.shape[1]:
-
             axsRight = subfigs[1].subplots(nreactions, 1, sharex=True)
             for i, ax in enumerate(axsRight):
                 ax.plot([0, L], [0, 0], "k", lw=2)
@@ -506,7 +505,6 @@ class BridgeAnalysis:
             axsRight[-1].set_xlabel("Position of Front Axle (m)")
 
         else:  # Otherwise envelope of envelopes
-
             axsRight = subfigs[1].subplots(2, 1, sharex=True)
             for i, (ax, le, col) in enumerate(
                 zip(axsRight, ["max", "min"], ["r", "b"])
