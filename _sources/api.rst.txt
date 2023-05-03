@@ -13,7 +13,8 @@ Package Modules
     pycba.beam
     pycba.load
     pycba.results
-    pycba.bridge
     pycba.inf_lines
+    pycba.bridge
+    pycba.vehicle
     pycba.utils
 

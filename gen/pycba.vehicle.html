@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>pycba.inf_lines.InfluenceLines &#8212; PyCBA 0.1 documentation</title>
+    <title>pycba.vehicle &#8212; PyCBA 0.1 documentation</title>
   
   
   
@@ -38,11 +38,11 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.inf_lines.InfluenceLines';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.vehicle';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pycba.bridge" href="pycba.bridge.html" />
-    <link rel="prev" title="pycba.inf_lines" href="pycba.inf_lines.html" />
+    <link rel="next" title="pycba.vehicle.Vehicle" href="pycba.vehicle.Vehicle.html" />
+    <link rel="prev" title="pycba.bridge.BridgeAnalysis" href="pycba.bridge.BridgeAnalysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -385,15 +385,15 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pycba.results.Envelopes.html">pycba.results.Envelopes</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.inf_lines.InfluenceLines</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.inf_lines.InfluenceLines.html">pycba.inf_lines.InfluenceLines</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.bridge.html">pycba.bridge</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.bridge.BridgeAnalysis.html">pycba.bridge.BridgeAnalysis</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.vehicle.html">pycba.vehicle</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">pycba.vehicle</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.Vehicle.html">pycba.vehicle.Vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.VehicleLibrary.html">pycba.vehicle.VehicleLibrary</a></li>
 </ul>
@@ -442,10 +442,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
-    
-    <li class="breadcrumb-item"><a href="pycba.inf_lines.html" class="nav-link">pycba.inf_lines</a></li>
-    
-    <li class="breadcrumb-item active" aria-current="page">pycba.inf_lines.InfluenceLines</li>
+    <li class="breadcrumb-item active" aria-current="page">pycba.vehicle</li>
   </ul>
 </nav>
 </div>
@@ -462,126 +459,20 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pycba-inf-lines-influencelines">
-<h1>pycba.inf_lines.InfluenceLines<a class="headerlink" href="#pycba-inf-lines-influencelines" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="pycba.inf_lines.InfluenceLines">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InfluenceLines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/inf_lines.html#InfluenceLines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.inf_lines.InfluenceLines" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Creates influence lines for an arbitrary beam configuration using CBA</p>
-<p>Constructs an influence line object for a beam</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em>) – A vector of span lengths.</p></li>
-<li><p><strong>EI</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>np.ndarray</em><em>]</em>) – A vector of member flexural rigidities.</p></li>
-<li><p><strong>R</strong> (<em>np.ndarray</em>) – A vector describing the support conditions at each member end.</p></li>
-<li><p><strong>eletype</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – A vector of the member types. Defaults to a fixed-fixed element.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-</dl>
-<p class="rubric">Methods</p>
+  <section id="module-pycba.vehicle">
+<span id="pycba-vehicle"></span><h1>pycba.vehicle<a class="headerlink" href="#module-pycba.vehicle" title="Permalink to this heading">#</a></h1>
+<p>PyCBA - Continuous Beam Analysis - Bridge Crossing Module</p>
+<p class="rubric">Classes</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.inf_lines.InfluenceLines.create_ils" title="pycba.inf_lines.InfluenceLines.create_ils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_ils</span></code></a></p></td>
-<td><p>Creates the influence lines by marching the unit load (<cite>load_val</cite>) across the defined beam configuration in <cite>step</cite> distance increments, storing the static analysis results in a vector of <a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults" title="pycba.results.BeamResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.BeamResults</span></code></a>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vehicle</span></code></a></p></td>
+<td><p>A basic vehicle definition for a bridge crossing analysis</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.inf_lines.InfluenceLines.get_il" title="pycba.inf_lines.InfluenceLines.get_il"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_il</span></code></a></p></td>
-<td><p>Returns the influence line at a point of interest for a load effect.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.inf_lines.InfluenceLines.plot_il" title="pycba.inf_lines.InfluenceLines.plot_il"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_il</span></code></a></p></td>
-<td><p>Retrieves and plots the IL on either a supplied or new axes.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary" title="pycba.vehicle.VehicleLibrary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VehicleLibrary</span></code></a></p></td>
+<td><p>A repository of some useful vehicles for analysis</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method">
-<dt class="sig sig-object py" id="pycba.inf_lines.InfluenceLines.create_ils">
-<span class="sig-name descname"><span class="pre">create_ils</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/inf_lines.html#InfluenceLines.create_ils"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.inf_lines.InfluenceLines.create_ils" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the influence lines by marching the unit load (<cite>load_val</cite>) across
-the defined beam configuration in <cite>step</cite> distance increments, storing the
-static analysis results in a vector of <a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults" title="pycba.results.BeamResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.BeamResults</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>step</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The distance increment to move the unit load; defaults to beam length / 100.</p></li>
-<li><p><strong>load_val</strong> (<em>float</em><em>, </em><em>optional</em>) – The nominal value of the “unit load”. The default is 1.0.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If a static beam analysis does not succeed, usually due to a beam
-    configuration error.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pycba.inf_lines.InfluenceLines.get_il">
-<span class="sig-name descname"><span class="pre">get_il</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_effect</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/inf_lines.html#InfluenceLines.get_il"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.inf_lines.InfluenceLines.get_il" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the influence line at a point of interest for a load effect.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>poi</strong> (<em>float</em>) – The position of interest in global coordinates along the length of the
-beam.</p></li>
-<li><p><strong>load_effect</strong> (<em>str</em>) – <p>A single character to identify the load effect of interest, currently
-one of:</p>
-<blockquote>
-<div><ul>
-<li><p><strong>V</strong>: shear force</p></li>
-<li><p><strong>M</strong>: bending moment</p></li>
-<li><p><strong>R</strong>: vertical reaction at a fully restrained support</p></li>
-</ul>
-</div></blockquote>
-<p>The vertical reaction nearest the <cite>poi</cite> is used. For moment reactions
-use a poi at or just beside the support.</p>
-</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>(x,eta)</strong> – A tuple of the vectors of abcissa and influence ordinates.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple(np.ndarray,np.ndarray)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pycba.inf_lines.InfluenceLines.plot_il">
-<span class="sig-name descname"><span class="pre">plot_il</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_effect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/inf_lines.html#InfluenceLines.plot_il"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.inf_lines.InfluenceLines.plot_il" title="Permalink to this definition">#</a></dt>
-<dd><p>Retrieves and plots the IL on either a supplied or new axes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>poi</strong> (<em>float</em>) – The position of interest in global coordinates along the length of the
-beam.</p></li>
-<li><p><strong>load_effect</strong> (<em>str</em>) – <p>A single character to identify the load effect of interest, currently
-one of:</p>
-<blockquote>
-<div><ul>
-<li><p><strong>V</strong>: shear force</p></li>
-<li><p><strong>M</strong>: bending moment</p></li>
-<li><p><strong>R</strong>: vertical reaction at a fully restrained support</p></li>
-</ul>
-</div></blockquote>
-<p>The vertical reaction nearest the <cite>poi</cite> is used. For moment reactions
-use a poi at or just beside the support.</p>
-</p></li>
-<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>plt.Axes</em><em>]</em>) – A user-supplied matplotlib Axes object; when None (default), one is
-created for the plot.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
 
@@ -596,20 +487,20 @@ created for the plot.</p></li>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.inf_lines.html"
+       href="pycba.bridge.BridgeAnalysis.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.inf_lines</p>
+        <p class="prev-next-title">pycba.bridge.BridgeAnalysis</p>
       </div>
     </a>
     <a class="right-next"
-       href="pycba.bridge.html"
+       href="pycba.vehicle.Vehicle.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pycba.bridge</p>
+        <p class="prev-next-title">pycba.vehicle.Vehicle</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -626,24 +517,9 @@ created for the plot.</p></li>
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
   <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.inf_lines.InfluenceLines"><code class="docutils literal notranslate"><span class="pre">InfluenceLines</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.inf_lines.InfluenceLines.create_ils"><code class="docutils literal notranslate"><span class="pre">InfluenceLines.create_ils()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.inf_lines.InfluenceLines.get_il"><code class="docutils literal notranslate"><span class="pre">InfluenceLines.get_il()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.inf_lines.InfluenceLines.plot_il"><code class="docutils literal notranslate"><span class="pre">InfluenceLines.plot_il()</span></code></a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-  <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.inf_lines.InfluenceLines.rst">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.vehicle.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
