@@ -27,6 +27,34 @@ def test_maxvals():
     assert val == pytest.approx(7809.3)
 
 
+def test_la():
+    """
+    Tests 300LA against Appendix C of AS5100.2
+    """
+    spans = [5, 10, 20, 30, 40, 50, 100]
+    bm = []
+    sf = []
+
+    for s in spans:
+        L = [s]
+        EI = 30 * 1e11 * np.ones(len(L)) * 1e-6
+        R = [-1, 0, -1, 0]
+
+        bridge = cba.BeamAnalysis(L, EI, R)
+        bridge.npts = 500  # Use more points along the beam members
+        vehicle = cba.VehicleLibrary.get_la_rail()
+        bridge_analysis = cba.BridgeAnalysis(bridge, vehicle)
+        env = bridge_analysis.run_vehicle(0.1)
+        cvals = bridge_analysis.critical_values(env)
+        m = cvals["Mmax"]["val"]
+        v = max(cvals["Rmax0"]["val"], cvals["Rmax1"]["val"])
+        # now round to nearest 5 as code does
+        bm.append(round(m / 5) * 5)
+        sf.append(round(v / 5) * 5)
+    assert bm == pytest.approx([705, 2400, 6300, 12515, 21555, 32560, 126300])
+    # assert v == pytest.approx([665,1050,1515,2005,2505,3015,5525])
+
+
 def test_from_convoy():
     """
     Convoy of prime movers and platform
