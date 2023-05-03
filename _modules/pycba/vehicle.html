@@ -455,18 +455,28 @@ document.write(`
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span>
 
-<div class="viewcode-block" id="Vehicle.reverse"><a class="viewcode-back" href="../../gen/pycba.bridge.Vehicle.html#pycba.bridge.Vehicle.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Vehicle.reverse"><a class="viewcode-back" href="../../gen/pycba.bridge.Vehicle.html#pycba.bridge.Vehicle.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reverses the vehicle; now the `pos` coordinate will refer to the rear axle</span>
 <span class="sd">        as it traverses the bridge in reverse from zero in the global x-coordinate</span>
 <span class="sd">        system.</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        in_place : Bool</span>
+<span class="sd">            Whether or not to reverse the current vehicle (`True` - default),</span>
+<span class="sd">            or return a new copy of this vehicle reversed (`False`).</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">        None or Vehicle.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span> <span class="o">=</span> <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span></div>
+        <span class="k">if</span> <span class="n">in_place</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span> <span class="o">=</span> <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axw</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div>
 
 <div class="viewcode-block" id="Vehicle.from_convoy"><a class="viewcode-back" href="../../gen/pycba.bridge.Vehicle.html#pycba.bridge.Vehicle.from_convoy">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_convoy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vehicles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Vehicle</span><span class="p">],</span> <span class="n">vehicle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>

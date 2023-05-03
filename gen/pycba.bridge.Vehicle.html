@@ -442,13 +442,17 @@ axle spacings vector.</p></li>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.bridge.Vehicle.reverse">
-<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#Vehicle.reverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.Vehicle.reverse" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#Vehicle.reverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.Vehicle.reverse" title="Permalink to this definition">#</a></dt>
 <dd><p>Reverses the vehicle; now the <cite>pos</cite> coordinate will refer to the rear axle
 as it traverses the bridge in reverse from zero in the global x-coordinate
 system.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>in_place</strong> (<em>Bool</em>) – Whether or not to reverse the current vehicle (<cite>True</cite> - default),
+or return a new copy of this vehicle reversed (<cite>False</cite>).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None or Vehicle.</p>
 </dd>
 </dl>
 </dd></dl>
