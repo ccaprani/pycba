@@ -11,3 +11,4 @@ from .results import *
 from .inf_lines import *
 from .utils import *
 from .bridge import *
+from .vehicle import *
