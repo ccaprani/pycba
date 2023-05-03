@@ -1,4 +1,4 @@
-pycba.bridge
+﻿pycba.bridge
 ============
 
 .. automodule:: pycba.bridge
@@ -21,8 +21,6 @@ pycba.bridge
       :nosignatures:
    
       BridgeAnalysis
-      Vehicle
-      VehicleLibrary
    
    
 

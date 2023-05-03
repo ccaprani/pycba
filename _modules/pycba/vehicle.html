@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pycba.vehicle &#8212; PyCBA 0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pycba/vehicle';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/pycba_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../tutorials.html">
+                        Tutorials
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../general.html">
+                        Beam Configuration
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../theory.html">
+                        Theoretical Basis
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../tutorials.html">
+                        Tutorials
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../general.html">
+                        Beam Configuration
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../theory.html">
+                        Theoretical Basis
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">pycba.vehicle</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for pycba.vehicle</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">PyCBA - Continuous Beam Analysis - Bridge Crossing Module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<div class="viewcode-block" id="Vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.Vehicle.html#pycba.bridge.Vehicle">[docs]</a><span class="k">class</span> <span class="nc">Vehicle</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A basic vehicle definition for a bridge crossing analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs the :class:`pycba.bridge.Vehicle` object from the supplied data.</span>
+
+<span class="sd">        Parameters such as vehicle length, weight, and axle coordinates are</span>
+<span class="sd">        calculated from the supplied data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        axle_spacings : np.ndarray</span>
+<span class="sd">            A vector of axle spacings of length one fewer than the length of the</span>
+<span class="sd">            vector of axle weights</span>
+<span class="sd">        axle_weights : np.ndarray</span>
+<span class="sd">            A vector of axle weights, length one greater than the length of the</span>
+<span class="sd">            axle spacings vector.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the lengths of the vectors of axle weights and spacings are</span>
+<span class="sd">            inconsistent.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">axle_spacings</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">axle_weights</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axw</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inconsistent axle spacing and weight counts&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">axle_spacings</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">axle_weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NoAxles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">axle_weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NoAxles</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span>
+
+<div class="viewcode-block" id="Vehicle.reverse"><a class="viewcode-back" href="../../gen/pycba.bridge.Vehicle.html#pycba.bridge.Vehicle.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reverses the vehicle; now the `pos` coordinate will refer to the rear axle</span>
+<span class="sd">        as it traverses the bridge in reverse from zero in the global x-coordinate</span>
+<span class="sd">        system.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span> <span class="o">=</span> <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span></div>
+
+<div class="viewcode-block" id="Vehicle.from_convoy"><a class="viewcode-back" href="../../gen/pycba.bridge.Vehicle.html#pycba.bridge.Vehicle.from_convoy">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_convoy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vehicles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Vehicle</span><span class="p">],</span> <span class="n">vehicle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alternative constructor for :class:`pycba.bridge.Vehicle` object</span>
+<span class="sd">        as multiple :class:`pycba.bridge.Vehicle` objects</span>
+<span class="sd">        behind one another (eg. superload, queued vehicles, train)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        vehicles : List[Vehicles]</span>
+<span class="sd">            A list of :class:`pycba.bridge.Vehicle` objects,</span>
+<span class="sd">            length one greater than the length of the</span>
+<span class="sd">            vehicle spacings vector.</span>
+<span class="sd">        vehicle_spacings : np.ndarray</span>
+<span class="sd">            A vector of spacings between vehicles of length one</span>
+<span class="sd">            fewer than the length of the</span>
+<span class="sd">            list of vehicles.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the lengths of the list of vehicles and</span>
+<span class="sd">            vector of spacings are inconsistent.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If all list entries are not</span>
+<span class="sd">            :class:`pycba.bridge.Vehicle` objects</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pycba.bridge.Vehicle` object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vehicles</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vehicle_spacings</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inconsistent vehicle and spacing counts&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Vehicle</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vehicles</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;List must contain only Vehicle objects&quot;</span><span class="p">)</span>
+
+        <span class="c1"># pre-allocate axle weights and spacings</span>
+        <span class="n">new_vehicle_axles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="n">new_vehicle_spaces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+        <span class="c1"># loop through each vehicle</span>
+        <span class="k">for</span> <span class="n">veh</span> <span class="ow">in</span> <span class="n">vehicles</span><span class="p">:</span>
+            <span class="n">new_vehicle_axles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_vehicle_axles</span><span class="p">,</span> <span class="n">veh</span><span class="o">.</span><span class="n">axw</span><span class="p">)</span>
+            <span class="n">new_vehicle_spaces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_vehicle_spaces</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">veh</span><span class="o">.</span><span class="n">axs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># replace 0 spacing (first axle), with vehicle spacings</span>
+        <span class="n">new_vehicle_spaces</span><span class="p">[</span><span class="n">new_vehicle_spaces</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">vehicle_spacings</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">new_vehicle_spaces</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">new_vehicle_axles</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">VehicleLibrary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A repository of some useful vehicles for analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">abag_bdouble_aw</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="mi">6</span><span class="p">,</span>
+                <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="o">*</span> <span class="mf">9.81</span>
+    <span class="p">)</span>  <span class="c1"># t to kN</span>
+
+    <span class="n">abag_bdouble_as</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="n">abag_semitrailer_aw</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="mf">9.81</span>
+    <span class="p">)</span>  <span class="c1"># t to kN</span>
+
+    <span class="n">abag_semitrailer_as</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">10.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_abag_bdouble</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates one of the Australian Bridge Assessment Guidelines (ABAG) 68.5 t</span>
+<span class="sd">        B-double trucks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iax : int</span>
+<span class="sd">            The 0-based index of the variable axle spacing required:</span>
+
+<span class="sd">                - **0**: Variable spacings are 5.5 and 6.5 from front</span>
+<span class="sd">                - **1**: Variable spacings are 6.0 and 6.0 from front</span>
+<span class="sd">                - **2**: Variable spacings are 6.5 and 5.5 from front</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vehicle</span>
+<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_aw</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_abag_semitrailer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates one of the Australian Bridge Assessment Guidelines (ABAG) 45 t</span>
+<span class="sd">        semi-trailer trucks</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iax : int</span>
+<span class="sd">            The 0-based index of the variable axle spacing required:</span>
+
+<span class="sd">                - **0**: Variable spacing is 4.4 m</span>
+<span class="sd">                - **1**: Variable spacing is 6.4 m</span>
+<span class="sd">                - **2**: Variable spacing is 8.4 m</span>
+<span class="sd">                - **3**: Variable spacing is 10.4 m</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vehicle</span>
+<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_aw</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_example_permit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An example B-double type truck that might seek a network access permit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vehicle</span>
+<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.793</span><span class="p">,</span> <span class="mf">2.507</span><span class="p">,</span> <span class="mf">1.370</span><span class="p">,</span> <span class="mf">5.403</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">6.303</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">])</span>
+        <span class="n">axw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">])</span> <span class="o">*</span> <span class="mf">9.81</span>
+        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_m1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The AS5100 M1600 load model truck. This is the notional load model for</span>
+<span class="sd">        moving traffic and is usually critical for short to medium span bridges</span>
+<span class="sd">        once the dyanmic load allowance is included.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        middle_spacing : float</span>
+<span class="sd">            The spacing for the variable middle axle spacing; min. 6.25 m.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the supplied spacing is less than the code-specified minimum</span>
+<span class="sd">            of 6.25 m.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vehicle</span>
+<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">middle_spacing</span> <span class="o">&lt;</span> <span class="mf">6.25</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Min. M1600 middle spacing is 6.25 m&quot;</span><span class="p">)</span>
+        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">3.75</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="n">middle_spacing</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">5.0</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">axw</span> <span class="o">=</span> <span class="mi">120</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_s1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The AS5100 S1600 load model truck. This is the notional load model for</span>
+<span class="sd">        stationary traffic and is criticial for longer spans.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        middle_spacing : float</span>
+<span class="sd">            The spacing for the variable middle axle spacing; min. 6.25 m.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the supplied spacing is less than the code-specified minimum</span>
+<span class="sd">            of 6.25 m.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vehicle</span>
+<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">middle_spacing</span> <span class="o">&lt;</span> <span class="mf">6.25</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Min. S1600 middle spacing is 6.25 m&quot;</span><span class="p">)</span>
+        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">3.75</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="n">middle_spacing</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">5.0</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+            <span class="mf">1.25</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">axw</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_validation_truck</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A set of moving loads used for validation on a 20 m span against the</span>
+<span class="sd">        textbook, &quot;Structural and Stress Analysis&quot;&quot;, 2nd edn., Megson, p. 579.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vehicle</span>
+<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_la_rail</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">axle_group_spacing</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">axle_weight</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The AS5100.2 LA rail load model, including the simulated locomotive.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        axle_group_count : int</span>
+<span class="sd">            The number of axle groups. This should be sufficient to cover the</span>
+<span class="sd">            adverse portion of the influence line for the component being</span>
+<span class="sd">            examined.</span>
+
+<span class="sd">        axle_weight : float</span>
+<span class="sd">            The nominal axle weight. Default is 300 kN, but 150LA and others are</span>
+<span class="sd">            also used.</span>
+
+<span class="sd">        axle_group_spacing : float</span>
+<span class="sd">            The spacing between each axle group, min. 12 m, max. 20 m. Note</span>
+<span class="sd">            that this is not a gap but the centre-of-group to centre-of-group</span>
+<span class="sd">            distance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the supplied axle group spacing is outside the code-specified</span>
+<span class="sd">            limits of 12 to 20 m, or the number of axle groups is &lt; 1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vehicle</span>
+<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">axle_group_spacing</span> <span class="o">&lt;</span> <span class="mf">12.0</span> <span class="ow">or</span> <span class="n">axle_group_spacing</span> <span class="o">&gt;</span> <span class="mf">20.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Axle group spacing should be between 12 and 20 m&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axle_group_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need at least one axle group&quot;</span><span class="p">)</span>
+
+        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">]</span>  <span class="c1"># simulated locomotive</span>
+        <span class="n">axw</span> <span class="o">=</span> <span class="p">[</span><span class="mf">360.0</span><span class="p">]</span>
+        <span class="n">single_ags</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">]</span>
+        <span class="n">single_agw</span> <span class="o">=</span> <span class="p">[</span><span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">]</span>
+        <span class="n">group_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">single_ags</span><span class="p">)</span>
+
+        <span class="c1"># first group</span>
+        <span class="n">axs</span> <span class="o">+=</span> <span class="n">single_ags</span>
+        <span class="n">axw</span> <span class="o">+=</span> <span class="n">single_agw</span>
+
+        <span class="c1"># additional groups</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">axle_group_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">axs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">axle_group_spacing</span> <span class="o">-</span> <span class="n">group_length</span><span class="p">]</span> <span class="o">+</span> <span class="n">single_ags</span>
+            <span class="n">axw</span> <span class="o">+=</span> <span class="n">single_agw</span>
+
+        <span class="c1"># Now scale the weights</span>
+        <span class="n">axw</span> <span class="o">=</span> <span class="p">(</span><span class="n">axle_weight</span> <span class="o">/</span> <span class="mf">300.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axs</span><span class="p">),</span> <span class="n">axw</span><span class="p">)</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022, Colin Caprani.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
