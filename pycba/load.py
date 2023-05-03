@@ -1,21 +1,21 @@
 """
 PyCBA - Load module
 
-The load matrix represents the loads as a `List` of `Lists`. 
+The load matrix represents the loads as a `List` of `Lists`.
 Each list entry represents a single load and must be in the following format:
 
      Span No. | Load Type | Load Value | Distance a | Load Cover c
-     
-Load Types are: 
+
+Load Types are:
 
     1 - **Uniformly Distributed Loads**, which only have a load value; distances `a` and `c` are set to "0".
-    
+
     2 - **Point Loads**, located at `a` from the left end of the span; distances `c` is set to "0".
-    
+
     3 - **Partial UDLs**, starting at `a` for a distance of `c` (i.e. the cover) where $L >= a+c$.
-    
+
     4 - **Moment Load**, located at `a`; distances `c` is set to "0".
-    
+
 It has dimension `M` x 5, where `M` is the number of loads applied to the beam.
 
 The type alias `LoadMatrix` is defined as
@@ -728,7 +728,14 @@ class LoadML(Load):
         # res.x = x
 
         res.V = Va * np.ones(npts)
-        res.M = Va * x - m * self.H(x - a, 0.5)
+
+        if a == 0:
+            res.M = Va * x - m * self.H(x - a, 1)
+        elif a == L:
+            res.M = Va * x - m * self.H(x - a, 0)
+        else:
+            res.M = Va * x - m * self.H(x - a, 0.5)
+
         # res.M = np.array(
         #     [Va * xi - m if i > idx else Va * xi for i, xi in enumerate(x)]
         # )
