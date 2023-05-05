@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from .beam import Beam, LoadMatrix
 from .results import BeamResults
+from .load import add_LM
 
 
 class BeamAnalysis:
@@ -71,7 +72,7 @@ class BeamAnalysis:
 
     def set_loads(self, LM: LoadMatrix):
         """
-        Set load matrix for pre-defined beam
+        Set load matrix for pre-defined beam. This overrides any previously-defined loads.
 
         Parameters
         ----------
@@ -84,6 +85,95 @@ class BeamAnalysis:
 
         """
         self._beam.loads = LM
+
+    def add_udl(self, i_span: int, w: float):
+        """
+        Add a uniformly-distributed load to the beam
+
+        Parameters
+        ----------
+        i_span : int
+            The index of the span to add the load (1-based)
+
+        w : float
+            The value of the load
+
+        Returns
+        -------
+        None.
+        """
+        load = [i_span, 1, w]
+        self._beam.add_load(load)
+
+    def add_pl(self, i_span: int, p: float, a: float):
+        """
+        Add a point load to the beam
+
+        Parameters
+        ----------
+        i_span : int
+            The index of the span to add the load (1-based)
+
+        p : float
+            The value of the load
+
+        a : float
+            The distance from the start of the span to the point of load application
+
+        Returns
+        -------
+        None.
+        """
+        load = [i_span, 2, p, a]
+        self._beam.add_load(load)
+
+    def add_pudl(self, i_span: int, w: float, a: float, c: float):
+        """
+        Add a partial uniformly-distributed load to the beam.
+        Note that any load extending beyond the end of the span is ignored.
+
+        Parameters
+        ----------
+        i_span : int
+            The index of the span to add the load (1-based)
+
+        w : float
+            The value of the uniformly-distributed load
+
+        a : float
+            The distance from the start of the span to the start of the UDL
+
+        c : float
+            The cover of the partial UDL; i.e. it's length.
+
+        Returns
+        -------
+        None.
+        """
+        load = [i_span, 3, w, a, c]
+        self._beam.add_load(load)
+
+    def add_ml(self, i_span: int, m: float, a: float):
+        """
+        Add a moment load to the beam
+
+        Parameters
+        ----------
+        i_span : int
+            The index of the span to add the load (1-based)
+
+        m : float
+            The value of the load
+
+        a : float
+            The distance from the start of the span to the point of load application
+
+        Returns
+        -------
+        None.
+        """
+        load = [i_span, 4, m, a]
+        self._beam.add_load(load)
 
     def analyze(self, npts: Optional[int] = None) -> int:
         """
@@ -127,6 +217,8 @@ class BeamAnalysis:
             The global nodal force vector
 
         """
+        self._beam._set_loads()
+
         f = np.zeros(self._nDOF)
 
         for i in range(self._n):

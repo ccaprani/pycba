@@ -9,7 +9,8 @@ import pycba as cba
 
 def test_2span_udl():
     """
-    Execute a two-span beam analysis and check the reaction results
+    Execute a two-span beam analysis and check the reaction results.
+    Uses a direct definition of the LM
     """
 
     L = [7.5, 7.0]
@@ -28,6 +29,35 @@ def test_2span_udl():
     dmin = min(beam_analysis.beam_results.results.D)
     assert [dmax, dmin] == pytest.approx(
         [1.0118938958333364e-05, -0.0020629648925781247], abs=1e-6
+    )
+
+
+def test_2span_load_wrappers():
+    """
+    Execute a two-span beam analysis and check the reaction results.
+    Uses the wrappers for defining loads.
+    """
+
+    L = [7.5, 7.0]
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, 0, -1, 0, -1, 0]
+
+    beam_analysis = cba.BeamAnalysis(L, EI, R)
+    beam_analysis.add_pl(1, 40, 3.5)
+    beam_analysis.add_udl(1, 10)
+    beam_analysis.add_pudl(2, 20, 2.0, 3.0)
+    beam_analysis.add_ml(2, 50, 3)
+
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    r = beam_analysis.beam_results.R
+    assert r == pytest.approx([45.41648878, 121.10155896, 8.48195226])
+
+    dmax = max(beam_analysis.beam_results.results.D)
+    dmin = min(beam_analysis.beam_results.results.D)
+    assert [dmax, dmin] == pytest.approx(
+        [0.00011753212898873195, -0.0023044064201367506]
     )
 
 

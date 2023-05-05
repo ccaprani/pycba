@@ -3,7 +3,7 @@ PyCBA - Beam Class definition
 """
 from typing import Optional
 import numpy as np
-from .load import parse_LM, LoadMatrix, LoadCNL
+from .load import parse_LM, LoadType, LoadMatrix, LoadCNL
 
 
 class Beam:
@@ -49,6 +49,7 @@ class Beam:
         self.mbr_eletype = []
         self._restraints = []
         self._loads = []
+        self.LM = []
         self._terminal_coords = [0.0]
 
         if L is not None and eletype is not None:
@@ -67,7 +68,7 @@ class Beam:
             else:
                 raise ValueError("Insufficient restraints defined")
         if LM is not None:
-            self._set_loads(LM)
+            self.LM = LM
 
     def add_span(self, L: float, EI: float, eletype: int):
         """
@@ -105,7 +106,7 @@ class Beam:
             The load matrix for the beam
 
         """
-        return self._loads
+        return self.LM
 
     @loads.setter
     def loads(self, LM):
@@ -122,9 +123,27 @@ class Beam:
         None
 
         """
-        self._set_loads(LM)
+        self.LM = LM
+        self.no_loads = len(self.LM)
 
-    def _set_loads(self, LM):
+    def add_load(self, load: LoadType):
+        """
+        Adds a new load to the beam's load matrix
+
+        Parameters
+        ----------
+        load : List[Union[int,float]]
+            A list describing the load to be added
+
+        Returns
+        -------
+        None
+        """
+
+        self.LM.append(load)
+        self.no_loads = len(self.LM)
+
+    def _set_loads(self):
         """
         Explicit internal setter for loads
 
@@ -138,8 +157,7 @@ class Beam:
         None
 
         """
-        self._loads = parse_LM(LM)
-        self.no_loads = len(LM)
+        self._loads = parse_LM(self.LM)
 
     @property
     def restraints(self) -> np.ndarray:
