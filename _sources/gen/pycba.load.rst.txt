@@ -1,4 +1,4 @@
-pycba.load
+﻿pycba.load
 ==========
 
 .. automodule:: pycba.load
@@ -15,6 +15,7 @@ pycba.load
       :toctree:
       :nosignatures:
    
+      add_LM
       parse_LM
    
    

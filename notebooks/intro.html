@@ -364,6 +364,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to PyCBA</a></li>
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="inf_lines.html">Influence Lines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge Analysis</a></li>
 </ul>
@@ -466,25 +469,37 @@ document.write(`
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">]</span>
 <span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">600e7</span> <span class="o">*</span> <span class="mf">1e-6</span>
 <span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">LM</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
 <p>Initially, we define the member lengths, which in this case coincides with the spans, <span class="math notranslate nohighlight">\(AB\)</span>, and <span class="math notranslate nohighlight">\(BC\)</span>.</p>
 <p>The flexural rigidity (elastic modulus multiplied by the second moment of area) can be defined for each member, or if a scalar value is passed, this is assigned to all members. Here we take <span class="math notranslate nohighlight">\(E = 30\)</span> GPa and <span class="math notranslate nohighlight">\(I = 600 \times 10^7\)</span> mm<span class="math notranslate nohighlight">\(^4\)</span>, and apply a conversion to put it into a consistent set of units (kN and m).</p>
 <p>The beam restraints at each nodal degree of freedom are then defined. Since there are three nodes, this will be a vector of <span class="math notranslate nohighlight">\(2 \times 3 = 6\)</span> entries. Only the vertical (and not rotational) degree of freedom is restrained at nodes <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span>, and so this is indicated using <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(0\)</span> for unrestrained.</p>
-<p>Finally, the load matrix is defined, which is a list of loads, where each load is defined by a list of five numbers, as defined in the docs:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Span No. | Load Type | Load Value | Distance a | Load Cover c
-</pre></div>
-</div>
-<p>For UDLs covering the full length of the member, only the span number, load type, and value have non-zero entries.</p>
-<p>With the basic variables defined, we construct the <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object by passing these variables, we then call the <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function and plot the results:</p>
-<div class="nbinput docutils container">
+<p>With the basic variables defined, we construct the <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object by passing these variables.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we add the loads for each span to this object using the <code class="docutils literal notranslate"><span class="pre">add_*</span></code> utility functions:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now that we have applied the loads, it is ready for analysis and we call the <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function and plot the results:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
 <span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -493,13 +508,13 @@ document.write(`
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_7_0.png" src="../_images/notebooks_intro_7_0.png" />
+<img alt="../_images/notebooks_intro_11_0.png" src="../_images/notebooks_intro_11_0.png" />
 </div>
 </div>
 <p>The numerical results can found from the <code class="docutils literal notranslate"><span class="pre">beam_results</span></code> member of <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object.</p>
 <p>For example, the reactions corresponding to the fully-restrained nodes are:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">R</span>
@@ -507,7 +522,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -517,7 +532,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 <p>and the maximum bending moment along the second member, <span class="math notranslate nohighlight">\(BC\)</span>, can be got from:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">vRes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -525,7 +540,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -537,9 +552,14 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </section>
 <section id="Example-2---Load-Definitions">
 <h2>Example 2 - Load Definitions<a class="headerlink" href="#Example-2---Load-Definitions" title="Permalink to this heading">#</a></h2>
-<p>In this example, we consider a two-span beam with a fixed remote end, and more load types.</p>
+<p>In this example, we consider a two-span beam with a fixed remote end, more load types, and a lower-level method for defining loads.</p>
+<p>In addition to the utility functions for adding loads, a “load matrix” can be defined directly. This is a list of loads, where each load is defined by a list of five numbers, as defined in the docs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Span No. | Load Type | Load Value | Distance a | Load Cover c
+</pre></div>
+</div>
+<p>For UDLs covering the full length of the member, only the span number, load type, and value have non-zero entries.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;./images/intro_ex_2.png&quot;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
@@ -547,11 +567,11 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_14_0.png" class="no-scaled-link" src="../_images/notebooks_intro_14_0.png" style="width: 800px;" />
+<img alt="../_images/notebooks_intro_18_0.png" class="no-scaled-link" src="../_images/notebooks_intro_18_0.png" style="width: 800px;" />
 </div>
 </div>
 <p>With two loads the <em>load matrix</em> (see <code class="docutils literal notranslate"><span class="pre">pycba.load</span></code>) is a list of two lists:</p>
@@ -561,7 +581,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </ul>
 <p>Note, also that node <span class="math notranslate nohighlight">\(C\)</span> will have its two degrees of freedom restrained.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">]</span>
@@ -571,9 +591,9 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </pre></div>
 </div>
 </div>
-<p>And to better evaluate the discontinuities for the moment and point loads, we can increase the number of evaluation points along each member to 500 when calling <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> as follows:</p>
+<p>Along with <code class="docutils literal notranslate"><span class="pre">L</span></code>, <code class="docutils literal notranslate"><span class="pre">EI</span></code>, and <code class="docutils literal notranslate"><span class="pre">R</span></code>, the load matrix <code class="docutils literal notranslate"><span class="pre">LM</span></code> can be directly passed to the <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code> constructor resulting in an object ready for analysis. And to better evaluate the discontinuities for the moment and point loads, we can increase the number of evaluation points along each member to 500 when calling <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> as follows:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
@@ -586,10 +606,190 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_18_0.png" src="../_images/notebooks_intro_18_0.png" />
+<img alt="../_images/notebooks_intro_22_0.png" src="../_images/notebooks_intro_22_0.png" />
 </div>
 </div>
 </section>
+</section>
+<section id="Example-3---3-span-beam-in-a-building-subframe">
+<h1>Example 3 - 3-span beam in a building subframe<a class="headerlink" href="#Example-3---3-span-beam-in-a-building-subframe" title="Permalink to this heading">#</a></h1>
+<p>In this example we consider a reinforced concrete building subframe in which the columns are 4 m high, and 300 mm square. We take <span class="math notranslate nohighlight">\(E=30\)</span> GPa Hence the roational stiffness at each joint is <span class="math notranslate nohighlight">\(2 \times (4EI)/L\)</span> giving</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  k = 2\times \frac{4\times30\times(300^4)}{4000} \times 10^3 = 486\times10^9\ \textrm{kNm/rad}\\We also take the beam as :math:`300\times600` giving\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  I = \frac{300\times 600^3}{12} = 5.4\times10^9\ \textrm{mm}^4\\So we can define the beam now as usual:\end{aligned}\end{align} \]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">E</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mf">54e8</span><span class="p">,</span><span class="mf">54e8</span><span class="p">,</span><span class="mf">54e8</span><span class="p">]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">486e9</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">486e9</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">486e9</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">486e9</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we add the loads for each span:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now we can analyze and plot the results:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_29_0.png" src="../_images/notebooks_intro_29_0.png" />
+</div>
+</div>
+<p>The influence of the column rotational stiffness at the joints is clear, and the moments in the columns canbe found as the difference in the moments at the ends of the connecting spans.</p>
+</section>
+<section id="Example-4---Post-tensioned-4-span-beam">
+<h1>Example 4 - Post-tensioned 4-span beam<a class="headerlink" href="#Example-4---Post-tensioned-4-span-beam" title="Permalink to this heading">#</a></h1>
+<p>In this example, we determine the load effects applied by a post-tensioned cable. We define the load matrix directly, based on the geometry of the cable drape.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">E</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">LM</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>     <span class="c1"># eccentricity at end</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
+      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
+      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">75</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>    <span class="c1"># eccentricity at end</span>
+<span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_32_0.png" src="../_images/notebooks_intro_32_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-5---Superposition-for-load-balancing">
+<h1>Example 5 - Superposition for load-balancing<a class="headerlink" href="#Example-5---Superposition-for-load-balancing" title="Permalink to this heading">#</a></h1>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">add_LM</span></code> subroutine load matrices may be superimposed. Based on Example 4, we will define the service loads and then the prestress equivalent loads are added. Both load cases are analysed seperately and the combined LM analysed: each set of results are displayed seperately.</p>
+<p>Define the beam as before:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">E</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>And now define the dead loads <code class="docutils literal notranslate"><span class="pre">LMg</span></code>, the live loads <code class="docutils literal notranslate"><span class="pre">LMq</span></code>, and the prestress loads as before <code class="docutils literal notranslate"><span class="pre">LMp</span></code></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMg</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># 20 kN/m on each span</span>
+       <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">LMq</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># 30 kN/m on each span</span>
+       <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">LMp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># eccentricity at end</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
+      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
+      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
+      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
+      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">75</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>    <span class="c1"># eccentricity at end</span>
+</pre></div>
+</div>
+</div>
+<p>The loadings at transfer are then obtained by superposition (<code class="docutils literal notranslate"><span class="pre">add_LM</span></code>), the superimposed loads are applied to the beam (<code class="docutils literal notranslate"><span class="pre">set_loads</span></code>), and analyzed:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMt</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">add_LM</span><span class="p">(</span><span class="n">LMg</span><span class="p">,</span><span class="n">LMp</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LMt</span><span class="p">)</span>
+<span class="n">out_t</span> <span class="o">=</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_38_0.png" src="../_images/notebooks_intro_38_0.png" />
+</div>
+</div>
+<p>The service load effects are then calculated by further superposition of the live loads onto the transfer loads. We reset the loads in the <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object and re-analyze:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMs</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">add_LM</span><span class="p">(</span><span class="n">LMt</span><span class="p">,</span><span class="n">LMq</span><span class="p">)</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LMs</span><span class="p">)</span>
+<span class="n">out_s</span> <span class="o">=</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_40_0.png" src="../_images/notebooks_intro_40_0.png" />
+</div>
+</div>
 </section>
 
 
@@ -639,9 +839,16 @@ array([ 57.41666667, 181.42261905,  51.16071429])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction to PyCBA</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1---Basic-Analysis">Example 1 - Basic Analysis</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2---Load-Definitions">Example 2 - Load Definitions</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3---3-span-beam-in-a-building-subframe">Example 3 - 3-span beam in a building subframe</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4---Post-tensioned-4-span-beam">Example 4 - Post-tensioned 4-span beam</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5---Superposition-for-load-balancing">Example 5 - Superposition for load-balancing</a></li>
+</ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">

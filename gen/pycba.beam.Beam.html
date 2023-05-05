@@ -369,6 +369,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.load.html">pycba.load</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load.add_LM.html">pycba.load.add_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.parse_LM.html">pycba.load.parse_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.Load.html">pycba.load.Load</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadCNL.html">pycba.load.LoadCNL</a></li>
@@ -488,28 +489,31 @@ parameters.</p></li>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_span</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_load" title="pycba.beam.Beam.add_load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_load</span></code></a></p></td>
+<td><p>Adds a new load to the beam's load matrix</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_span</span></code></a></p></td>
 <td><p>Add a span to the continuous beam</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_cnl" title="pycba.beam.Beam.get_cnl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cnl</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_cnl" title="pycba.beam.Beam.get_cnl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cnl</span></code></a></p></td>
 <td><p>Returns Consistent Nodal Loads for the member</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_local_span_coords" title="pycba.beam.Beam.get_local_span_coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_span_coords</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_local_span_coords" title="pycba.beam.Beam.get_local_span_coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_span_coords</span></code></a></p></td>
 <td><p>Returns the span index and position in span for a position given in global coordinates on the beam</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_span_k" title="pycba.beam.Beam.get_span_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_span_k</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_span_k" title="pycba.beam.Beam.get_span_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_span_k</span></code></a></p></td>
 <td><p>Returns the stiffness matrix for the ith span</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FF" title="pycba.beam.Beam.k_FF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FF</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FF" title="pycba.beam.Beam.k_FF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FF</span></code></a></p></td>
 <td><p>Stiffness matrix for a fixed-fixed element</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FP" title="pycba.beam.Beam.k_FP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FP</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FP" title="pycba.beam.Beam.k_FP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FP</span></code></a></p></td>
 <td><p>Stiffness matrix for a fixed-pinned element</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PF" title="pycba.beam.Beam.k_PF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PF</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PF" title="pycba.beam.Beam.k_PF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PF</span></code></a></p></td>
 <td><p>Stiffness matrix for a pinned-fixed element</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PP" title="pycba.beam.Beam.k_PP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PP</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PP" title="pycba.beam.Beam.k_PP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PP</span></code></a></p></td>
 <td><p>Stiffness matrix for a pinned-pinned element</p></td>
 </tr>
 </tbody>
@@ -562,6 +566,20 @@ parameters.</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>LoadMatrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.beam.Beam.add_load">
+<span class="sig-name descname"><span class="pre">add_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_load" title="Permalink to this definition">#</a></dt>
+<dd><p>Adds a new load to the beam’s load matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>load</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><em>int</em><em>,</em><em>float</em><em>]</em><em>]</em>) – A list describing the load to be added</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -805,6 +823,7 @@ coordinates on the beam</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam"><code class="docutils literal notranslate"><span class="pre">Beam</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.add_span"><code class="docutils literal notranslate"><span class="pre">Beam.add_span()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.loads"><code class="docutils literal notranslate"><span class="pre">Beam.loads</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.add_load"><code class="docutils literal notranslate"><span class="pre">Beam.add_load()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.restraints"><code class="docutils literal notranslate"><span class="pre">Beam.restraints</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_spans"><code class="docutils literal notranslate"><span class="pre">Beam.no_spans</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_restraints</span></code></a></li>

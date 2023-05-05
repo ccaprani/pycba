@@ -369,6 +369,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.load.html">pycba.load</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load.add_LM.html">pycba.load.add_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.parse_LM.html">pycba.load.parse_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.Load.html">pycba.load.Load</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadCNL.html">pycba.load.LoadCNL</a></li>
@@ -487,6 +488,18 @@ document.write(`
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_ml" title="pycba.analysis.BeamAnalysis.add_ml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_ml</span></code></a></p></td>
+<td><p>Add a moment load to the beam</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_pl" title="pycba.analysis.BeamAnalysis.add_pl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_pl</span></code></a></p></td>
+<td><p>Add a point load to the beam</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_pudl" title="pycba.analysis.BeamAnalysis.add_pudl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_pudl</span></code></a></p></td>
+<td><p>Add a partial uniformly-distributed load to the beam.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_udl" title="pycba.analysis.BeamAnalysis.add_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_udl</span></code></a></p></td>
+<td><p>Add a uniformly-distributed load to the beam</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze</span></code></a></p></td>
 <td><p>Conducts the analysis on the constructed BeamAnalysis object</p></td>
 </tr>
@@ -494,7 +507,7 @@ document.write(`
 <td><p>Plots the results of the analysis</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
-<td><p>Set load matrix for pre-defined beam</p></td>
+<td><p>Set load matrix for pre-defined beam.</p></td>
 </tr>
 </tbody>
 </table>
@@ -512,10 +525,83 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.set_loads">
 <span class="sig-name descname"><span class="pre">set_loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LM</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.set_loads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.set_loads" title="Permalink to this definition">#</a></dt>
-<dd><p>Set load matrix for pre-defined beam</p>
+<dd><p>Set load matrix for pre-defined beam. This overrides any previously-defined loads.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>LM</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>Union</em><em>[</em><em>int</em><em>, </em><em>float</em><em>]</em><em>]</em><em>]</em>) – The load matrix for the beam.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_udl">
+<span class="sig-name descname"><span class="pre">add_udl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_udl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_udl" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a uniformly-distributed load to the beam</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i_span</strong> (<em>int</em>) – The index of the span to add the load (1-based)</p></li>
+<li><p><strong>w</strong> (<em>float</em>) – The value of the load</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_pl">
+<span class="sig-name descname"><span class="pre">add_pl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_pl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_pl" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a point load to the beam</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i_span</strong> (<em>int</em>) – The index of the span to add the load (1-based)</p></li>
+<li><p><strong>p</strong> (<em>float</em>) – The value of the load</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – The distance from the start of the span to the point of load application</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_pudl">
+<span class="sig-name descname"><span class="pre">add_pudl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_pudl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_pudl" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a partial uniformly-distributed load to the beam.
+Note that any load extending beyond the end of the span is ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i_span</strong> (<em>int</em>) – The index of the span to add the load (1-based)</p></li>
+<li><p><strong>w</strong> (<em>float</em>) – The value of the uniformly-distributed load</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – The distance from the start of the span to the start of the UDL</p></li>
+<li><p><strong>c</strong> (<em>float</em>) – The cover of the partial UDL; i.e. it’s length.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_ml">
+<span class="sig-name descname"><span class="pre">add_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_ml" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a moment load to the beam</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i_span</strong> (<em>int</em>) – The index of the span to add the load (1-based)</p></li>
+<li><p><strong>m</strong> (<em>float</em>) – The value of the load</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – The distance from the start of the span to the point of load application</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
@@ -601,6 +687,10 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.set_loads"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.set_loads()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_udl"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_udl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_pl"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_pl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_pudl"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_pudl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_ml"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_ml()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.analyze"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.analyze()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_results"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_results()</span></code></a></li>
 </ul>

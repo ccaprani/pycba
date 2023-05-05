@@ -550,7 +550,7 @@ document.write(`
         <span class="n">res</span> <span class="o">=</span> <span class="n">MaMb</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
 
         <span class="c1"># Now get the results for all the applied loads on a simple span</span>
-        <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">beam</span><span class="o">.</span><span class="n">loads</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">beam</span><span class="o">.</span><span class="n">_loads</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">!=</span> <span class="n">i_span</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">res</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>

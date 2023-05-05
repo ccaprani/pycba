@@ -406,7 +406,7 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">parse_LM</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCNL</span>
+<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">parse_LM</span><span class="p">,</span> <span class="n">LoadType</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCNL</span>
 
 
 <div class="viewcode-block" id="Beam"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam">[docs]</a><span class="k">class</span> <span class="nc">Beam</span><span class="p">:</span>
@@ -452,6 +452,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -470,7 +471,7 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Insufficient restraints defined&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">LM</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">LM</span>
 
 <div class="viewcode-block" id="Beam.add_span"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_span">[docs]</a>    <span class="k">def</span> <span class="nf">add_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eletype</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -508,7 +509,7 @@ document.write(`
 <span class="sd">            The load matrix for the beam</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LM</span>
 
     <span class="nd">@loads</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">):</span>
@@ -525,9 +526,27 @@ document.write(`
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">LM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">):</span>
+<div class="viewcode-block" id="Beam.add_load"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_load">[docs]</a>    <span class="k">def</span> <span class="nf">add_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load</span><span class="p">:</span> <span class="n">LoadType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a new load to the beam&#39;s load matrix</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load : List[Union[int,float]]</span>
+<span class="sd">            A list describing the load to be added</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Explicit internal setter for loads</span>
 
@@ -541,8 +560,7 @@ document.write(`
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="n">parse_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">no_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="n">parse_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>

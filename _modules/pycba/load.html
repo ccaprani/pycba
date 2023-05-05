@@ -432,7 +432,8 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1"># Define a type alias</span>
-<span class="n">LoadMatrix</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span>
+<span class="n">LoadType</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+<span class="n">LoadMatrix</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">LoadType</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="LoadCNL"><a class="viewcode-back" href="../../gen/pycba.load.LoadCNL.html#pycba.load.LoadCNL">[docs]</a><span class="k">class</span> <span class="nc">LoadCNL</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -1175,7 +1176,7 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Load Matrix must be a list of lists&quot;</span><span class="p">)</span>
     <span class="n">loads</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">:</span>
-        <span class="n">span</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ltype</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># UDL</span>
@@ -1199,6 +1200,33 @@ document.write(`
             <span class="n">a</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
             <span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LoadML</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">loads</span></div>
+
+
+<div class="viewcode-block" id="add_LM"><a class="viewcode-back" href="../../gen/pycba.load.add_LM.html#pycba.load.add_LM">[docs]</a><span class="k">def</span> <span class="nf">add_LM</span><span class="p">(</span><span class="n">LM1</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LM2</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds two load matrices and returns the sum; this enables superposition</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    LM1 : LoadMatrix</span>
+<span class="sd">        The first `LoadMatrix` object</span>
+
+<span class="sd">    LM2 : LoadMatrix</span>
+<span class="sd">        The second `LoadMatrix` object</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    LM : LoadMatrix</span>
+<span class="sd">        The superimposed `LoadMatrix` object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">LM</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM1</span><span class="p">:</span>
+        <span class="n">LM</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM2</span><span class="p">:</span>
+        <span class="n">LM</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">LM</span></div>
 </pre></div>
 
                 </article>
