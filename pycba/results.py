@@ -147,7 +147,7 @@ class BeamResults:
         res = MaMb.get_mbr_results(x, L)
 
         # Now get the results for all the applied loads on a simple span
-        for load in beam.loads:
+        for load in beam._loads:
             if load.i_span != i_span:
                 continue
             res += load.get_mbr_results(x, L)

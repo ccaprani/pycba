@@ -29,7 +29,8 @@ from typing import Union, List, NamedTuple, Tuple, Optional
 import numpy as np
 
 # Define a type alias
-LoadMatrix = List[List[Union[int, float]]]
+LoadType = List[Union[int, float]]
+LoadMatrix = List[LoadType]
 
 
 class LoadCNL(NamedTuple):
@@ -772,7 +773,7 @@ def parse_LM(LM: LoadMatrix) -> List[Load]:
         raise ValueError("Load Matrix must be a list of lists")
     loads = []
     for load in LM:
-        span = load[0] - 1
+        span = int(load[0] - 1)
         ltype = load[1]
 
         # UDL
@@ -796,3 +797,30 @@ def parse_LM(LM: LoadMatrix) -> List[Load]:
             a = load[3]
             loads.append(LoadML(span, m, a))
     return loads
+
+
+def add_LM(LM1: LoadMatrix, LM2: LoadMatrix):
+    """
+    Adds two load matrices and returns the sum; this enables superposition
+
+    Parameters
+    ----------
+    LM1 : LoadMatrix
+        The first `LoadMatrix` object
+
+    LM2 : LoadMatrix
+        The second `LoadMatrix` object
+
+    Returns
+    -------
+    LM : LoadMatrix
+        The superimposed `LoadMatrix` object
+    """
+
+    LM = []
+    for load in LM1:
+        LM.append(load)
+    for load in LM2:
+        LM.append(load)
+
+    return LM
