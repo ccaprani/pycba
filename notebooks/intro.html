@@ -364,9 +364,6 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to PyCBA</a></li>
-
-
-
 <li class="toctree-l1"><a class="reference internal" href="inf_lines.html">Influence Lines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge Analysis</a></li>
 </ul>
@@ -610,14 +607,15 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 </section>
-</section>
 <section id="Example-3---3-span-beam-in-a-building-subframe">
-<h1>Example 3 - 3-span beam in a building subframe<a class="headerlink" href="#Example-3---3-span-beam-in-a-building-subframe" title="Permalink to this heading">#</a></h1>
+<h2>Example 3 - 3-span beam in a building subframe<a class="headerlink" href="#Example-3---3-span-beam-in-a-building-subframe" title="Permalink to this heading">#</a></h2>
 <p>In this example we consider a reinforced concrete building subframe in which the columns are 4 m high, and 300 mm square. We take <span class="math notranslate nohighlight">\(E=30\)</span> GPa Hence the roational stiffness at each joint is <span class="math notranslate nohighlight">\(2 \times (4EI)/L\)</span> giving</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}  k = 2\times \frac{4\times30\times(300^4)}{4000} \times 10^3 = 486\times10^9\ \textrm{kNm/rad}\\We also take the beam as :math:`300\times600` giving\end{aligned}\end{align} \]</div>
+\[k = 2\times \frac{4\times30\times(300^4)}{4000} \times 10^3 = 486\times10^9\ \textrm{kNm/rad}\]</div>
+<p>We also take the beam as <span class="math notranslate nohighlight">\(300\times600\)</span> giving</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}  I = \frac{300\times 600^3}{12} = 5.4\times10^9\ \textrm{mm}^4\\So we can define the beam now as usual:\end{aligned}\end{align} \]</div>
+\[I = \frac{300\times 600^3}{12} = 5.4\times10^9\ \textrm{mm}^4\]</div>
+<p>So we can define the beam now as usual:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -668,7 +666,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 <p>The influence of the column rotational stiffness at the joints is clear, and the moments in the columns canbe found as the difference in the moments at the ends of the connecting spans.</p>
 </section>
 <section id="Example-4---Post-tensioned-4-span-beam">
-<h1>Example 4 - Post-tensioned 4-span beam<a class="headerlink" href="#Example-4---Post-tensioned-4-span-beam" title="Permalink to this heading">#</a></h1>
+<h2>Example 4 - Post-tensioned 4-span beam<a class="headerlink" href="#Example-4---Post-tensioned-4-span-beam" title="Permalink to this heading">#</a></h2>
 <p>In this example, we determine the load effects applied by a post-tensioned cable. We define the load matrix directly, based on the geometry of the cable drape.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
@@ -707,7 +705,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </section>
 <section id="Example-5---Superposition-for-load-balancing">
-<h1>Example 5 - Superposition for load-balancing<a class="headerlink" href="#Example-5---Superposition-for-load-balancing" title="Permalink to this heading">#</a></h1>
+<h2>Example 5 - Superposition for load-balancing<a class="headerlink" href="#Example-5---Superposition-for-load-balancing" title="Permalink to this heading">#</a></h2>
 <p>Using the <code class="docutils literal notranslate"><span class="pre">add_LM</span></code> subroutine load matrices may be superimposed. Based on Example 4, we will define the service loads and then the prestress equivalent loads are added. Both load cases are analysed seperately and the combined LM analysed: each set of results are displayed seperately.</p>
 <p>Define the beam as before:</p>
 <div class="nbinput nblast docutils container">
@@ -791,6 +789,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 </section>
+</section>
 
 
                 </article>
@@ -839,16 +838,12 @@ array([ 57.41666667, 181.42261905,  51.16071429])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction to PyCBA</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1---Basic-Analysis">Example 1 - Basic Analysis</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2---Load-Definitions">Example 2 - Load Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3---3-span-beam-in-a-building-subframe">Example 3 - 3-span beam in a building subframe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4---Post-tensioned-4-span-beam">Example 4 - Post-tensioned 4-span beam</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5---Superposition-for-load-balancing">Example 5 - Superposition for load-balancing</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3---3-span-beam-in-a-building-subframe">Example 3 - 3-span beam in a building subframe</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4---Post-tensioned-4-span-beam">Example 4 - Post-tensioned 4-span beam</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5---Superposition-for-load-balancing">Example 5 - Superposition for load-balancing</a></li>
-</ul>
-
   </nav></div>
 
   <div class="sidebar-secondary-item">
