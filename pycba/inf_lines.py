@@ -119,8 +119,8 @@ class InfluenceLines:
             self.create_ils()
 
         x = self.vResults[0].results.x
-        dx = x[2]-x[1]
-        idx = np.where(np.abs(x - poi) <= dx*1e-6)[0][0]
+        dx = x[2] - x[1]
+        idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
         # find the nearest support to the poi
         idxr = (
             np.abs(np.cumsum(np.insert(self.ba.beam.mbr_lengths, 0, 0)) - poi)
