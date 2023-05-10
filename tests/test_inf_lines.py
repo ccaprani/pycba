@@ -175,3 +175,17 @@ def test_parse_beam_notation():
     assert EI == pytest.approx([300000.0, 300000.0, 300000.0, 300000.0])
     assert R == [-1, -1, -1, 0, 0, 0, -1, 0, -1, -1]
     assert eType == [1, 2, 1, 1]
+
+
+def test_distcretization():
+    """
+    Confirm that poi rounding to find the closest idx for ILs works
+    """
+
+    beam_str = "P7R7R"
+    (L, EI, R, eType) = cba.parse_beam_string(beam_str)
+
+    ils = cba.InfluenceLines(L, EI, R, eType)
+    ils.create_ils(step=0.1)    
+    (x, y) = ils.get_il(7.0, "M")
+    assert np.linalg.norm(y) >= 5.7
