@@ -186,6 +186,6 @@ def test_distcretization():
     (L, EI, R, eType) = cba.parse_beam_string(beam_str)
 
     ils = cba.InfluenceLines(L, EI, R, eType)
-    ils.create_ils(step=0.1)    
+    ils.create_ils(step=0.1)
     (x, y) = ils.get_il(7.0, "M")
     assert np.linalg.norm(y) >= 5.7
