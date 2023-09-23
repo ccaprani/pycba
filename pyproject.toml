@@ -8,7 +8,7 @@ name = "PyCBA"
 dynamic = ["version"]
 description = "Python Continuous Beam Analysis"
 license = {text = "Apache 2.0"}
-keyword = ["beam, bridge, vehicle"]
+keywords = ["beam","bridge","vehicle"]
 authors = [{name = "Colin Caprani", email = "colin.caprani@monash.edu"}]
 classifiers = [
     "Development Status :: 4 - Beta",
