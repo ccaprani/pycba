@@ -1,7 +1,7 @@
-﻿pycba.load
-==========
+﻿pycba.vehicle
+=============
 
-.. automodule:: pycba.load
+.. automodule:: pycba.vehicle
 
    
    
@@ -15,8 +15,7 @@
       :toctree:
       :nosignatures:
    
-      add_LM
-      parse_LM
+      make_train
    
    
 
@@ -29,14 +28,8 @@
       :template: custom-class-template.rst
       :nosignatures:
    
-      Load
-      LoadCNL
-      LoadML
-      LoadMaMb
-      LoadPL
-      LoadPUDL
-      LoadUDL
-      MemberResults
+      Vehicle
+      VehicleLibrary
    
    
 

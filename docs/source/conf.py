@@ -13,17 +13,22 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../../"))
+sys.path.insert(0, os.path.abspath("../../src/"))
+from pycba import __version__ as ver
 
 
 # -- Project information -----------------------------------------------------
 
 project = "PyCBA"
-copyright = "2022, Colin Caprani"
+copyright = "2023, Colin Caprani"
 author = "Colin Caprani"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1"
+# The short Major.Minor.Build version
+_v = ver.split(".")
+_build = "".join([c for c in _v[2] if c.isdigit()])
+version = _v[0] + "." + _v[1] + "." + _build
+release = ver
 
 
 # -- General configuration ---------------------------------------------------

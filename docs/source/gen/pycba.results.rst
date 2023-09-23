@@ -1,4 +1,4 @@
-pycba.results
+﻿pycba.results
 =============
 
 .. automodule:: pycba.results

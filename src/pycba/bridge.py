@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from .analysis import BeamAnalysis
 from .results import Envelopes, BeamResults
 from .vehicle import Vehicle
+from .load import add_LM
 
 
 class BridgeAnalysis:
@@ -15,6 +16,9 @@ class BridgeAnalysis:
     Performs a bridge crossing analysis for a defined vehicle. The vehicle is moved
     from the zero global x-coordinate of the beam until it has left the beam at the
     far end.
+
+    Any loads already defined on the `BeamAnalysis` object are retained and
+    superimposed in each vehicle position analysis.
     """
 
     def __init__(
@@ -23,6 +27,9 @@ class BridgeAnalysis:
         """
         Can instantiate with nothing and later add or define the objects, or
         with instantiate with pre-defined bridge and vehicle objects.
+
+        Any loads already defined on the `BeamAnalysis` object are retained in
+        each vehicle position analysis.
 
         Parameters
         ----------
@@ -39,6 +46,11 @@ class BridgeAnalysis:
         self.veh = veh
         self.vResults = []
         self.pos = []
+
+        self.static_LM = []
+
+        if self.ba:
+            self.static_LM = self.ba.beam.loads
 
     def add_bridge(
         self,
@@ -58,9 +70,6 @@ class BridgeAnalysis:
             A vector of member flexural rigidities.
         R : np.ndarray
             A vector describing the support conditions at each member end.
-        LM : Optional[list[list[Union[int, float]]]]
-            The load matrix: a list of loads on the beam; each load with several
-            parameters.
         eletype : Optional[np.ndarray]
             A vector of the member types. Defaults to a fixed-fixed element.
 
@@ -70,11 +79,15 @@ class BridgeAnalysis:
             A :class:`pycba.analysis.BeamAnalysis` object.
         """
         self.ba = BeamAnalysis(L=L, EI=EI, R=R, eletype=eletype)
+        self.static_LM = self.ba.beam.loads
         return self.ba
 
     def set_bridge(self, ba: BeamAnalysis):
         """
         Set the bridge for the bridge analysis.
+
+        Any loads already defined on the `BeamAnalysis` object are retained in
+        each vehicle position analysis.
 
         Parameters
         ----------
@@ -87,6 +100,7 @@ class BridgeAnalysis:
 
         """
         self.ba = ba
+        self.static_LM = self.ba.beam.loads
 
     def add_vehicle(self, axle_spacings: np.ndarray, axle_weights: np.ndarray):
         """
@@ -187,6 +201,9 @@ class BridgeAnalysis:
             )
             if ispan != -1:
                 LM.append([ispan + 1, 2, load, pos_in_span, 0])
+
+        # Now add any pre-existing loads on the beam
+        LM = add_LM(self.static_LM, LM)
 
         self.ba.set_loads(LM)
         return self.ba.analyze()

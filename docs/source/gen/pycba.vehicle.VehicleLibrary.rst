@@ -1,7 +1,7 @@
-pycba.bridge.VehicleLibrary
-===========================
+pycba.vehicle.VehicleLibrary
+============================
 
-.. currentmodule:: pycba.bridge
+.. currentmodule:: pycba.vehicle
 
 .. autoclass:: VehicleLibrary
    :members:
@@ -19,6 +19,7 @@ pycba.bridge.VehicleLibrary
       ~VehicleLibrary.get_abag_bdouble
       ~VehicleLibrary.get_abag_semitrailer
       ~VehicleLibrary.get_example_permit
+      ~VehicleLibrary.get_la_rail
       ~VehicleLibrary.get_m1600
       ~VehicleLibrary.get_s1600
       ~VehicleLibrary.get_validation_truck

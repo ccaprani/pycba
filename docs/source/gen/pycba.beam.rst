@@ -1,4 +1,4 @@
-pycba.beam
+﻿pycba.beam
 ==========
 
 .. automodule:: pycba.beam

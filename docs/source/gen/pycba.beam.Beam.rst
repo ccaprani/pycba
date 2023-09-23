@@ -16,6 +16,7 @@ pycba.beam.Beam
    .. autosummary::
       :nosignatures:
    
+      ~Beam.add_load
       ~Beam.add_span
       ~Beam.get_cnl
       ~Beam.get_local_span_coords
