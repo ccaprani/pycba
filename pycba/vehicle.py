@@ -75,59 +75,56 @@ class Vehicle:
         else:
             return Vehicle(np.copy(self.axs[::-1]), np.copy(self.axw[::-1]))
 
-    @classmethod
-    def from_convoy(cls, vehicles: List[Vehicle], vehicle_spacings: np.ndarray):
-        """
-        Alternative constructor for :class:`pycba.bridge.Vehicle` object
-        as multiple :class:`pycba.bridge.Vehicle` objects
-        behind one another (eg. superload, queued vehicles, train)
 
-        Parameters
-        ----------
+def make_train(vehicles: List[Vehicle], spacings: np.ndarray):
+    """
+    Makes a train of vehicles from a sequence from multiple
+    :class:`pycba.bridge.Vehicle` objects behind one another (e.g. superload
+    queued vehicles, train).
 
-        vehicles : List[Vehicles]
-            A list of :class:`pycba.bridge.Vehicle` objects,
-            length one greater than the length of the
-            vehicle spacings vector.
-        vehicle_spacings : np.ndarray
-            A vector of spacings between vehicles of length one
-            fewer than the length of the
-            list of vehicles.
+    Parameters
+    ----------
 
-        Raises
-        ------
-        ValueError
-            If the lengths of the list of vehicles and
-            vector of spacings are inconsistent.
-        ValueError
-            If all list entries are not
-            :class:`pycba.bridge.Vehicle` objects
+    vehicles : List[Vehicles]
+        A list of :class:`pycba.bridge.Vehicle` objects, length one greater
+        than the length of the vehicle spacings vector.
+    spacings : np.ndarray
+        A vector of spacings between vehicles, either of length one, for equal
+        spacings between all vehicles, or of of length one fewer than the
+        length of the list of vehicles.
 
-        Returns
-        -------
-        :class:`pycba.bridge.Vehicle` object
+    Raises
+    ------
+    ValueError
+        If the lengths of the list of vehicles and
+        vector of spacings are inconsistent.
+    ValueError
+        If all list entries are not
+        :class:`pycba.bridge.Vehicle` objects
 
-        """
+    Returns
+    -------
+    :class:`pycba.bridge.Vehicle` object
 
-        if len(vehicles) - 1 != len(vehicle_spacings):
-            raise ValueError("Inconsistent vehicle and spacing counts")
+    """
 
-        if not all(isinstance(v, Vehicle) for v in vehicles):
-            raise ValueError("List must contain only Vehicle objects")
+    if len(vehicles) - 1 != len(spacings):
+        raise ValueError("Inconsistent vehicle and spacing counts")
 
-        # pre-allocate axle weights and spacings
-        new_vehicle_axles = np.array([])
-        new_vehicle_spaces = np.array([])
+    if not all(isinstance(v, Vehicle) for v in vehicles):
+        raise ValueError("List must contain only Vehicle objects")
 
-        # loop through each vehicle
-        for veh in vehicles:
-            new_vehicle_axles = np.append(new_vehicle_axles, veh.axw)
-            new_vehicle_spaces = np.append(new_vehicle_spaces, np.insert(veh.axs, 0, 0))
+    new_vehicle_axles = np.array([])
+    new_vehicle_spaces = np.array([])
 
-        # replace 0 spacing (first axle), with vehicle spacings
-        new_vehicle_spaces[new_vehicle_spaces == 0] = np.insert(vehicle_spacings, 0, 0)
+    # loop through each vehicle
+    for veh in vehicles:
+        new_vehicle_axles = np.append(new_vehicle_axles, veh.axw)
+        new_vehicle_spaces = np.append(new_vehicle_spaces, np.insert(veh.axs, 0, 0))
 
-        return cls(new_vehicle_spaces[1:], new_vehicle_axles)
+    new_vehicle_spaces[new_vehicle_spaces == 0] = np.insert(spacings, 0, 0)
+
+    return Vehicle(new_vehicle_spaces[1:], new_vehicle_axles)
 
 
 class VehicleLibrary:

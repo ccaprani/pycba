@@ -19,11 +19,11 @@ sys.path.insert(0, os.path.abspath("../../"))
 # -- Project information -----------------------------------------------------
 
 project = "PyCBA"
-copyright = "2022, Colin Caprani"
+copyright = "2023, Colin Caprani"
 author = "Colin Caprani"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1"
+release = "0.2.1"
 
 
 # -- General configuration ---------------------------------------------------

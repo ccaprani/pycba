@@ -55,9 +55,9 @@ def test_la():
     # assert v == pytest.approx([665,1050,1515,2005,2505,3015,5525])
 
 
-def test_from_convoy():
+def test_make_train():
     """
-    Convoy of prime movers and platform
+    Train of prime movers and platform
     """
     L = [25, 25]
     EI = 30 * 1e11 * np.ones(len(L)) * 1e-6
@@ -86,7 +86,7 @@ def test_from_convoy():
 
     envs = []
     for s in inter_spaces:
-        vehicle = cba.Vehicle.from_convoy(
+        vehicle = cba.make_train(
             [prime_mover] * 2 + [platform_trailer] * 2 + [prime_mover] * 2, s
         )
         bridge_analysis = cba.BridgeAnalysis(bridge, vehicle)
