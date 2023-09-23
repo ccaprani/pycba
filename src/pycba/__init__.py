@@ -2,7 +2,7 @@
 PyCBA - Continuous Beam Analysis in Python
 """
 
-__version__ = "0.3"
+__version__ = "0.3.0"
 
 from .analysis import *
 from .beam import *
