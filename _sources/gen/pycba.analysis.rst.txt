@@ -1,4 +1,4 @@
-pycba.analysis
+﻿pycba.analysis
 ==============
 
 .. automodule:: pycba.analysis

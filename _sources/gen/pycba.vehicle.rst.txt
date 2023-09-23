@@ -9,6 +9,14 @@
 
    
    
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      make_train
+   
    
 
    

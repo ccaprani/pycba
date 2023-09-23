@@ -6,9 +6,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.bridge.BridgeAnalysis &#8212; PyCBA 0.1 documentation</title>
+    <title>pycba.bridge.BridgeAnalysis &#8212; PyCBA 0.3.0 documentation</title>
   
   
   
@@ -18,25 +18,26 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=89e93c46"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.bridge.BridgeAnalysis';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -53,6 +54,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -93,7 +103,8 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
   
@@ -115,7 +126,6 @@
 </a></div>
     
   </div>
-  
   
   <div class="col-lg-9 navbar-header-items">
     
@@ -174,23 +184,25 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -206,8 +218,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -218,8 +230,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -229,18 +241,20 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
       <span class="fa-solid fa-outdent"></span>
     </label>
   
@@ -315,10 +329,10 @@ document.write(`
           <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -334,8 +348,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -346,8 +360,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -395,6 +409,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.vehicle.html">pycba.vehicle</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.make_train.html">pycba.vehicle.make_train</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.Vehicle.html">pycba.vehicle.Vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.VehicleLibrary.html">pycba.vehicle.VehicleLibrary</a></li>
 </ul>
@@ -432,8 +447,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../index.html" class="nav-link" aria-label="Home">
@@ -446,7 +461,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="pycba.bridge.html" class="nav-link">pycba.bridge</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pycba.bridge.BridgeAnalysis</li>
+    <li class="breadcrumb-item active" aria-current="page">pycba.bridge...</li>
   </ul>
 </nav>
 </div>
@@ -472,13 +487,17 @@ document.write(`
 <p>Performs a bridge crossing analysis for a defined vehicle. The vehicle is moved
 from the zero global x-coordinate of the beam until it has left the beam at the
 far end.</p>
+<p>Any loads already defined on the <cite>BeamAnalysis</cite> object are retained and
+superimposed in each vehicle position analysis.</p>
 <p>Can instantiate with nothing and later add or define the objects, or
 with instantiate with pre-defined bridge and vehicle objects.</p>
+<p>Any loads already defined on the <cite>BeamAnalysis</cite> object are retained in
+each vehicle position analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ba</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><em>BeamAnalysis</em></a><em>]</em><em>, </em><em>optional</em>) – A <a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis</span></code></a> object. The default is None.</p></li>
-<li><p><strong>veh</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><em>Vehicle</em></a><em>]</em><em>, </em><em>optional</em>) – A <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> object. The default is None.</p></li>
+<li><p><strong>veh</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><em>Vehicle</em></a><em>]</em><em>, </em><em>optional</em>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object. The default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -533,8 +552,6 @@ with instantiate with pre-defined bridge and vehicle objects.</p>
 <li><p><strong>L</strong> (<em>np.ndarray</em>) – A vector of span lengths.</p></li>
 <li><p><strong>EI</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>np.ndarray</em><em>]</em>) – A vector of member flexural rigidities.</p></li>
 <li><p><strong>R</strong> (<em>np.ndarray</em>) – A vector describing the support conditions at each member end.</p></li>
-<li><p><strong>LM</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>list</em><em>[</em><em>Union</em><em>[</em><em>int</em><em>, </em><em>float</em><em>]</em><em>]</em><em>]</em><em>]</em>) – The load matrix: a list of loads on the beam; each load with several
-parameters.</p></li>
 <li><p><strong>eletype</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – A vector of the member types. Defaults to a fixed-fixed element.</p></li>
 </ul>
 </dd>
@@ -551,6 +568,8 @@ parameters.</p></li>
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.set_bridge">
 <span class="sig-name descname"><span class="pre">set_bridge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ba</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.set_bridge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.set_bridge" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the bridge for the bridge analysis.</p>
+<p>Any loads already defined on the <cite>BeamAnalysis</cite> object are retained in
+each vehicle position analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ba</strong> (<a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><em>BeamAnalysis</em></a>) – A <a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis</span></code></a> object.</p>
@@ -575,10 +594,10 @@ axle spacings vector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>veh</strong> – A <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> object.</p>
+<dd class="field-even"><p><strong>veh</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle">Vehicle</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle">Vehicle</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -589,7 +608,7 @@ axle spacings vector.</p></li>
 <dd><p>Set the vehicle for the bridge analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>veh</strong> (<a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><em>Vehicle</em></a>) – A <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> object.</p>
+<dd class="field-odd"><p><strong>veh</strong> (<a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><em>Vehicle</em></a>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
@@ -761,11 +780,10 @@ analysis.</p>
               
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="pycba.bridge.html"
@@ -785,10 +803,7 @@ analysis.</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -848,8 +863,8 @@ analysis.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -859,7 +874,7 @@ analysis.</p>
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2022, Colin Caprani.
+      © Copyright 2023, Colin Caprani.
       <br/>
     
   </p>
@@ -867,7 +882,7 @@ analysis.</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>
@@ -875,10 +890,11 @@ analysis.</p>
     </div>
   
   
+  
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
 </p></div>
       
     </div>

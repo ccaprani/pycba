@@ -6,9 +6,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.vehicle.Vehicle &#8212; PyCBA 0.1 documentation</title>
+    <title>pycba.vehicle.Vehicle &#8212; PyCBA 0.3.0 documentation</title>
   
   
   
@@ -18,31 +18,32 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=89e93c46"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.vehicle.Vehicle';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pycba.vehicle.VehicleLibrary" href="pycba.vehicle.VehicleLibrary.html" />
-    <link rel="prev" title="pycba.vehicle" href="pycba.vehicle.html" />
+    <link rel="prev" title="pycba.vehicle.make_train" href="pycba.vehicle.make_train.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -53,6 +54,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -93,7 +103,8 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
   
@@ -115,7 +126,6 @@
 </a></div>
     
   </div>
-  
   
   <div class="col-lg-9 navbar-header-items">
     
@@ -174,23 +184,25 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -206,8 +218,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -218,8 +230,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -229,18 +241,20 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
       <span class="fa-solid fa-outdent"></span>
     </label>
   
@@ -315,10 +329,10 @@ document.write(`
           <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -334,8 +348,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -346,8 +360,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -395,6 +409,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.vehicle.html">pycba.vehicle</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.make_train.html">pycba.vehicle.make_train</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.vehicle.Vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.VehicleLibrary.html">pycba.vehicle.VehicleLibrary</a></li>
 </ul>
@@ -432,8 +447,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../index.html" class="nav-link" aria-label="Home">
@@ -446,7 +461,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="pycba.vehicle.html" class="nav-link">pycba.vehicle</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pycba.vehicle.Vehicle</li>
+    <li class="breadcrumb-item active" aria-current="page">pycba.vehicl...</li>
   </ul>
 </nav>
 </div>
@@ -470,7 +485,7 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axle_spacings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axle_weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#Vehicle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.Vehicle" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A basic vehicle definition for a bridge crossing analysis</p>
-<p>Constructs the <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> object from the supplied data.</p>
+<p>Constructs the <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object from the supplied data.</p>
 <p>Parameters such as vehicle length, weight, and axle coordinates are
 calculated from the supplied data.</p>
 <dl class="field-list simple">
@@ -493,10 +508,7 @@ axle spacings vector.</p></li>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.vehicle.Vehicle.from_convoy" title="pycba.vehicle.Vehicle.from_convoy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_convoy</span></code></a></p></td>
-<td><p>Alternative constructor for <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> object as multiple <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> objects behind one another (eg.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.vehicle.Vehicle.reverse" title="pycba.vehicle.Vehicle.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.vehicle.Vehicle.reverse" title="pycba.vehicle.Vehicle.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a></p></td>
 <td><p>Reverses the vehicle; now the <cite>pos</cite> coordinate will refer to the rear axle as it traverses the bridge in reverse from zero in the global x-coordinate system.</p></td>
 </tr>
 </tbody>
@@ -518,37 +530,6 @@ or return a new copy of this vehicle reversed (<cite>False</cite>).</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="pycba.vehicle.Vehicle.from_convoy">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_convoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vehicle_spacings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#Vehicle.from_convoy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.Vehicle.from_convoy" title="Permalink to this definition">#</a></dt>
-<dd><p>Alternative constructor for <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> object
-as multiple <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> objects
-behind one another (eg. superload, queued vehicles, train)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>vehicles</strong> (<em>List</em><em>[</em><em>Vehicles</em><em>]</em>) – A list of <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> objects,
-length one greater than the length of the
-vehicle spacings vector.</p></li>
-<li><p><strong>vehicle_spacings</strong> (<em>np.ndarray</em>) – A vector of spacings between vehicles of length one
-fewer than the length of the
-list of vehicles.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the lengths of the list of vehicles and
-    vector of spacings are inconsistent.</p></li>
-<li><p><strong>ValueError</strong> – If all list entries are not
-    <a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> objects</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="pycba.bridge.Vehicle.html#pycba.bridge.Vehicle" title="pycba.bridge.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code></a> object</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -558,19 +539,18 @@ list of vehicles.</p></li>
               
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.vehicle.html"
+       href="pycba.vehicle.make_train.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.vehicle</p>
+        <p class="prev-next-title">pycba.vehicle.make_train</p>
       </div>
     </a>
     <a class="right-next"
@@ -582,10 +562,7 @@ list of vehicles.</p></li>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -602,7 +579,6 @@ list of vehicles.</p></li>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.Vehicle"><code class="docutils literal notranslate"><span class="pre">Vehicle</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.Vehicle.reverse"><code class="docutils literal notranslate"><span class="pre">Vehicle.reverse()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.Vehicle.from_convoy"><code class="docutils literal notranslate"><span class="pre">Vehicle.from_convoy()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -636,8 +612,8 @@ list of vehicles.</p></li>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -647,7 +623,7 @@ list of vehicles.</p></li>
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2022, Colin Caprani.
+      © Copyright 2023, Colin Caprani.
       <br/>
     
   </p>
@@ -655,7 +631,7 @@ list of vehicles.</p></li>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>
@@ -663,10 +639,11 @@ list of vehicles.</p></li>
     </div>
   
   
+  
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
 </p></div>
       
     </div>

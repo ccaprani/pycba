@@ -1,4 +1,4 @@
-﻿pycba.beam.Beam
+pycba.beam.Beam
 ===============
 
 .. currentmodule:: pycba.beam

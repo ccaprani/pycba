@@ -16,7 +16,6 @@ pycba.vehicle.Vehicle
    .. autosummary::
       :nosignatures:
    
-      ~Vehicle.from_convoy
       ~Vehicle.reverse
    
    

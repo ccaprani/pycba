@@ -1,4 +1,4 @@
-﻿pycba.analysis.BeamAnalysis
+pycba.analysis.BeamAnalysis
 ===========================
 
 .. currentmodule:: pycba.analysis
