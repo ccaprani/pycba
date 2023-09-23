@@ -1,7 +1,7 @@
-﻿pycba.bridge.Vehicle
-====================
+pycba.vehicle.Vehicle
+=====================
 
-.. currentmodule:: pycba.bridge
+.. currentmodule:: pycba.vehicle
 
 .. autoclass:: Vehicle
    :members:
@@ -16,7 +16,6 @@
    .. autosummary::
       :nosignatures:
    
-      ~Vehicle.from_convoy
       ~Vehicle.reverse
    
    

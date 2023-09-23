@@ -1,4 +1,4 @@
-pycba.inf\_lines
+﻿pycba.inf\_lines
 ================
 
 .. automodule:: pycba.inf_lines

@@ -16,6 +16,10 @@ pycba.analysis.BeamAnalysis
    .. autosummary::
       :nosignatures:
    
+      ~BeamAnalysis.add_ml
+      ~BeamAnalysis.add_pl
+      ~BeamAnalysis.add_pudl
+      ~BeamAnalysis.add_udl
       ~BeamAnalysis.analyze
       ~BeamAnalysis.plot_results
       ~BeamAnalysis.set_loads
