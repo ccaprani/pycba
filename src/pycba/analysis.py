@@ -351,7 +351,8 @@ class BeamAnalysis:
 
         ax = axs[0]
         ax.plot([0, L], [0, 0], "k", lw=2)
-        ax.plot(res.x, -res.M, "r")
+        ax.plot(res.x, res.M, "r")
+        ax.invert_yaxis()
         ax.grid()
         ax.set_ylabel("Bending Moment (kNm)")
 
