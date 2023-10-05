@@ -1,4 +1,4 @@
-pycba.results.Envelopes
+﻿pycba.results.Envelopes
 =======================
 
 .. currentmodule:: pycba.results
@@ -17,6 +17,7 @@ pycba.results.Envelopes
       :nosignatures:
    
       ~Envelopes.augment
+      ~Envelopes.plot
       ~Envelopes.zero_like
    
    
