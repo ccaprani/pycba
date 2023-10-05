@@ -350,12 +350,14 @@ class Envelopes:
             self.Rmax = np.zeros((self.nsup, self.nres))
             self.Rmin = np.zeros((self.nsup, self.nres))
 
-    def plot(self, **kwargs):
+    def plot(self, each=False, **kwargs):
         """
         Plots the envelopes of bending and shear.
 
         Parameters
         ----------
+        each : Boolean
+            Wether or not to show each BMD and SFD in the enveloping. The default is False
         **kwargs : Dict
             Matplotlib keyword arguments for plotting.
 
@@ -369,7 +371,7 @@ class Envelopes:
             raise ValueError("No results to display")
 
         L = self.x[-1]
-
+        
         fig, axs = plt.subplots(2, 1, sharex=True, **kwargs)
 
         ax = axs[0]
@@ -387,5 +389,10 @@ class Envelopes:
         ax.grid()
         ax.set_ylabel("Shear Force (kN)")
         ax.set_xlabel("Distance along beam (m)")
+        
+        if each:
+            for res in self.vResults:
+                axs[0].plot(self.x, res.results.M, "r", lw=0.5)
+                axs[1].plot(self.x, res.results.V, "b", lw=0.5)
 
         return fig, ax
