@@ -371,7 +371,7 @@ class Envelopes:
             raise ValueError("No results to display")
 
         L = self.x[-1]
-        
+
         fig, axs = plt.subplots(2, 1, sharex=True, **kwargs)
 
         ax = axs[0]
@@ -389,7 +389,7 @@ class Envelopes:
         ax.grid()
         ax.set_ylabel("Shear Force (kN)")
         ax.set_xlabel("Distance along beam (m)")
-        
+
         if each:
             for res in self.vResults:
                 axs[0].plot(self.x, res.results.M, "r", lw=0.5)
