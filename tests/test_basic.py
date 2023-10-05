@@ -226,3 +226,37 @@ def test_moment_load():
         # Check deflection closes
         d = beam_analysis.beam_results.D[[0, 2]]
         assert d == pytest.approx([0.0, 0.0])
+
+def test_envelopes():
+    L = [6,4,6]
+    EI = 30 * 10e9 * 1e-6
+    R = [-1,0,-1,0,-1,0,-1,0]
+    beam_analysis = cba.BeamAnalysis(L, EI, R)
+    
+    LMg = [[1,1,25,0,0],
+           [2,1,25,0,0],
+           [3,1,25,0,0]]
+    γg_max = 1.4
+    γg_min = 1.0
+    LMq = [[1,1,10,0,0],
+           [2,1,10,0,0],
+           [3,1,10,0,0]]
+    γq_max = 1.6
+    γq_min = 0
+    
+    lp = cba.LoadPattern(beam_analysis)
+    lp.set_dead_loads(LMg,γg_max,γg_min)
+    lp.set_live_loads(LMq,γq_max,γq_min)
+    env = lp.analyze()
+    
+    m_locs = np.array([3, 6, 8, 10, 13])
+    idx = [(np.abs(env.x - x)).argmin() for x in m_locs]
+    assert np.allclose(env.Mmax[idx],np.array([163.79, 0, 11.75, 0, 163.79]),atol=1e-2)
+    assert np.allclose(env.Mmin[idx],np.array([0, -163.38, -81.42, -163.38, 0]),atol=1e-2)
+    
+    n = beam_analysis.beam_results.npts
+    nspans = beam_analysis.beam.no_spans
+    Vmax = np.array([np.max(env.Vmax[i*(n+3):(i+1)*(n+3)]) for i in range(nspans)])
+    assert np.allclose(Vmax,np.array([131.1, 123.94, 180.23]),atol=1e-2)
+    Vmin = np.array([np.min(env.Vmin[i*(n+3):(i+1)*(n+3)]) for i in range(nspans)])
+    assert np.allclose(Vmin,np.array([-180.23, -123.94, -131.10]),atol=1e-2) 

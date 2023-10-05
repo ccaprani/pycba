@@ -5,6 +5,7 @@ PyCBA - Beam Results module
 from __future__ import annotations  # https://bit.ly/3KYiL2o
 from typing import List, Tuple
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy import integrate
 from .beam import Beam
 from .load import MemberResults, LoadMaMb
@@ -348,3 +349,43 @@ class Envelopes:
             # Ensure no misleading results returned
             self.Rmax = np.zeros((self.nsup, self.nres))
             self.Rmin = np.zeros((self.nsup, self.nres))
+
+    def plot(self, **kwargs):
+        """
+        Plots the envelopes of bending and shear.
+
+        Parameters
+        ----------
+        **kwargs : Dict
+            Matplotlib keyword arguments for plotting.
+
+        Returns
+        -------
+        None.
+
+        """
+
+        if self.nres < 1:
+            raise ValueError("No results to display")
+
+        L = self.x[-1]
+
+        fig, axs = plt.subplots(2, 1, sharex=True, **kwargs)
+
+        ax = axs[0]
+        ax.plot([0, L], [0, 0], "k", lw=2)
+        ax.plot(self.x, self.Mmax, "r")
+        ax.plot(self.x, self.Mmin, "b")
+        ax.grid()
+        ax.invert_yaxis()
+        ax.set_ylabel("Bending Moment (kNm)")
+
+        ax = axs[1]
+        ax.plot([0, L], [0, 0], "k", lw=2)
+        ax.plot(self.x, self.Vmax, "r")
+        ax.plot(self.x, self.Vmin, "b")
+        ax.grid()
+        ax.set_ylabel("Shear Force (kN)")
+        ax.set_xlabel("Distance along beam (m)")
+
+        return fig, ax
