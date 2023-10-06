@@ -14,3 +14,4 @@ One of the main functions of `PyCBA` is that the basic analysis engine forms the
 
 - Influence line generation
 - Moving load analysis for bridges, targeted at bridge access assessments
+- Load patterning and enveloping
