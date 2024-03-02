@@ -799,7 +799,7 @@ def parse_LM(LM: LoadMatrix) -> List[Load]:
     return loads
 
 
-def add_LM(LM1: LoadMatrix, LM2: LoadMatrix):
+def add_LM(LM1: LoadMatrix, LM2: LoadMatrix) -> LoadMatrix:
     """
     Adds two load matrices and returns the sum; this enables superposition
 
@@ -824,3 +824,35 @@ def add_LM(LM1: LoadMatrix, LM2: LoadMatrix):
         LM.append(load)
 
     return LM
+
+
+def factor_LM(LM: LoadMatrix, gamma: float) -> LoadMatrix:
+    """
+    Applies a factor to the loads in a `LoadMatrix` object
+
+    Parameters
+    ----------
+    LM : LoadMatrix
+        The `LoadMatrix` object
+
+    gamma : float
+        A factor to apply to the load magnitudes
+
+    Returns
+    -------
+    LM : LoadMatrix
+        The factored `LoadMatrix` object
+    """
+    LMnew = []
+    for load in LM:
+        i_span = load[0]
+        l_type = load[1]
+        mag = gamma * load[2]
+        if l_type == 1:  # UDL
+            LMnew.append([i_span, l_type, mag])
+        elif l_type == 2 or l_type == 4:  # PL or ML
+            LMnew.append([i_span, l_type, mag, load[3]])
+        else:  # PUDL
+            LMnew.append([i_span, l_type, mag, load[3], load[4]])
+
+    return LMnew
