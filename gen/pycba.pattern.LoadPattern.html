@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.load &#8212; PyCBA 0.4.1 documentation</title>
+    <title>pycba.pattern.LoadPattern &#8212; PyCBA 0.4.1 documentation</title>
   
   
   
@@ -39,11 +39,11 @@
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.load';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.pattern.LoadPattern';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pycba.load.add_LM" href="pycba.load.add_LM.html" />
-    <link rel="prev" title="pycba.beam.Beam" href="pycba.beam.Beam.html" />
+    <link rel="next" title="pycba.inf_lines" href="pycba.inf_lines.html" />
+    <link rel="prev" title="pycba.pattern" href="pycba.pattern.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -391,7 +391,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pycba.beam.Beam.html">pycba.beam.Beam</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">pycba.load</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.load.html">pycba.load</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.add_LM.html">pycba.load.add_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.factor_LM.html">pycba.load.factor_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.parse_LM.html">pycba.load.parse_LM</a></li>
@@ -410,8 +410,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pycba.results.Envelopes.html">pycba.results.Envelopes</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.pattern.html">pycba.pattern</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.LoadPattern.html">pycba.pattern.LoadPattern</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.pattern.html">pycba.pattern</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.pattern.LoadPattern</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -472,7 +472,10 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pycba.load</li>
+    
+    <li class="breadcrumb-item"><a href="pycba.pattern.html" class="nav-link">pycba.pattern</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">pycba.patter...</li>
   </ul>
 </nav>
 </div>
@@ -489,78 +492,93 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-pycba.load">
-<span id="pycba-load"></span><h1>pycba.load<a class="headerlink" href="#module-pycba.load" title="Permalink to this heading">#</a></h1>
-<p>PyCBA - Load module</p>
-<p>The load matrix represents the loads as a <cite>List</cite> of <cite>Lists</cite>.
-Each list entry represents a single load and must be in the following format:</p>
-<blockquote>
-<div><p>Span No. | Load Type | Load Value | Distance a | Load Cover c</p>
-</div></blockquote>
-<p>Load Types are:</p>
-<blockquote>
-<div><p>1 - <strong>Uniformly Distributed Loads</strong>, which only have a load value; distances <cite>a</cite> and <cite>c</cite> are set to “0”.</p>
-<p>2 - <strong>Point Loads</strong>, located at <cite>a</cite> from the left end of the span; distances <cite>c</cite> is set to “0”.</p>
-<p>3 - <strong>Partial UDLs</strong>, starting at <cite>a</cite> for a distance of <cite>c</cite> (i.e. the cover) where $L &gt;= a+c$.</p>
-<p>4 - <strong>Moment Load</strong>, located at <cite>a</cite>; distances <cite>c</cite> is set to “0”.</p>
-</div></blockquote>
-<p>It has dimension <cite>M</cite> x 5, where <cite>M</cite> is the number of loads applied to the beam.</p>
-<p>The type alias <cite>LoadMatrix</cite> is defined as</p>
-<dl class="py data">
-<dt class="sig sig-object py" id="pycba.load.LoadMatrix">
-<span class="sig-name descname"><span class="pre">LoadMatrix</span></span><a class="headerlink" href="#pycba.load.LoadMatrix" title="Permalink to this definition">#</a></dt>
-<dd><p>The central part of internal API.</p>
-<p>This represents a generic version of type ‘origin’ with type arguments ‘params’.
-There are two kind of these aliases: user defined and special. The special ones
-are wrappers around builtin collections and ABCs in collections.abc. These must
-have ‘name’ always set. If ‘inst’ is False, then the alias can’t be instantiated,
-this is used by e.g. typing.List and typing.Dict.</p>
-<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</p>
+  <section id="pycba-pattern-loadpattern">
+<h1>pycba.pattern.LoadPattern<a class="headerlink" href="#pycba-pattern-loadpattern" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.pattern.LoadPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LoadPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ba</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/pattern.html#LoadPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.pattern.LoadPattern" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Automatically patterns dead and live loads to achieve critical load effects.</p>
+<p>Initialize the LoadPattern class with the beam.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ba</strong> (<a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><em>BeamAnalysis</em></a><em>, </em><em>optional</em>) – A <a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis</span></code></a> object. The default is None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.pattern.LoadPattern.analyze" title="pycba.pattern.LoadPattern.analyze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze</span></code></a></p></td>
+<td><p>Conduct the load patterning analysis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.pattern.LoadPattern.set_dead_loads" title="pycba.pattern.LoadPattern.set_dead_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_dead_loads</span></code></a></p></td>
+<td><p>Set the nominal dead loads acting on the beam, and the maximum and minimum load factor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.pattern.LoadPattern.set_live_loads" title="pycba.pattern.LoadPattern.set_live_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_live_loads</span></code></a></p></td>
+<td><p>Set the nominal live loads acting on the beam, and the maximum and minimum load factor.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.pattern.LoadPattern.set_dead_loads">
+<span class="sig-name descname"><span class="pre">set_dead_loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma_min</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/pattern.html#LoadPattern.set_dead_loads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.pattern.LoadPattern.set_dead_loads" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the nominal dead loads acting on the beam, and the maximum and
+minimum load factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LM</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>Union</em><em>[</em><em>int</em><em>, </em><em>float</em><em>]</em><em>]</em><em>]</em>) – The load matrix for the beam, for this loadcase.</p></li>
+<li><p><strong>gamma_max</strong> (<em>float</em>) – The maximum load factor.</p></li>
+<li><p><strong>gamma_min</strong> (<em>float</em>) – The minimum load factor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<p class="rubric">Functions</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.add_LM.html#pycba.load.add_LM" title="pycba.load.add_LM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_LM</span></code></a></p></td>
-<td><p>Adds two load matrices and returns the sum; this enables superposition</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.factor_LM.html#pycba.load.factor_LM" title="pycba.load.factor_LM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">factor_LM</span></code></a></p></td>
-<td><p>Applies a factor to the loads in a <cite>LoadMatrix</cite> object</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.parse_LM.html#pycba.load.parse_LM" title="pycba.load.parse_LM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_LM</span></code></a></p></td>
-<td><p>This function parses the Load Matrix and returns a list of Load objects</p></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Classes</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.Load.html#pycba.load.Load" title="pycba.load.Load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Load</span></code></a></p></td>
-<td><p>Beam load container and processor</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadCNL.html#pycba.load.LoadCNL" title="pycba.load.LoadCNL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadCNL</span></code></a></p></td>
-<td><p>A typed namedtuple for Consistent Nodal Loads</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadML.html#pycba.load.LoadML" title="pycba.load.LoadML"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadML</span></code></a></p></td>
-<td><p>Moment load applied at a along member</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadMaMb.html#pycba.load.LoadMaMb" title="pycba.load.LoadMaMb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadMaMb</span></code></a></p></td>
-<td><p>Member end moment loads</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadPL.html#pycba.load.LoadPL" title="pycba.load.LoadPL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadPL</span></code></a></p></td>
-<td><p>Point Load class: CNLs and member results</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadPUDL.html#pycba.load.LoadPUDL" title="pycba.load.LoadPUDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadPUDL</span></code></a></p></td>
-<td><p>Concrete class for Partial UDLs</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadUDL.html#pycba.load.LoadUDL" title="pycba.load.LoadUDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadUDL</span></code></a></p></td>
-<td><p>Uniformly Distributed Load: CNLs and member results</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.MemberResults.html#pycba.load.MemberResults" title="pycba.load.MemberResults"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MemberResults</span></code></a></p></td>
-<td><p>Class for storing the results for a single member</p></td>
-</tr>
-</tbody>
-</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.pattern.LoadPattern.set_live_loads">
+<span class="sig-name descname"><span class="pre">set_live_loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma_min</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/pattern.html#LoadPattern.set_live_loads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.pattern.LoadPattern.set_live_loads" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the nominal live loads acting on the beam, and the maximum and
+minimum load factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LM</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>Union</em><em>[</em><em>int</em><em>, </em><em>float</em><em>]</em><em>]</em><em>]</em>) – The load matrix for the beam, for this loadcase.</p></li>
+<li><p><strong>gamma_max</strong> (<em>float</em>) – The maximum load factor.</p></li>
+<li><p><strong>gamma_min</strong> (<em>float</em>) – The minimum load factor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.pattern.LoadPattern.analyze">
+<span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/pattern.html#LoadPattern.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.pattern.LoadPattern.analyze" title="Permalink to this definition">#</a></dt>
+<dd><p>Conduct the load patterning analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>npts</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The number of evaluation points along a member for load effects.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Envelopes</strong> – The load effect envelopes from the patterning.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>pycba.Envelopes</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -574,20 +592,20 @@ this is used by e.g. typing.List and typing.Dict.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.beam.Beam.html"
+       href="pycba.pattern.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.beam.Beam</p>
+        <p class="prev-next-title">pycba.pattern</p>
       </div>
     </a>
     <a class="right-next"
-       href="pycba.load.add_LM.html"
+       href="pycba.inf_lines.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pycba.load.add_LM</p>
+        <p class="prev-next-title">pycba.inf_lines</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -607,7 +625,12 @@ this is used by e.g. typing.List and typing.Dict.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadMatrix"><code class="docutils literal notranslate"><span class="pre">LoadMatrix</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.pattern.LoadPattern"><code class="docutils literal notranslate"><span class="pre">LoadPattern</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.pattern.LoadPattern.set_dead_loads"><code class="docutils literal notranslate"><span class="pre">LoadPattern.set_dead_loads()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.pattern.LoadPattern.set_live_loads"><code class="docutils literal notranslate"><span class="pre">LoadPattern.set_live_loads()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.pattern.LoadPattern.analyze"><code class="docutils literal notranslate"><span class="pre">LoadPattern.analyze()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -615,7 +638,7 @@ this is used by e.g. typing.List and typing.Dict.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.load.rst">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.pattern.LoadPattern.rst">
       <i class="fa-solid fa-pencil"></i>
       
       

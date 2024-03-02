@@ -1,0 +1,6 @@
+pycba.load.factor\_LM
+=====================
+
+.. currentmodule:: pycba.load
+
+.. autofunction:: factor_LM

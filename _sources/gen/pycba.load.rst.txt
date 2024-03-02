@@ -16,6 +16,7 @@
       :nosignatures:
    
       add_LM
+      factor_LM
       parse_LM
    
    

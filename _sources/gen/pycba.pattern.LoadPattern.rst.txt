@@ -1,0 +1,27 @@
+pycba.pattern.LoadPattern
+=========================
+
+.. currentmodule:: pycba.pattern
+
+.. autoclass:: LoadPattern
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~LoadPattern.analyze
+      ~LoadPattern.set_dead_loads
+      ~LoadPattern.set_live_loads
+   
+   
+
+   
+   
+   

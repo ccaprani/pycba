@@ -1,0 +1,32 @@
+﻿pycba.pattern
+=============
+
+.. automodule:: pycba.pattern
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      LoadPattern
+   
+   
+
+   
+   
+   
+
+
+

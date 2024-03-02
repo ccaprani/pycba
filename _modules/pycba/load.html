@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pycba.load &#8212; PyCBA 0.4.0 documentation</title>
+    <title>pycba.load &#8212; PyCBA 0.4.1 documentation</title>
   
   
   
@@ -34,7 +34,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=4e78f113"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ea00750a"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -118,8 +118,8 @@
       
     
     
-    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.4.0 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/pycba_logo.png" class="logo__image only-dark" alt="PyCBA 0.4.0 documentation - Home"/>`);</script>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.4.1 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/pycba_logo.png" class="logo__image only-dark" alt="PyCBA 0.4.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -1224,7 +1224,7 @@ document.write(`
     <span class="k">return</span> <span class="n">loads</span></div>
 
 
-<div class="viewcode-block" id="add_LM"><a class="viewcode-back" href="../../gen/pycba.load.add_LM.html#pycba.load.add_LM">[docs]</a><span class="k">def</span> <span class="nf">add_LM</span><span class="p">(</span><span class="n">LM1</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LM2</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
+<div class="viewcode-block" id="add_LM"><a class="viewcode-back" href="../../gen/pycba.load.add_LM.html#pycba.load.add_LM">[docs]</a><span class="k">def</span> <span class="nf">add_LM</span><span class="p">(</span><span class="n">LM1</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LM2</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds two load matrices and returns the sum; this enables superposition</span>
 
@@ -1249,6 +1249,38 @@ document.write(`
         <span class="n">LM</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">LM</span></div>
+
+
+<div class="viewcode-block" id="factor_LM"><a class="viewcode-back" href="../../gen/pycba.load.factor_LM.html#pycba.load.factor_LM">[docs]</a><span class="k">def</span> <span class="nf">factor_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies a factor to the loads in a `LoadMatrix` object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    LM : LoadMatrix</span>
+<span class="sd">        The `LoadMatrix` object</span>
+
+<span class="sd">    gamma : float</span>
+<span class="sd">        A factor to apply to the load magnitudes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    LM : LoadMatrix</span>
+<span class="sd">        The factored `LoadMatrix` object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LMnew</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">:</span>
+        <span class="n">i_span</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">l_type</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">mag</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">load</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># UDL</span>
+            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># PL or ML</span>
+            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># PUDL</span>
+            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">]])</span>
+
+    <span class="k">return</span> <span class="n">LMnew</span></div>
 </pre></div>
 
                 </article>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Load Patterning &amp; Envelopes &#8212; PyCBA 0.4.0 documentation</title>
+    <title>Load Patterning &amp; Envelopes &#8212; PyCBA 0.4.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4e78f113"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ea00750a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -124,8 +124,8 @@
       
     
     
-    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.4.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/pycba_logo.png" class="logo__image only-dark" alt="PyCBA 0.4.0 documentation - Home"/>`);</script>
+    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.4.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/pycba_logo.png" class="logo__image only-dark" alt="PyCBA 0.4.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -460,49 +460,12 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">factor_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Applies a factor to the loads in a `LoadMatrix` object</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    LM : LoadMatrix</span>
-<span class="sd">        The `LoadMatrix` object</span>
-
-<span class="sd">    gamma : float</span>
-<span class="sd">        A factor to apply to the load magnitudes</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    LM : LoadMatrix</span>
-<span class="sd">        The factored `LoadMatrix` object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">LMnew</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">:</span>
-        <span class="n">i_span</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">l_type</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">mag</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">*</span><span class="n">load</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># UDL</span>
-            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span><span class="n">l_type</span><span class="p">,</span><span class="n">mag</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span> <span class="c1"># PL or ML</span>
-            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span><span class="n">l_type</span><span class="p">,</span><span class="n">mag</span><span class="p">,</span><span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
-        <span class="k">else</span><span class="p">:</span>  <span class="c1"># PUDL</span>
-            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span><span class="n">l_type</span><span class="p">,</span><span class="n">mag</span><span class="p">,</span><span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">]])</span>
-
-    <span class="k">return</span> <span class="n">LMnew</span>
-</pre></div>
-</div>
-</div>
 <section id="Example-1:-Hulse-&amp;-Mosley">
 <h2>Example 1: Hulse &amp; Mosley<a class="headerlink" href="#Example-1:-Hulse-&-Mosley" title="Permalink to this heading">#</a></h2>
 <p>Here we consider a 3-span beam from Hulse &amp; Mosley, <em>Reinforced Concrete Design By Computer</em> (1986) which uses the load pattern from the (now superseded) British Standards: - MAX = 1.4 Gk + 1.6 Qk - MIN = 1.0 Gk The beam is subjected to nominal dead and live UDLs of <span class="math notranslate nohighlight">\(w_g = 25\)</span> kN/m and <span class="math notranslate nohighlight">\(w_q = 10\)</span> kN/m respectively.</p>
 <p>First establish the beam as usual:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
@@ -514,7 +477,7 @@ document.write(`
 </div>
 <p>Now set the dead load matrix and maximum and minimum load factors:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMg</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
@@ -527,7 +490,7 @@ document.write(`
 </div>
 <p>And the same for the live load:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMq</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
@@ -540,7 +503,7 @@ document.write(`
 </div>
 <p>Now create the <code class="docutils literal notranslate"><span class="pre">LoadPattern</span></code> object by passing the <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code> object. Assign the dead and live load information and then analyze and plot.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadPattern</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">)</span>
@@ -555,12 +518,12 @@ document.write(`
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_10_0.png" src="../_images/notebooks_envelopes_10_0.png" />
+<img alt="../_images/notebooks_envelopes_9_0.png" src="../_images/notebooks_envelopes_9_0.png" />
 </div>
 </div>
 <p>And let’s confirm that the results match the book (Section 2.3.6) to the second decimal place (<code class="docutils literal notranslate"><span class="pre">atol=1e-2</span></code>). To do this, we find the results from our analysis for key locations for moments and shears and confirm they match the book. First, the moments:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_locs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">])</span>
@@ -581,7 +544,7 @@ True True
 </div>
 <p>The shear is a little more complex because of the way load effects are calculated along the beam. For <span class="math notranslate nohighlight">\(n\)</span> points requested (e.g. 100), there are nominally <span class="math notranslate nohighlight">\(n+1\)</span> points to include the start and end. However, because we also want to ‘close’ the shear force diagram (see above), we include two more duplicated points at the end, so there are <span class="math notranslate nohighlight">\(n+3\)</span> points per span; and we want to extract the maximum and minium shear forces along each span, and not including these end points.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">npts</span>
@@ -608,7 +571,7 @@ True True
 <p>In this example we use Eurocode load factors for which the load pattern is - MAX = 1.35 Gk + 1.5Qk - MIN = 0.9 Gk</p>
 <p>Make the beam as before:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">8.3</span><span class="p">,</span><span class="mf">8.3</span><span class="p">,</span><span class="mf">8.3</span><span class="p">,</span><span class="mf">6.5</span><span class="p">]</span>
@@ -620,7 +583,7 @@ True True
 </div>
 <p>And define the loads:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMg</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">10.3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
@@ -643,7 +606,7 @@ True True
 </div>
 <p>And now automatically pattern as before. However, in this case, we desire to calculate the load effects at 200 pts along each span.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadPattern</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">)</span>
@@ -658,12 +621,12 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_20_0.png" src="../_images/notebooks_envelopes_20_0.png" />
+<img alt="../_images/notebooks_envelopes_19_0.png" src="../_images/notebooks_envelopes_19_0.png" />
 </div>
 </div>
 <p>We can also choose to plot each bending moment and shear force diagram in the envelope:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">each</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">));</span>
@@ -674,7 +637,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_22_0.png" src="../_images/notebooks_envelopes_22_0.png" />
+<img alt="../_images/notebooks_envelopes_21_0.png" src="../_images/notebooks_envelopes_21_0.png" />
 </div>
 </div>
 </section>
@@ -722,7 +685,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_25_0.png" src="../_images/notebooks_envelopes_25_0.png" />
+<img alt="../_images/notebooks_envelopes_24_0.png" src="../_images/notebooks_envelopes_24_0.png" />
 </div>
 </div>
 </section>
@@ -745,7 +708,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_27_0.png" src="../_images/notebooks_envelopes_27_0.png" />
+<img alt="../_images/notebooks_envelopes_26_0.png" src="../_images/notebooks_envelopes_26_0.png" />
 </div>
 </div>
 <p>Next, establish the envelope of envelopes, and augment both in, then plot:</p>
@@ -764,7 +727,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_29_0.png" src="../_images/notebooks_envelopes_29_0.png" />
+<img alt="../_images/notebooks_envelopes_28_0.png" src="../_images/notebooks_envelopes_28_0.png" />
 </div>
 </div>
 </section>
@@ -780,7 +743,7 @@ True True
 <p>Therefore, we need to envelope many possible live load arrangements to get the most onerous effects. To simplify the problem we will either apply loading to the the full length of a span or not at all. This pragmatic approach may not produce the most analytically onerous effect but will be very close.</p>
 <p>Consider a long continuous bridge beam with many equal spans of 12m. We will analyse a sample of the spans (6) to identify the worst load effects.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">span</span> <span class="o">=</span> <span class="mi">12</span>
@@ -795,7 +758,7 @@ True True
 <h3>Influence Lines<a class="headerlink" href="#Influence-Lines" title="Permalink to this heading">#</a></h3>
 <p>First lets plot the influence lines for: * Hogging at the support between spans 3,4 (36m) * Sagging at the midspan of span 3 (30m) * Shear force at the support between spans 3,4 (36m)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ils</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">InfluenceLines</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
@@ -813,7 +776,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_34_0.png" src="../_images/notebooks_envelopes_34_0.png" />
+<img alt="../_images/notebooks_envelopes_33_0.png" src="../_images/notebooks_envelopes_33_0.png" />
 </div>
 </div>
 <p>It can be seen from the IL diagrams that:</p>
@@ -827,7 +790,7 @@ True True
 <h3>Loading<a class="headerlink" href="#Loading" title="Permalink to this heading">#</a></h3>
 <p>The loaded lengths covering one to four spans are then:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loaded_lengths</span> <span class="o">=</span> <span class="n">span</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -863,7 +826,7 @@ True True
 </table>
 <p>Let’s write a function to return these values:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cs454</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
@@ -884,7 +847,7 @@ True True
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">UDL</span> <span class="o">=</span> <span class="p">[]</span>
@@ -899,7 +862,7 @@ True True
 <p>We will now define a load model for dead load and multiple load models for the various live loading cases using list comprehension. For dead load we will consider a 10kN/m load.</p>
 <p>Note that we are using the low level <code class="docutils literal notranslate"><span class="pre">LoadMatrix</span></code> object of <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> to assemble the loadings for each loadcase.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Add DL</span>
@@ -925,7 +888,7 @@ True True
 </div>
 <p>Let’s set the load factors for dead and live load:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">γg</span> <span class="o">=</span> <span class="mf">1.2</span>
@@ -935,15 +898,15 @@ True True
 </div>
 <p>Then we set up the analysis, factoring the <code class="docutils literal notranslate"><span class="pre">LoadMatrix</span></code> objects (<code class="docutils literal notranslate"><span class="pre">factor_LM</span></code>), and adding them (<code class="docutils literal notranslate"><span class="pre">add_LM</span></code>), storing the <code class="docutils literal notranslate"><span class="pre">BeamResults</span></code> outputs in a list.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
-<span class="n">gLMg</span> <span class="o">=</span> <span class="n">factor_LM</span><span class="p">(</span><span class="n">LMg</span><span class="p">,</span><span class="n">γg</span><span class="p">)</span>
+<span class="n">gLMg</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">factor_LM</span><span class="p">(</span><span class="n">LMg</span><span class="p">,</span><span class="n">γg</span><span class="p">)</span>
 
 <span class="n">br</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">LMq</span><span class="p">)):</span>
-    <span class="n">gLMqi</span> <span class="o">=</span> <span class="n">factor_LM</span><span class="p">(</span><span class="n">LMq</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">γq</span><span class="p">)</span>
+    <span class="n">gLMqi</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">factor_LM</span><span class="p">(</span><span class="n">LMq</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">γq</span><span class="p">)</span>
     <span class="n">LM</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">add_LM</span><span class="p">(</span><span class="n">gLMg</span><span class="p">,</span><span class="n">gLMqi</span><span class="p">)</span>
     <span class="n">beam_analysis</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
     <span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
@@ -953,7 +916,7 @@ True True
 </div>
 <p>Finally, from the list of <code class="docutils literal notranslate"><span class="pre">BeamResults</span></code> objects, we create the envelope and plot the results:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Envelopes</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
@@ -965,15 +928,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_48_0.png" src="../_images/notebooks_envelopes_48_0.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
+<img alt="../_images/notebooks_envelopes_47_0.png" src="../_images/notebooks_envelopes_47_0.png" />
 </div>
 </div>
 </section>
