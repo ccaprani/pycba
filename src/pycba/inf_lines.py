@@ -120,19 +120,42 @@ class InfluenceLines:
 
         x = self.vResults[0].results.x
         dx = x[2] - x[1]
-        idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
-        # find the nearest support to the poi
-        idxr = (
-            np.abs(np.cumsum(np.insert(self.ba.beam.mbr_lengths, 0, 0)) - poi)
-        ).argmin()
+        #idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
+        idx = np.abs(x - poi).argmin()
+        
         npts = len(self.vResults)
         eta = np.zeros(npts)
+        
+        #
+        # Getting the correct vertical reaction is tricky
+        # Should be relatively easy to extend to get moment reactions too.
+        #
+        # Get vector of the node locations
+        node_locations = np.cumsum(np.insert(self.ba.beam.mbr_lengths, 0, 0))
+        # The indices of the supported vertical DOFs wrt the node locations vector
+        vert_sup_dof_idx = np.where(np.array(self.ba._beam.restraints)[::2]==-1)[0]
+        # The locations then of these vertical supports
+        vert_sup_locs = node_locations[vert_sup_dof_idx]
+        # The index of the closest vertical support
+        closest_vert_sup_idx = np.abs(vert_sup_locs-poi).argmin()
+        # And its value
+        closest_vert_sup = vert_sup_locs[closest_vert_sup_idx]
+        # And now the indixe of this support in the node locations vector
+        node_idx = np.where(node_locations==closest_vert_sup)[0][0]
+        # And hence its index in the overall DOFs vector
+        dof_idx = 2*node_idx
+        
+        # Now we must link the supported DOF to the index in the BeamAnalysis reactions vector
+        idx_mask = np.zeros_like(self.ba._beam.restraints)
+        idx_mask[np.where(np.array(self.ba._beam.restraints)==-1)] = np.arange(self.ba.beam.no_fixed_restraints)
+        # And finally the index of the vertical support nearest the POI in the reactions vector
+        vert_sup_idx = idx_mask[dof_idx]
 
         for i, res in enumerate(self.vResults):
             if load_effect == "V":
                 eta[i] = res.results.V[idx]
             elif load_effect == "R":
-                eta[i] = res.R[idxr]
+                eta[i] = res.R[vert_sup_idx]
             else:
                 eta[i] = res.results.M[idx]
 

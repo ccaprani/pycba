@@ -219,6 +219,18 @@ class Beam:
             The number of restraints in the beam
         """
         return len(self._restraints)
+    
+    @property
+    def no_fixed_restraints(self):
+        """
+        Returns the number of fixed restraints of the beam (fully-supported DOFs)
+
+        Returns
+        -------
+        no_fixed_restraints : int
+            The number of fixed restraints in the beam
+        """
+        return len(np.where(np.array(self._restraints)==-1)[0])
 
     @property
     def length(self):
