@@ -1,4 +1,4 @@
-pycba.beam.Beam
+﻿pycba.beam.Beam
 ===============
 
 .. currentmodule:: pycba.beam
@@ -36,6 +36,7 @@ pycba.beam.Beam
    
       ~Beam.length
       ~Beam.loads
+      ~Beam.no_fixed_restraints
       ~Beam.no_restraints
       ~Beam.no_spans
       ~Beam.restraints

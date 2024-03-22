@@ -556,13 +556,16 @@ parameters.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.loads" title="pycba.beam.Beam.loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loads</span></code></a></p></td>
 <td><p>Returns the load matrix for the beam</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_restraints" title="pycba.beam.Beam.no_restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_restraints</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_fixed_restraints" title="pycba.beam.Beam.no_fixed_restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_fixed_restraints</span></code></a></p></td>
+<td><p>Returns the number of fixed restraints of the beam (fully-supported DOFs)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_restraints" title="pycba.beam.Beam.no_restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_restraints</span></code></a></p></td>
 <td><p>Returns the number of restraints of the beam</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_spans" title="pycba.beam.Beam.no_spans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_spans</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_spans" title="pycba.beam.Beam.no_spans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_spans</span></code></a></p></td>
 <td><p>Returns the no.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.restraints" title="pycba.beam.Beam.restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restraints</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.restraints" title="pycba.beam.Beam.restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restraints</span></code></a></p></td>
 <td><p>Returns the restraints vector for the beam</p></td>
 </tr>
 </tbody>
@@ -648,6 +651,20 @@ parameters.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>no_restraints</strong> – The number of restraints in the beam</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycba.beam.Beam.no_fixed_restraints">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">no_fixed_restraints</span></span><a class="headerlink" href="#pycba.beam.Beam.no_fixed_restraints" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the number of fixed restraints of the beam (fully-supported DOFs)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>no_fixed_restraints</strong> – The number of fixed restraints in the beam</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
@@ -853,6 +870,7 @@ coordinates on the beam</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.restraints"><code class="docutils literal notranslate"><span class="pre">Beam.restraints</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_spans"><code class="docutils literal notranslate"><span class="pre">Beam.no_spans</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_restraints</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_fixed_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_fixed_restraints</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.length"><code class="docutils literal notranslate"><span class="pre">Beam.length</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_local_span_coords"><code class="docutils literal notranslate"><span class="pre">Beam.get_local_span_coords()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_cnl"><code class="docutils literal notranslate"><span class="pre">Beam.get_cnl()</span></code></a></li>
