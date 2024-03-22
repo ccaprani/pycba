@@ -120,8 +120,8 @@ class InfluenceLines:
 
         x = self.vResults[0].results.x
         dx = x[2] - x[1]
-        #idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
-        idx = np.abs(x - poi).argmin()
+        idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
+        #idx = np.abs(x - poi).argmin()
         
         npts = len(self.vResults)
         eta = np.zeros(npts)
