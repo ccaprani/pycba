@@ -248,9 +248,9 @@ class Load:
             ref[3] = 1.0 * cnl.Mb
         elif eType == 3:  # DOF = moment at i node
             ref[0] = fm * cnl.Ma
-            ref[1] = 0.5 * cnl.Ma
+            ref[1] = 1.0 * cnl.Ma
             ref[2] = -fm * cnl.Ma
-            ref[3] = 1.0 * cnl.Ma
+            ref[3] = 0.5 * cnl.Ma
         elif eType == 4:  # keep only vertical, remove moments
             ref[0] = 0
             ref[1] = 1.0 * cnl.Va
