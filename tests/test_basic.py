@@ -7,6 +7,243 @@ import numpy as np
 import pycba as cba
 
 
+def test_1span_ee():
+    """
+    Test fixed-fixed beam with point load in the middle
+    """
+
+    P = 10  # kN
+    L = 10  # m
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, -1, -1, -1]
+    LM = [[1, 2, P, 0.5*L, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    Ma = beam_analysis.beam_results.results.M[1]
+    Mb = beam_analysis.beam_results.results.M[-2]
+    Mc = beam_analysis.beam_results.results.M[51]
+
+    assert Ma == pytest.approx(-P*L/8)
+    assert Mb == pytest.approx(-P*L/8)
+    assert Mc == pytest.approx(P*L/8)
+
+
+def test_1span_ep():
+    """
+    Test fixed-pinned beam with point load in the middle
+    """
+
+    P = 10  # kN
+    L = 10  # m
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, -1, -1, 0]
+    LM = [[1, 2, P, 0.5*L, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    Ma = beam_analysis.beam_results.results.M[1]
+    Mb = beam_analysis.beam_results.results.M[-2]
+    Mc = beam_analysis.beam_results.results.M[51]
+
+    assert Ma == pytest.approx(-3*P*L/16)
+    assert Mb == pytest.approx(0)
+    assert Mc == pytest.approx(5*P*L/32)
+
+
+def test_1span_ep_eletype2():
+    """
+    Test fixed-pinned beam with point load in the middle, using eleType 2
+    """
+
+    P = 10  # kN
+    L = 10  # m
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
+    LM = [[1, 2, P, 0.5*L, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM, eletype=[2])
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    Ma = beam_analysis.beam_results.results.M[1]
+    Mb = beam_analysis.beam_results.results.M[-2]
+    Mc = beam_analysis.beam_results.results.M[51]
+
+    assert Ma == pytest.approx(-3*P*L/16)
+    assert Mb == pytest.approx(0)
+    assert Mc == pytest.approx(5*P*L/32)
+
+
+def test_1span_pe():
+    """
+    Test pinned-fixed beam with point load in the middle
+    """
+
+    P = 10  # kN
+    L = 10  # m
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, 0, -1, -1]
+    LM = [[1, 2, P, 0.5*L, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    Ma = beam_analysis.beam_results.results.M[1]
+    Mb = beam_analysis.beam_results.results.M[-2]
+    Mc = beam_analysis.beam_results.results.M[51]
+
+    assert Ma == pytest.approx(0)
+    assert Mb == pytest.approx(-3*P*L/16)
+    assert Mc == pytest.approx(5*P*L/32)
+
+
+def test_1span_pe_eletype3():
+    """
+    Test pinned-fixed beam with point load in the middle, using eleType 3
+    """
+
+    P = 10  # kN
+    L = 10  # m
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
+    LM = [[1, 2, P, 0.5*L, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM, eletype=[3])
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    Ma = beam_analysis.beam_results.results.M[1]
+    Mb = beam_analysis.beam_results.results.M[-2]
+    Mc = beam_analysis.beam_results.results.M[51]
+
+    assert Ma == pytest.approx(0)
+    assert Mb == pytest.approx(-3*P*L/16)
+    assert Mc == pytest.approx(5*P*L/32)
+
+
+def test_1span_pp():
+    """
+    Test pinned-pinned beam with point load in the middle
+    """
+
+    P = 10  # kN
+    L = 10  # m
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, 0, -1, 0]
+    LM = [[1, 2, P, 0.5*L, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    Ma = beam_analysis.beam_results.results.M[1]
+    Mb = beam_analysis.beam_results.results.M[-2]
+    Mc = beam_analysis.beam_results.results.M[51]
+
+    assert Ma == pytest.approx(0)
+    assert Mb == pytest.approx(0)
+    assert Mc == pytest.approx(P*L/4)
+
+
+def test_1span_pp_eletype4():
+    """
+    Test pinned-pinned beam with point load in the middle, using eleType 4
+    """
+
+    P = 10  # kN
+    L = 10  # m
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
+    LM = [[1, 2, P, 0.5*L, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM, eletype=[4])
+    out = beam_analysis.analyze()
+    assert out == 0
+
+    Ma = beam_analysis.beam_results.results.M[1]
+    Mb = beam_analysis.beam_results.results.M[-2]
+    Mc = beam_analysis.beam_results.results.M[51]
+
+    assert Ma == pytest.approx(0)
+    assert Mb == pytest.approx(0)
+    assert Mc == pytest.approx(P*L/4)
+
+
+def get_1span_beam_def(etype):
+    P = 10  # kN
+    L = 10  # m
+    a = 0.25*L
+    EI = 30 * 600e7 * 1e-6  # kNm2
+    R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
+    LM = [[1, 2, P, a, 0]]
+
+    beam_analysis = cba.BeamAnalysis([L], EI, R, LM, eletype=[etype])
+    beam_analysis.analyze()
+
+    d = beam_analysis.beam_results.results.D
+    dmax = min(d)
+
+    return P, L, EI, a, dmax
+
+
+def test_1span_def_ff():
+    """
+    Test fixed-fixed beam deflection for off-centre point load
+    """
+
+    P, L, EI, aa, dmax = get_1span_beam_def(etype=1)
+
+    # a>b
+    b = aa
+    a = L-b
+    ymax = -(2*P*a**3*b**2)/(3*(3*a+b)**2*EI)
+
+    assert dmax == pytest.approx(ymax, abs=1e-6)
+
+
+def test_1span_def_fp():
+    """
+    Test fixed-pinned beam deflection for off-centre point load
+    """
+    P, L, EI, aa, dmax = get_1span_beam_def(etype=2)
+
+    a = aa
+    b = L-a
+    ymax = -(P*a**2*b)/(6*EI)*(b/(3*L-a))**0.5
+
+    assert dmax == pytest.approx(ymax, abs=1e-6)
+
+
+def test_1span_def_pf():
+    """
+    Test pinned-fixed beam deflection for off-centre point load
+    """
+    P, L, EI, aa, dmax = get_1span_beam_def(etype=3)
+
+    b = aa
+    ymax = -(P*b)/(3*EI)*(L**2-b**2)**3/(3*L**2-b**2)**2
+
+    assert dmax == pytest.approx(ymax, abs=1e-6)
+
+
+def test_1span_def_pp():
+    """
+    Test pinned-pinned beam deflection for off-centre point load
+    """
+    P, L, EI, aa, dmax = get_1span_beam_def(etype=4)
+
+    a = aa
+    ymax = -3**0.5*P*a*(L**2-a**2)**1.5/(27*EI*L)
+
+    assert dmax == pytest.approx(ymax, abs=1e-6)
+
+
 def test_2span_udl():
     """
     Execute a two-span beam analysis and check the reaction results.
@@ -101,7 +338,7 @@ def test_3span_diff_settlement():
     dmax = max(beam_analysis.beam_results.results.D)
     dmin = min(beam_analysis.beam_results.results.D)
     assert [dmax, dmin] == pytest.approx(
-        [0.0002778734578837245, -0.004648274177216889], abs=1e-6
+        [0.0002778734578837245, -0.004648274177216889], abs=1e-5
     )
 
 

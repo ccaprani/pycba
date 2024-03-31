@@ -280,9 +280,10 @@ class Beam:
 
         return ispan, pos_in_span
 
-    def get_cnl(self, i_span: int) -> LoadCNL:
+    def get_ref(self, i_span: int) -> LoadCNL:
         """
-        Returns Consistent Nodal Loads for the member
+        Returns Released End Forces for the member; that is, the Consistent Nodal Loads
+        modified for the element type (i.e. releases)
 
         Parameters
         ----------
@@ -291,18 +292,18 @@ class Beam:
 
         Returns
         -------
-        cnl : LoadCNL
+        ref : LoadCNL
             The totalled CNL object for the member, considering all loads.
 
         """
-        cnl = np.zeros(4)
+        ref = np.zeros(4)
         L = self.mbr_lengths[i_span]
         eType = self.mbr_eletype[i_span]
 
         for load in self._loads:
             if load.i_span == i_span:
-                cnl += load.get_cnl(L, eType)
-        return cnl
+                ref += load.get_ref(L, eType)
+        return ref
 
     def get_span_k(self, i_span: int) -> np.ndarray:
         """

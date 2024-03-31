@@ -223,7 +223,7 @@ class BeamAnalysis:
 
         for i in range(self._n):
             dof_i = 2 * i
-            fmbr = self._beam.get_cnl(i)
+            fmbr = self._beam.get_ref(i)
             # Cumulatively apply forces in opposite direction
             f[dof_i : dof_i + 4] -= fmbr
         return f

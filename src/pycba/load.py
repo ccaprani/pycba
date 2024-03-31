@@ -182,7 +182,7 @@ class Load:
         """
         self.i_span = i_span
 
-    def get_cnl(self, L, eType):
+    def get_cnl(self, L):
         # Enforce virtual base class
         raise NotImplementedError
 
@@ -215,29 +215,27 @@ class Load:
         """
         return np.heaviside(v, value)
 
-    def released_end_forces(self, cnl: LoadCNL, L: float, eType: int) -> LoadCNL:
+    
+    def get_ref(self, L: float, eType: int) -> LoadCNL:
         """
-        The released end forces for each element type: converts the Consistent Nodal
-        Loads of the applied loading to the correct nodal loading depending on the
-        element type.
+        Returns the Released End Forces for a span of length L of element eType: 
+        converts the Consistent Nodal Loads of the applied loading to the correct nodal 
+        loading depending on the element type.
 
         Parameters
         ----------
-        cnl : LoadCNL
-            The nodal loading statically consistent with the externally applied loads.
         L : float
-            The length of the member.
+            The length of the member
         eType : int
-            The element type.
+            The member element type
 
         Returns
         -------
         LoadCNL
-            The nodal loads to be applied in the analysis, consistent with the element
-            type.
-
+            Released End Forces for this load type: the nodal loads to be applied in 
+            the analysis, consistent with the element type.
         """
-
+        cnl = self.get_cnl(L, eType)
         ref = np.zeros(4)
         fm = 6 / (4 * L)  # flexibility coeff for moment
 
@@ -252,10 +250,10 @@ class Load:
             ref[2] = -fm * cnl.Ma
             ref[3] = 0.5 * cnl.Ma
         elif eType == 4:  # keep only vertical, remove moments
-            ref[0] = 0
-            ref[1] = 1.0 * cnl.Va
-            ref[2] = 0
-            ref[3] = 1.0 * cnl.Va
+            ref[0] = -(cnl.Ma+cnl.Mb)/L
+            ref[1] = 1.0 * cnl.Ma
+            ref[2] = (cnl.Ma+cnl.Mb)/L
+            ref[3] = 1.0 * cnl.Mb
         else:
             # no nothing if it is FF
             pass
@@ -319,8 +317,7 @@ class LoadUDL(Load):
             Ma=w * L**2 / 12.0,
             Mb=-w * L**2 / 12.0,
         )
-
-        return self.released_end_forces(cnl, L, eType)
+        return cnl
 
     def get_mbr_results(self, x: np.ndarray, L: float) -> MemberResults:
         """
@@ -416,8 +413,7 @@ class LoadPL(Load):
             Ma=P * a * b**2 / L**2,
             Mb=-P * a**2 * b / L**2,
         )
-        # implicit conversion to tuple in correct order
-        return self.released_end_forces(cnl, L, eType)
+        return cnl
 
     def get_mbr_results(self, x: np.ndarray, L: float) -> MemberResults:
         """
@@ -512,7 +508,7 @@ class LoadPUDL(Load):
             Mb=-(w * c / L**2) * (t * s**2 + (t - 2 * s) * c**2 / 12),
         )
         # implicit conversion to tuple in correct order
-        return self.released_end_forces(cnl, L, eType)
+        return cnl
 
     def get_mbr_results(self, x: np.ndarray, L: float) -> MemberResults:
         """
@@ -608,8 +604,7 @@ class LoadMaMb(Load):
             Ma=Ma,
             Mb=Mb,
         )
-        # implicit conversion to tuple in correct order
-        return self.released_end_forces(cnl, L, eType)
+        return cnl
 
     def get_mbr_results(self, x: np.ndarray, L: float) -> MemberResults:
         """
@@ -690,8 +685,7 @@ class LoadML(Load):
             Ma=(m * b / L**2) * (2 * a - b),
             Mb=(m * a / L**2) * (2 * b - a),
         )
-        # implicit conversion to tuple in correct order
-        return self.released_end_forces(cnl, L, eType)
+        return cnl
 
     def get_mbr_results(self, x: np.ndarray, L: float) -> MemberResults:
         """
