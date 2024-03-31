@@ -640,11 +640,10 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">heaviside</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
-    
 <div class="viewcode-block" id="Load.get_ref"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.get_ref">[docs]</a>    <span class="k">def</span> <span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the Released End Forces for a span of length L of element eType: </span>
-<span class="sd">        converts the Consistent Nodal Loads of the applied loading to the correct nodal </span>
+<span class="sd">        Returns the Released End Forces for a span of length L of element eType:</span>
+<span class="sd">        converts the Consistent Nodal Loads of the applied loading to the correct nodal</span>
 <span class="sd">        loading depending on the element type.</span>
 
 <span class="sd">        Parameters</span>
@@ -657,7 +656,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
-<span class="sd">            Released End Forces for this load type: the nodal loads to be applied in </span>
+<span class="sd">            Released End Forces for this load type: the nodal loads to be applied in</span>
 <span class="sd">            the analysis, consistent with the element type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cnl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
@@ -675,9 +674,9 @@ document.write(`
             <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">fm</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span>
             <span class="n">ref</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span>
         <span class="k">elif</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># keep only vertical, remove moments</span>
-            <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span><span class="o">+</span><span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span><span class="o">/</span><span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
             <span class="n">ref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span>
-            <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span><span class="o">+</span><span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span><span class="o">/</span><span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
             <span class="n">ref</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># no nothing if it is FF</span>
