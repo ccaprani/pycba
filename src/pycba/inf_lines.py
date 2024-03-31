@@ -118,63 +118,69 @@ class InfluenceLines:
         if not self.vResults:
             self.create_ils()
 
-        x = self.vResults[0].results.x   
+        x = self.vResults[0].results.x
         npts = len(self.vResults)
         eta = np.zeros(npts)
-        
+
         # Preparations for reaction ILs
         #
         # Get vector of the node locations
         node_locations = np.cumsum(np.insert(self.ba.beam.mbr_lengths, 0, 0))
         # Link the supported DOF to the index in the BeamAnalysis reactions vector
         idx_mask = np.zeros_like(self.ba._beam.restraints)
-        idx_mask[np.where(np.array(self.ba._beam.restraints)==-1)] = np.arange(self.ba.beam.no_fixed_restraints)
+        idx_mask[np.where(np.array(self.ba._beam.restraints) == -1)] = np.arange(
+            self.ba.beam.no_fixed_restraints
+        )
 
-        #idx = np.abs(x - poi).argmin()
-        
+        # idx = np.abs(x - poi).argmin()
+
         if load_effect.upper() == "V":
             dx = x[2] - x[1]
             idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
             for i, res in enumerate(self.vResults):
                 eta[i] = res.results.V[idx]
-        
+
         elif load_effect.upper() == "R":
             #
             # Getting the correct reaction is tricky
             #
             # The indices of the supported DOFs wrt the node locations vector
-            vert_sups_dof_idx = np.where(np.array(self.ba._beam.restraints)[::2]==-1)[0]
+            vert_sups_dof_idx = np.where(np.array(self.ba._beam.restraints)[::2] == -1)[
+                0
+            ]
             # The locations then of these supports
             vert_sups_locs = node_locations[vert_sups_dof_idx]
             # The index of the closest support
-            closest_vert_sup_idx = np.abs(vert_sups_locs-poi).argmin()
+            closest_vert_sup_idx = np.abs(vert_sups_locs - poi).argmin()
             # And its value
             closest_vert_sup = vert_sups_locs[closest_vert_sup_idx]
             # And now the index of this support in the node locations vector
-            vert_sup_node_idx = np.where(node_locations==closest_vert_sup)[0][0]
+            vert_sup_node_idx = np.where(node_locations == closest_vert_sup)[0][0]
             # And hence its index in the overall DOFs vector
-            vert_sup_dof_idx = 2*vert_sup_node_idx
+            vert_sup_dof_idx = 2 * vert_sup_node_idx
             # And finally the index of the support nearest the POI in the reactions vector
-            vert_sup_idx = idx_mask[vert_sup_dof_idx]            
-            
+            vert_sup_idx = idx_mask[vert_sup_dof_idx]
+
             for i, res in enumerate(self.vResults):
                 eta[i] = res.R[vert_sup_idx]
-       
+
         elif load_effect.upper() == "MR":
             #
             # Follows the same logic for the vertical reaction
             #
-            mt_sups_dof_idx = np.where(np.array(self.ba._beam.restraints)[1::2]==-1)[0]
+            mt_sups_dof_idx = np.where(np.array(self.ba._beam.restraints)[1::2] == -1)[
+                0
+            ]
             mt_sups_locs = node_locations[mt_sups_dof_idx]
-            closest_mt_sup_idx = np.abs(mt_sups_locs-poi).argmin()
+            closest_mt_sup_idx = np.abs(mt_sups_locs - poi).argmin()
             closest_mt_sup = mt_sups_locs[closest_mt_sup_idx]
-            mt_sup_node_idx = np.where(node_locations==closest_mt_sup)[0][0]
-            mt_sup_dof_idx = 2*mt_sup_node_idx+1
+            mt_sup_node_idx = np.where(node_locations == closest_mt_sup)[0][0]
+            mt_sup_dof_idx = 2 * mt_sup_node_idx + 1
             mt_sup_idx = idx_mask[mt_sup_dof_idx]
-            
+
             for i, res in enumerate(self.vResults):
                 eta[i] = res.R[mt_sup_idx]
-        
+
         else:
             dx = x[2] - x[1]
             idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
