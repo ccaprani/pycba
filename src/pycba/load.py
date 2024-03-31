@@ -215,11 +215,10 @@ class Load:
         """
         return np.heaviside(v, value)
 
-    
     def get_ref(self, L: float, eType: int) -> LoadCNL:
         """
-        Returns the Released End Forces for a span of length L of element eType: 
-        converts the Consistent Nodal Loads of the applied loading to the correct nodal 
+        Returns the Released End Forces for a span of length L of element eType:
+        converts the Consistent Nodal Loads of the applied loading to the correct nodal
         loading depending on the element type.
 
         Parameters
@@ -232,7 +231,7 @@ class Load:
         Returns
         -------
         LoadCNL
-            Released End Forces for this load type: the nodal loads to be applied in 
+            Released End Forces for this load type: the nodal loads to be applied in
             the analysis, consistent with the element type.
         """
         cnl = self.get_cnl(L, eType)
@@ -250,9 +249,9 @@ class Load:
             ref[2] = -fm * cnl.Ma
             ref[3] = 0.5 * cnl.Ma
         elif eType == 4:  # keep only vertical, remove moments
-            ref[0] = -(cnl.Ma+cnl.Mb)/L
+            ref[0] = -(cnl.Ma + cnl.Mb) / L
             ref[1] = 1.0 * cnl.Ma
-            ref[2] = (cnl.Ma+cnl.Mb)/L
+            ref[2] = (cnl.Ma + cnl.Mb) / L
             ref[3] = 1.0 * cnl.Mb
         else:
             # no nothing if it is FF
