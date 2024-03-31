@@ -20,7 +20,7 @@ pycba.load.LoadPUDL
       ~LoadPUDL.MB
       ~LoadPUDL.get_cnl
       ~LoadPUDL.get_mbr_results
-      ~LoadPUDL.released_end_forces
+      ~LoadPUDL.get_ref
    
    
 

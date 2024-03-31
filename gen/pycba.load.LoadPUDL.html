@@ -520,8 +520,8 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.load.LoadPUDL.get_mbr_results" title="pycba.load.LoadPUDL.get_mbr_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mbr_results</span></code></a></p></td>
 <td><p>Results along the member from this load</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load.LoadPUDL.released_end_forces" title="pycba.load.LoadPUDL.released_end_forces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">released_end_forces</span></code></a></p></td>
-<td><p>The released end forces for each element type: converts the Consistent Nodal Loads of the applied loading to the correct nodal loading depending on the element type.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load.LoadPUDL.get_ref" title="pycba.load.LoadPUDL.get_ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ref</span></code></a></p></td>
+<td><p>Returns the Released End Forces for a span of length L of element eType: converts the Consistent Nodal Loads of the applied loading to the correct nodal loading depending on the element type.</p></td>
 </tr>
 </tbody>
 </table>
@@ -599,22 +599,21 @@ values greater than zero are clipped to unity; zeros are retained.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pycba.load.LoadPUDL.released_end_forces">
-<span class="sig-name descname"><span class="pre">released_end_forces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cnl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycba.load.LoadPUDL.released_end_forces" title="Permalink to this definition">#</a></dt>
-<dd><p>The released end forces for each element type: converts the Consistent Nodal
-Loads of the applied loading to the correct nodal loading depending on the
-element type.</p>
+<dt class="sig sig-object py" id="pycba.load.LoadPUDL.get_ref">
+<span class="sig-name descname"><span class="pre">get_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycba.load.LoadPUDL.get_ref" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the Released End Forces for a span of length L of element eType:
+converts the Consistent Nodal Loads of the applied loading to the correct nodal
+loading depending on the element type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cnl</strong> (<a class="reference internal" href="pycba.load.LoadCNL.html#pycba.load.LoadCNL" title="pycba.load.LoadCNL"><em>LoadCNL</em></a>) – The nodal loading statically consistent with the externally applied loads.</p></li>
-<li><p><strong>L</strong> (<em>float</em>) – The length of the member.</p></li>
-<li><p><strong>eType</strong> (<em>int</em>) – The element type.</p></li>
+<li><p><strong>L</strong> (<em>float</em>) – The length of the member</p></li>
+<li><p><strong>eType</strong> (<em>int</em>) – The member element type</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The nodal loads to be applied in the analysis, consistent with the element
-type.</p>
+<dd class="field-even"><p>Released End Forces for this load type: the nodal loads to be applied in
+the analysis, consistent with the element type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="pycba.load.LoadCNL.html#pycba.load.LoadCNL" title="pycba.load.LoadCNL">LoadCNL</a></p>
@@ -675,7 +674,7 @@ type.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadPUDL.get_mbr_results"><code class="docutils literal notranslate"><span class="pre">LoadPUDL.get_mbr_results()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadPUDL.H"><code class="docutils literal notranslate"><span class="pre">LoadPUDL.H()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadPUDL.MB"><code class="docutils literal notranslate"><span class="pre">LoadPUDL.MB()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadPUDL.released_end_forces"><code class="docutils literal notranslate"><span class="pre">LoadPUDL.released_end_forces()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadPUDL.get_ref"><code class="docutils literal notranslate"><span class="pre">LoadPUDL.get_ref()</span></code></a></li>
 </ul>
 </li>
 </ul>

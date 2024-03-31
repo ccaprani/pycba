@@ -524,11 +524,11 @@ parameters.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_span</span></code></a></p></td>
 <td><p>Add a span to the continuous beam</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_cnl" title="pycba.beam.Beam.get_cnl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cnl</span></code></a></p></td>
-<td><p>Returns Consistent Nodal Loads for the member</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_local_span_coords" title="pycba.beam.Beam.get_local_span_coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_span_coords</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_local_span_coords" title="pycba.beam.Beam.get_local_span_coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_span_coords</span></code></a></p></td>
 <td><p>Returns the span index and position in span for a position given in global coordinates on the beam</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_ref" title="pycba.beam.Beam.get_ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ref</span></code></a></p></td>
+<td><p>Returns Released End Forces for the member; that is, the Consistent Nodal Loads modified for the element type (i.e.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_span_k" title="pycba.beam.Beam.get_span_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_span_k</span></code></a></p></td>
 <td><p>Returns the stiffness matrix for the ith span</p></td>
@@ -702,15 +702,16 @@ coordinates on the beam</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pycba.beam.Beam.get_cnl">
-<span class="sig-name descname"><span class="pre">get_cnl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.get_cnl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.get_cnl" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns Consistent Nodal Loads for the member</p>
+<dt class="sig sig-object py" id="pycba.beam.Beam.get_ref">
+<span class="sig-name descname"><span class="pre">get_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.get_ref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.get_ref" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns Released End Forces for the member; that is, the Consistent Nodal Loads
+modified for the element type (i.e. releases)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ispan</strong> (<em>int</em>) – The index (1-based) of the span in which the point of interest falls</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>cnl</strong> – The totalled CNL object for the member, considering all loads.</p>
+<dd class="field-even"><p><strong>ref</strong> – The totalled CNL object for the member, considering all loads.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="pycba.load.LoadCNL.html#pycba.load.LoadCNL" title="pycba.load.LoadCNL">LoadCNL</a></p>
@@ -873,7 +874,7 @@ coordinates on the beam</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_fixed_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_fixed_restraints</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.length"><code class="docutils literal notranslate"><span class="pre">Beam.length</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_local_span_coords"><code class="docutils literal notranslate"><span class="pre">Beam.get_local_span_coords()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_cnl"><code class="docutils literal notranslate"><span class="pre">Beam.get_cnl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_ref"><code class="docutils literal notranslate"><span class="pre">Beam.get_ref()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_span_k"><code class="docutils literal notranslate"><span class="pre">Beam.get_span_k()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.k_FF"><code class="docutils literal notranslate"><span class="pre">Beam.k_FF()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.k_FP"><code class="docutils literal notranslate"><span class="pre">Beam.k_FP()</span></code></a></li>

@@ -648,7 +648,7 @@ document.write(`
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">):</span>
             <span class="n">dof_i</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
-            <span class="n">fmbr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">fmbr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="c1"># Cumulatively apply forces in opposite direction</span>
             <span class="n">f</span><span class="p">[</span><span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span> <span class="o">-=</span> <span class="n">fmbr</span>
         <span class="k">return</span> <span class="n">f</span>

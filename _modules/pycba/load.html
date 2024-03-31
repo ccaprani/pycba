@@ -607,7 +607,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i_span</span> <span class="o">=</span> <span class="n">i_span</span>
 
-    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
         <span class="c1"># Enforce virtual base class</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
@@ -640,29 +640,27 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">heaviside</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Load.released_end_forces"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.released_end_forces">[docs]</a>    <span class="k">def</span> <span class="nf">released_end_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cnl</span><span class="p">:</span> <span class="n">LoadCNL</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+    
+<div class="viewcode-block" id="Load.get_ref"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.get_ref">[docs]</a>    <span class="k">def</span> <span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The released end forces for each element type: converts the Consistent Nodal</span>
-<span class="sd">        Loads of the applied loading to the correct nodal loading depending on the</span>
-<span class="sd">        element type.</span>
+<span class="sd">        Returns the Released End Forces for a span of length L of element eType: </span>
+<span class="sd">        converts the Consistent Nodal Loads of the applied loading to the correct nodal </span>
+<span class="sd">        loading depending on the element type.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        cnl : LoadCNL</span>
-<span class="sd">            The nodal loading statically consistent with the externally applied loads.</span>
 <span class="sd">        L : float</span>
-<span class="sd">            The length of the member.</span>
+<span class="sd">            The length of the member</span>
 <span class="sd">        eType : int</span>
-<span class="sd">            The element type.</span>
+<span class="sd">            The member element type</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
-<span class="sd">            The nodal loads to be applied in the analysis, consistent with the element</span>
-<span class="sd">            type.</span>
-
+<span class="sd">            Released End Forces for this load type: the nodal loads to be applied in </span>
+<span class="sd">            the analysis, consistent with the element type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="n">cnl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
         <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">fm</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>  <span class="c1"># flexibility coeff for moment</span>
 
@@ -677,10 +675,10 @@ document.write(`
             <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">fm</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span>
             <span class="n">ref</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span>
         <span class="k">elif</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># keep only vertical, remove moments</span>
-            <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">ref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Va</span>
-            <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">ref</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Va</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span><span class="o">+</span><span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span><span class="o">/</span><span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span><span class="o">+</span><span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span><span class="o">/</span><span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># no nothing if it is FF</span>
             <span class="k">pass</span>
@@ -744,8 +742,7 @@ document.write(`
             <span class="n">Ma</span><span class="o">=</span><span class="n">w</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">12.0</span><span class="p">,</span>
             <span class="n">Mb</span><span class="o">=-</span><span class="n">w</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">12.0</span><span class="p">,</span>
         <span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">released_end_forces</span><span class="p">(</span><span class="n">cnl</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">cnl</span></div>
 
 <div class="viewcode-block" id="LoadUDL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -841,8 +838,7 @@ document.write(`
             <span class="n">Ma</span><span class="o">=</span><span class="n">P</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
             <span class="n">Mb</span><span class="o">=-</span><span class="n">P</span> <span class="o">*</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="c1"># implicit conversion to tuple in correct order</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">released_end_forces</span><span class="p">(</span><span class="n">cnl</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">cnl</span></div>
 
 <div class="viewcode-block" id="LoadPL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -937,7 +933,7 @@ document.write(`
             <span class="n">Mb</span><span class="o">=-</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">12</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="c1"># implicit conversion to tuple in correct order</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">released_end_forces</span><span class="p">(</span><span class="n">cnl</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">cnl</span></div>
 
 <div class="viewcode-block" id="LoadPUDL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1033,8 +1029,7 @@ document.write(`
             <span class="n">Ma</span><span class="o">=</span><span class="n">Ma</span><span class="p">,</span>
             <span class="n">Mb</span><span class="o">=</span><span class="n">Mb</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="c1"># implicit conversion to tuple in correct order</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">released_end_forces</span><span class="p">(</span><span class="n">cnl</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">cnl</span></div>
 
 <div class="viewcode-block" id="LoadMaMb.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1115,8 +1110,7 @@ document.write(`
             <span class="n">Ma</span><span class="o">=</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">b</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">),</span>
             <span class="n">Mb</span><span class="o">=</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">a</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="c1"># implicit conversion to tuple in correct order</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">released_end_forces</span><span class="p">(</span><span class="n">cnl</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">cnl</span></div>
 
 <div class="viewcode-block" id="LoadML.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

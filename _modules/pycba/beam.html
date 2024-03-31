@@ -705,9 +705,10 @@ document.write(`
 
         <span class="k">return</span> <span class="n">ispan</span><span class="p">,</span> <span class="n">pos_in_span</span></div>
 
-<div class="viewcode-block" id="Beam.get_cnl"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_cnl">[docs]</a>    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam.get_ref"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_ref">[docs]</a>    <span class="k">def</span> <span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns Consistent Nodal Loads for the member</span>
+<span class="sd">        Returns Released End Forces for the member; that is, the Consistent Nodal Loads</span>
+<span class="sd">        modified for the element type (i.e. releases)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -716,18 +717,18 @@ document.write(`
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        cnl : LoadCNL</span>
+<span class="sd">        ref : LoadCNL</span>
 <span class="sd">            The totalled CNL object for the member, considering all loads.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cnl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">==</span> <span class="n">i_span</span><span class="p">:</span>
-                <span class="n">cnl</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cnl</span></div>
+                <span class="n">ref</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ref</span></div>
 
 <div class="viewcode-block" id="Beam.get_span_k"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_span_k">[docs]</a>    <span class="k">def</span> <span class="nf">get_span_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

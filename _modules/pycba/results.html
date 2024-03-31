@@ -433,7 +433,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
 <span class="kn">from</span> <span class="nn">.beam</span> <span class="kn">import</span> <span class="n">Beam</span>
-<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">MemberResults</span><span class="p">,</span> <span class="n">LoadMaMb</span>
+<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">MemberResults</span><span class="p">,</span> <span class="n">LoadMaMb</span><span class="p">,</span> <span class="n">LoadCNL</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 
 
@@ -530,7 +530,7 @@ document.write(`
             <span class="n">fmbr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
                 <span class="n">fmbr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">kb</span><span class="p">[</span><span class="n">j</span><span class="p">][:]</span> <span class="o">*</span> <span class="n">dmbr</span><span class="p">[:])</span>
-            <span class="n">fmbr</span> <span class="o">+=</span> <span class="n">beam</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">fmbr</span> <span class="o">+=</span> <span class="n">beam</span><span class="o">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_member_values</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">fmbr</span><span class="p">,</span> <span class="n">dmbr</span><span class="p">)</span>
             <span class="c1"># Shift x vals by location of mbr starting point</span>
             <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">sumL</span>
@@ -563,6 +563,9 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">L</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">EI</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">etype</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        
         <span class="n">dx</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
         <span class="n">x</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -573,16 +576,31 @@ document.write(`
         <span class="n">res</span> <span class="o">=</span> <span class="n">MaMb</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
 
         <span class="c1"># Now get the results for all the applied loads on a simple span</span>
+        <span class="n">Ma</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">Mb</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">beam</span><span class="o">.</span><span class="n">_loads</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">!=</span> <span class="n">i_span</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">res</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+            <span class="n">cnl</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">etype</span><span class="p">)</span>
+            <span class="n">Ma</span> <span class="o">+=</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span>
+            <span class="n">Mb</span> <span class="o">+=</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span>
+
+        <span class="c1"># Check element type for any released displacements        </span>
+        <span class="n">R0</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">phi_i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Account for end release if joint not already rotating</span>
+        <span class="k">if</span> <span class="n">etype</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">R0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span> <span class="p">:</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">L</span>
+            <span class="n">phi_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">EI</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">+</span><span class="p">(</span><span class="n">Ma</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">Mb</span><span class="p">))</span>
+            
+        <span class="n">R0</span> <span class="o">-=</span> <span class="n">phi_i</span> <span class="o">-</span> <span class="n">theta</span>
 
         <span class="c1"># And superimpose end displacements using Moment-Area</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span>
-        <span class="n">EI</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span>        
 
-        <span class="n">R</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dx</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">EI</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dx</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">EI</span> <span class="o">+</span> <span class="n">R0</span>
         <span class="n">D</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">cumtrapz</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span>

@@ -20,7 +20,7 @@ pycba.load.LoadML
       ~LoadML.MB
       ~LoadML.get_cnl
       ~LoadML.get_mbr_results
-      ~LoadML.released_end_forces
+      ~LoadML.get_ref
    
    
 
