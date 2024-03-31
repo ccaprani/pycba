@@ -140,7 +140,7 @@ class BeamResults:
         L = beam.mbr_lengths[i_span]
         EI = beam.mbr_EIs[i_span]
         etype = beam.mbr_eletype[i_span]
-        
+
         dx = L / self.npts
         x = np.zeros(self.npts + 3)
         x[1 : self.npts + 2] = dx * np.arange(0, self.npts + 1)
@@ -151,8 +151,8 @@ class BeamResults:
         res = MaMb.get_mbr_results(x, L)
 
         # Now get the results for all the applied loads on a simple span
-        Ma=0
-        Mb=0
+        Ma = 0
+        Mb = 0
         for load in beam._loads:
             if load.i_span != i_span:
                 continue
@@ -161,19 +161,19 @@ class BeamResults:
             Ma += cnl.Ma
             Mb += cnl.Mb
 
-        # Check element type for any released displacements        
+        # Check element type for any released displacements
         R0 = d[1]
         theta = 0
         phi_i = 0
         # Account for end release if joint not already rotating
-        if etype != 1 and abs(R0) < 1e-6 :
-            theta = (d[2]-d[0])/L
-            phi_i = (L/(3*EI))*(-(f[1]-0.5*f[3])+(Ma-0.5*Mb))
-            
+        if etype != 1 and abs(R0) < 1e-6:
+            theta = (d[2] - d[0]) / L
+            phi_i = (L / (3 * EI)) * (-(f[1] - 0.5 * f[3]) + (Ma - 0.5 * Mb))
+
         R0 -= phi_i - theta
 
         # And superimpose end displacements using Moment-Area
-        h = L / self.npts        
+        h = L / self.npts
 
         R = integrate.cumtrapz(res.M[1:-1], dx=h, initial=0) / EI + R0
         D = integrate.cumtrapz(R, dx=h, initial=0) + d[0]

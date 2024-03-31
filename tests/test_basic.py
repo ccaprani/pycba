@@ -16,7 +16,7 @@ def test_1span_ee():
     L = 10  # m
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, -1, -1, -1]
-    LM = [[1, 2, P, 0.5*L, 0]]
+    LM = [[1, 2, P, 0.5 * L, 0]]
 
     beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
     out = beam_analysis.analyze()
@@ -26,9 +26,9 @@ def test_1span_ee():
     Mb = beam_analysis.beam_results.results.M[-2]
     Mc = beam_analysis.beam_results.results.M[51]
 
-    assert Ma == pytest.approx(-P*L/8)
-    assert Mb == pytest.approx(-P*L/8)
-    assert Mc == pytest.approx(P*L/8)
+    assert Ma == pytest.approx(-P * L / 8)
+    assert Mb == pytest.approx(-P * L / 8)
+    assert Mc == pytest.approx(P * L / 8)
 
 
 def test_1span_ep():
@@ -40,7 +40,7 @@ def test_1span_ep():
     L = 10  # m
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, -1, -1, 0]
-    LM = [[1, 2, P, 0.5*L, 0]]
+    LM = [[1, 2, P, 0.5 * L, 0]]
 
     beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
     out = beam_analysis.analyze()
@@ -50,9 +50,9 @@ def test_1span_ep():
     Mb = beam_analysis.beam_results.results.M[-2]
     Mc = beam_analysis.beam_results.results.M[51]
 
-    assert Ma == pytest.approx(-3*P*L/16)
+    assert Ma == pytest.approx(-3 * P * L / 16)
     assert Mb == pytest.approx(0)
-    assert Mc == pytest.approx(5*P*L/32)
+    assert Mc == pytest.approx(5 * P * L / 32)
 
 
 def test_1span_ep_eletype2():
@@ -64,7 +64,7 @@ def test_1span_ep_eletype2():
     L = 10  # m
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
-    LM = [[1, 2, P, 0.5*L, 0]]
+    LM = [[1, 2, P, 0.5 * L, 0]]
 
     beam_analysis = cba.BeamAnalysis([L], EI, R, LM, eletype=[2])
     out = beam_analysis.analyze()
@@ -74,9 +74,9 @@ def test_1span_ep_eletype2():
     Mb = beam_analysis.beam_results.results.M[-2]
     Mc = beam_analysis.beam_results.results.M[51]
 
-    assert Ma == pytest.approx(-3*P*L/16)
+    assert Ma == pytest.approx(-3 * P * L / 16)
     assert Mb == pytest.approx(0)
-    assert Mc == pytest.approx(5*P*L/32)
+    assert Mc == pytest.approx(5 * P * L / 32)
 
 
 def test_1span_pe():
@@ -88,7 +88,7 @@ def test_1span_pe():
     L = 10  # m
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, 0, -1, -1]
-    LM = [[1, 2, P, 0.5*L, 0]]
+    LM = [[1, 2, P, 0.5 * L, 0]]
 
     beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
     out = beam_analysis.analyze()
@@ -99,8 +99,8 @@ def test_1span_pe():
     Mc = beam_analysis.beam_results.results.M[51]
 
     assert Ma == pytest.approx(0)
-    assert Mb == pytest.approx(-3*P*L/16)
-    assert Mc == pytest.approx(5*P*L/32)
+    assert Mb == pytest.approx(-3 * P * L / 16)
+    assert Mc == pytest.approx(5 * P * L / 32)
 
 
 def test_1span_pe_eletype3():
@@ -112,7 +112,7 @@ def test_1span_pe_eletype3():
     L = 10  # m
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
-    LM = [[1, 2, P, 0.5*L, 0]]
+    LM = [[1, 2, P, 0.5 * L, 0]]
 
     beam_analysis = cba.BeamAnalysis([L], EI, R, LM, eletype=[3])
     out = beam_analysis.analyze()
@@ -123,8 +123,8 @@ def test_1span_pe_eletype3():
     Mc = beam_analysis.beam_results.results.M[51]
 
     assert Ma == pytest.approx(0)
-    assert Mb == pytest.approx(-3*P*L/16)
-    assert Mc == pytest.approx(5*P*L/32)
+    assert Mb == pytest.approx(-3 * P * L / 16)
+    assert Mc == pytest.approx(5 * P * L / 32)
 
 
 def test_1span_pp():
@@ -136,7 +136,7 @@ def test_1span_pp():
     L = 10  # m
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, 0, -1, 0]
-    LM = [[1, 2, P, 0.5*L, 0]]
+    LM = [[1, 2, P, 0.5 * L, 0]]
 
     beam_analysis = cba.BeamAnalysis([L], EI, R, LM)
     out = beam_analysis.analyze()
@@ -148,7 +148,7 @@ def test_1span_pp():
 
     assert Ma == pytest.approx(0)
     assert Mb == pytest.approx(0)
-    assert Mc == pytest.approx(P*L/4)
+    assert Mc == pytest.approx(P * L / 4)
 
 
 def test_1span_pp_eletype4():
@@ -160,7 +160,7 @@ def test_1span_pp_eletype4():
     L = 10  # m
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
-    LM = [[1, 2, P, 0.5*L, 0]]
+    LM = [[1, 2, P, 0.5 * L, 0]]
 
     beam_analysis = cba.BeamAnalysis([L], EI, R, LM, eletype=[4])
     out = beam_analysis.analyze()
@@ -172,13 +172,13 @@ def test_1span_pp_eletype4():
 
     assert Ma == pytest.approx(0)
     assert Mb == pytest.approx(0)
-    assert Mc == pytest.approx(P*L/4)
+    assert Mc == pytest.approx(P * L / 4)
 
 
 def get_1span_beam_def(etype):
     P = 10  # kN
     L = 10  # m
-    a = 0.25*L
+    a = 0.25 * L
     EI = 30 * 600e7 * 1e-6  # kNm2
     R = [-1, -1, -1, -1]  # Notice, fixed-fixed supports
     LM = [[1, 2, P, a, 0]]
@@ -201,8 +201,8 @@ def test_1span_def_ff():
 
     # a>b
     b = aa
-    a = L-b
-    ymax = -(2*P*a**3*b**2)/(3*(3*a+b)**2*EI)
+    a = L - b
+    ymax = -(2 * P * a**3 * b**2) / (3 * (3 * a + b) ** 2 * EI)
 
     assert dmax == pytest.approx(ymax, abs=1e-6)
 
@@ -214,8 +214,8 @@ def test_1span_def_fp():
     P, L, EI, aa, dmax = get_1span_beam_def(etype=2)
 
     a = aa
-    b = L-a
-    ymax = -(P*a**2*b)/(6*EI)*(b/(3*L-a))**0.5
+    b = L - a
+    ymax = -(P * a**2 * b) / (6 * EI) * (b / (3 * L - a)) ** 0.5
 
     assert dmax == pytest.approx(ymax, abs=1e-6)
 
@@ -227,7 +227,7 @@ def test_1span_def_pf():
     P, L, EI, aa, dmax = get_1span_beam_def(etype=3)
 
     b = aa
-    ymax = -(P*b)/(3*EI)*(L**2-b**2)**3/(3*L**2-b**2)**2
+    ymax = -(P * b) / (3 * EI) * (L**2 - b**2) ** 3 / (3 * L**2 - b**2) ** 2
 
     assert dmax == pytest.approx(ymax, abs=1e-6)
 
@@ -239,7 +239,7 @@ def test_1span_def_pp():
     P, L, EI, aa, dmax = get_1span_beam_def(etype=4)
 
     a = aa
-    ymax = -3**0.5*P*a*(L**2-a**2)**1.5/(27*EI*L)
+    ymax = -(3**0.5) * P * a * (L**2 - a**2) ** 1.5 / (27 * EI * L)
 
     assert dmax == pytest.approx(ymax, abs=1e-6)
 
