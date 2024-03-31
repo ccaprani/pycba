@@ -177,7 +177,7 @@ def test_parse_beam_notation():
     assert eType == [1, 2, 1, 1]
 
 
-def test_distcretization():
+def test_discretization():
     """
     Confirm that poi rounding to find the closest idx for ILs works
     """
