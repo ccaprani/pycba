@@ -161,16 +161,14 @@ class BeamResults:
             Ma += cnl.Ma
             Mb += cnl.Mb
 
-        # Check element type for any released displacements
+        # If no releases, the rotation at i is easy
         R0 = d[1]
-        theta = 0
-        phi_i = 0
-        # Account for end release if joint not already rotating
-        if etype != 1 and abs(R0) < 1e-6:
+        
+        # Otherwise, check account for releases
+        if etype > 1:
             theta = (d[2] - d[0]) / L
-            phi_i = (L / (3 * EI)) * (-(f[1] - 0.5 * f[3]) + (Ma - 0.5 * Mb))
-
-        R0 -= phi_i - theta
+            phi = (L / (3 * EI)) * (-(f[1] - 0.5 * f[3]) + (Ma - 0.5 * Mb))
+            R0 = theta - phi
 
         # And superimpose end displacements using Moment-Area
         h = L / self.npts
