@@ -163,7 +163,7 @@ class BeamResults:
 
         # If no releases, the rotation at i is easy
         R0 = d[1]
-        
+
         # Otherwise, check account for releases
         if etype > 1:
             theta = (d[2] - d[0]) / L

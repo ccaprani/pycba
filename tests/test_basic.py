@@ -434,6 +434,7 @@ def test_3span_hinge():
         [0.0008680555555555557, -0.0016677326388888887], abs=1e-6
     )
 
+
 def test_flipped_hinge():
     # 3-span with etype 2
     L = [5, 5, 10]
@@ -456,14 +457,15 @@ def test_flipped_hinge():
     d2 = beam_analysis.beam_results.results.D
 
     # Confirm flipped deflected shapes are close
-    assert d1 == pytest.approx(d2[::-1],abs=1e-7)
-    
+    assert d1 == pytest.approx(d2[::-1], abs=1e-7)
+
+
 def test_hinges():
-    # Based on example in Logan's First Course in FE, Ex. 4.10    
+    # Based on example in Logan's First Course in FE, Ex. 4.10
     a = 4
     b = 2
     P = 20
-    L = [a,b]
+    L = [a, b]
     EI = 30 * 600e7 * 1e-6
     EIvec = EI * np.ones(len(L))
     eType = [1, 3]
@@ -473,13 +475,13 @@ def test_hinges():
     beam_analysis.analyze()
 
     phi2_1 = beam_analysis.beam_results.vRes[0].R[-2]
-    phi2_1_theory = -(a**2*b**3*P)/(2*(b**3+a**3)*EI)
-    
+    phi2_1_theory = -(a**2 * b**3 * P) / (2 * (b**3 + a**3) * EI)
+
     assert phi2_1_theory == pytest.approx(phi2_1)
 
     phi2_2 = beam_analysis.beam_results.vRes[1].R[1]
-    phi2_2_theory = (a**3*b**2*P)/(2*(b**3+a**3)*EI)
-    
+    phi2_2_theory = (a**3 * b**2 * P) / (2 * (b**3 + a**3) * EI)
+
     assert phi2_2_theory == pytest.approx(phi2_2)
 
 
