@@ -39,6 +39,8 @@
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'theory';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -425,10 +427,79 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="theoretical-basis">
-<h1>Theoretical Basis<a class="headerlink" href="#theoretical-basis" title="Permalink to this heading">#</a></h1>
-<p><cite>PyCBA</cite> is based on the matrix stiffness method.</p>
-<p>Until the documentation is completed, please see the Matrix Stiffness Method lecture notes <a class="reference external" href="http://www.colincaprani.com/structural-engineering/courses/structural-analysis-iv/">here</a> for more information.</p>
+  <section id="Theoretical-Basis">
+<h1>Theoretical Basis<a class="headerlink" href="#Theoretical-Basis" title="Permalink to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is based on the matrix stiffness method.</p>
+<section id="Note">
+<h2>Note<a class="headerlink" href="#Note" title="Permalink to this heading">#</a></h2>
+<p>Until this section is completed, please also see the Matrix Stiffness Method lecture notes <a class="reference external" href="http://www.colincaprani.com/structural-engineering/courses/structural-analysis-iv">here</a> for more information.</p>
+</section>
+<section id="Elements">
+<h2>Elements<a class="headerlink" href="#Elements" title="Permalink to this heading">#</a></h2>
+<p>The stiffness matrices for the elements used in <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> are given below.</p>
+<p>Note that the releases relate only to internal hinges within the elements themselves, and not to the supports conditions. Note also, that in modelling joints, there must always be one element with a ‘fixed’ end at a joint; otherwise the resulting global stiffness matrix will be singular.</p>
+<section id="Type-1:-Fixed-Fixed">
+<h3>Type 1: Fixed-Fixed<a class="headerlink" href="#Type-1:-Fixed-Fixed" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}\bf{K} = \frac{EI}{L^3}
+\begin{bmatrix}
+12 &amp; 6L &amp; -12 &amp; 6L \\
+6L &amp; 4L^2 &amp; -6L &amp; 2L^2 \\
+-12 &amp; -6L &amp; 12 &amp; -6L \\
+6L &amp; 2L^2 &amp; -6L &amp; 4L^2
+\end{bmatrix}\end{split}\]</div>
+</section>
+<section id="Type-2:-Fixed-Pinned">
+<h3>Type 2: Fixed-Pinned<a class="headerlink" href="#Type-2:-Fixed-Pinned" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}\bf{K} = \frac{3EI}{L^3}
+\begin{bmatrix}
+1 &amp; L &amp; -1 &amp; 0 \\
+L &amp; L^2 &amp; -L &amp; 0 \\
+-1 &amp; -L &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0
+\end{bmatrix}\end{split}\]</div>
+</section>
+<section id="Type-3:-Pinned-Fixed">
+<h3>Type 3: Pinned-Fixed<a class="headerlink" href="#Type-3:-Pinned-Fixed" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}\bf{K} = \frac{3EI}{L^3}
+\begin{bmatrix}
+1 &amp; 0 &amp; -1 &amp; L \\
+0 &amp; 0 &amp; 0 &amp; 0 \\
+-1 &amp; 0 &amp; 1 &amp; -L \\
+L &amp; 0 &amp; -L &amp; L^2
+\end{bmatrix}\end{split}\]</div>
+</section>
+<section id="Type-4:-Pinned-Pinned">
+<h3>Type 4: Pinned-Pinned<a class="headerlink" href="#Type-4:-Pinned-Pinned" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}\bf{K} =
+\begin{bmatrix}
+0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0
+\end{bmatrix}\end{split}\]</div>
+</section>
+</section>
+<section id="Displacements">
+<h2>Displacements<a class="headerlink" href="#Displacements" title="Permalink to this heading">#</a></h2>
+<p>Displacement along an element are found using cumulative trapezoidal integration to approximate the integral. It is not accurate to use the beam element shape functions due to the presence of inter-nodal loading. Thus, the rotations along an element are found by integrating the curvatures:</p>
+<div class="math notranslate nohighlight">
+\[\theta(x) = \theta_0 + \int_{x=0}^{x=L} \frac{M(x)}{EI} dx,\]</div>
+<p>and similarly the displacements then found by integrating the rotations:</p>
+<div class="math notranslate nohighlight">
+\[\delta(x) = \delta_0 + \int_{x=0}^{x=L} \theta(x) dx.\]</div>
+<p>In both cases we approximate the integral with:</p>
+<div class="math notranslate nohighlight">
+\[\int_0^L y(x) dx \approx \sum_{i=1}^{i=n} \frac{y_{i-1}+y_i}{2} \Delta x.\]</div>
+<p>which is implemented using <code class="docutils literal notranslate"><span class="pre">SciPy</span></code>’s <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.cumulative_trapezoid.html#scipy.integrate.cumulative_trapezoid">cumulative trapezoidal</a> integration along the <span class="math notranslate nohighlight">\(n\)</span> integration points along the member.</p>
+<p>Note that <span class="math notranslate nohighlight">\(\theta_0\)</span> and <span class="math notranslate nohighlight">\(\delta_0\)</span> are required: the rotation and translation at the <span class="math notranslate nohighlight">\(i\)</span>-node of the element. This is typically the output of the global system of equations; i.e., the nodal displacements. However, for elements with releases (types 2, 3, 4 above), we need to determine the starting rotation, <span class="math notranslate nohighlight">\(\theta_0\)</span>. From the slope deflection equations we can find this starting rotation at the <span class="math notranslate nohighlight">\(i\)</span>-node:</p>
+<div class="math notranslate nohighlight">
+\[\theta_i = \frac{\delta_j - \delta_i}{L} - \frac{L}{3EI}\left(-FEM_i + 0.5FEM_j + M_i - 0.5 M_j\right)\]</div>
+<p>in which the <span class="math notranslate nohighlight">\(FEM\)</span> are the consistent nodal loading moments due to the inter-nodal loads, and the <span class="math notranslate nohighlight">\(M\)</span> moments are solved from the global stiffness equation.</p>
+</section>
 </section>
 
 
@@ -461,9 +532,28 @@ document.write(`
 
   <div class="sidebar-secondary-item">
 
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Note">Note</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Elements">Elements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-1:-Fixed-Fixed">Type 1: Fixed-Fixed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-2:-Fixed-Pinned">Type 2: Fixed-Pinned</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-3:-Pinned-Fixed">Type 3: Pinned-Fixed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-4:-Pinned-Pinned">Type 4: Pinned-Pinned</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Displacements">Displacements</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/theory.md">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/theory.ipynb">
       <i class="fa-solid fa-pencil"></i>
       
       
