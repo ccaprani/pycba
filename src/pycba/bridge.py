@@ -489,13 +489,14 @@ class BridgeAnalysis:
         subfigs = fig.subfigures(1, 2, wspace=0.07)
 
         # Shear and moment in left panel
-        subfigs[0].suptitle("Stress Resultants")
+        subfigs[0].suptitle("Force Resultants")
         axsLeft = subfigs[0].subplots(2, 1, sharex=True)
 
         ax = axsLeft[0]
         ax.plot([0, L], [0, 0], "k", lw=2)
-        ax.plot(x, -env.Mmax, "r")
-        ax.plot(x, -env.Mmin, "b")
+        ax.plot(x, env.Mmax, "r")
+        ax.plot(x, env.Mmin, "b")
+        ax.invert_yaxis()
         ax.grid()
         ax.set_ylabel("Bending Moment (kNm)")
 
