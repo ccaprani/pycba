@@ -489,7 +489,7 @@ class BridgeAnalysis:
         subfigs = fig.subfigures(1, 2, wspace=0.07)
 
         # Shear and moment in left panel
-        subfigs[0].suptitle("Force Resultants")
+        subfigs[0].suptitle("Stress Resultants")
         axsLeft = subfigs[0].subplots(2, 1, sharex=True)
 
         ax = axsLeft[0]
