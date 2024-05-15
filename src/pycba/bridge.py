@@ -494,8 +494,9 @@ class BridgeAnalysis:
 
         ax = axsLeft[0]
         ax.plot([0, L], [0, 0], "k", lw=2)
-        ax.plot(x, -env.Mmax, "r")
-        ax.plot(x, -env.Mmin, "b")
+        ax.plot(x, env.Mmax, "r")
+        ax.plot(x, env.Mmin, "b")
+        ax.invert_yaxis()
         ax.grid()
         ax.set_ylabel("Bending Moment (kNm)")
 
