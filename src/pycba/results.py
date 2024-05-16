@@ -366,6 +366,52 @@ class Envelopes:
             self.Rmax = np.zeros((self.nsup, self.nres))
             self.Rmin = np.zeros((self.nsup, self.nres))
 
+    def sum(self, env: Envelopes):
+        """
+        Sum this set of envelopes with another compatible set, making this the
+        algebrical sum of the two sets of envelopes. A load-patterned BeamAnalysis 
+        and a Bridge Analysis can be summed.
+
+        All envelopes must be from the same :class:`pycba.bridge.BridgeAnalysis` object.
+
+        If the envelopes have a different number of analyses (due to differing vehicle
+        lengths, for example), then only the reaction extreme are retained, and not
+        the entire reaction history.
+
+        Parameters
+        ----------
+        env : Envelopes
+            A compatible :class:`pycba.results.Envelopes` object.
+
+        Raises
+        ------
+        ValueError
+            All envelopes must be for the same bridge.
+
+        Returns
+        -------
+        None.
+        """
+
+        if self.npts != env.npts or self.nsup != env.nsup:
+            raise ValueError("Cannot sum with an inconsistent envelope")
+        self.Vmax = np.add(self.Vmax, env.Vmax)
+        self.Vmin = np.add(self.Vmin, env.Vmin)
+
+        self.Mmax = np.add(self.Mmax, env.Mmax)
+        self.Mmin = np.add(self.Mmin, env.Mmin)
+
+        self.Rmaxval = np.add(self.Rmaxval, env.Rmaxval)
+        self.Rminval = np.add(self.Rminval, env.Rminval)
+
+        if self.nres == env.nres:
+            self.Rmax = np.add(self.Rmax, env.Rmax)
+            self.Rmin = np.add(self.Rmin, env.Rmin)
+        else:
+            # Ensure no misleading results returned
+            self.Rmax = np.zeros((self.nsup, self.nres))
+            self.Rmin = np.zeros((self.nsup, self.nres))
+
     def plot(self, each=False, **kwargs):
         """
         Plots the envelopes of bending and shear.
