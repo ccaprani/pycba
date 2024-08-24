@@ -173,8 +173,8 @@ class BeamResults:
         # And superimpose end displacements using Moment-Area
         h = L / self.npts
 
-        R = integrate.cumtrapz(res.M[1:-1], dx=h, initial=0) / EI + R0
-        D = integrate.cumtrapz(R, dx=h, initial=0) + d[0]
+        R = integrate.cumulative_trapezoid(res.M[1:-1], dx=h, initial=0) / EI + R0
+        D = integrate.cumulative_trapezoid(R, dx=h, initial=0) + d[0]
 
         res.R[1:-1] = R
         res.D[1:-1] = D
