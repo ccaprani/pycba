@@ -488,7 +488,7 @@ class LoadPUDL(Load):
         w = self.w
         # Check if on span, if not, return zeros
         if self.a > L:
-            return [0.0] * 4
+            return LoadCNL(Va=0.,Vb=0.,Ma=0.,Mb=0.)
         # Actual cover on span
         d = L - (a + c)
         # If cover hangs off span, adjust it
