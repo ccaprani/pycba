@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -430,20 +430,20 @@ document.write(`
 <span class="sd">http://www.colincaprani.com/programming/matlab/</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">.beam</span> <span class="kn">import</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">LoadMatrix</span>
-<span class="kn">from</span> <span class="nn">.results</span> <span class="kn">import</span> <span class="n">BeamResults</span>
-<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">add_LM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.beam</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">LoadMatrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamResults</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_LM</span>
 
 
-<div class="viewcode-block" id="BeamAnalysis"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis">[docs]</a><span class="k">class</span> <span class="nc">BeamAnalysis</span><span class="p">:</span>
+<div class="viewcode-block" id="BeamAnalysis"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BeamAnalysis</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The base class for Continuous Beam Analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">L</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
@@ -488,14 +488,14 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">beam_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">beam_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">beam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">beam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span>
 
-<div class="viewcode-block" id="BeamAnalysis.set_loads"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.set_loads">[docs]</a>    <span class="k">def</span> <span class="nf">set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.set_loads"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.set_loads">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set load matrix for pre-defined beam. This overrides any previously-defined loads.</span>
 
@@ -511,7 +511,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">loads</span> <span class="o">=</span> <span class="n">LM</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_udl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_udl">[docs]</a>    <span class="k">def</span> <span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.add_udl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_udl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a uniformly-distributed load to the beam</span>
 
@@ -530,7 +530,7 @@ document.write(`
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_pl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pl">[docs]</a>    <span class="k">def</span> <span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.add_pl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a point load to the beam</span>
 
@@ -552,7 +552,7 @@ document.write(`
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_pudl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pudl">[docs]</a>    <span class="k">def</span> <span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.add_pudl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pudl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a partial uniformly-distributed load to the beam.</span>
 <span class="sd">        Note that any load extending beyond the end of the span is ignored.</span>
@@ -578,7 +578,7 @@ document.write(`
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_ml"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ml">[docs]</a>    <span class="k">def</span> <span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.add_ml"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ml">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a moment load to the beam</span>
 
@@ -600,7 +600,7 @@ document.write(`
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.analyze"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze">[docs]</a>    <span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="BeamAnalysis.analyze"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Conducts the analysis on the constructed BeamAnalysis object</span>
 
@@ -628,7 +628,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="n">BeamResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 
-    <span class="k">def</span> <span class="nf">_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct the nodal force vector</span>
 
@@ -653,7 +653,7 @@ document.write(`
             <span class="n">f</span><span class="p">[</span><span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span> <span class="o">-=</span> <span class="n">fmbr</span>
         <span class="k">return</span> <span class="n">f</span>
 
-    <span class="k">def</span> <span class="nf">_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct the unrestricted global stiffness matrix</span>
 
@@ -675,7 +675,7 @@ document.write(`
             <span class="n">ksys</span><span class="p">[</span><span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span> <span class="o">+=</span> <span class="n">kb</span>
         <span class="k">return</span> <span class="n">ksys</span>
 
-    <span class="k">def</span> <span class="nf">_apply_bc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply the boundary conditions</span>
 
@@ -709,7 +709,7 @@ document.write(`
                 <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">k</span><span class="p">,</span> <span class="n">f</span>
 
-    <span class="k">def</span> <span class="nf">_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the reactions</span>
 
@@ -737,7 +737,7 @@ document.write(`
                 <span class="n">r2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solves the matrix equation</span>
 
@@ -756,7 +756,7 @@ document.write(`
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span>
 
-<div class="viewcode-block" id="BeamAnalysis.plot_results"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_results">[docs]</a>    <span class="k">def</span> <span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.plot_results"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the results of the analysis</span>
 

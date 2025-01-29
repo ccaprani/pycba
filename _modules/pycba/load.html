@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -449,16 +449,16 @@ document.write(`
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Define a type alias</span>
 <span class="n">LoadType</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
 <span class="n">LoadMatrix</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">LoadType</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="LoadCNL"><a class="viewcode-back" href="../../gen/pycba.load.LoadCNL.html#pycba.load.LoadCNL">[docs]</a><span class="k">class</span> <span class="nc">LoadCNL</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadCNL"><a class="viewcode-back" href="../../gen/pycba.load.LoadCNL.html#pycba.load.LoadCNL">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoadCNL</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A typed namedtuple for Consistent Nodal Loads</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -470,12 +470,12 @@ document.write(`
 
 
 <span class="c1"># Would be nice to have this in results.py but it causes a circular reference</span>
-<div class="viewcode-block" id="MemberResults"><a class="viewcode-back" href="../../gen/pycba.load.MemberResults.html#pycba.load.MemberResults">[docs]</a><span class="k">class</span> <span class="nc">MemberResults</span><span class="p">:</span>
+<div class="viewcode-block" id="MemberResults"><a class="viewcode-back" href="../../gen/pycba.load.MemberResults.html#pycba.load.MemberResults">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MemberResults</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for storing the results for a single member</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">vals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
             <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
@@ -516,7 +516,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;MemberResults requries either vals or n&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_zero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_zero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a zero arrays of results</span>
 
@@ -536,7 +536,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MemberResults.__add__"><a class="viewcode-back" href="../../gen/pycba.load.MemberResults.html#pycba.load.MemberResults.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="n">MemberResults</span><span class="p">):</span>
+<div class="viewcode-block" id="MemberResults.__add__"><a class="viewcode-back" href="../../gen/pycba.load.MemberResults.html#pycba.load.MemberResults.__add__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="n">MemberResults</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Overload addition of :class:`pycba.load.MemberResults` objects to superimpose</span>
 <span class="sd">        load effects.</span>
@@ -573,7 +573,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="MemberResults.apply_EI"><a class="viewcode-back" href="../../gen/pycba.load.MemberResults.html#pycba.load.MemberResults.apply_EI">[docs]</a>    <span class="k">def</span> <span class="nf">apply_EI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="MemberResults.apply_EI"><a class="viewcode-back" href="../../gen/pycba.load.MemberResults.html#pycba.load.MemberResults.apply_EI">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply_EI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Factors results by flexural rigidity after numerical integration of the</span>
 <span class="sd">        bending moments for the displacements (rotations and translations).</span>
@@ -591,12 +591,12 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">/=</span> <span class="n">EI</span></div></div>
 
 
-<div class="viewcode-block" id="Load"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load">[docs]</a><span class="k">class</span> <span class="nc">Load</span><span class="p">:</span>
+<div class="viewcode-block" id="Load"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Load</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Beam load container and processor</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the loads from the Load Matrix</span>
 
@@ -607,14 +607,14 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i_span</span> <span class="o">=</span> <span class="n">i_span</span>
 
-    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
         <span class="c1"># Enforce virtual base class</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="Load.MB"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.MB">[docs]</a>    <span class="k">def</span> <span class="nf">MB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Load.MB"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.MB">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">MB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Macaulay bracket: clipping values less than zero to zero.</span>
 
@@ -625,7 +625,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Load.H"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.H">[docs]</a>    <span class="k">def</span> <span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Load.H"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.H">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Heaviside step function: values less than zero are clipped to zero;</span>
 <span class="sd">        values greater than zero are clipped to unity; zeros are retained.</span>
@@ -640,7 +640,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">heaviside</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Load.get_ref"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.get_ref">[docs]</a>    <span class="k">def</span> <span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="Load.get_ref"><a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.get_ref">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Released End Forces for a span of length L of element eType:</span>
 <span class="sd">        converts the Consistent Nodal Loads of the applied loading to the correct nodal</span>
@@ -690,12 +690,12 @@ document.write(`
         <span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="LoadUDL"><a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL">[docs]</a><span class="k">class</span> <span class="nc">LoadUDL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadUDL"><a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoadUDL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uniformly Distributed Load: CNLs and member results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a UDL for the member</span>
 
@@ -714,7 +714,7 @@ document.write(`
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">w</span>
 
-<div class="viewcode-block" id="LoadUDL.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL.get_cnl">[docs]</a>    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadUDL.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL.get_cnl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
@@ -743,7 +743,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cnl</span></div>
 
-<div class="viewcode-block" id="LoadUDL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadUDL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL.get_mbr_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Results along the member from UDL</span>
 
@@ -780,12 +780,12 @@ document.write(`
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
-<div class="viewcode-block" id="LoadPL"><a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL">[docs]</a><span class="k">class</span> <span class="nc">LoadPL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadPL"><a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoadPL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Point Load class: CNLs and member results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a Point Load for the member</span>
 
@@ -807,7 +807,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">P</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
 
-<div class="viewcode-block" id="LoadPL.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL.get_cnl">[docs]</a>    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadPL.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL.get_cnl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
@@ -839,7 +839,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cnl</span></div>
 
-<div class="viewcode-block" id="LoadPL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadPL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL.get_mbr_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Results along the member from this load</span>
 
@@ -880,18 +880,18 @@ document.write(`
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
-<div class="viewcode-block" id="LoadPUDL"><a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL">[docs]</a><span class="k">class</span> <span class="nc">LoadPUDL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadPUDL"><a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoadPUDL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concrete class for Partial UDLs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">w</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
 
-<div class="viewcode-block" id="LoadPUDL.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL.get_cnl">[docs]</a>    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadPUDL.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL.get_cnl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
@@ -934,7 +934,7 @@ document.write(`
         <span class="c1"># implicit conversion to tuple in correct order</span>
         <span class="k">return</span> <span class="n">cnl</span></div>
 
-<div class="viewcode-block" id="LoadPUDL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadPUDL.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL.get_mbr_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Results along the member from this load</span>
 
@@ -990,17 +990,17 @@ document.write(`
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
-<div class="viewcode-block" id="LoadMaMb"><a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb">[docs]</a><span class="k">class</span> <span class="nc">LoadMaMb</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadMaMb"><a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoadMaMb</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Member end moment loads</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Ma</span> <span class="o">=</span> <span class="n">Ma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Mb</span> <span class="o">=</span> <span class="n">Mb</span>
 
-<div class="viewcode-block" id="LoadMaMb.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb.get_cnl">[docs]</a>    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadMaMb.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb.get_cnl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
@@ -1030,7 +1030,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cnl</span></div>
 
-<div class="viewcode-block" id="LoadMaMb.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadMaMb.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb.get_mbr_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Results along the member from this load</span>
 
@@ -1070,17 +1070,17 @@ document.write(`
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
-<div class="viewcode-block" id="LoadML"><a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML">[docs]</a><span class="k">class</span> <span class="nc">LoadML</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadML"><a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoadML</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Moment load applied at a along member</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
 
-<div class="viewcode-block" id="LoadML.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML.get_cnl">[docs]</a>    <span class="k">def</span> <span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadML.get_cnl"><a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML.get_cnl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
@@ -1111,7 +1111,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cnl</span></div>
 
-<div class="viewcode-block" id="LoadML.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML.get_mbr_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadML.get_mbr_results"><a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML.get_mbr_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Results along the member from this load</span>
 
@@ -1169,7 +1169,7 @@ document.write(`
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
-<div class="viewcode-block" id="parse_LM"><a class="viewcode-back" href="../../gen/pycba.load.parse_LM.html#pycba.load.parse_LM">[docs]</a><span class="k">def</span> <span class="nf">parse_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Load</span><span class="p">]:</span>
+<div class="viewcode-block" id="parse_LM"><a class="viewcode-back" href="../../gen/pycba.load.parse_LM.html#pycba.load.parse_LM">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parse_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Load</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function parses the Load Matrix and returns a list</span>
 <span class="sd">    of Load objects</span>
@@ -1217,7 +1217,7 @@ document.write(`
     <span class="k">return</span> <span class="n">loads</span></div>
 
 
-<div class="viewcode-block" id="add_LM"><a class="viewcode-back" href="../../gen/pycba.load.add_LM.html#pycba.load.add_LM">[docs]</a><span class="k">def</span> <span class="nf">add_LM</span><span class="p">(</span><span class="n">LM1</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LM2</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<div class="viewcode-block" id="add_LM"><a class="viewcode-back" href="../../gen/pycba.load.add_LM.html#pycba.load.add_LM">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_LM</span><span class="p">(</span><span class="n">LM1</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LM2</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds two load matrices and returns the sum; this enables superposition</span>
 
@@ -1244,7 +1244,7 @@ document.write(`
     <span class="k">return</span> <span class="n">LM</span></div>
 
 
-<div class="viewcode-block" id="factor_LM"><a class="viewcode-back" href="../../gen/pycba.load.factor_LM.html#pycba.load.factor_LM">[docs]</a><span class="k">def</span> <span class="nf">factor_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<div class="viewcode-block" id="factor_LM"><a class="viewcode-back" href="../../gen/pycba.load.factor_LM.html#pycba.load.factor_LM">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">factor_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Applies a factor to the loads in a `LoadMatrix` object</span>
 

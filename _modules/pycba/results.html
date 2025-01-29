@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -427,22 +427,22 @@ document.write(`
 <span class="sd">PyCBA - Beam Results module</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
-<span class="kn">from</span> <span class="nn">.beam</span> <span class="kn">import</span> <span class="n">Beam</span>
-<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">MemberResults</span><span class="p">,</span> <span class="n">LoadMaMb</span><span class="p">,</span> <span class="n">LoadCNL</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.beam</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemberResults</span><span class="p">,</span> <span class="n">LoadMaMb</span><span class="p">,</span> <span class="n">LoadCNL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 
 
-<div class="viewcode-block" id="BeamResults"><a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults">[docs]</a><span class="k">class</span> <span class="nc">BeamResults</span><span class="p">:</span>
+<div class="viewcode-block" id="BeamResults"><a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BeamResults</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    BeamResults Class for processing and containing the results for each member</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize member results from global results</span>
 
@@ -468,7 +468,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">r</span>  <span class="c1"># reactions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concatenate_results</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_concatenate_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_concatenate_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assemble the vector of results by member into a long vector of each result</span>
 <span class="sd">        and store in a :class:`pycba.MemberResults` object.</span>
@@ -504,7 +504,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_member_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_member_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Establish the results for each member from the stiffness method results.</span>
 
@@ -538,7 +538,7 @@ document.write(`
             <span class="n">vRes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">vRes</span>
 
-    <span class="k">def</span> <span class="nf">_member_values</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_member_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -607,12 +607,12 @@ document.write(`
         <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Envelopes"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes">[docs]</a><span class="k">class</span> <span class="nc">Envelopes</span><span class="p">:</span>
+<div class="viewcode-block" id="Envelopes"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Envelopes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Envelopes load effects from a vector of BeamResults</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vResults</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vResults</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs the envelope of each load effect given a vector of results for</span>
 <span class="sd">        the beam.</span>
@@ -639,7 +639,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">Rmaxval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rminval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_envelope_V</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelope_V</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates the envelopes for shear.</span>
 
@@ -662,7 +662,7 @@ document.write(`
             <span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">Vmin</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_envelope_M</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelope_M</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates the envelopes for moment.</span>
 
@@ -685,7 +685,7 @@ document.write(`
             <span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_envelope_R</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelope_R</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates the envelopes for reaction. Strictly this is not an envelope but</span>
 <span class="sd">        the history of reaction as the vehicle traverses the bridge.</span>
@@ -716,7 +716,7 @@ document.write(`
         <span class="k">return</span> <span class="p">(</span><span class="n">Rmax</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Envelopes.zero_like"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.zero_like">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">zero_like</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero_like</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a zeroed zet of envelopes like the reference :class:`pycba.results.Envelopes`.</span>
 <span class="sd">        This is necessary since a :class:`pycba.results.Envelopes` object stores information</span>
@@ -746,7 +746,7 @@ document.write(`
         <span class="n">zero_env</span><span class="o">.</span><span class="n">Rminval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">zero_env</span></div>
 
-<div class="viewcode-block" id="Envelopes.augment"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.augment">[docs]</a>    <span class="k">def</span> <span class="nf">augment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
+<div class="viewcode-block" id="Envelopes.augment"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.augment">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Augments this set of envelopes with another compatible set, making this the</span>
 <span class="sd">        envelopes of the two sets of envelopes.</span>
@@ -791,7 +791,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Envelopes.plot"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">each</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Envelopes.plot"><a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.plot">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">each</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the envelopes of bending and shear.</span>
 

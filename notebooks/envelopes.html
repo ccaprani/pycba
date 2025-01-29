@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -454,15 +454,19 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pycba</span> <span class="k">as</span> <span class="nn">cba</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
 <section id="Example-1:-Hulse-&amp;-Mosley">
 <h2>Example 1: Hulse &amp; Mosley<a class="headerlink" href="#Example-1:-Hulse-&-Mosley" title="Permalink to this heading">#</a></h2>
-<p>Here we consider a 3-span beam from Hulse &amp; Mosley, <em>Reinforced Concrete Design By Computer</em> (1986) which uses the load pattern from the (now superseded) British Standards: - MAX = 1.4 Gk + 1.6 Qk - MIN = 1.0 Gk The beam is subjected to nominal dead and live UDLs of <span class="math notranslate nohighlight">\(w_g = 25\)</span> kN/m and <span class="math notranslate nohighlight">\(w_q = 10\)</span> kN/m respectively.</p>
+<p>Here we consider a 3-span beam from Hulse &amp; Mosley, <em>Reinforced Concrete Design By Computer</em> (1986) which uses the load pattern from the (now superseded) British Standards:</p>
+<ul class="simple">
+<li><p>MAX = 1.4 Gk + 1.6 Qk</p></li>
+<li><p>MIN = 1.0 Gk The beam is subjected to nominal dead and live UDLs of <span class="math notranslate nohighlight">\(w_g = 25\)</span> kN/m and <span class="math notranslate nohighlight">\(w_q = 10\)</span> kN/m respectively.</p></li>
+</ul>
 <p>First establish the beam as usual:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -568,7 +572,11 @@ True True
 </section>
 <section id="Example-2:-5-span-Beam">
 <h2>Example 2: 5-span Beam<a class="headerlink" href="#Example-2:-5-span-Beam" title="Permalink to this heading">#</a></h2>
-<p>In this example we use Eurocode load factors for which the load pattern is - MAX = 1.35 Gk + 1.5Qk - MIN = 0.9 Gk</p>
+<p>In this example we use Eurocode load factors for which the load pattern is</p>
+<ul class="simple">
+<li><p>MAX = 1.35 Gk + 1.5Qk</p></li>
+<li><p>MIN = 0.9 Gk</p></li>
+</ul>
 <p>Make the beam as before:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
@@ -643,7 +651,11 @@ True True
 </section>
 <section id="Example-3:-4-Span-Beam">
 <h2>Example 3: 4-Span Beam<a class="headerlink" href="#Example-3:-4-Span-Beam" title="Permalink to this heading">#</a></h2>
-<p>Here we consider a 4-span beam subjec to nominal dead and live UDLs of <span class="math notranslate nohighlight">\(w_g = 20\)</span> kN/m and <span class="math notranslate nohighlight">\(w_q = 30\)</span> kN/m respectively. Here we use a modified load pattern from the old British Standards, conservatively allowing dead load to be less than the nominal estimate: - MAX = 1.4 Gk + 1.6 Qk - MIN = 0.9 Gk</p>
+<p>Here we consider a 4-span beam subjec to nominal dead and live UDLs of <span class="math notranslate nohighlight">\(w_g = 20\)</span> kN/m and <span class="math notranslate nohighlight">\(w_q = 30\)</span> kN/m respectively. Here we use a modified load pattern from the old British Standards, conservatively allowing dead load to be less than the nominal estimate:</p>
+<ul class="simple">
+<li><p>MAX = 1.4 Gk + 1.6 Qk</p></li>
+<li><p>MIN = 0.9 Gk</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -756,7 +768,12 @@ True True
 </section>
 <section id="Influence-Lines">
 <h3>Influence Lines<a class="headerlink" href="#Influence-Lines" title="Permalink to this heading">#</a></h3>
-<p>First lets plot the influence lines for: * Hogging at the support between spans 3,4 (36m) * Sagging at the midspan of span 3 (30m) * Shear force at the support between spans 3,4 (36m)</p>
+<p>First lets plot the influence lines for:</p>
+<ul class="simple">
+<li><p>Hogging at the support between spans 3,4 (36m)</p></li>
+<li><p>Sagging at the midspan of span 3 (30m)</p></li>
+<li><p>Shear force at the support between spans 3,4 (36m)</p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -829,7 +846,7 @@ True True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cs454</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cs454</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
     <span class="c1"># default to L &gt; 50 m</span>
     <span class="n">udl</span> <span class="o">=</span> <span class="mi">36</span><span class="o">/</span><span class="n">L</span><span class="o">**</span><span class="mf">0.1</span>
     <span class="n">kel</span> <span class="o">=</span> <span class="mi">120</span>

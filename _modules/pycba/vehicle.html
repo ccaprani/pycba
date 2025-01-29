@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -426,18 +426,18 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">PyCBA - Continuous Beam Analysis - Bridge Crossing Module</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 
-<div class="viewcode-block" id="Vehicle"><a class="viewcode-back" href="../../gen/pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle">[docs]</a><span class="k">class</span> <span class="nc">Vehicle</span><span class="p">:</span>
+<div class="viewcode-block" id="Vehicle"><a class="viewcode-back" href="../../gen/pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Vehicle</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A basic vehicle definition for a bridge crossing analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs the :class:`pycba.bridge.Vehicle` object from the supplied data.</span>
 
@@ -477,7 +477,7 @@ document.write(`
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span>
 
-<div class="viewcode-block" id="Vehicle.reverse"><a class="viewcode-back" href="../../gen/pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Vehicle.reverse"><a class="viewcode-back" href="../../gen/pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle.reverse">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reverses the vehicle; now the `pos` coordinate will refer to the rear axle</span>
 <span class="sd">        as it traverses the bridge in reverse from zero in the global x-coordinate</span>
@@ -501,7 +501,7 @@ document.write(`
             <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axs</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axw</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div></div>
 
 
-<div class="viewcode-block" id="make_train"><a class="viewcode-back" href="../../gen/pycba.vehicle.make_train.html#pycba.vehicle.make_train">[docs]</a><span class="k">def</span> <span class="nf">make_train</span><span class="p">(</span><span class="n">vehicles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Vehicle</span><span class="p">],</span> <span class="n">spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<div class="viewcode-block" id="make_train"><a class="viewcode-back" href="../../gen/pycba.vehicle.make_train.html#pycba.vehicle.make_train">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_train</span><span class="p">(</span><span class="n">vehicles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Vehicle</span><span class="p">],</span> <span class="n">spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Makes a train of vehicles from a sequence from multiple</span>
 <span class="sd">    :class:`pycba.bridge.Vehicle` objects behind one another (e.g. superload</span>
@@ -552,7 +552,7 @@ document.write(`
     <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">new_vehicle_spaces</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">new_vehicle_axles</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VehicleLibrary"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary">[docs]</a><span class="k">class</span> <span class="nc">VehicleLibrary</span><span class="p">:</span>
+<div class="viewcode-block" id="VehicleLibrary"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">VehicleLibrary</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A repository of some useful vehicles for analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -592,7 +592,7 @@ document.write(`
     <span class="p">]</span>
 
 <div class="viewcode-block" id="VehicleLibrary.get_abag_bdouble"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_abag_bdouble">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_abag_bdouble</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_abag_bdouble</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates one of the Australian Bridge Assessment Guidelines (ABAG) 68.5 t</span>
 <span class="sd">        B-double trucks.</span>
@@ -615,7 +615,7 @@ document.write(`
         <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_aw</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="VehicleLibrary.get_abag_semitrailer"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_abag_semitrailer">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_abag_semitrailer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_abag_semitrailer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates one of the Australian Bridge Assessment Guidelines (ABAG) 45 t</span>
 <span class="sd">        semi-trailer trucks</span>
@@ -638,7 +638,7 @@ document.write(`
         <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_aw</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="VehicleLibrary.get_example_permit"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_example_permit">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_example_permit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_example_permit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        An example B-double type truck that might seek a network access permit.</span>
 
@@ -656,7 +656,7 @@ document.write(`
         <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="VehicleLibrary.get_m1600"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_m1600">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_m1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_m1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The AS5100 M1600 load model truck. This is the notional load model for</span>
 <span class="sd">        moving traffic and is usually critical for short to medium span bridges</span>
@@ -697,7 +697,7 @@ document.write(`
         <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="VehicleLibrary.get_s1600"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_s1600">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_s1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_s1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The AS5100 S1600 load model truck. This is the notional load model for</span>
 <span class="sd">        stationary traffic and is criticial for longer spans.</span>
@@ -737,7 +737,7 @@ document.write(`
         <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="VehicleLibrary.get_validation_truck"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_validation_truck">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_validation_truck</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_validation_truck</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A set of moving loads used for validation on a 20 m span against the</span>
 <span class="sd">        textbook, &quot;Structural and Stress Analysis&quot;&quot;, 2nd edn., Megson, p. 579.</span>
@@ -754,7 +754,7 @@ document.write(`
         <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span></div>
 
 <div class="viewcode-block" id="VehicleLibrary.get_la_rail"><a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_la_rail">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_la_rail</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">axle_group_spacing</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">axle_weight</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_la_rail</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">axle_group_spacing</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">axle_weight</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The AS5100.2 LA rail load model, including the simulated locomotive.</span>
 

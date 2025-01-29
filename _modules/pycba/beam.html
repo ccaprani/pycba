@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -426,17 +426,17 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">PyCBA - Beam Class definition</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">parse_LM</span><span class="p">,</span> <span class="n">LoadType</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCNL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_LM</span><span class="p">,</span> <span class="n">LoadType</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCNL</span>
 
 
-<div class="viewcode-block" id="Beam"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam">[docs]</a><span class="k">class</span> <span class="nc">Beam</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Beam</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class definition</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">L</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">EI</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -495,7 +495,7 @@ document.write(`
         <span class="k">if</span> <span class="n">LM</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">LM</span>
 
-<div class="viewcode-block" id="Beam.add_span"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_span">[docs]</a>    <span class="k">def</span> <span class="nf">add_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eletype</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="Beam.add_span"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_span">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eletype</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a span to the continuous beam</span>
 
@@ -521,7 +521,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">L</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the load matrix for the beam</span>
 
@@ -534,7 +534,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LM</span>
 
     <span class="nd">@loads</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the load matrix for the beam</span>
 
@@ -551,7 +551,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">LM</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Beam.add_load"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_load">[docs]</a>    <span class="k">def</span> <span class="nf">add_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load</span><span class="p">:</span> <span class="n">LoadType</span><span class="p">):</span>
+<div class="viewcode-block" id="Beam.add_load"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_load">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load</span><span class="p">:</span> <span class="n">LoadType</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a new load to the beam&#39;s load matrix</span>
 
@@ -568,7 +568,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Explicit internal setter for loads</span>
 
@@ -585,7 +585,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="n">parse_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the restraints vector for the beam</span>
 
@@ -598,7 +598,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span>
 
     <span class="nd">@restraints</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stores support conditions</span>
 
@@ -615,14 +615,14 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="n">r</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">_set_element_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_element_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stores element type for a span based on support conditions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Changing element type not supported&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">no_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">no_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the no. of spans in the beam</span>
 
@@ -634,7 +634,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">no_restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">no_restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the number of restraints of the beam</span>
 
@@ -646,7 +646,7 @@ document.write(`
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">no_fixed_restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">no_fixed_restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the number of fixed restraints of the beam (fully-supported DOFs)</span>
 
@@ -658,7 +658,7 @@ document.write(`
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -667,7 +667,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span>
 
-<div class="viewcode-block" id="Beam.get_local_span_coords"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_local_span_coords">[docs]</a>    <span class="k">def</span> <span class="nf">get_local_span_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="Beam.get_local_span_coords"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_local_span_coords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_local_span_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the span index and position in span for a position given in global</span>
 <span class="sd">        coordinates on the beam</span>
@@ -705,7 +705,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">ispan</span><span class="p">,</span> <span class="n">pos_in_span</span></div>
 
-<div class="viewcode-block" id="Beam.get_ref"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_ref">[docs]</a>    <span class="k">def</span> <span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam.get_ref"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_ref">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns Released End Forces for the member; that is, the Consistent Nodal Loads</span>
 <span class="sd">        modified for the element type (i.e. releases)</span>
@@ -730,7 +730,7 @@ document.write(`
                 <span class="n">ref</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ref</span></div>
 
-<div class="viewcode-block" id="Beam.get_span_k"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_span_k">[docs]</a>    <span class="k">def</span> <span class="nf">get_span_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam.get_span_k"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_span_k">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_span_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the stiffness matrix for the ith span</span>
 
@@ -758,7 +758,7 @@ document.write(`
             <span class="n">kb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_FF</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">kb</span></div>
 
-<div class="viewcode-block" id="Beam.k_FF"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF">[docs]</a>    <span class="k">def</span> <span class="nf">k_FF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam.k_FF"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">k_FF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a fixed-fixed element</span>
 
@@ -794,7 +794,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">k</span></div>
 
-<div class="viewcode-block" id="Beam.k_FP"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FP">[docs]</a>    <span class="k">def</span> <span class="nf">k_FP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam.k_FP"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">k_FP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a fixed-pinned element</span>
 
@@ -829,7 +829,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">k</span></div>
 
-<div class="viewcode-block" id="Beam.k_PF"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PF">[docs]</a>    <span class="k">def</span> <span class="nf">k_PF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam.k_PF"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PF">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">k_PF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a pinned-fixed element</span>
 
@@ -864,7 +864,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">k</span></div>
 
-<div class="viewcode-block" id="Beam.k_PP"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PP">[docs]</a>    <span class="k">def</span> <span class="nf">k_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Beam.k_PP"><a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">k_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stiffness matrix for a pinned-pinned element</span>
 

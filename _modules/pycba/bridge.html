@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -426,17 +426,17 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">PyCBA - Continuous Beam Analysis - Bridge Crossing Module</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">.analysis</span> <span class="kn">import</span> <span class="n">BeamAnalysis</span>
-<span class="kn">from</span> <span class="nn">.results</span> <span class="kn">import</span> <span class="n">Envelopes</span><span class="p">,</span> <span class="n">BeamResults</span>
-<span class="kn">from</span> <span class="nn">.vehicle</span> <span class="kn">import</span> <span class="n">Vehicle</span>
-<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">add_LM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">Envelopes</span><span class="p">,</span> <span class="n">BeamResults</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.vehicle</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vehicle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_LM</span>
 
 
-<div class="viewcode-block" id="BridgeAnalysis"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis">[docs]</a><span class="k">class</span> <span class="nc">BridgeAnalysis</span><span class="p">:</span>
+<div class="viewcode-block" id="BridgeAnalysis"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BridgeAnalysis</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs a bridge crossing analysis for a defined vehicle. The vehicle is moved</span>
 <span class="sd">    from the zero global x-coordinate of the beam until it has left the beam at the</span>
@@ -446,7 +446,7 @@ document.write(`
 <span class="sd">    superimposed in each vehicle position analysis.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">veh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Vehicle</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -477,7 +477,7 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">loads</span>
 
-<div class="viewcode-block" id="BridgeAnalysis.add_bridge"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.add_bridge">[docs]</a>    <span class="k">def</span> <span class="nf">add_bridge</span><span class="p">(</span>
+<div class="viewcode-block" id="BridgeAnalysis.add_bridge"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.add_bridge">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_bridge</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">L</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
@@ -507,7 +507,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">loads</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.set_bridge"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_bridge">[docs]</a>    <span class="k">def</span> <span class="nf">set_bridge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
+<div class="viewcode-block" id="BridgeAnalysis.set_bridge"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_bridge">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_bridge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the bridge for the bridge analysis.</span>
 
@@ -527,7 +527,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">ba</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">loads</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.add_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.add_vehicle">[docs]</a>    <span class="k">def</span> <span class="nf">add_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<div class="viewcode-block" id="BridgeAnalysis.add_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.add_vehicle">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and add the vehicle to the analysis</span>
 
@@ -548,7 +548,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axle_spacings</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.set_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_vehicle">[docs]</a>    <span class="k">def</span> <span class="nf">set_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">veh</span><span class="p">:</span> <span class="n">Vehicle</span><span class="p">):</span>
+<div class="viewcode-block" id="BridgeAnalysis.set_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_vehicle">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">veh</span><span class="p">:</span> <span class="n">Vehicle</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the vehicle for the bridge analysis.</span>
 
@@ -564,7 +564,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">veh</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.static_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.static_vehicle">[docs]</a>    <span class="k">def</span> <span class="nf">static_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">plotflag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
+<div class="viewcode-block" id="BridgeAnalysis.static_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.static_vehicle">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">static_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">plotflag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs a single analysis for the vehicle, static at a given position</span>
 
@@ -598,7 +598,7 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span></div>
 
-    <span class="k">def</span> <span class="nf">_single_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_single_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internal function for efficiency in run_vehicle - assumes Bridge and</span>
 <span class="sd">        Vehicle are already defined/checked in UI functions</span>
@@ -633,7 +633,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BridgeAnalysis.run_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.run_vehicle">[docs]</a>    <span class="k">def</span> <span class="nf">run_vehicle</span><span class="p">(</span>
+<div class="viewcode-block" id="BridgeAnalysis.run_vehicle"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.run_vehicle">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run_vehicle</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">plot_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">plot_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -689,7 +689,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">env</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.critical_values"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.critical_values">[docs]</a>    <span class="k">def</span> <span class="nf">critical_values</span><span class="p">(</span>
+<div class="viewcode-block" id="BridgeAnalysis.critical_values"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.critical_values">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">critical_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -783,7 +783,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">crit_values</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.envelopes_ratios"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.envelopes_ratios">[docs]</a>    <span class="k">def</span> <span class="nf">envelopes_ratios</span><span class="p">(</span>
+<div class="viewcode-block" id="BridgeAnalysis.envelopes_ratios"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.envelopes_ratios">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">envelopes_ratios</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">trial_env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">,</span> <span class="n">ref_env</span><span class="p">:</span> <span class="n">Envelopes</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -817,7 +817,7 @@ document.write(`
         <span class="k">if</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">npts</span> <span class="o">!=</span> <span class="n">trial_env</span><span class="o">.</span><span class="n">npts</span> <span class="ow">or</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">nsup</span> <span class="o">!=</span> <span class="n">trial_env</span><span class="o">.</span><span class="n">nsup</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Ratios can only be found for compatible envelopes&quot;</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">get_ratio</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_ratio</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Zeroes infinities when a ref load effect is zero. b is reference vector</span>
 <span class="sd">            &quot;&quot;&quot;</span>
@@ -846,7 +846,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">env_ratios</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.plot_static"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_static">[docs]</a>    <span class="k">def</span> <span class="nf">plot_static</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BridgeAnalysis.plot_static"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_static">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_static</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots for analysis of static vehicle</span>
 
@@ -891,7 +891,7 @@ document.write(`
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Shear Force (kN)&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.plot_envelopes"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_envelopes">[docs]</a>    <span class="k">def</span> <span class="nf">plot_envelopes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
+<div class="viewcode-block" id="BridgeAnalysis.plot_envelopes"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_envelopes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_envelopes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the envelopes of load effects from a vehicle traverse analysis</span>
 
@@ -960,7 +960,7 @@ document.write(`
                 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
             <span class="n">axsRight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reaction ID&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BridgeAnalysis.plot_ratios"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_ratios">[docs]</a>    <span class="k">def</span> <span class="nf">plot_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+<div class="viewcode-block" id="BridgeAnalysis.plot_ratios"><a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_ratios">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the output of :meth:`pycba.bridge.BridgeAnalysis.envelopes_ratios`.</span>
 
@@ -1027,7 +1027,7 @@ document.write(`
             <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">axsRight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reaction ID&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_check_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check that suitable objects are defined before an analysis is run.</span>
 

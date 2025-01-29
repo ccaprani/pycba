@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -427,21 +427,21 @@ document.write(`
 <span class="sd">PyCBA - Continuous Beam Analysis - Load Patterning Module</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">.analysis</span> <span class="kn">import</span> <span class="n">BeamAnalysis</span>
-<span class="kn">from</span> <span class="nn">.results</span> <span class="kn">import</span> <span class="n">Envelopes</span><span class="p">,</span> <span class="n">BeamResults</span>
-<span class="kn">from</span> <span class="nn">.load</span> <span class="kn">import</span> <span class="n">LoadMatrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">Envelopes</span><span class="p">,</span> <span class="n">BeamResults</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMatrix</span>
 
 
-<div class="viewcode-block" id="LoadPattern"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern">[docs]</a><span class="k">class</span> <span class="nc">LoadPattern</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadPattern"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoadPattern</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Automatically patterns dead and live loads to achieve critical load effects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the LoadPattern class with the beam.</span>
 
@@ -463,7 +463,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_q_min</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_q_max</span> <span class="o">=</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="LoadPattern.set_dead_loads"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.set_dead_loads">[docs]</a>    <span class="k">def</span> <span class="nf">set_dead_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gamma_min</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadPattern.set_dead_loads"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.set_dead_loads">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_dead_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gamma_min</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the nominal dead loads acting on the beam, and the maximum and</span>
 <span class="sd">        minimum load factor.</span>
@@ -486,7 +486,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_g_max</span> <span class="o">=</span> <span class="n">gamma_max</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_g_min</span> <span class="o">=</span> <span class="n">gamma_min</span></div>
 
-<div class="viewcode-block" id="LoadPattern.set_live_loads"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.set_live_loads">[docs]</a>    <span class="k">def</span> <span class="nf">set_live_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gamma_min</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="LoadPattern.set_live_loads"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.set_live_loads">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_live_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gamma_min</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the nominal live loads acting on the beam, and the maximum and</span>
 <span class="sd">        minimum load factor.</span>
@@ -509,7 +509,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_q_max</span> <span class="o">=</span> <span class="n">gamma_max</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_q_min</span> <span class="o">=</span> <span class="n">gamma_min</span></div>
 
-<div class="viewcode-block" id="LoadPattern.analyze"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.analyze">[docs]</a>    <span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<div class="viewcode-block" id="LoadPattern.analyze"><a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.analyze">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Conduct the load patterning analysis.</span>
 
@@ -525,7 +525,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Helper function to get the BeamResults object easily</span>
-        <span class="k">def</span> <span class="nf">analyze_loadcase</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">analyze_loadcase</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span>
