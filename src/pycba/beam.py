@@ -262,16 +262,6 @@ class Beam:
         """
         if pos < 0.0 or pos > self.length:
             return -1, 0
-        """
-        # more basic algorithim
-        ispan = 0
-        pos_in_span = pos
-        while ispan < self.no_spans and pos_in_span > self.mbr_lengths[ispan]:
-            pos_in_span -= self.mbr_lengths[ispan]
-            ispan += 1
-            if ispan > self.no_spans:
-                ispan = -1
-        """
         try:
             ispan = next(i - 1 for i, x in enumerate(self._terminal_coords) if x > pos)
         except StopIteration:  # at the end of the beam

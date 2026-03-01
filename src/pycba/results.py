@@ -8,7 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
 from .beam import Beam
-from .load import MemberResults, LoadMaMb, LoadCNL
+from .types import MemberResults
+from .load import LoadMaMb, LoadCNL
 from copy import deepcopy
 
 

@@ -552,3 +552,25 @@ def test_envelopes():
         [np.min(env.Vmin[i * (n + 3) : (i + 1) * (n + 3)]) for i in range(nspans)]
     )
     assert np.allclose(Vmin, np.array([-180.23, -123.94, -131.10]), atol=1e-2)
+
+
+def test_load_superposition_rotations():
+    """
+    Test that MemberResults superposition correctly adds rotations (R).
+    This is a regression test for a bug where R was incorrectly added as V.
+    """
+    from pycba.load import LoadUDL, LoadPL
+
+    x = np.linspace(0, 10, 100)
+    load1 = LoadUDL(0, 10)
+    load2 = LoadPL(0, 20, 5)
+
+    res1 = load1.get_mbr_results(x, 10)
+    res2 = load2.get_mbr_results(x, 10)
+
+    combined = res1 + res2
+
+    mid = 50
+    expected_R = res1.R[mid] + res2.R[mid]
+    assert combined.R[mid] == pytest.approx(expected_R)
+

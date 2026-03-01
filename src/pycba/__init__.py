@@ -4,12 +4,20 @@ PyCBA - Continuous Beam Analysis in Python
 
 __version__ = "0.5.2"
 
-from .analysis import *
-from .beam import *
-from .load import *
-from .results import *
-from .inf_lines import *
-from .utils import *
-from .bridge import *
-from .vehicle import *
-from .pattern import *
+from .analysis import BeamAnalysis
+from .beam import Beam
+from .load import (
+    LoadCNL,
+    MemberResults,
+    LoadMatrix,
+    LoadType,
+    parse_LM,
+    add_LM,
+    factor_LM,
+)
+from .results import BeamResults, Envelopes
+from .inf_lines import InfluenceLines
+from .utils import parse_beam_string
+from .bridge import BridgeAnalysis
+from .vehicle import Vehicle, make_train, VehicleLibrary
+from .pattern import LoadPattern
