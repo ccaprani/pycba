@@ -12,6 +12,9 @@ from .beam import Beam, LoadMatrix
 from .results import BeamResults
 from .load import add_LM
 
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+# import plotly.express as px # Express is a high(er) level wrapper for Graph Objects
 
 class BeamAnalysis:
     """
@@ -370,3 +373,89 @@ class BeamAnalysis:
         ax.set_xlabel("Distance along beam (m)")
 
         plt.show()
+
+    def plot_interactive_results(
+            self,
+            # -- Proposed optional parameters
+            # plot_size: Literal["small", "medium", "large"] = "medium"
+            # plot_dimensions: (float, float) = (height, width)
+            # arg. to specify required plots i.e moment only, deflection only
+            # line_mode: str = "line" # []
+            # subplot_vertical_spacing: float = 0.1
+            ) -> None:
+        """
+        Plots an interactive version of the results of the analysis
+        using Plotly's Graph Objects <https://plotly.com/python/graph-objects/>.
+        Users can get the value of a result at any point in the beam, and vice-versa
+        (e.g point in a span with zero moment/shear in a complicated plot).
+
+        Further use of Plotly via Express and Dash can help make UI more functional
+        and interactive.
+
+        Returns
+        -------
+        None.
+        """
+        if self._beam_results is None:
+            print("Nothing to plot - run analysis first")
+            return
+
+        res = self._beam_results.results
+        L: int = self._beam.length
+
+        fig = make_subplots(
+            # REF: https://plotly.com/python/subplots/#simple-subplot
+            rows=3, 
+            cols=1,
+            shared_xaxes=True, # use the same x-axis plot for all subplots
+            vertical_spacing=0.1
+        )
+
+        # Beam
+        fig.add_trace(
+            trace=go.Scatter(
+                # REF: https://plotly.com/python/reference/scatter/
+                x=[0, L], y=[0, 0],
+                mode='lines', line=dict(color='black', width=2),
+                name='Beam'
+            ),
+            row=1, col=1 # Row 1, Column 1 of the subplots, but still shared by all of them
+        )
+        
+        # Bending moment
+        fig.add_trace(
+            trace=go.Scatter(
+                x=res.x, y=res.M,
+                mode='lines', line=dict(color='red'),
+                name='Bending Moment'
+            ),
+            row=1, col=1 # Row 1, Column 1 of the subplots
+        )
+        fig.update_yaxes(
+            autorange="reversed", # BMD is reversed here. REF: https://plotly.com/python/axes/#reversed-axes
+            title_text="Bending Moment (kNm)", row=1, col=1)
+
+        # Shear Force
+        fig.add_trace(trace=go.Scatter(x=[0, L], y=[0, 0], mode='lines', line=dict(color='black', width=2), showlegend=False), row=2, col=1)
+        fig.add_trace(trace=go.Scatter(x=res.x, y=res.V, mode='lines', line=dict(color='red'), name='Shear Force'), row=2, col=1)
+        fig.update_yaxes(title_text="Shear Force (kN)", row=2, col=1)
+
+        # Deflection
+        fig.add_trace(trace=go.Scatter(x=[0, L], y=[0, 0], mode='lines', line=dict(color='black', width=2), showlegend=False), row=3, col=1)
+        fig.add_trace(trace=go.Scatter(x=res.x, y=res.D * 1e3, mode='lines', line=dict(color='red'), name='Deflection'), row=3, col=1)
+        fig.update_yaxes(title_text="Deflection (mm)", row=3, col=1)
+
+        fig.update_xaxes(title_text="Distance along beam (m)", row=3, col=1) # row value here should change if plots != 3
+
+        for i in range(1, 4):
+            fig.update_xaxes(showgrid=True, row=i, col=1)
+            fig.update_yaxes(showgrid=True, row=i, col=1)
+
+        fig.update_layout(
+            height=800, #
+            width=600, # 
+            title_text="Beam Analysis Results",
+            showlegend=True
+        )
+
+        fig.show()
