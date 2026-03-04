@@ -598,9 +598,9 @@ def test_prescribed_settlement_no_load():
     r = ba.beam_results.R
     assert r == pytest.approx(
         [
-            -3 * EI * delta / L**3,   # vertical reaction at A
-            -3 * EI * delta / L**2,   # moment reaction at A
-             3 * EI * delta / L**3,   # vertical reaction at B
+            -3 * EI * delta / L**3,  # vertical reaction at A
+            -3 * EI * delta / L**2,  # moment reaction at A
+            3 * EI * delta / L**3,  # vertical reaction at B
         ],
         abs=1e-6,
     )
@@ -674,7 +674,7 @@ def test_spring_prescribed_displacement_error():
     ks = 1e5
     w = 10.0
     R = [-1, 0, ks, 0, -1, 0]
-    LM = [[1, 1, w, 0, 0]]           # UDL on span 1 → non-zero CNL at DOF 2
+    LM = [[1, 1, w, 0, 0]]  # UDL on span 1 → non-zero CNL at DOF 2
     D = [None, None, -0.005, None, None, None]
 
     ba = cba.BeamAnalysis(L, EI, R, LM, D=D)
@@ -689,10 +689,9 @@ def test_unstable_structure_error():
     """
     L = [5.0]
     EI = 30 * 600e7 * 1e-6
-    R = [0, 0, 0, 0]               # no supports → singular stiffness matrix
+    R = [0, 0, 0, 0]  # no supports → singular stiffness matrix
     LM = [[1, 1, 10, 0, 0]]
 
     ba = cba.BeamAnalysis(L, EI, R, LM)
     with pytest.raises(ValueError, match="geometrically unstable"):
         ba.analyze()
-
