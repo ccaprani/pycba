@@ -574,3 +574,125 @@ def test_load_superposition_rotations():
     expected_R = res1.R[mid] + res2.R[mid]
     assert combined.R[mid] == pytest.approx(expected_R)
 
+
+def test_prescribed_settlement_no_load():
+    """
+    Test fixed-pinned beam with prescribed settlement at pin, no external load.
+
+    Analytical solution for imposed displacement delta at pin B (DOF 2):
+      theta_B  = 3*delta / (2*L)
+      R_vA     = -3*EI*delta / L^3
+      R_thetaA = -3*EI*delta / L^2
+      R_vB     =  3*EI*delta / L^3
+    """
+    L = 10.0
+    EI = 30 * 600e7 * 1e-6  # 180 000 kNm^2
+    delta = -0.01  # 10 mm downward settlement
+    R = [-1, -1, -1, 0]
+    D = [None, None, delta, None]
+
+    ba = cba.BeamAnalysis([L], EI, R, D=D)
+    out = ba.analyze()
+    assert out == 0
+
+    r = ba.beam_results.R
+    assert r == pytest.approx(
+        [
+            -3 * EI * delta / L**3,   # vertical reaction at A
+            -3 * EI * delta / L**2,   # moment reaction at A
+             3 * EI * delta / L**3,   # vertical reaction at B
+        ],
+        abs=1e-6,
+    )
+
+    # Deformed shape: only the settlement node should be non-zero
+    d_nodes = ba.beam_results.D[[0, 2]]  # v_A, v_B
+    assert d_nodes == pytest.approx([0.0, delta], abs=1e-9)
+
+
+def test_prescribed_settlement_superposition():
+    """
+    For a linear system, reactions with both UDL and prescribed settlement must
+    equal the sum of the load-only and settlement-only reactions.
+    """
+    L = 10.0
+    EI = 30 * 600e7 * 1e-6
+    w = 20.0
+    delta = -0.01
+    R = [-1, -1, -1, 0]
+    LM = [[1, 1, w, 0, 0]]
+    D = [None, None, delta, None]
+
+    # Combined
+    ba_both = cba.BeamAnalysis([L], EI, R, LM, D=D)
+    ba_both.analyze()
+
+    # Load only
+    ba_load = cba.BeamAnalysis([L], EI, R, LM)
+    ba_load.analyze()
+
+    # Settlement only
+    ba_sett = cba.BeamAnalysis([L], EI, R, D=D)
+    ba_sett.analyze()
+
+    assert ba_both.beam_results.R == pytest.approx(
+        ba_load.beam_results.R + ba_sett.beam_results.R, abs=1e-6
+    )
+
+
+def test_spring_forces_reported():
+    """
+    Test that BeamResults.Rs equals k_s * u_i for every spring-supported DOF.
+    """
+    L = [6, 8, 6]
+    EI = 30 * np.array([50e8, 50e8, 50e8]) * 1e-6
+    R = [-1, 486e9, -1, 486e9, -1, 486e9, -1, 486e9]
+    LM = [[1, 1, 10, 0, 0], [2, 1, 20, 0, 0], [3, 1, 10, 0, 0]]
+
+    ba = cba.BeamAnalysis(L, EI, R, LM)
+    ba.analyze()
+
+    r_vec = ba.beam.restraints
+    d_vec = ba.beam_results.D
+    rs = ba.beam_results.Rs
+
+    spring_dofs = [i for i, rv in enumerate(r_vec) if rv > 0]
+    expected_rs = np.array([r_vec[i] * d_vec[i] for i in spring_dofs])
+
+    assert len(rs) == len(spring_dofs)
+    assert rs == pytest.approx(expected_rs, abs=1e-6)
+
+
+def test_spring_prescribed_displacement_error():
+    """
+    A ValueError must be raised when a spring DOF simultaneously has a
+    prescribed displacement and a non-zero consistent nodal load, because the
+    elimination method would silently discard the load — an invalid model.
+    """
+    L = [5.0, 5.0]
+    EI = 30 * 600e7 * 1e-6
+    ks = 1e5
+    w = 10.0
+    R = [-1, 0, ks, 0, -1, 0]
+    LM = [[1, 1, w, 0, 0]]           # UDL on span 1 → non-zero CNL at DOF 2
+    D = [None, None, -0.005, None, None, None]
+
+    ba = cba.BeamAnalysis(L, EI, R, LM, D=D)
+    with pytest.raises(ValueError, match="Invalid model at DOF"):
+        ba.analyze()
+
+
+def test_unstable_structure_error():
+    """
+    A geometrically unstable beam (no supports) must raise a ValueError
+    with a clear stability message rather than a raw NumPy LinAlgError.
+    """
+    L = [5.0]
+    EI = 30 * 600e7 * 1e-6
+    R = [0, 0, 0, 0]               # no supports → singular stiffness matrix
+    LM = [[1, 1, 10, 0, 0]]
+
+    ba = cba.BeamAnalysis(L, EI, R, LM)
+    with pytest.raises(ValueError, match="geometrically unstable"):
+        ba.analyze()
+

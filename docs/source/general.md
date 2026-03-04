@@ -57,6 +57,20 @@ Load Types are:
 
 **Units**: kN, kN/m, and metres.
 
+Prescribed Displacements (`D`)
+------------------------------
+
+An optional vector of prescribed nodal displacements (settlements), one entry per degree of freedom.
+Use `None` for DOFs where the displacement is unknown (the default), and a float for DOFs whose displacement is known (e.g. a support settlement).
+
+- Fixed supports (`R = -1`) default to zero displacement unless overridden by `D`.
+- Spring supports (`R > 0`) can also have a prescribed displacement; in that case the spring force is `k_s × δ` and is reported in `beam_results.Rs`.
+- **Constraint**: a DOF cannot simultaneously have a spring (`R > 0`), a prescribed displacement (`D[i] ≠ None`), *and* a non-zero consistent nodal load — this combination is physically inconsistent and `analyze()` will raise a `ValueError`.
+
+**Dimension**: 2`N+2` x 1 (same length as `R`)
+
+**Units**: m (vertical DOFs), rad (rotational DOFs)
+
 Element Types (`eleType`)
 -------------------------
 

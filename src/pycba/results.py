@@ -18,7 +18,7 @@ class BeamResults:
     BeamResults Class for processing and containing the results for each member
     """
 
-    def __init__(self, beam: Beam, d: np.ndarray, r: np.ndarray, npts: int = 100):
+    def __init__(self, beam: Beam, d: np.ndarray, r: np.ndarray, npts: int = 100, rs: np.ndarray = None):
         """
         Initialize member results from global results
 
@@ -29,10 +29,12 @@ class BeamResults:
         d : np.ndarray
             The vector of nodal displacements (from the stiffness method).
         r : np.ndarray
-            The vector of reactions for the member degrees of freedom (if any).
+            The vector of reactions at fixed restraints (restraint == -1).
         npts : int, optional
             The number of points along the member at which to calculate the load
             effects. The default is 100.
+        rs : np.ndarray, optional
+            The vector of spring forces (k_s * u_i) for spring restraints (restraint > 0).
 
         Returns
         -------
@@ -41,7 +43,8 @@ class BeamResults:
         self.npts = npts
         self.vRes = self._member_analysis(beam, d)
         self.D = d  # nodal displacements
-        self.R = r  # reactions
+        self.R = r  # reactions at fixed restraints (restraint == -1)
+        self.Rs = rs if rs is not None else np.array([])  # spring forces
         self.results = self._concatenate_results()
 
     def _concatenate_results(self):
