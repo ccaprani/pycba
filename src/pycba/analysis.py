@@ -470,8 +470,8 @@ class BeamAnalysis:
             Reactions at fully-fixed DOFs (``restraints[i] == -1``), in DOF
             order.
         rs : np.ndarray
-            Spring forces ``k_s * u_i`` at spring DOFs (``restraints[i] > 0``),
-            in DOF order.
+            Spring forces ``-k_s * u_i`` (upward positive) at spring DOFs
+            (``restraints[i] > 0``), in DOF order.
         """
         residual = k @ d - f
         restraints = self._beam.restraints
@@ -480,9 +480,10 @@ class BeamAnalysis:
         r = np.array([residual[i] for i in range(self._nDOF) if restraints[i] < 0])
         # For spring DOFs, residual[i] = k_s*u_i + structural coupling - f_applied[i],
         # so it is NOT purely the spring force when external nodal loads are present.
-        # Use k_s*u_i explicitly to isolate the spring's contribution.
+        # Use -k_s*u_i explicitly: negative because the spring reaction is upward
+        # (positive) when the displacement is downward (negative).
         rs = np.array(
-            [restraints[i] * d[i] for i in range(self._nDOF) if restraints[i] > 0]
+            [-restraints[i] * d[i] for i in range(self._nDOF) if restraints[i] > 0]
         )
         return r, rs
 

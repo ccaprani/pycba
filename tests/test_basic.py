@@ -642,7 +642,7 @@ def test_prescribed_settlement_superposition():
 
 def test_spring_forces_reported():
     """
-    Test that BeamResults.Rs equals k_s * u_i for every spring-supported DOF.
+    Test that BeamResults.Rs equals -k_s * u_i (upward positive) for every spring-supported DOF.
     """
     L = [6, 8, 6]
     EI = 30 * np.array([50e8, 50e8, 50e8]) * 1e-6
@@ -657,7 +657,7 @@ def test_spring_forces_reported():
     rs = ba.beam_results.Rs
 
     spring_dofs = [i for i, rv in enumerate(r_vec) if rv > 0]
-    expected_rs = np.array([r_vec[i] * d_vec[i] for i in spring_dofs])
+    expected_rs = np.array([-r_vec[i] * d_vec[i] for i in spring_dofs])
 
     assert len(rs) == len(spring_dofs)
     assert rs == pytest.approx(expected_rs, abs=1e-6)
