@@ -136,3 +136,12 @@ bridges.md
 inf_lines.md
 tags
 .virtual_documents/
+
+# IDE
+.vscode/
+
+# Auto-generated docs
+docs/source/gen/
+
+# Data files
+docs/source/notebooks/300LA.csv
