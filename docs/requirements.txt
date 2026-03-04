@@ -8,7 +8,6 @@ Sphinx>=4.0
 nbsphinx
 sphinx-autodoc-typehints
 pandoc
-markupsafe==2.0.1
 pygments >= 2.7
 pandas
 ipython
