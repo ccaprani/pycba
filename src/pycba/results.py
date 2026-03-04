@@ -18,7 +18,14 @@ class BeamResults:
     BeamResults Class for processing and containing the results for each member
     """
 
-    def __init__(self, beam: Beam, d: np.ndarray, r: np.ndarray, npts: int = 100, rs: np.ndarray = None):
+    def __init__(
+        self,
+        beam: Beam,
+        d: np.ndarray,
+        r: np.ndarray,
+        npts: int = 100,
+        rs: np.ndarray = None,
+    ):
         """
         Initialize member results from global results
 
