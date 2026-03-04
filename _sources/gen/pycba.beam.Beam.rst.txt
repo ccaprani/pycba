@@ -39,6 +39,7 @@
       ~Beam.no_fixed_restraints
       ~Beam.no_restraints
       ~Beam.no_spans
+      ~Beam.prescribed_displacements
       ~Beam.restraints
    
    

@@ -2,47 +2,51 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pycba.analysis &#8212; PyCBA 0.5.2 documentation</title>
+    <title>pycba.analysis &#8212; PyCBA 0.6.0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ac2db539"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pycba/analysis';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.6.0" />
   </head>
   
   
@@ -50,32 +54,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -83,7 +71,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -91,20 +78,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="../../index.html">
@@ -118,8 +112,8 @@
       
     
     
-    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.5.2 documentation - Home"/>
-    <script>document.write(`<img src="../../_static/pycba_logo.png" class="logo__image only-dark" alt="PyCBA 0.5.2 documentation - Home"/>`);</script>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.6.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.6.0 documentation - Home"/>
   
   
 </a></div>
@@ -131,49 +125,43 @@
     <div class="me-auto navbar-header-items__center">
       
         <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../installation.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../general.html">
-                        Beam Configuration
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API Reference
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../theory.html">
-                        Theoretical Basis
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -185,31 +173,23 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -220,7 +200,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -232,7 +212,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
@@ -244,27 +224,29 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -273,52 +255,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../installation.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../general.html">
-                        Beam Configuration
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API Reference
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../theory.html">
-                        Theoretical Basis
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -328,17 +307,13 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -349,7 +324,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -361,7 +336,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
@@ -372,29 +347,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -405,7 +383,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pycba.analysis</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.analysis</span></li>
   </ul>
 </nav>
 </div>
@@ -420,13 +398,42 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for pycba.analysis</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">PyCBA - Continuous Beam Analysis</span>
 
-<span class="sd">An OO Python adaptation of the CBA, originally written for Matlab here:</span>
+<span class="sd">Implements the direct stiffness method for linear-elastic continuous beam</span>
+<span class="sd">analysis. The primary entry point is :class:`BeamAnalysis`, which assembles</span>
+<span class="sd">the global stiffness matrix, applies boundary conditions (including prescribed</span>
+<span class="sd">displacements / support settlements), solves for nodal displacements, and</span>
+<span class="sd">recovers reactions and member load effects.</span>
+
+<span class="sd">**PyCBA is unit-agnostic.** No conversions are performed; any internally</span>
+<span class="sd">consistent set of units (e.g. kN/m/kNm, or N/mm/Nmm) may be used as long as</span>
+<span class="sd">all inputs share the same system.  The only exception is :meth:`BeamAnalysis.plot_results`,</span>
+<span class="sd">which scales deflections by 1×10³ and labels the axis &quot;mm&quot; — that label is</span>
+<span class="sd">only correct when the length unit is metres.</span>
+
+<span class="sd">Sign conventions</span>
+<span class="sd">----------------</span>
+<span class="sd">* Vertical displacements and forces: **positive upward**.</span>
+<span class="sd">* Rotations and moments: **positive counter-clockwise**.</span>
+<span class="sd">* Settlement (prescribed displacement): negative value = downward.</span>
+<span class="sd">* UDL / point loads: positive value = downward acting load.</span>
+<span class="sd">* Moment loads: positive value = counter-clockwise.</span>
+
+<span class="sd">Restraint vector ``R``</span>
+<span class="sd">~~~~~~~~~~~~~~~~~~~~~~</span>
+<span class="sd">One entry per nodal DOF (vertical then rotational, node by node):</span>
+
+<span class="sd">* ``-1`` — fully fixed (zero displacement unless overridden by ``D``).</span>
+<span class="sd">* ``0``  — free.</span>
+<span class="sd">* ``+k`` — elastic spring with stiffness *k* in consistent</span>
+<span class="sd">  force/length (translational) or force·length/angle (rotational) units.</span>
+
+<span class="sd">An OO Python adaptation of CBA, originally written for MATLAB:</span>
 <span class="sd">http://www.colincaprani.com/programming/matlab/</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -438,9 +445,26 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_LM</span>
 
 
-<div class="viewcode-block" id="BeamAnalysis"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BeamAnalysis</span><span class="p">:</span>
+<div class="viewcode-block" id="BeamAnalysis">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BeamAnalysis</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The base class for Continuous Beam Analysis</span>
+<span class="sd">    Direct-stiffness continuous beam analyser.</span>
+
+<span class="sd">    Assembles the global stiffness matrix from individual span stiffness</span>
+<span class="sd">    matrices, applies support boundary conditions (including elastic springs</span>
+<span class="sd">    and prescribed displacements), solves the linear system for nodal</span>
+<span class="sd">    displacements, and recovers support reactions and distributed load effects</span>
+<span class="sd">    along each member.</span>
+
+<span class="sd">    After calling :meth:`analyze`, results are available through</span>
+<span class="sd">    :attr:`beam_results`:</span>
+
+<span class="sd">    * ``beam_results.R``  — reactions at fully-fixed DOFs.</span>
+<span class="sd">    * ``beam_results.Rs`` — spring forces ``k_s × u_i`` at spring DOFs.</span>
+<span class="sd">    * ``beam_results.D``  — global nodal displacement vector.</span>
+<span class="sd">    * ``beam_results.results`` — concatenated member load-effect arrays</span>
+<span class="sd">      (``x``, ``M``, ``V``, ``D``, ``R``).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -450,28 +474,59 @@ document.write(`
         <span class="n">R</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">LM</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadMatrix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructs a beam analysis object given the structural information necessary.</span>
-
+<span class="sd">        Construct a beam analysis object.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        L : np.ndarray</span>
-<span class="sd">            A vector of span lengths.</span>
-<span class="sd">        EI : Union[float, np.ndarray]</span>
-<span class="sd">            A vector of member flexural rigidities.</span>
-<span class="sd">        R : np.ndarray</span>
-<span class="sd">            A vector describing the support conditions at each member end.</span>
-<span class="sd">        LM : Optional[list[list[Union[int, float]]]]</span>
-<span class="sd">            The load matrix: a list of loads on the beam; each load with several parameters.</span>
-<span class="sd">        eletype : Optional[np.ndarray]</span>
-<span class="sd">            A vector of the member types. Defaults to a fixed-fixed element.</span>
+<span class="sd">        L : array_like of float</span>
+<span class="sd">            Span lengths.  Length ``N`` for an ``N``-span beam.</span>
+<span class="sd">        EI : float or array_like of float</span>
+<span class="sd">            Flexural rigidity of each span.  A scalar value is applied to all</span>
+<span class="sd">            spans; otherwise one value per span is required.</span>
+<span class="sd">        R : array_like of int or float</span>
+<span class="sd">            Nodal restraint vector, length ``2(N+1)``.  Two entries per node</span>
+<span class="sd">            (vertical DOF then rotational DOF), ordered left to right:</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">            * ``-1`` — fully restrained (zero displacement unless overridden</span>
+<span class="sd">              by ``D``).</span>
+<span class="sd">            * ``0``  — free.</span>
+<span class="sd">            * ``+k`` — elastic spring stiffness in consistent units.</span>
 
+<span class="sd">        LM : list of list, optional</span>
+<span class="sd">            Load matrix: a list of load descriptors, each of the form</span>
+<span class="sd">            ``[span, load_type, value, a, c]``.  Load types:</span>
+
+<span class="sd">            1. UDL — ``value`` is load intensity; set ``a = c = 0``.</span>
+<span class="sd">            2. Point load — ``value`` at distance ``a`` from the span start.</span>
+<span class="sd">            3. Partial UDL — ``value`` intensity from ``a`` for length ``c``.</span>
+<span class="sd">            4. Moment load — ``value`` at distance ``a`` from the span start.</span>
+
+<span class="sd">        eletype : array_like of int, optional</span>
+<span class="sd">            Element type for each span, controlling which end(s) carry moment:</span>
+
+<span class="sd">            1. Fixed–fixed (default).</span>
+<span class="sd">            2. Fixed–pinned (moment release at right end).</span>
+<span class="sd">            3. Pinned–fixed (moment release at left end).</span>
+<span class="sd">            4. Pinned–pinned (moment releases at both ends).</span>
+
+<span class="sd">            At an internal hinge, only one of the two members meeting at that</span>
+<span class="sd">            node should have a pinned end.</span>
+<span class="sd">        D : list, optional</span>
+<span class="sd">            Prescribed-displacement vector, length ``2(N+1)`` (same as ``R``).</span>
+<span class="sd">            Use ``None`` for DOFs whose displacement is unknown (the default).</span>
+<span class="sd">            Provide a float for DOFs with a known displacement (e.g. a support</span>
+<span class="sd">            settlement — negative = downward).  Fixed supports (``R = -1``)</span>
+<span class="sd">            default to zero displacement unless ``D`` provides an explicit</span>
+<span class="sd">            override.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``R`` and ``D`` have different lengths, or ``EI`` is not</span>
+<span class="sd">            scalar and its length differs from ``len(L)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="kc">None</span>
@@ -481,166 +536,195 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">eletype</span> <span class="o">=</span> <span class="n">eletype</span>
         <span class="c1"># Create the beam</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span> <span class="o">=</span> <span class="n">Beam</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="o">=</span><span class="n">LM</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eletype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span> <span class="o">=</span> <span class="n">Beam</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="o">=</span><span class="n">LM</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eletype</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">no_spans</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">beam_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">beam_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        BeamResults : Post-analysis results object.</span>
+
+<span class="sd">        ``None`` until :meth:`analyze` has been called successfully.</span>
+<span class="sd">        Provides nodal displacements (``D``), reactions at fixed supports</span>
+<span class="sd">        (``R``), spring forces (``Rs``), and per-member load-effect arrays</span>
+<span class="sd">        (``vRes``, ``results``).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">beam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">beam</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beam</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Beam : The underlying :class:`~pycba.beam.Beam` object.</span>
+
+<span class="sd">        Provides direct access to span geometry, stiffness matrices,</span>
+<span class="sd">        restraints, and prescribed displacements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span>
 
-<div class="viewcode-block" id="BeamAnalysis.set_loads"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.set_loads">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.set_loads">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.set_loads">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set load matrix for pre-defined beam. This overrides any previously-defined loads.</span>
+<span class="sd">        Replace the current load matrix with a new one.</span>
+
+<span class="sd">        Any loads previously added via :meth:`add_udl`, :meth:`add_pl`,</span>
+<span class="sd">        :meth:`add_pudl`, or :meth:`add_ml` are discarded.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        LM : List[List[Union[int, float]]]</span>
-<span class="sd">            The load matrix for the beam.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None.</span>
-
+<span class="sd">        LM : list of list</span>
+<span class="sd">            New load matrix in the same format as the ``LM`` argument of</span>
+<span class="sd">            :meth:`__init__`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">loads</span> <span class="o">=</span> <span class="n">LM</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_udl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_udl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BeamAnalysis.add_udl">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a uniformly-distributed load to the beam</span>
+<span class="sd">        Append a full-span uniformly-distributed load.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        i_span : int</span>
-<span class="sd">            The index of the span to add the load (1-based)</span>
-
+<span class="sd">            1-based span index.</span>
 <span class="sd">        w : float</span>
-<span class="sd">            The value of the load</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">            Load intensity.  Positive values act downward.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_pl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BeamAnalysis.add_pl">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a point load to the beam</span>
+<span class="sd">        Append a point load.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        i_span : int</span>
-<span class="sd">            The index of the span to add the load (1-based)</span>
-
+<span class="sd">            1-based span index.</span>
 <span class="sd">        p : float</span>
-<span class="sd">            The value of the load</span>
-
+<span class="sd">            Load magnitude.  Positive values act downward.</span>
 <span class="sd">        a : float</span>
-<span class="sd">            The distance from the start of the span to the point of load application</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">            Distance from the left end of the span to the load.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_pudl"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pudl">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BeamAnalysis.add_pudl">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pudl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a partial uniformly-distributed load to the beam.</span>
-<span class="sd">        Note that any load extending beyond the end of the span is ignored.</span>
+<span class="sd">        Append a partial uniformly-distributed load.</span>
+
+<span class="sd">        Any portion of the load that extends beyond the end of the span is</span>
+<span class="sd">        silently ignored.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        i_span : int</span>
-<span class="sd">            The index of the span to add the load (1-based)</span>
-
+<span class="sd">            1-based span index.</span>
 <span class="sd">        w : float</span>
-<span class="sd">            The value of the uniformly-distributed load</span>
-
+<span class="sd">            Load intensity.  Positive values act downward.</span>
 <span class="sd">        a : float</span>
-<span class="sd">            The distance from the start of the span to the start of the UDL</span>
-
+<span class="sd">            Distance from the left end of the span to the start of the load.</span>
 <span class="sd">        c : float</span>
-<span class="sd">            The cover of the partial UDL; i.e. it&#39;s length.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">            Length (cover) of the partial UDL.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.add_ml"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ml">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BeamAnalysis.add_ml">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ml">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a moment load to the beam</span>
+<span class="sd">        Append a concentrated moment load.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        i_span : int</span>
-<span class="sd">            The index of the span to add the load (1-based)</span>
-
+<span class="sd">            1-based span index.</span>
 <span class="sd">        m : float</span>
-<span class="sd">            The value of the load</span>
-
+<span class="sd">            Moment magnitude.  Positive values are counter-clockwise.</span>
 <span class="sd">        a : float</span>
-<span class="sd">            The distance from the start of the span to the point of load application</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">            Distance from the left end of the span to the load.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BeamAnalysis.analyze"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BeamAnalysis.analyze">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Conducts the analysis on the constructed BeamAnalysis object</span>
+<span class="sd">        Execute the direct-stiffness analysis.</span>
+
+<span class="sd">        Assembles the unrestricted global stiffness matrix, validates the</span>
+<span class="sd">        model, applies boundary conditions (including spring supports and</span>
+<span class="sd">        prescribed displacements), solves for nodal displacements, and</span>
+<span class="sd">        recovers support reactions.  Results are stored in</span>
+<span class="sd">        :attr:`beam_results`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        npts : Optional[int]</span>
-<span class="sd">            The number of evaluation points along a member for load effects.</span>
+<span class="sd">        npts : int, optional</span>
+<span class="sd">            Number of evaluation points along each member for computing</span>
+<span class="sd">            distributed load effects (bending moment, shear, deflection).</span>
+<span class="sd">            Must be greater than 3; defaults to 100 if omitted or ``≤ 3``.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        0 for a succesful execution</span>
+<span class="sd">        int</span>
+<span class="sd">            ``0`` on successful completion.</span>
 
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the model is invalid (see :meth:`_validate`) or if the</span>
+<span class="sd">            structure is geometrically unstable (see :meth:`_solver`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">npts</span> <span class="ow">and</span> <span class="n">npts</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="n">npts</span>
 
+        <span class="n">restraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
+        <span class="n">d_presc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">prescribed_displacements</span>
         <span class="n">fU</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forces</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">restraints</span><span class="p">,</span> <span class="n">d_presc</span><span class="p">,</span> <span class="n">fU</span><span class="p">)</span>
+
         <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fU</span><span class="p">)</span>
         <span class="n">ksysU</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble</span><span class="p">()</span>
         <span class="n">ksys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ksysU</span><span class="p">)</span>
         <span class="n">ksys</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_bc</span><span class="p">(</span><span class="n">ksys</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
         <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="p">(</span><span class="n">ksys</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reactions</span><span class="p">(</span><span class="n">ksysU</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">fU</span><span class="p">)</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reactions</span><span class="p">(</span><span class="n">ksysU</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">fU</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="n">BeamResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="n">BeamResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">0</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct the nodal force vector</span>
+<span class="sd">        Build the unrestricted global nodal force vector from the load matrix.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
+<span class="sd">        Iterates over spans, retrieves each span&#39;s released end forces</span>
+<span class="sd">        (consistent nodal loads adjusted for element type / moment releases),</span>
+<span class="sd">        and accumulates them in the global vector with the sign reversal</span>
+<span class="sd">        required by the direct stiffness method (loads oppose the reactions</span>
+<span class="sd">        they generate).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        f : np.ndarray</span>
-<span class="sd">            The global nodal force vector</span>
-
+<span class="sd">        f : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Unrestricted global nodal force vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">_set_loads</span><span class="p">()</span>
 
@@ -653,19 +737,63 @@ document.write(`
             <span class="n">f</span><span class="p">[</span><span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span> <span class="o">-=</span> <span class="n">fmbr</span>
         <span class="k">return</span> <span class="n">f</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">restraints</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">d_presc</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">fU</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct the unrestricted global stiffness matrix</span>
+<span class="sd">        Pre-analysis model validity check.</span>
+
+<span class="sd">        Currently checks for the one combination that is physically</span>
+<span class="sd">        inconsistent with the direct elimination method: a DOF that</span>
+<span class="sd">        simultaneously has a spring support, a prescribed displacement, *and*</span>
+<span class="sd">        a non-zero consistent nodal load.  In that case the BC enforcement</span>
+<span class="sd">        sets ``f[i] = d_i``, silently overwriting the load — no warning is</span>
+<span class="sd">        possible after the fact, so this must be caught before the solve.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        None</span>
+<span class="sd">        restraints : list</span>
+<span class="sd">            Beam restraint vector (same as ``R``).</span>
+<span class="sd">        d_presc : list</span>
+<span class="sd">            Prescribed-displacement vector (``None`` entries = free DOFs).</span>
+<span class="sd">        fU : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Unrestricted nodal force vector from :meth:`_forces`.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If any DOF simultaneously carries a spring restraint, a prescribed</span>
+<span class="sd">            displacement, and a non-zero consistent nodal load.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">d_presc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fU</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid model at DOF </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: a spring support, a prescribed &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;displacement, and a non-zero external nodal load &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;(fU[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">] = </span><span class="si">{</span><span class="n">fU</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">) cannot coexist. The elimination &quot;</span>
+                    <span class="s2">&quot;method would silently discard the nodal load. &quot;</span>
+                    <span class="s2">&quot;Remove the prescribed displacement, the spring, or the &quot;</span>
+                    <span class="s2">&quot;external load at this DOF.&quot;</span>
+                <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assemble the unrestricted global stiffness matrix.</span>
+
+<span class="sd">        Loops over spans and overlaps each span&#39;s 4×4 stiffness matrix into</span>
+<span class="sd">        the ``2(N+1) × 2(N+1)`` global matrix using the standard connectivity</span>
+<span class="sd">        pattern.  Spring stiffnesses (``R &gt; 0``) are added to the diagonal</span>
+<span class="sd">        here so that the returned matrix is the *complete* unrestricted system,</span>
+<span class="sd">        which is required by :meth:`_reactions` to recover spring forces</span>
+<span class="sd">        correctly.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ksys : np.ndarray</span>
-<span class="sd">            The global stiffness matrix</span>
-
+<span class="sd">        ksys : np.ndarray, shape (nDOF, nDOF)</span>
+<span class="sd">            Unrestricted global stiffness matrix including spring contributions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ksys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">))</span>
 
@@ -673,99 +801,166 @@ document.write(`
             <span class="n">kb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">get_span_k</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">dof_i</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
             <span class="n">ksys</span><span class="p">[</span><span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dof_i</span> <span class="p">:</span> <span class="n">dof_i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span> <span class="o">+=</span> <span class="n">kb</span>
+
+        <span class="c1"># Add spring stiffness before copying so ksys (used for reactions)</span>
+        <span class="c1"># includes the spring contribution and spring forces are not lost.</span>
+        <span class="n">r_vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">r_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ksys</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">r_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="n">ksys</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply the boundary conditions</span>
+<span class="sd">        Impose boundary conditions using the direct elimination method.</span>
+
+<span class="sd">        For each DOF with a known displacement ``d_i`` (either explicitly</span>
+<span class="sd">        prescribed via ``D`` or implicitly zero for fully-fixed supports),</span>
+<span class="sd">        the corresponding row and column are zeroed, the diagonal is set to</span>
+<span class="sd">        one, and the right-hand side is updated by subtracting</span>
+<span class="sd">        ``k[:, i] * d_i`` before overwriting ``f[i] = d_i``.  This preserves</span>
+<span class="sd">        the displacement field exactly and transfers the constraint contribution</span>
+<span class="sd">        to the remaining free DOFs.</span>
+
+<span class="sd">        Spring DOFs (``R &gt; 0``) without a prescribed displacement are *not*</span>
+<span class="sd">        eliminated — their stiffness is already on the diagonal of ``k`` from</span>
+<span class="sd">        :meth:`_assemble` and they remain as free unknowns.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        k : np.ndarray</span>
-<span class="sd">            The unrestricted global stiffness matrix</span>
-<span class="sd">        f : np.ndarray</span>
-<span class="sd">            The global force vector</span>
+<span class="sd">        k : np.ndarray, shape (nDOF, nDOF)</span>
+<span class="sd">            Unrestricted global stiffness matrix (modified in-place).</span>
+<span class="sd">        f : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Global nodal force vector (modified in-place).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        k : np.ndarray</span>
-<span class="sd">            The restricted global stiffness matrix</span>
-<span class="sd">        f : np.ndarray</span>
-<span class="sd">            The force vector with boundary conditions imposed</span>
+<span class="sd">        k : np.ndarray, shape (nDOF, nDOF)</span>
+<span class="sd">            Restricted stiffness matrix with constrained rows/columns zeroed.</span>
+<span class="sd">        f : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Modified force vector incorporating prescribed displacement values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">prescribed_displacements</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">):</span>
-            <span class="c1"># Negative means fully restrained</span>
-            <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># Set off diagonals to zero</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">):</span>
-                    <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">k</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="c1"># Set diagonal to 1 and the force to 0</span>
-                <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># Positive means spring support so add the stiffness</span>
-                <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="c1"># Determine prescribed value: explicit settlement, or fixed support (= 0)</span>
+            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">di</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">di</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># free or spring-only DOF: nothing to eliminate</span>
+
+            <span class="c1"># Subtract full column i from RHS (including diagonal) before zeroing</span>
+            <span class="n">f</span> <span class="o">-=</span> <span class="n">k</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">di</span>
+            <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">k</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">di</span>
         <span class="k">return</span> <span class="n">k</span><span class="p">,</span> <span class="n">f</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the reactions</span>
+<span class="sd">        Recover support reactions and spring forces from the solved displacement field.</span>
+
+<span class="sd">        Uses the unrestricted global stiffness matrix ``k`` (i.e. ``ksysU``</span>
+<span class="sd">        from :meth:`analyze`) so that spring contributions are included in the</span>
+<span class="sd">        residual calculation.</span>
+
+<span class="sd">        For fully-fixed DOFs (``restraints[i] == -1``) the nodal residual</span>
+<span class="sd">        ``(k @ d - f)[i]`` equals the support reaction directly, because those</span>
+<span class="sd">        DOFs have zero (or prescribed) displacement and no ambiguity with</span>
+<span class="sd">        spring terms.</span>
+
+<span class="sd">        For spring DOFs (``restraints[i] &gt; 0``) the residual also contains</span>
+<span class="sd">        structural coupling and any applied nodal load, so it does *not* in</span>
+<span class="sd">        general equal the spring force alone.  The spring force is therefore</span>
+<span class="sd">        computed explicitly as ``k_s * u_i``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        k : np.ndarray</span>
-<span class="sd">            The unrestricted global stiffness matrix</span>
-<span class="sd">        d : np.ndarray</span>
-<span class="sd">            The global nodal displacement vector</span>
-<span class="sd">        f : np.ndarray</span>
-<span class="sd">            The global nodal force vector</span>
+<span class="sd">        k : np.ndarray, shape (nDOF, nDOF)</span>
+<span class="sd">            Unrestricted global stiffness matrix (including spring terms).</span>
+<span class="sd">        d : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Solved global nodal displacement vector (m, rad).</span>
+<span class="sd">        f : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Unrestricted nodal force vector ``fU`` from :meth:`_forces`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        r : np.ndarray</span>
-<span class="sd">            The reactions corresponding to full restraints</span>
+<span class="sd">            Reactions at fully-fixed DOFs (``restraints[i] == -1``), in DOF</span>
+<span class="sd">            order.</span>
+<span class="sd">        rs : np.ndarray</span>
+<span class="sd">            Spring forces ``-k_s * u_i`` (upward positive) at spring DOFs</span>
+<span class="sd">            (``restraints[i] &gt; 0``), in DOF order.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">k</span> <span class="o">@</span> <span class="n">d</span>
-        <span class="n">r</span> <span class="o">-=</span> <span class="n">f</span>
-        <span class="n">r2</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="c1"># Report reactions corresponding to full restraints</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">r2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">k</span> <span class="o">@</span> <span class="n">d</span> <span class="o">-</span> <span class="n">f</span>
+        <span class="n">restraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
+        <span class="c1"># For fixed DOFs the full nodal residual equals the support reaction,</span>
+        <span class="c1"># because d[i] = 0 leaves no ambiguity about which term dominates.</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">residual</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">)</span> <span class="k">if</span> <span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># For spring DOFs, residual[i] = k_s*u_i + structural coupling - f_applied[i],</span>
+        <span class="c1"># so it is NOT purely the spring force when external nodal loads are present.</span>
+        <span class="c1"># Use -k_s*u_i explicitly: negative because the spring reaction is upward</span>
+        <span class="c1"># (positive) when the displacement is downward (negative).</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="o">-</span><span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">)</span> <span class="k">if</span> <span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span><span class="p">,</span> <span class="n">rs</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Solves the matrix equation</span>
+<span class="sd">        Solve the restricted linear system ``A x = b`` for nodal displacements.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        A : np.ndarray</span>
-<span class="sd">            The restricted global stiffness matrix</span>
-<span class="sd">        b : np.ndarray</span>
-<span class="sd">            The restricted force vector</span>
+<span class="sd">        A : np.ndarray, shape (nDOF, nDOF)</span>
+<span class="sd">            Restricted global stiffness matrix from :meth:`_apply_bc`.</span>
+<span class="sd">        b : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Restricted force vector from :meth:`_apply_bc`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        x : np.ndarray</span>
-<span class="sd">            The nodal displacements</span>
+<span class="sd">        x : np.ndarray, shape (nDOF,)</span>
+<span class="sd">            Nodal displacement vector.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``A`` is singular, indicating a geometrically unstable</span>
+<span class="sd">            structure (insufficient support restraints).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Structure is geometrically unstable: the stiffness matrix is &quot;</span>
+                <span class="s2">&quot;singular. Check that sufficient support restraints are defined.&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="k">return</span> <span class="n">x</span>
 
-<div class="viewcode-block" id="BeamAnalysis.plot_results"><a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamAnalysis.plot_results">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Plots the results of the analysis</span>
+<span class="sd">        Plot bending moment, shear force, and deflection diagrams.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">        Produces a three-panel figure of bending moment, shear force, and</span>
+<span class="sd">        deflection along the beam.  Bending moment is plotted with the</span>
+<span class="sd">        sagging-positive convention (y-axis inverted so sagging appears below</span>
+<span class="sd">        the beam line).</span>
 
+<span class="sd">        .. note::</span>
+<span class="sd">            The axis labels (&quot;kNm&quot;, &quot;kN&quot;, &quot;mm&quot;) and the deflection scaling</span>
+<span class="sd">            (×1000) assume a kN / m unit system.  If a different consistent</span>
+<span class="sd">            unit system is used the plots will still be correct in shape but</span>
+<span class="sd">            the labels and deflection axis values will need interpretation.</span>
+
+<span class="sd">        Has no effect and prints a warning if :meth:`analyze` has not been</span>
+<span class="sd">        called yet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
             <span class="k">return</span>
@@ -794,7 +989,9 @@ document.write(`
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Deflection (mm)&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
 
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
                 </article>
@@ -803,7 +1000,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -824,8 +1021,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -845,7 +1042,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -858,7 +1055,8 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

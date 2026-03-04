@@ -2,46 +2,49 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to PyCBA &#8212; PyCBA 0.5.2 documentation</title>
+    <title>Introduction to PyCBA &#8212; PyCBA 0.6.0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ac2db539"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/intro';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -49,6 +52,7 @@
     <link rel="prev" title="Tutorials" href="../tutorials.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.6.0" />
   </head>
   
   
@@ -56,32 +60,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -89,7 +77,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -97,20 +84,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="../index.html">
@@ -124,8 +118,8 @@
       
     
     
-    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.5.2 documentation - Home"/>
-    <script>document.write(`<img src="../_static/pycba_logo.png" class="logo__image only-dark" alt="PyCBA 0.5.2 documentation - Home"/>`);</script>
+    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.6.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.6.0 documentation - Home"/>
   
   
 </a></div>
@@ -137,49 +131,43 @@
     <div class="me-auto navbar-header-items__center">
       
         <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../installation.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../general.html">
-                        Beam Configuration
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../api.html">
-                        API Reference
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../theory.html">
-                        Theoretical Basis
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -191,31 +179,23 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -226,7 +206,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -238,7 +218,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
@@ -250,31 +230,31 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -283,52 +263,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../installation.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../general.html">
-                        Beam Configuration
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../api.html">
-                        API Reference
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../theory.html">
-                        Theoretical Basis
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -338,17 +315,13 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -359,7 +332,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -371,7 +344,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
             <span class="sr-only">Twitter</span></a>
         </li>
 </ul></div>
@@ -397,29 +370,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -430,7 +406,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Introduction...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Introduction to PyCBA</span></li>
   </ul>
 </nav>
 </div>
@@ -445,10 +421,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="Introduction-to-PyCBA">
-<h1>Introduction to PyCBA<a class="headerlink" href="#Introduction-to-PyCBA" title="Permalink to this heading">#</a></h1>
+<h1>Introduction to PyCBA<a class="headerlink" href="#Introduction-to-PyCBA" title="Link to this heading">#</a></h1>
 <p>PyCBA (Python Continuous Beam Analysis) is a general linear elastic one-dimensional beam analysis package.</p>
 <p>This introduction demonstrates the basic use of <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> and results that can be obtained. So let’s get started…</p>
 <div class="nbinput nblast docutils container">
@@ -464,7 +440,7 @@ document.write(`
 </div>
 </div>
 <section id="Example-1---Basic-Analysis">
-<h2>Example 1 - Basic Analysis<a class="headerlink" href="#Example-1---Basic-Analysis" title="Permalink to this heading">#</a></h2>
+<h2>Example 1 - Basic Analysis<a class="headerlink" href="#Example-1---Basic-Analysis" title="Link to this heading">#</a></h2>
 <p>Analyse a two span beam, with a UDL of 20 kN/m on each span</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -479,7 +455,7 @@ document.write(`
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_3_0.png" class="no-scaled-link" src="../_images/notebooks_intro_3_0.png" style="width: 800px;" />
+<img alt="../_images/notebooks_intro_3_0.png" class="no-scaled-link" src="../_images/notebooks_intro_3_0.png" width="800" />
 </div>
 </div>
 <p>Here is the specification for <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>, explained below:</p>
@@ -566,13 +542,13 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-65.42525
+np.float64(65.42525)
 </pre></div></div>
 </div>
 <p>Since we have been consistent with our units, the reactions are in kN and the bending moment in kNm.</p>
 </section>
 <section id="Example-2---Load-Definitions">
-<h2>Example 2 - Load Definitions<a class="headerlink" href="#Example-2---Load-Definitions" title="Permalink to this heading">#</a></h2>
+<h2>Example 2 - Load Definitions<a class="headerlink" href="#Example-2---Load-Definitions" title="Link to this heading">#</a></h2>
 <p>In this example, we consider a two-span beam with a fixed remote end, more load types, and a lower-level method for defining loads.</p>
 <p>In addition to the utility functions for adding loads, a “load matrix” can be defined directly. This is a list of loads, where each load is defined by a list of five numbers, as defined in the docs:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Span No. | Load Type | Load Value | Distance a | Load Cover c
@@ -592,7 +568,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_18_0.png" class="no-scaled-link" src="../_images/notebooks_intro_18_0.png" style="width: 800px;" />
+<img alt="../_images/notebooks_intro_18_0.png" class="no-scaled-link" src="../_images/notebooks_intro_18_0.png" width="800" />
 </div>
 </div>
 <p>With two loads the <em>load matrix</em> (see <code class="docutils literal notranslate"><span class="pre">pycba.load</span></code>) is a list of two lists:</p>
@@ -632,7 +608,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </section>
 <section id="Example-3---3-span-beam-in-a-building-subframe">
-<h2>Example 3 - 3-span beam in a building subframe<a class="headerlink" href="#Example-3---3-span-beam-in-a-building-subframe" title="Permalink to this heading">#</a></h2>
+<h2>Example 3 - 3-span beam in a building subframe<a class="headerlink" href="#Example-3---3-span-beam-in-a-building-subframe" title="Link to this heading">#</a></h2>
 <p>In this example we consider a reinforced concrete building subframe in which the columns are 4 m high, and 300 mm square. We take <span class="math notranslate nohighlight">\(E=30\)</span> GPa Hence the roational stiffness at each joint is <span class="math notranslate nohighlight">\(2 \times (4EI)/L\)</span> giving</p>
 <div class="math notranslate nohighlight">
 \[k = 2\times \frac{4\times30\times(300^4)}{4000} \times 10^3 = 486\times10^9\ \textrm{kNm/rad}\]</div>
@@ -690,7 +666,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 <p>The influence of the column rotational stiffness at the joints is clear, and the moments in the columns canbe found as the difference in the moments at the ends of the connecting spans.</p>
 </section>
 <section id="Example-4---Post-tensioned-4-span-beam">
-<h2>Example 4 - Post-tensioned 4-span beam<a class="headerlink" href="#Example-4---Post-tensioned-4-span-beam" title="Permalink to this heading">#</a></h2>
+<h2>Example 4 - Post-tensioned 4-span beam<a class="headerlink" href="#Example-4---Post-tensioned-4-span-beam" title="Link to this heading">#</a></h2>
 <p>In this example, we determine the load effects applied by a post-tensioned cable. We define the load matrix directly, based on the geometry of the cable drape.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
@@ -729,7 +705,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </section>
 <section id="Example-5---Superposition-for-load-balancing">
-<h2>Example 5 - Superposition for load-balancing<a class="headerlink" href="#Example-5---Superposition-for-load-balancing" title="Permalink to this heading">#</a></h2>
+<h2>Example 5 - Superposition for load-balancing<a class="headerlink" href="#Example-5---Superposition-for-load-balancing" title="Link to this heading">#</a></h2>
 <p>Using the <code class="docutils literal notranslate"><span class="pre">add_LM</span></code> subroutine load matrices may be superimposed. Based on Example 4, we will define the service loads and then the prestress equivalent loads are added. Both load cases are analysed seperately and the combined LM analysed: each set of results are displayed seperately.</p>
 <p>Define the beam as before:</p>
 <div class="nbinput nblast docutils container">
@@ -813,6 +789,130 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 </section>
+<section id="Example-6---Prescribed-Support-Settlements">
+<h2>Example 6 - Prescribed Support Settlements<a class="headerlink" href="#Example-6---Prescribed-Support-Settlements" title="Link to this heading">#</a></h2>
+<p>Differential settlement between supports is a common problem in structural engineering; for example, due to uneven soil stiffness, consolidation under a pier, or adjacent excavation. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> handles this through the optional <code class="docutils literal notranslate"><span class="pre">D</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">D</span></code> is a list of the same length as <code class="docutils literal notranslate"><span class="pre">R</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> for DOFs with no prescribed displacement, and a float (positive upward, negative downward) for any DOF whose displacement is known. Fixed supports (<code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">=</span> <span class="pre">-1</span></code>) default to zero displacement unless overridden by <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p>
+<p>We revisit the two-span beam from Example 1, but now the intermediate support <span class="math notranslate nohighlight">\(B\)</span> settles by <span class="math notranslate nohighlight">\(\delta_B = 20\)</span> mm and the far support <span class="math notranslate nohighlight">\(C\)</span> settles by <span class="math notranslate nohighlight">\(\delta_C = 10\)</span> mm.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">]</span>
+<span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">600e7</span> <span class="o">*</span> <span class="mf">1e-6</span>  <span class="c1"># kNm^2</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">LM</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># Reference analysis – no settlement</span>
+<span class="n">ba_ref</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
+<span class="n">ba_ref</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reactions (no settlement):          &quot;</span><span class="p">,</span> <span class="n">ba_ref</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;kN&quot;</span><span class="p">)</span>
+
+<span class="c1"># Analysis with prescribed differential settlements</span>
+<span class="n">delta_B</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.020</span>   <span class="c1"># 20 mm downward at support B (DOF 2)</span>
+<span class="n">delta_C</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.010</span>   <span class="c1"># 10 mm downward at support C (DOF 4)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">delta_B</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">delta_C</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+
+<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">)</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reactions (with differential settle):&quot;</span><span class="p">,</span> <span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;kN&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reactions (no settlement):           [ 57.417 181.423  51.161] kN
+Reactions (with differential settle): [ 77.752 139.3    72.948] kN
+</pre></div></div>
+</div>
+<p>The settlement redistributes bending moments across the spans. Plotting both cases makes the effect clear:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_ref</span> <span class="o">=</span> <span class="n">ba_ref</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">L</span><span class="p">)],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res_ref</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res_ref</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;No settlement&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;δ_B = </span><span class="si">{</span><span class="n">delta_B</span><span class="o">*</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> mm, δ_C = </span><span class="si">{</span><span class="n">delta_C</span><span class="o">*</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> mm&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res_ref</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res_ref</span><span class="o">.</span><span class="n">D</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;No settlement&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;With differential settlement&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Deflection (mm)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_44_0.png" src="../_images/notebooks_intro_44_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-7---Spring-Support-Reactions">
+<h2>Example 7 - Spring Support Reactions<a class="headerlink" href="#Example-7---Spring-Support-Reactions" title="Link to this heading">#</a></h2>
+<p>When spring supports are used instead of rigid supports (positive value in <code class="docutils literal notranslate"><span class="pre">R</span></code> instead of <code class="docutils literal notranslate"><span class="pre">-1</span></code>), running the analysis also populates <code class="docutils literal notranslate"><span class="pre">beam_results.Rs</span></code> — a vector of spring forces <span class="math notranslate nohighlight">\(k_s \cdot u_i\)</span> for each spring DOF, in the same order they appear in <code class="docutils literal notranslate"><span class="pre">R</span></code>. This lets you post-process foundation loads directly without back-calculating them from the nodal displacements.</p>
+<p>We use Example 1 to illustrate.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">]</span>
+<span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">600e7</span> <span class="o">*</span> <span class="mf">1e-6</span>  <span class="c1"># kNm^2</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">5e4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">LM</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># Reference analysis – no settlement</span>
+<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_46_0.png" src="../_images/notebooks_intro_46_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reactions at A and C are: </span><span class="si">{</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> kN&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reaction at B is: </span><span class="si">{</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">Rs</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> kN&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reactions at A and C are: [62.125 56.206] kN
+Reaction at B is: [171.669] kN
+</pre></div></div>
+</div>
+</section>
 </section>
 
 
@@ -822,7 +922,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -850,20 +950,25 @@ array([ 57.41666667, 181.42261905,  51.16071429])
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
-
-  <div class="page-toc tocsection onthispage">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1---Basic-Analysis">Example 1 - Basic Analysis</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2---Load-Definitions">Example 2 - Load Definitions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3---3-span-beam-in-a-building-subframe">Example 3 - 3-span beam in a building subframe</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4---Post-tensioned-4-span-beam">Example 4 - Post-tensioned 4-span beam</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5---Superposition-for-load-balancing">Example 5 - Superposition for load-balancing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-6---Prescribed-Support-Settlements">Example 6 - Prescribed Support Settlements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-7---Spring-Support-Reactions">Example 7 - Spring Support Reactions</a></li>
 </ul>
   </nav></div>
 
@@ -896,8 +1001,8 @@ array([ 57.41666667, 181.42261905,  51.16071429])
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -917,7 +1022,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -930,7 +1035,8 @@ array([ 57.41666667, 181.42261905,  51.16071429])
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>
