@@ -269,7 +269,11 @@ class BridgeAnalysis:
     ) -> Dict[str, Dict[str, Union[float, np.ndarray]]]:
         """
         From the envelopes output, returns the extreme values, their locations,
-        and the position of the vehicle for each in a dictionary of dictionaries
+        and the position of the vehicle for each in a dictionary of dictionaries.
+
+        Each moment entry (``Mmax``, ``Mmin``) also contains a ``"Vco"`` key with
+        the coincident shear at the critical location. Each shear entry (``Vmax``,
+        ``Vmin``) contains a ``"Mco"`` key with the coincident moment.
 
         Parameters
         ----------
@@ -287,7 +291,8 @@ class BridgeAnalysis:
         -------
         crit_values : Dict[str, Dict[str, Union[float, np.ndarray]]]
             A dictionary of dictionaries containing the critical values (i.e. extremes)
-            of each of the load effects, both maximum and minimum.
+            of each of the load effects, both maximum and minimum, along with
+            coincident values of the other effect.
         """
 
         crit_values = {}

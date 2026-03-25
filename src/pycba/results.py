@@ -188,13 +188,35 @@ class BeamResults:
 
 class Envelopes:
     """
-    Envelopes load effects from a vector of BeamResults
+    Envelopes load effects from a vector of BeamResults.
+
+    Attributes
+    ----------
+    x : np.ndarray
+        Coordinates along the beam.
+    Vmax, Vmin : np.ndarray
+        Maximum and minimum shear force envelopes.
+    Mmax, Mmin : np.ndarray
+        Maximum and minimum bending moment envelopes.
+    Vco_Mmax : np.ndarray
+        Shear coincident with the moment maximum at each point.
+    Vco_Mmin : np.ndarray
+        Shear coincident with the moment minimum at each point.
+    Mco_Vmax : np.ndarray
+        Moment coincident with the shear maximum at each point.
+    Mco_Vmin : np.ndarray
+        Moment coincident with the shear minimum at each point.
+    Rmax, Rmin : np.ndarray
+        Reaction history matrices (nsup x nres).
+    Rmaxval, Rminval : np.ndarray
+        Maximum and minimum reaction per support.
     """
 
     def __init__(self, vResults: List[MemberResults]):
         """
         Constructs the envelope of each load effect given a vector of results for
-        the beam.
+        the beam. Also tracks coincident (co-existing) load effects: the value of
+        the other effect (V or M) at the analysis that caused each envelope extreme.
 
         Parameters
         ----------
@@ -342,7 +364,8 @@ class Envelopes:
     def augment(self, env: Envelopes):
         """
         Augments this set of envelopes with another compatible set, making this the
-        envelopes of the two sets of envelopes.
+        envelopes of the two sets of envelopes. Coincident values are updated to
+        match whichever envelope governs at each point.
 
         All envelopes must be from the same :class:`pycba.bridge.BridgeAnalysis` object.
 
