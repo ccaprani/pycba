@@ -18,7 +18,14 @@ class BeamResults:
     BeamResults Class for processing and containing the results for each member
     """
 
-    def __init__(self, beam: Beam, d: np.ndarray, r: np.ndarray, npts: int = 100, rs: np.ndarray = None):
+    def __init__(
+        self,
+        beam: Beam,
+        d: np.ndarray,
+        r: np.ndarray,
+        npts: int = 100,
+        rs: np.ndarray = None,
+    ):
         """
         Initialize member results from global results
 
@@ -235,18 +242,30 @@ class Envelopes:
         self.nsup = len(vResults[0].R)
 
         (
-            self.Vmax, self.Vmin,
-            self.Mmax, self.Mmin,
-            self.Vco_Mmax, self.Vco_Mmin,
-            self.Mco_Vmax, self.Mco_Vmin,
+            self.Vmax,
+            self.Vmin,
+            self.Mmax,
+            self.Mmin,
+            self.Vco_Mmax,
+            self.Vco_Mmin,
+            self.Mco_Vmax,
+            self.Mco_Vmin,
         ) = self._get_envelopes_VM()
         self.Rmax, self.Rmin = self._get_envelope_R()
         self.Rmaxval = self.Rmax.max(axis=1)
         self.Rminval = self.Rmin.min(axis=1)
 
-    def _get_envelopes_VM(self) -> Tuple[
-        np.ndarray, np.ndarray, np.ndarray, np.ndarray,
-        np.ndarray, np.ndarray, np.ndarray, np.ndarray,
+    def _get_envelopes_VM(
+        self,
+    ) -> Tuple[
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
     ]:
         """
         Creates the envelopes for shear and moment, and tracks the coincident

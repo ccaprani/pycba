@@ -516,7 +516,7 @@ class LoadTrapez(Load):
         if c <= 0:
             return LoadCNL(Va=0.0, Vb=0.0, Ma=0.0, Mb=0.0)
 
-        alpha = L - a          # distance: load start → right beam end
+        alpha = L - a  # distance: load start → right beam end
         # delta = L - a - c    # distance: load end → right beam end (not used directly)
 
         # --- Ma: ∫ w(x) · x · (L−x)² dx / L² ---
