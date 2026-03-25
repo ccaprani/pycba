@@ -177,6 +177,33 @@ def test_parse_beam_notation():
     assert eType == [1, 2, 1, 1]
 
 
+def test_il_arbitrary_poi():
+    """
+    Regression test for issue #89: influence line plotting fails when the poi
+    does not fall exactly on the result grid (e.g. longer spans with default
+    100-point discretization).
+    """
+    beam_string = "E30R30H30R30E"
+    (L, EI, R, eType) = cba.parse_beam_string(beam_string)
+    ils = cba.InfluenceLines(L, EI, R, eType)
+    ils.create_ils(step=0.05)
+
+    # poi=40.0 does not land on the 0.3m result grid for 30m spans
+    (x, y) = ils.get_il(40.0, "M")
+    assert np.linalg.norm(y) > 0
+
+    (x, y) = ils.get_il(40.0, "V")
+    assert np.linalg.norm(y) > 0
+
+    # Also verify at support locations
+    (x, y) = ils.get_il(30.0, "M")
+    assert np.linalg.norm(y) > 0
+
+    # Moment at hinge should be zero
+    (x, y) = ils.get_il(60.0, "M")
+    assert np.linalg.norm(y) == pytest.approx(0.0, abs=1e-10)
+
+
 def test_discretization():
     """
     Confirm that poi rounding to find the closest idx for ILs works
