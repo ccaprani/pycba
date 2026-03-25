@@ -55,6 +55,36 @@ def test_la():
     # assert v == pytest.approx([665,1050,1515,2005,2505,3015,5525])
 
 
+def test_run_vehicle_range():
+    """
+    Test that pos_start and pos_end restrict the vehicle traverse range,
+    and that the default (no range) is equivalent to full traverse.
+    """
+    L = [30, 30]
+    EI = 30 * 1e11 * np.ones(len(L)) * 1e-6
+    R = [-1, 0, -1, 0, -1, 0]
+    veh = cba.Vehicle([1.2], [100, 100])
+
+    # Use separate BeamAnalysis objects to avoid shared state
+    bridge_full = cba.BeamAnalysis(L, EI, R)
+    ba_full = cba.BridgeAnalysis(bridge_full, veh)
+    env_full = ba_full.run_vehicle(1.0)
+    n_full = len(ba_full.pos)
+
+    bridge_range = cba.BeamAnalysis(L, EI, R)
+    ba_range = cba.BridgeAnalysis(bridge_range, veh)
+    env_range = ba_range.run_vehicle(1.0, pos_start=10, pos_end=50)
+    pos_range = list(ba_range.pos)
+
+    # Range should start at 10 and end at or before 50
+    assert pos_range[0] == pytest.approx(10.0)
+    assert pos_range[-1] <= 50.0 + 1e-9
+    assert len(pos_range) < n_full
+
+    # Mmax over restricted range should be <= full range
+    assert env_range.Mmax.max() <= env_full.Mmax.max() + 1e-6
+
+
 def test_make_train():
     """
     Train of prime movers and platform
