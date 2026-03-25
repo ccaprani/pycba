@@ -682,6 +682,306 @@ def test_spring_prescribed_displacement_error():
         ba.analyze()
 
 
+def test_trapezoidal_reduces_to_udl():
+    """
+    Trapezoidal load with w1 == w2 must give identical results to a UDL.
+    """
+    L = [10]
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w = 5
+
+    ba_udl = cba.BeamAnalysis(L, EI, R, [[1, 1, w, 0, 0]])
+    ba_udl.analyze()
+
+    ba_trap = cba.BeamAnalysis(L, EI, R, [[1, 5, w, w]])
+    ba_trap.analyze()
+
+    assert ba_udl.beam_results.results.M == pytest.approx(
+        ba_trap.beam_results.results.M, abs=1e-10
+    )
+    assert ba_udl.beam_results.results.V == pytest.approx(
+        ba_trap.beam_results.results.V, abs=1e-10
+    )
+    assert ba_udl.beam_results.R == pytest.approx(ba_trap.beam_results.R, abs=1e-10)
+
+
+def test_trapezoidal_equilibrium():
+    """
+    Reactions for a trapezoidal load must sum to the total applied load.
+    """
+    L = [8]
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w1, w2 = 3, 12
+
+    ba = cba.BeamAnalysis(L, EI, R, [[1, 5, w1, w2]])
+    ba.analyze()
+
+    total_load = (w1 + w2) * L[0] / 2
+    assert sum(ba.beam_results.R) == pytest.approx(total_load, abs=1e-6)
+
+
+def test_trapezoidal_fixed_fixed():
+    """
+    Trapezoidal load on a fixed-fixed beam: verify end moments against
+    known formulas. For w(x) = w1 + (w2-w1)*x/L on a fixed-fixed beam:
+      Ma = w1*L^2/12 + (w2-w1)*L^2/30
+      Mb = -(w1*L^2/12 + (w2-w1)*L^2/20)
+    """
+    L_val = 10
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, -1, -1, -1]
+    w1, w2 = 2, 8
+
+    ba = cba.BeamAnalysis([L_val], EI, R, [[1, 5, w1, w2]])
+    ba.analyze()
+
+    dw = w2 - w1
+    Ma_exact = w1 * L_val**2 / 12 + dw * L_val**2 / 30
+    Mb_exact = -(w1 * L_val**2 / 12 + dw * L_val**2 / 20)
+
+    Ma = ba.beam_results.results.M[1]
+    Mb = ba.beam_results.results.M[-2]
+
+    # In the M diagram: M[1] = -Ma_cnl (hogging), M[-2] = Mb_cnl
+    assert Ma == pytest.approx(-Ma_exact, abs=1e-6)
+    assert Mb == pytest.approx(Mb_exact, abs=1e-6)
+
+
+def test_trapezoidal_add_trap():
+    """
+    The add_trap convenience method must produce the same result as a load matrix.
+    """
+    L = [10]
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w1, w2 = 5, 15
+
+    ba1 = cba.BeamAnalysis(L, EI, R, [[1, 5, w1, w2]])
+    ba1.analyze()
+
+    ba2 = cba.BeamAnalysis(L, EI, R)
+    ba2.add_trap(1, w1, w2)
+    ba2.analyze()
+
+    assert ba1.beam_results.results.M == pytest.approx(
+        ba2.beam_results.results.M, abs=1e-10
+    )
+
+
+def test_trapezoidal_triangular():
+    """
+    Pure triangular load (w1=0, w2=w) on a SS beam: verify reactions
+    and max moment against textbook formulas.
+    Va = wL/6, Vb = wL/3, Mmax = wL^2*sqrt(3)/27 at x = L/sqrt(3).
+    """
+    L_val = 12
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w = 10
+
+    ba = cba.BeamAnalysis([L_val], EI, R, [[1, 5, 0, w]])
+    ba.analyze()
+
+    r = ba.beam_results.R
+    assert r[0] == pytest.approx(w * L_val / 6, abs=1e-6)
+    assert r[1] == pytest.approx(w * L_val / 3, abs=1e-6)
+
+    # Max moment at x = L/sqrt(3)
+    Mmax_exact = w * L_val**2 * 3**0.5 / 27
+    M = ba.beam_results.results.M
+    assert max(M) == pytest.approx(Mmax_exact, rel=1e-3)
+
+
+def test_trapezoidal_partial_reduces_to_pudl():
+    """
+    Partial trapezoidal with w1 == w2 must match a partial UDL.
+    """
+    L = [10]
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w = 8
+    a, c = 2, 5
+
+    ba_pudl = cba.BeamAnalysis(L, EI, R, [[1, 3, w, a, c]])
+    ba_pudl.analyze()
+
+    ba_trap = cba.BeamAnalysis(L, EI, R, [[1, 5, w, w, a, c]])
+    ba_trap.analyze()
+
+    assert ba_pudl.beam_results.results.M == pytest.approx(
+        ba_trap.beam_results.results.M, abs=1e-10
+    )
+    assert ba_pudl.beam_results.results.V == pytest.approx(
+        ba_trap.beam_results.results.V, abs=1e-10
+    )
+    assert ba_pudl.beam_results.R == pytest.approx(ba_trap.beam_results.R, abs=1e-10)
+
+
+def test_trapezoidal_partial_equilibrium():
+    """
+    Reactions for a partial trapezoidal load must sum to the total load.
+    """
+    L = [10]
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w1, w2 = 3, 12
+    a, c = 2, 5
+
+    ba = cba.BeamAnalysis(L, EI, R, [[1, 5, w1, w2, a, c]])
+    ba.analyze()
+
+    total_load = (w1 + w2) * c / 2
+    assert sum(ba.beam_results.R) == pytest.approx(total_load, abs=1e-6)
+
+
+def test_trapezoidal_partial_full_span_equiv():
+    """
+    Explicit [span, 5, w1, w2, 0, L] must equal [span, 5, w1, w2].
+    """
+    L_val = 8
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, -1, -1, -1]
+    w1, w2 = 4, 14
+
+    ba1 = cba.BeamAnalysis([L_val], EI, R, [[1, 5, w1, w2]])
+    ba1.analyze()
+
+    ba2 = cba.BeamAnalysis([L_val], EI, R, [[1, 5, w1, w2, 0, L_val]])
+    ba2.analyze()
+
+    assert ba1.beam_results.results.M == pytest.approx(
+        ba2.beam_results.results.M, abs=1e-10
+    )
+    assert ba1.beam_results.results.V == pytest.approx(
+        ba2.beam_results.results.V, abs=1e-10
+    )
+    assert ba1.beam_results.R == pytest.approx(ba2.beam_results.R, abs=1e-10)
+
+
+def test_trapezoidal_multispan():
+    """
+    Trapezoidal loads on a 2-span beam: check equilibrium and deflections
+    close at supports.
+    """
+    L = [8, 10]
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0, -1, 0]
+    w1a, w2a = 5, 15
+    w1b, w2b = 10, 3
+
+    ba = cba.BeamAnalysis(L, EI, R, [[1, 5, w1a, w2a], [2, 5, w1b, w2b]])
+    ba.analyze()
+
+    total = (w1a + w2a) * L[0] / 2 + (w1b + w2b) * L[1] / 2
+    assert sum(ba.beam_results.R) == pytest.approx(total, abs=1e-6)
+
+    # Deflections at supports must be zero
+    d = ba.beam_results.D
+    assert d[0] == pytest.approx(0.0, abs=1e-9)
+    assert d[2] == pytest.approx(0.0, abs=1e-9)
+    assert d[4] == pytest.approx(0.0, abs=1e-9)
+
+
+def test_trapezoidal_reversed_symmetry():
+    """
+    On a SS beam, trapez(w1→w2) reversed is equivalent to trapez(w2→w1).
+    Reactions should swap; moments should be mirror images.
+    """
+    L_val = 10
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w1, w2 = 4, 12
+
+    ba1 = cba.BeamAnalysis([L_val], EI, R, [[1, 5, w1, w2]])
+    ba1.analyze()
+
+    ba2 = cba.BeamAnalysis([L_val], EI, R, [[1, 5, w2, w1]])
+    ba2.analyze()
+
+    # Reactions should be swapped
+    R1 = ba1.beam_results.R
+    R2 = ba2.beam_results.R
+    assert R1[0] == pytest.approx(R2[1], abs=1e-10)
+    assert R1[1] == pytest.approx(R2[0], abs=1e-10)
+
+    # Moment diagrams should be mirror images (skip padded boundary indices)
+    M1 = ba1.beam_results.results.M[2:-2]
+    M2 = ba2.beam_results.results.M[2:-2]
+    assert M1 == pytest.approx(M2[::-1], abs=1e-6)
+
+
+def test_trapezoidal_partial_add_trap():
+    """
+    add_trap with a, c parameters must match load matrix with 6 elements.
+    """
+    L = [10]
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, 0, -1, 0]
+    w1, w2, a, c = 5, 15, 2, 6
+
+    ba1 = cba.BeamAnalysis(L, EI, R, [[1, 5, w1, w2, a, c]])
+    ba1.analyze()
+
+    ba2 = cba.BeamAnalysis(L, EI, R)
+    ba2.add_trap(1, w1, w2, a=a, c=c)
+    ba2.analyze()
+
+    assert ba1.beam_results.results.M == pytest.approx(
+        ba2.beam_results.results.M, abs=1e-10
+    )
+
+
+def test_trapezoidal_partial_fixed_fixed():
+    """
+    Partial trapezoidal on a fixed-fixed beam: verify against numerical
+    integration using many small point loads.
+    """
+    L_val = 10
+    EI = 30 * 600e7 * 1e-6
+    R = [-1, -1, -1, -1]
+    w1, w2 = 5, 20
+    a, c = 3, 4  # load from x=3 to x=7
+
+    # Analytical trapezoidal
+    ba_trap = cba.BeamAnalysis([L_val], EI, R, [[1, 5, w1, w2, a, c]])
+    ba_trap.analyze()
+
+    # Numerical: many point loads
+    n_pts = 200
+    dx = c / n_pts
+    LM_pts = []
+    for i in range(n_pts):
+        xi = a + (i + 0.5) * dx
+        wi = w1 + (w2 - w1) * (i + 0.5) * dx / c
+        LM_pts.append([1, 2, wi * dx, xi, 0])
+
+    ba_num = cba.BeamAnalysis([L_val], EI, R, LM_pts)
+    ba_num.analyze()
+
+    assert ba_trap.beam_results.R == pytest.approx(ba_num.beam_results.R, rel=1e-3)
+    assert ba_trap.beam_results.results.M == pytest.approx(
+        ba_num.beam_results.results.M, rel=1e-3, abs=1e-3
+    )
+
+
+def test_trapezoidal_factor_LM():
+    """
+    factor_LM must correctly scale w1 and w2 but preserve a and c.
+    """
+    from pycba.load import factor_LM
+
+    LM = [[1, 5, 4, 10, 2, 5]]
+    gamma = 1.5
+    LM_f = factor_LM(LM, gamma)
+
+    assert LM_f[0][2] == pytest.approx(6.0)   # w1 * 1.5
+    assert LM_f[0][3] == pytest.approx(15.0)  # w2 * 1.5
+    assert LM_f[0][4] == pytest.approx(2.0)   # a unchanged
+    assert LM_f[0][5] == pytest.approx(5.0)   # c unchanged
+
+
 def test_unstable_structure_error():
     """
     A geometrically unstable beam (no supports) must raise a ValueError

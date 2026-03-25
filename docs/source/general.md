@@ -38,22 +38,33 @@ Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of
 Load Matrix (`LM`)
 ------------------
 
-A matrix representing the loads (i.e. a `List` of `Lists`). 
-Each entry represents a single load and must be in the following format:
+A `List` of `Lists` representing the applied loads.
+Each entry is a single load descriptor whose length depends on the load type:
 
-     Span No. | Load Type | Load Value | Distance a | Load Cover c
-     
-Load Types are: 
+| Type | Name | Format | Columns |
+|------|------|--------|---------|
+| 1 | UDL | `[span, 1, w]` | 3 |
+| 2 | Point Load | `[span, 2, P, a]` | 4 |
+| 3 | Partial UDL | `[span, 3, w, a, c]` | 5 |
+| 4 | Moment Load | `[span, 4, M, a]` | 4 |
+| 5 | Trapezoidal (full) | `[span, 5, w1, w2]` | 4 |
+| 5 | Trapezoidal (partial) | `[span, 5, w1, w2, a, c]` | 6 |
 
-    1 - **Uniformly Distributed Loads**, which only have a load value; set distance `a` to "0".
-    
+Load Types:
+
+    1 - **Uniformly Distributed Loads**, which only have a load value.
+
     2 - **Point Loads**, located at `a` from the left end of the span.
-    
+
     3 - **Partial UDLs**, starting at `a` for a distance of `c` (i.e. the cover) where $L >= a+c$.
-    
+
     4 - **Moment Load**, located at `a`.
-    
-**Dimension**: `M` x 5, where `M` is the number of loads applied.
+
+    5 - **Trapezoidal Load**, linearly varying from `w1` to `w2`.
+        Full span: `[span, 5, w1, w2]` — `w1` at the left end, `w2` at the right end.
+        Partial:   `[span, 5, w1, w2, a, c]` — `w1` at position `a`, `w2` at position `a + c`, where $L \geq a+c$.
+
+**Dimension**: `M` rows (one per applied load), with 3–6 columns per row depending on load type.
 
 **Units**: kN, kN/m, and metres.
 

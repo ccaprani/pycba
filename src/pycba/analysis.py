@@ -91,13 +91,15 @@ class BeamAnalysis:
             * ``+k`` — elastic spring stiffness in consistent units.
 
         LM : list of list, optional
-            Load matrix: a list of load descriptors, each of the form
-            ``[span, load_type, value, a, c]``.  Load types:
+            Load matrix: a list of load descriptors.  The number of columns
+            per entry depends on the load type:
 
-            1. UDL — ``value`` is load intensity; set ``a = c = 0``.
-            2. Point load — ``value`` at distance ``a`` from the span start.
-            3. Partial UDL — ``value`` intensity from ``a`` for length ``c``.
-            4. Moment load — ``value`` at distance ``a`` from the span start.
+            1. UDL — ``[span, 1, w]``.
+            2. Point load — ``[span, 2, P, a]``.
+            3. Partial UDL — ``[span, 3, w, a, c]``.
+            4. Moment load — ``[span, 4, M, a]``.
+            5. Trapezoidal — ``[span, 5, w1, w2]`` (full span) or
+               ``[span, 5, w1, w2, a, c]`` (partial).
 
         eletype : array_like of int, optional
             Element type for each span, controlling which end(s) carry moment:
@@ -239,6 +241,44 @@ class BeamAnalysis:
             Distance from the left end of the span to the load.
         """
         load = [i_span, 4, m, a]
+        self._beam.add_load(load)
+
+    def add_trap(
+        self,
+        i_span: int,
+        w1: float,
+        w2: float,
+        a: Optional[float] = None,
+        c: Optional[float] = None,
+    ):
+        """
+        Append a trapezoidal (linearly varying) distributed load.
+
+        When *a* and *c* are omitted the load covers the full span, varying
+        from *w1* at the left end to *w2* at the right end.  When *a* and *c*
+        are given the load covers the region from *a* to *a + c*, varying from
+        *w1* to *w2* over that length.
+
+        Parameters
+        ----------
+        i_span : int
+            1-based span index.
+        w1 : float
+            Load intensity at the start of the load.  Positive values act downward.
+        w2 : float
+            Load intensity at the end of the load.  Positive values act downward.
+        a : float, optional
+            Distance from the left end of the span to the start of the load.
+            If given, *c* must also be provided.
+        c : float, optional
+            Length (cover) of the load.  Required when *a* is provided.
+        """
+        if a is not None and c is None:
+            raise ValueError("If 'a' is specified, 'c' must also be provided")
+        if a is not None:
+            load = [i_span, 5, w1, w2, a, c]
+        else:
+            load = [i_span, 5, w1, w2]
         self._beam.add_load(load)
 
     def analyze(self, npts: Optional[int] = None) -> int:
