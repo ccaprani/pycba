@@ -373,6 +373,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadMaMb.html">pycba.load.LoadMaMb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadPL.html">pycba.load.LoadPL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadPUDL.html">pycba.load.LoadPUDL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadTrapez.html">pycba.load.LoadTrapez</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadUDL.html">pycba.load.LoadUDL</a></li>
 </ul>
 </details></li>
@@ -466,19 +467,8 @@
   <section id="module-pycba.load">
 <span id="pycba-load"></span><h1>pycba.load<a class="headerlink" href="#module-pycba.load" title="Link to this heading">#</a></h1>
 <p>PyCBA - Load module</p>
-<p>The load matrix represents the loads as a <cite>List</cite> of <cite>Lists</cite>.
-Each list entry represents a single load and must be in the following format:</p>
-<blockquote>
-<div><p>Span No. | Load Type | Load Value | Distance a | Load Cover c</p>
-</div></blockquote>
-<p>Load Types are:</p>
-<blockquote>
-<div><p>1 - <strong>Uniformly Distributed Loads</strong>, which only have a load value; distances <cite>a</cite> and <cite>c</cite> are set to “0”.</p>
-<p>2 - <strong>Point Loads</strong>, located at <cite>a</cite> from the left end of the span; distances <cite>c</cite> is set to “0”.</p>
-<p>3 - <strong>Partial UDLs</strong>, starting at <cite>a</cite> for a distance of <cite>c</cite> (i.e. the cover) where $L &gt;= a+c$.</p>
-<p>4 - <strong>Moment Load</strong>, located at <cite>a</cite>; distances <cite>c</cite> is set to “0”.</p>
-</div></blockquote>
-<p>It has dimension <cite>M</cite> x 5, where <cite>M</cite> is the number of loads applied to the beam.</p>
+<p>The load matrix is a <code class="docutils literal notranslate"><span class="pre">List[List]</span></code> of load descriptors.  Each entry
+describes one load; the number of columns varies by load type:</p>
 <p>The type alias <cite>LoadMatrix</cite> is defined as</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="pycba.load.LoadMatrix">
@@ -519,7 +509,10 @@ Each list entry represents a single load and must be in the following format:</p
 <tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadPUDL.html#pycba.load.LoadPUDL" title="pycba.load.LoadPUDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadPUDL</span></code></a></p></td>
 <td><p>Concrete class for Partial UDLs</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadUDL.html#pycba.load.LoadUDL" title="pycba.load.LoadUDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadUDL</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pycba.load.LoadTrapez.html#pycba.load.LoadTrapez" title="pycba.load.LoadTrapez"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadTrapez</span></code></a></p></td>
+<td><p>Trapezoidal (linearly varying) distributed load, optionally partial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pycba.load.LoadUDL.html#pycba.load.LoadUDL" title="pycba.load.LoadUDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadUDL</span></code></a></p></td>
 <td><p>Uniformly Distributed Load: CNLs and member results</p></td>
 </tr>
 </tbody>

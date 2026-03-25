@@ -1,4 +1,4 @@
-pycba.analysis.BeamAnalysis
+﻿pycba.analysis.BeamAnalysis
 ===========================
 
 .. currentmodule:: pycba.analysis
@@ -19,6 +19,7 @@ pycba.analysis.BeamAnalysis
       ~BeamAnalysis.add_ml
       ~BeamAnalysis.add_pl
       ~BeamAnalysis.add_pudl
+      ~BeamAnalysis.add_trap
       ~BeamAnalysis.add_udl
       ~BeamAnalysis.analyze
       ~BeamAnalysis.plot_results

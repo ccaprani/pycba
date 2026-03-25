@@ -35,6 +35,7 @@
       LoadMaMb
       LoadPL
       LoadPUDL
+      LoadTrapez
       LoadUDL
    
    

@@ -1,0 +1,29 @@
+pycba.load.LoadTrapez
+=====================
+
+.. currentmodule:: pycba.load
+
+.. autoclass:: LoadTrapez
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~LoadTrapez.H
+      ~LoadTrapez.MB
+      ~LoadTrapez.get_cnl
+      ~LoadTrapez.get_mbr_results
+      ~LoadTrapez.get_ref
+   
+   
+
+   
+   
+   

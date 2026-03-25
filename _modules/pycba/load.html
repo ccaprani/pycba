@@ -404,22 +404,19 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">PyCBA - Load module</span>
 
-<span class="sd">The load matrix represents the loads as a `List` of `Lists`.</span>
-<span class="sd">Each list entry represents a single load and must be in the following format:</span>
+<span class="sd">The load matrix is a ``List[List]`` of load descriptors.  Each entry</span>
+<span class="sd">describes one load; the number of columns varies by load type:</span>
 
-<span class="sd">     Span No. | Load Type | Load Value | Distance a | Load Cover c</span>
-
-<span class="sd">Load Types are:</span>
-
-<span class="sd">    1 - **Uniformly Distributed Loads**, which only have a load value; distances `a` and `c` are set to &quot;0&quot;.</span>
-
-<span class="sd">    2 - **Point Loads**, located at `a` from the left end of the span; distances `c` is set to &quot;0&quot;.</span>
-
-<span class="sd">    3 - **Partial UDLs**, starting at `a` for a distance of `c` (i.e. the cover) where $L &gt;= a+c$.</span>
-
-<span class="sd">    4 - **Moment Load**, located at `a`; distances `c` is set to &quot;0&quot;.</span>
-
-<span class="sd">It has dimension `M` x 5, where `M` is the number of loads applied to the beam.</span>
+<span class="sd">=====  ====================  ================================  ====</span>
+<span class="sd">Type   Name                  Format                            Cols</span>
+<span class="sd">=====  ====================  ================================  ====</span>
+<span class="sd">1      UDL                   ``[span, 1, w]``                  3</span>
+<span class="sd">2      Point Load            ``[span, 2, P, a]``               4</span>
+<span class="sd">3      Partial UDL           ``[span, 3, w, a, c]``            5</span>
+<span class="sd">4      Moment Load           ``[span, 4, M, a]``               4</span>
+<span class="sd">5      Trapezoidal (full)    ``[span, 5, w1, w2]``             4</span>
+<span class="sd">5      Trapezoidal (partial) ``[span, 5, w1, w2, a, c]``       6</span>
+<span class="sd">=====  ====================  ================================  ====</span>
 
 <span class="sd">The type alias `LoadMatrix` is defined as</span>
 
@@ -872,6 +869,253 @@
 
 
 
+<div class="viewcode-block" id="LoadTrapez">
+<a class="viewcode-back" href="../../gen/pycba.load.LoadTrapez.html#pycba.load.LoadTrapez">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoadTrapez</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Trapezoidal (linearly varying) distributed load, optionally partial.</span>
+
+<span class="sd">    The load varies linearly from intensity *w1* at position *a* to *w2* at</span>
+<span class="sd">    position *a + c*.  When *a* = 0 and *c* = span length the load covers</span>
+<span class="sd">    the full span (the default).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">w1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">w2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a trapezoidal load for the member.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i_span : int</span>
+<span class="sd">            The member index to which the load is applied.</span>
+<span class="sd">        w1 : float</span>
+<span class="sd">            The load intensity at position *a* (left edge of the load).</span>
+<span class="sd">        w2 : float</span>
+<span class="sd">            The load intensity at position *a + c* (right edge of the load).</span>
+<span class="sd">        a : float, optional</span>
+<span class="sd">            Distance from the left end of the span to the start of the load.</span>
+<span class="sd">            Default is 0 (load starts at the left end).</span>
+<span class="sd">        c : float or None, optional</span>
+<span class="sd">            Length (cover) of the load.  ``None`` (default) means full span</span>
+<span class="sd">            from *a* to the right end.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w1</span> <span class="o">=</span> <span class="n">w1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w2</span> <span class="o">=</span> <span class="n">w2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># None ⇒ full span from a, resolved when L is known</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve c and clip to span boundaries.</span>
+
+<span class="sd">        Returns (w1, w2, dw, a, c) with c &gt; 0, or c = 0 when the load</span>
+<span class="sd">        falls outside the span.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">L</span> <span class="o">-</span> <span class="n">a</span>
+        <span class="n">w1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w1</span>
+        <span class="n">w2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w2</span>
+
+        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">L</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Clip overhang</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="o">+</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">L</span><span class="p">:</span>
+            <span class="n">c_orig</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="n">a</span>
+            <span class="n">w2</span> <span class="o">=</span> <span class="n">w1</span> <span class="o">+</span> <span class="p">(</span><span class="n">w2</span> <span class="o">-</span> <span class="n">w1</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="n">c_orig</span>  <span class="c1"># interpolated at clipped end</span>
+
+        <span class="k">return</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w2</span> <span class="o">-</span> <span class="n">w1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span>
+
+<div class="viewcode-block" id="LoadTrapez.get_cnl">
+<a class="viewcode-back" href="../../gen/pycba.load.LoadTrapez.html#pycba.load.LoadTrapez.get_cnl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Consistent Nodal Loads for the trapezoidal load on a fixed-fixed span.</span>
+
+<span class="sd">        Derived from the fixed-end force influence integrals:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            M_A = \\frac{1}{L^2}\\int_a^b w(x)\\,x\\,(L-x)^2\\,dx</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member</span>
+<span class="sd">        eType : int</span>
+<span class="sd">            The member element type</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LoadCNL</span>
+<span class="sd">            Consistent Nodal Loads for this load type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">LoadCNL</span><span class="p">(</span><span class="n">Va</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vb</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Ma</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Mb</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="n">a</span>          <span class="c1"># distance: load start → right beam end</span>
+        <span class="c1"># delta = L - a - c    # distance: load end → right beam end (not used directly)</span>
+
+        <span class="c1"># --- Ma: ∫ w(x) · x · (L−x)² dx / L² ---</span>
+        <span class="c1"># Split into UDL(w1) integral I1 and triangular(dw) integral I2.</span>
+        <span class="n">I1</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">c</span><span class="o">**</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c</span>
+        <span class="p">)</span>
+        <span class="n">I2</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">c</span><span class="o">**</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">5</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">3</span>
+            <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">Ma</span> <span class="o">=</span> <span class="p">(</span><span class="n">w1</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">I1</span> <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">I2</span>
+
+        <span class="c1"># --- Mb: −∫ w(x) · x² · (L−x) dx / L² ---</span>
+        <span class="n">J1</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="o">+</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">c</span>
+        <span class="p">)</span>
+        <span class="n">J2</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">3</span>
+            <span class="o">+</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">Mb</span> <span class="o">=</span> <span class="o">-</span><span class="p">((</span><span class="n">w1</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">J1</span> <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">J2</span><span class="p">)</span>
+
+        <span class="c1"># --- Va: ∫ w(x) · (L−x)² · (2x+L) dx / L³ ---</span>
+        <span class="n">K1</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">c</span><span class="o">**</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c</span>
+        <span class="p">)</span>
+        <span class="n">K2</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">2</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">5</span>
+            <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">Va</span> <span class="o">=</span> <span class="p">(</span><span class="n">w1</span> <span class="o">/</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">K1</span> <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="n">K2</span>
+
+        <span class="n">Vb</span> <span class="o">=</span> <span class="p">(</span><span class="n">w1</span> <span class="o">+</span> <span class="n">w2</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">Va</span>
+
+        <span class="k">return</span> <span class="n">LoadCNL</span><span class="p">(</span><span class="n">Va</span><span class="o">=</span><span class="n">Va</span><span class="p">,</span> <span class="n">Vb</span><span class="o">=</span><span class="n">Vb</span><span class="p">,</span> <span class="n">Ma</span><span class="o">=</span><span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span><span class="o">=</span><span class="n">Mb</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadTrapez.get_mbr_results">
+<a class="viewcode-back" href="../../gen/pycba.load.LoadTrapez.html#pycba.load.LoadTrapez.get_mbr_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simply-supported member results using Macaulay bracket integration.</span>
+
+<span class="sd">        The load ``w(x) = w1 + (w2−w1)·(x−a)/c`` for ``a ≤ x ≤ a+c`` is</span>
+<span class="sd">        integrated using Macaulay brackets at positions *a* and *b = a+c*.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : np.ndarray</span>
+<span class="sd">            Vector of points along the length of the member</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        res : MemberResults</span>
+<span class="sd">            A populated :class:`pycba.load.MemberResults` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">res</span>
+
+        <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">c</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="n">a</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="n">b</span>
+
+        <span class="c1"># Simply-supported reaction at left end (moment equilibrium about B)</span>
+        <span class="n">Va</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">w1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">w2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">delta</span><span class="o">**</span><span class="mi">3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+
+        <span class="c1"># Rotation integration constant (from D(0) = D(L) = 0)</span>
+        <span class="n">Ra</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="p">(</span><span class="n">Va</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">w1</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">4</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">120</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">5</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">w2</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span><span class="o">**</span><span class="mi">4</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">120</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">delta</span><span class="o">**</span><span class="mi">5</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+
+        <span class="c1"># Macaulay brackets at load start and end</span>
+        <span class="n">MBa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MB</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span>
+        <span class="n">MBb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MB</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
+
+        <span class="n">res</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Va</span>
+            <span class="o">-</span> <span class="n">w1</span> <span class="o">*</span> <span class="n">MBa</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBa</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="n">w2</span> <span class="o">*</span> <span class="n">MBb</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBb</span><span class="o">**</span><span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Va</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">w1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">MBa</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBa</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">w2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">MBb</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBb</span><span class="o">**</span><span class="mi">3</span>
+        <span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">Va</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">w1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">MBa</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">24</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBa</span><span class="o">**</span><span class="mi">4</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">w2</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">MBb</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">24</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBb</span><span class="o">**</span><span class="mi">4</span>
+            <span class="o">+</span> <span class="n">Ra</span>
+        <span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">Va</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">w1</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span> <span class="o">*</span> <span class="n">MBa</span><span class="o">**</span><span class="mi">4</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">120</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBa</span><span class="o">**</span><span class="mi">5</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">w2</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span> <span class="o">*</span> <span class="n">MBb</span><span class="o">**</span><span class="mi">4</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">dw</span> <span class="o">/</span> <span class="p">(</span><span class="mi">120</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">MBb</span><span class="o">**</span><span class="mi">5</span>
+            <span class="o">+</span> <span class="n">Ra</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="p">)</span>
+
+        <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">[</span><span class="n">npts</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="n">npts</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+</div>
+
+
+
 <div class="viewcode-block" id="LoadMaMb">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadMaMb</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
@@ -1116,6 +1360,13 @@
             <span class="n">m</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
             <span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LoadML</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+        <span class="c1"># Trapezoidal Load</span>
+        <span class="k">elif</span> <span class="n">ltype</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">w1</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">w2</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LoadTrapez</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">loads</span></div>
 
 
@@ -1178,6 +1429,11 @@
             <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># PL or ML</span>
             <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
+        <span class="k">elif</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>  <span class="c1"># Trapezoidal</span>
+            <span class="n">new_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">new_load</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>  <span class="c1"># a, c are not factored</span>
+            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_load</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># PUDL</span>
             <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">]])</span>
 

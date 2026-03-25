@@ -496,13 +496,15 @@
 <span class="sd">            * ``+k`` — elastic spring stiffness in consistent units.</span>
 
 <span class="sd">        LM : list of list, optional</span>
-<span class="sd">            Load matrix: a list of load descriptors, each of the form</span>
-<span class="sd">            ``[span, load_type, value, a, c]``.  Load types:</span>
+<span class="sd">            Load matrix: a list of load descriptors.  The number of columns</span>
+<span class="sd">            per entry depends on the load type:</span>
 
-<span class="sd">            1. UDL — ``value`` is load intensity; set ``a = c = 0``.</span>
-<span class="sd">            2. Point load — ``value`` at distance ``a`` from the span start.</span>
-<span class="sd">            3. Partial UDL — ``value`` intensity from ``a`` for length ``c``.</span>
-<span class="sd">            4. Moment load — ``value`` at distance ``a`` from the span start.</span>
+<span class="sd">            1. UDL — ``[span, 1, w]``.</span>
+<span class="sd">            2. Point load — ``[span, 2, P, a]``.</span>
+<span class="sd">            3. Partial UDL — ``[span, 3, w, a, c]``.</span>
+<span class="sd">            4. Moment load — ``[span, 4, M, a]``.</span>
+<span class="sd">            5. Trapezoidal — ``[span, 5, w1, w2]`` (full span) or</span>
+<span class="sd">               ``[span, 5, w1, w2, a, c]`` (partial).</span>
 
 <span class="sd">        eletype : array_like of int, optional</span>
 <span class="sd">            Element type for each span, controlling which end(s) carry moment:</span>
@@ -658,6 +660,47 @@
 <span class="sd">            Distance from the left end of the span to the load.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BeamAnalysis.add_trap">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_trap">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trap</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">w1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">w2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append a trapezoidal (linearly varying) distributed load.</span>
+
+<span class="sd">        When *a* and *c* are omitted the load covers the full span, varying</span>
+<span class="sd">        from *w1* at the left end to *w2* at the right end.  When *a* and *c*</span>
+<span class="sd">        are given the load covers the region from *a* to *a + c*, varying from</span>
+<span class="sd">        *w1* to *w2* over that length.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i_span : int</span>
+<span class="sd">            1-based span index.</span>
+<span class="sd">        w1 : float</span>
+<span class="sd">            Load intensity at the start of the load.  Positive values act downward.</span>
+<span class="sd">        w2 : float</span>
+<span class="sd">            Load intensity at the end of the load.  Positive values act downward.</span>
+<span class="sd">        a : float, optional</span>
+<span class="sd">            Distance from the left end of the span to the start of the load.</span>
+<span class="sd">            If given, *c* must also be provided.</span>
+<span class="sd">        c : float, optional</span>
+<span class="sd">            Length (cover) of the load.  Required when *a* is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If &#39;a&#39; is specified, &#39;c&#39; must also be provided&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
 

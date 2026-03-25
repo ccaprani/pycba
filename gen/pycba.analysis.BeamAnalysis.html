@@ -373,6 +373,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadMaMb.html">pycba.load.LoadMaMb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadPL.html">pycba.load.LoadPL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadPUDL.html">pycba.load.LoadPUDL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadTrapez.html">pycba.load.LoadTrapez</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadUDL.html">pycba.load.LoadUDL</a></li>
 </ul>
 </details></li>
@@ -503,13 +504,15 @@ by <code class="docutils literal notranslate"><span class="pre">D</span></code>)
 <li><p><code class="docutils literal notranslate"><span class="pre">+k</span></code> — elastic spring stiffness in consistent units.</p></li>
 </ul>
 </p></li>
-<li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]]</span>) – <p>Load matrix: a list of load descriptors, each of the form
-<code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">load_type,</span> <span class="pre">value,</span> <span class="pre">a,</span> <span class="pre">c]</span></code>.  Load types:</p>
+<li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]]</span>) – <p>Load matrix: a list of load descriptors.  The number of columns
+per entry depends on the load type:</p>
 <ol class="arabic simple">
-<li><p>UDL — <code class="docutils literal notranslate"><span class="pre">value</span></code> is load intensity; set <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">c</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p></li>
-<li><p>Point load — <code class="docutils literal notranslate"><span class="pre">value</span></code> at distance <code class="docutils literal notranslate"><span class="pre">a</span></code> from the span start.</p></li>
-<li><p>Partial UDL — <code class="docutils literal notranslate"><span class="pre">value</span></code> intensity from <code class="docutils literal notranslate"><span class="pre">a</span></code> for length <code class="docutils literal notranslate"><span class="pre">c</span></code>.</p></li>
-<li><p>Moment load — <code class="docutils literal notranslate"><span class="pre">value</span></code> at distance <code class="docutils literal notranslate"><span class="pre">a</span></code> from the span start.</p></li>
+<li><p>UDL — <code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">1,</span> <span class="pre">w]</span></code>.</p></li>
+<li><p>Point load — <code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">2,</span> <span class="pre">P,</span> <span class="pre">a]</span></code>.</p></li>
+<li><p>Partial UDL — <code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">3,</span> <span class="pre">w,</span> <span class="pre">a,</span> <span class="pre">c]</span></code>.</p></li>
+<li><p>Moment load — <code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">4,</span> <span class="pre">M,</span> <span class="pre">a]</span></code>.</p></li>
+<li><p>Trapezoidal — <code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">5,</span> <span class="pre">w1,</span> <span class="pre">w2]</span></code> (full span) or
+<code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">5,</span> <span class="pre">w1,</span> <span class="pre">w2,</span> <span class="pre">a,</span> <span class="pre">c]</span></code> (partial).</p></li>
 </ol>
 </p></li>
 <li><p><strong>eletype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – <p>Element type for each span, controlling which end(s) carry moment:</p>
@@ -547,16 +550,19 @@ override.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_pudl" title="pycba.analysis.BeamAnalysis.add_pudl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_pudl</span></code></a></p></td>
 <td><p>Append a partial uniformly-distributed load.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_udl" title="pycba.analysis.BeamAnalysis.add_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_udl</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_trap" title="pycba.analysis.BeamAnalysis.add_trap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_trap</span></code></a></p></td>
+<td><p>Append a trapezoidal (linearly varying) distributed load.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.add_udl" title="pycba.analysis.BeamAnalysis.add_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_udl</span></code></a></p></td>
 <td><p>Append a full-span uniformly-distributed load.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze</span></code></a></p></td>
 <td><p>Execute the direct-stiffness analysis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
 <td><p>Plot bending moment, shear force, and deflection diagrams.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
 <td><p>Replace the current load matrix with a new one.</p></td>
 </tr>
 </tbody>
@@ -679,6 +685,28 @@ silently ignored.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_trap">
+<span class="sig-name descname"><span class="pre">add_trap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_trap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_trap" title="Link to this definition">#</a></dt>
+<dd><p>Append a trapezoidal (linearly varying) distributed load.</p>
+<p>When <em>a</em> and <em>c</em> are omitted the load covers the full span, varying
+from <em>w1</em> at the left end to <em>w2</em> at the right end.  When <em>a</em> and <em>c</em>
+are given the load covers the region from <em>a</em> to <em>a + c</em>, varying from
+<em>w1</em> to <em>w2</em> over that length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based span index.</p></li>
+<li><p><strong>w1</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Load intensity at the start of the load.  Positive values act downward.</p></li>
+<li><p><strong>w2</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Load intensity at the end of the load.  Positive values act downward.</p></li>
+<li><p><strong>a</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Distance from the left end of the span to the start of the load.
+If given, <em>c</em> must also be provided.</p></li>
+<li><p><strong>c</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Length (cover) of the load.  Required when <em>a</em> is provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.analyze">
 <span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.analyze" title="Link to this definition">#</a></dt>
 <dd><p>Execute the direct-stiffness analysis.</p>
@@ -784,6 +812,7 @@ called yet.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_pl"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_pl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_pudl"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_pudl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_ml"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_ml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_trap"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_trap()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.analyze"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.analyze()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_results"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_results()</span></code></a></li>
 </ul>

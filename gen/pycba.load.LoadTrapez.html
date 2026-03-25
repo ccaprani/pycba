@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.beam &#8212; PyCBA 0.6.0 documentation</title>
+    <title>pycba.load.LoadTrapez &#8212; PyCBA 0.6.0 documentation</title>
   
   
   
@@ -42,11 +42,13 @@
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.beam';</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.load.LoadTrapez';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pycba.beam.Beam" href="pycba.beam.Beam.html" />
-    <link rel="prev" title="pycba.analysis.BeamAnalysis" href="pycba.analysis.BeamAnalysis.html" />
+    <link rel="next" title="pycba.load.LoadUDL" href="pycba.load.LoadUDL.html" />
+    <link rel="prev" title="pycba.load.LoadPUDL" href="pycba.load.LoadPUDL.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.6.0" />
@@ -360,11 +362,11 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.analysis.BeamAnalysis.html">pycba.analysis.BeamAnalysis</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">pycba.beam</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.beam.html">pycba.beam</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.beam.Beam.html">pycba.beam.Beam</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.load.html">pycba.load</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.load.html">pycba.load</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.add_LM.html">pycba.load.add_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.factor_LM.html">pycba.load.factor_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.parse_LM.html">pycba.load.parse_LM</a></li>
@@ -373,7 +375,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadMaMb.html">pycba.load.LoadMaMb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadPL.html">pycba.load.LoadPL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadPUDL.html">pycba.load.LoadPUDL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadTrapez.html">pycba.load.LoadTrapez</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.load.LoadTrapez</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadUDL.html">pycba.load.LoadUDL</a></li>
 </ul>
 </details></li>
@@ -447,7 +449,10 @@
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.beam</span></li>
+    
+    <li class="breadcrumb-item"><a href="pycba.load.html" class="nav-link">pycba.load</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.load.LoadTrapez</span></li>
   </ul>
 </nav>
 </div>
@@ -464,18 +469,154 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-pycba.beam">
-<span id="pycba-beam"></span><h1>pycba.beam<a class="headerlink" href="#module-pycba.beam" title="Link to this heading">#</a></h1>
-<p>PyCBA - Beam Class definition</p>
-<p class="rubric">Classes</p>
+  <section id="pycba-load-loadtrapez">
+<h1>pycba.load.LoadTrapez<a class="headerlink" href="#pycba-load-loadtrapez" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.load.LoadTrapez">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">LoadTrapez</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load.html#LoadTrapez"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load.LoadTrapez" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pycba.load.Load.html#pycba.load.Load" title="pycba.load.Load"><code class="xref py py-class docutils literal notranslate"><span class="pre">Load</span></code></a></p>
+<p>Trapezoidal (linearly varying) distributed load, optionally partial.</p>
+<p>The load varies linearly from intensity <em>w1</em> at position <em>a</em> to <em>w2</em> at
+position <em>a + c</em>.  When <em>a</em> = 0 and <em>c</em> = span length the load covers
+the full span (the default).</p>
+<p>Creates a trapezoidal load for the member.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The member index to which the load is applied.</p></li>
+<li><p><strong>w1</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The load intensity at position <em>a</em> (left edge of the load).</p></li>
+<li><p><strong>w2</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The load intensity at position <em>a + c</em> (right edge of the load).</p></li>
+<li><p><strong>a</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Distance from the left end of the span to the start of the load.
+Default is 0 (load starts at the left end).</p></li>
+<li><p><strong>c</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Length (cover) of the load.  <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) means full span
+from <em>a</em> to the right end.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.beam.Beam.html#pycba.beam.Beam" title="pycba.beam.Beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Beam</span></code></a></p></td>
-<td><p>Class definition</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load.LoadTrapez.H" title="pycba.load.LoadTrapez.H"><code class="xref py py-obj docutils literal notranslate"><span class="pre">H</span></code></a></p></td>
+<td><p>Heaviside step function: values less than zero are clipped to zero; values greater than zero are clipped to unity; zeros are retained.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load.LoadTrapez.MB" title="pycba.load.LoadTrapez.MB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MB</span></code></a></p></td>
+<td><p>Macaulay bracket: clipping values less than zero to zero.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load.LoadTrapez.get_cnl" title="pycba.load.LoadTrapez.get_cnl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cnl</span></code></a></p></td>
+<td><p>Consistent Nodal Loads for the trapezoidal load on a fixed-fixed span.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load.LoadTrapez.get_mbr_results" title="pycba.load.LoadTrapez.get_mbr_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mbr_results</span></code></a></p></td>
+<td><p>Simply-supported member results using Macaulay bracket integration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load.LoadTrapez.get_ref" title="pycba.load.LoadTrapez.get_ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ref</span></code></a></p></td>
+<td><p>Returns the Released End Forces for a span of length L of element eType: converts the Consistent Nodal Loads of the applied loading to the correct nodal loading depending on the element type.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load.LoadTrapez.get_cnl">
+<span class="sig-name descname"><span class="pre">get_cnl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load.html#LoadTrapez.get_cnl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load.LoadTrapez.get_cnl" title="Link to this definition">#</a></dt>
+<dd><p>Consistent Nodal Loads for the trapezoidal load on a fixed-fixed span.</p>
+<p>Derived from the fixed-end force influence integrals:</p>
+<div class="math notranslate nohighlight">
+\[M_A = \frac{1}{L^2}\int_a^b w(x)\,x\,(L-x)^2\,dx\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>L</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The length of the member</p></li>
+<li><p><strong>eType</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The member element type</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Consistent Nodal Loads for this load type</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.load.LoadCNL.html#pycba.load.LoadCNL" title="pycba.types.LoadCNL"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCNL</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load.LoadTrapez.get_mbr_results">
+<span class="sig-name descname"><span class="pre">get_mbr_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load.html#LoadTrapez.get_mbr_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load.LoadTrapez.get_mbr_results" title="Link to this definition">#</a></dt>
+<dd><p>Simply-supported member results using Macaulay bracket integration.</p>
+<p>The load <code class="docutils literal notranslate"><span class="pre">w(x)</span> <span class="pre">=</span> <span class="pre">w1</span> <span class="pre">+</span> <span class="pre">(w2−w1)·(x−a)/c</span></code> for <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">≤</span> <span class="pre">x</span> <span class="pre">≤</span> <span class="pre">a+c</span></code> is
+integrated using Macaulay brackets at positions <em>a</em> and <em>b = a+c</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span>) – Vector of points along the length of the member</p></li>
+<li><p><strong>L</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The length of the member</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>res</strong> – A populated <a class="reference internal" href="pycba.load.MemberResults.html#pycba.load.MemberResults" title="pycba.load.MemberResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.load.MemberResults</span></code></a> object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.load.MemberResults.html#pycba.load.MemberResults" title="pycba.types.MemberResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemberResults</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load.LoadTrapez.H">
+<span class="sig-name descname"><span class="pre">H</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycba.load.LoadTrapez.H" title="Link to this definition">#</a></dt>
+<dd><p>Heaviside step function: values less than zero are clipped to zero;
+values greater than zero are clipped to unity; zeros are retained.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span>) – The vector to which the Heaviside function will be applied</p></li>
+<li><p><strong>value</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The value of the Heaviside function at zero, usually 0, but sometimes
+0.5 (average of adjacent values) or 1.0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load.LoadTrapez.MB">
+<span class="sig-name descname"><span class="pre">MB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycba.load.LoadTrapez.MB" title="Link to this definition">#</a></dt>
+<dd><p>Macaulay bracket: clipping values less than zero to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span>) – The vector to which the Macaulay Bracket will be applied</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load.LoadTrapez.get_ref">
+<span class="sig-name descname"><span class="pre">get_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycba.load.LoadTrapez.get_ref" title="Link to this definition">#</a></dt>
+<dd><p>Returns the Released End Forces for a span of length L of element eType:
+converts the Consistent Nodal Loads of the applied loading to the correct nodal
+loading depending on the element type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>L</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The length of the member</p></li>
+<li><p><strong>eType</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The member element type</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Released End Forces for this load type: the nodal loads to be applied in
+the analysis, consistent with the element type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.load.LoadCNL.html#pycba.load.LoadCNL" title="pycba.types.LoadCNL"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCNL</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -489,20 +630,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.analysis.BeamAnalysis.html"
+       href="pycba.load.LoadPUDL.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.analysis.BeamAnalysis</p>
+        <p class="prev-next-title">pycba.load.LoadPUDL</p>
       </div>
     </a>
     <a class="right-next"
-       href="pycba.beam.Beam.html"
+       href="pycba.load.LoadUDL.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pycba.beam.Beam</p>
+        <p class="prev-next-title">pycba.load.LoadUDL</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -518,10 +659,29 @@
 
 
   <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadTrapez"><code class="docutils literal notranslate"><span class="pre">LoadTrapez</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadTrapez.get_cnl"><code class="docutils literal notranslate"><span class="pre">LoadTrapez.get_cnl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadTrapez.get_mbr_results"><code class="docutils literal notranslate"><span class="pre">LoadTrapez.get_mbr_results()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadTrapez.H"><code class="docutils literal notranslate"><span class="pre">LoadTrapez.H()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadTrapez.MB"><code class="docutils literal notranslate"><span class="pre">LoadTrapez.MB()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.LoadTrapez.get_ref"><code class="docutils literal notranslate"><span class="pre">LoadTrapez.get_ref()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.beam.rst">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.load.LoadTrapez.rst">
       <i class="fa-solid fa-pencil"></i>
       
       

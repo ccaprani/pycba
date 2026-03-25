@@ -439,19 +439,31 @@ Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of
 </section>
 <section id="load-matrix-lm">
 <h2>Load Matrix (<cite>LM</cite>)<a class="headerlink" href="#load-matrix-lm" title="Link to this heading">#</a></h2>
-<p>A matrix representing the loads (i.e. a <cite>List</cite> of <cite>Lists</cite>).
-Each entry represents a single load and must be in the following format:</p>
+<p>A <cite>List</cite> of <cite>Lists</cite> representing the applied loads.
+Each entry is a single load descriptor whose length depends on the load type:</p>
+<div class="line-block">
+<div class="line">Type | Name | Format | Columns |</div>
+</div>
+<p><a href="#id1"><span class="problematic" id="id2">|------|</span></a>——<a href="#id3"><span class="problematic" id="id4">|--------|</span></a>———|
+| 1 | UDL | <cite>[span, 1, w]</cite> | 3 |
+| 2 | Point Load | <cite>[span, 2, P, a]</cite> | 4 |
+| 3 | Partial UDL | <cite>[span, 3, w, a, c]</cite> | 5 |
+| 4 | Moment Load | <cite>[span, 4, M, a]</cite> | 4 |
+| 5 | Trapezoidal (full) | <cite>[span, 5, w1, w2]</cite> | 4 |
+| 5 | Trapezoidal (partial) | <cite>[span, 5, w1, w2, a, c]</cite> | 6 |</p>
+<p>Load Types:</p>
 <blockquote>
-<div><p>Span No. | Load Type | Load Value | Distance a | Load Cover c</p>
-</div></blockquote>
-<p>Load Types are:</p>
-<blockquote>
-<div><p>1 - <strong>Uniformly Distributed Loads</strong>, which only have a load value; set distance <cite>a</cite> to “0”.</p>
+<div><p>1 - <strong>Uniformly Distributed Loads</strong>, which only have a load value.</p>
 <p>2 - <strong>Point Loads</strong>, located at <cite>a</cite> from the left end of the span.</p>
 <p>3 - <strong>Partial UDLs</strong>, starting at <cite>a</cite> for a distance of <cite>c</cite> (i.e. the cover) where $L &gt;= a+c$.</p>
 <p>4 - <strong>Moment Load</strong>, located at <cite>a</cite>.</p>
+<dl class="simple">
+<dt>5 - <strong>Trapezoidal Load</strong>, linearly varying from <cite>w1</cite> to <cite>w2</cite>.</dt><dd><p>Full span: <cite>[span, 5, w1, w2]</cite> — <cite>w1</cite> at the left end, <cite>w2</cite> at the right end.
+Partial:   <cite>[span, 5, w1, w2, a, c]</cite> — <cite>w1</cite> at position <cite>a</cite>, <cite>w2</cite> at position <cite>a + c</cite>, where $L geq a+c$.</p>
+</dd>
+</dl>
 </div></blockquote>
-<p><strong>Dimension</strong>: <cite>M</cite> x 5, where <cite>M</cite> is the number of loads applied.</p>
+<p><strong>Dimension</strong>: <cite>M</cite> rows (one per applied load), with 3–6 columns per row depending on load type.</p>
 <p><strong>Units</strong>: kN, kN/m, and metres.</p>
 </section>
 <section id="prescribed-displacements-d">
