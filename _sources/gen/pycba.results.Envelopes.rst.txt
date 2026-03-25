@@ -18,6 +18,7 @@
    
       ~Envelopes.augment
       ~Envelopes.plot
+      ~Envelopes.sum
       ~Envelopes.zero_like
    
    

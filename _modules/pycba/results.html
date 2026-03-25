@@ -784,6 +784,55 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span></div>
 
 
+<div class="viewcode-block" id="Envelopes.sum">
+<a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.sum">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds another compatible set of envelopes to this one element-wise. This is</span>
+<span class="sd">        useful for superimposing load effects from different sources, e.g. a patterned</span>
+<span class="sd">        UDL envelope with a moving vehicle envelope.</span>
+
+<span class="sd">        All envelopes must be for the same beam geometry.</span>
+
+<span class="sd">        If the envelopes have a different number of analyses (due to differing vehicle</span>
+<span class="sd">        lengths, for example), then only the reaction extremes are retained, and not</span>
+<span class="sd">        the entire reaction history.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        env : Envelopes</span>
+<span class="sd">            A compatible :class:`pycba.results.Envelopes` object.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            All envelopes must be for the same beam geometry.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">npts</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsup</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot sum with an inconsistent envelope&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rmaxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rmaxval</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmaxval</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rminval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rminval</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rminval</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span> <span class="o">==</span> <span class="n">env</span><span class="o">.</span><span class="n">nres</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Ensure no misleading results returned</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="Envelopes.plot">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">each</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>

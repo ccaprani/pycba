@@ -492,7 +492,10 @@ the beam.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.plot" title="pycba.results.Envelopes.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
 <td><p>Plots the envelopes of bending and shear.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.zero_like" title="pycba.results.Envelopes.zero_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_like</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a></p></td>
+<td><p>Adds another compatible set of envelopes to this one element-wise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.zero_like" title="pycba.results.Envelopes.zero_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_like</span></code></a></p></td>
 <td><p>Returns a zeroed zet of envelopes like the reference <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a>.</p></td>
 </tr>
 </tbody>
@@ -534,6 +537,29 @@ the entire reaction history.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – All envelopes must be for the same bridge.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.sum">
+<span class="sig-name descname"><span class="pre">sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.sum" title="Link to this definition">#</a></dt>
+<dd><p>Adds another compatible set of envelopes to this one element-wise. This is
+useful for superimposing load effects from different sources, e.g. a patterned
+UDL envelope with a moving vehicle envelope.</p>
+<p>All envelopes must be for the same beam geometry.</p>
+<p>If the envelopes have a different number of analyses (due to differing vehicle
+lengths, for example), then only the reaction extremes are retained, and not
+the entire reaction history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>env</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span>) – A compatible <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a> object.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – All envelopes must be for the same beam geometry.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None.</p>
@@ -612,6 +638,7 @@ the entire reaction history.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes"><code class="docutils literal notranslate"><span class="pre">Envelopes</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.zero_like"><code class="docutils literal notranslate"><span class="pre">Envelopes.zero_like()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.augment"><code class="docutils literal notranslate"><span class="pre">Envelopes.augment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.sum"><code class="docutils literal notranslate"><span class="pre">Envelopes.sum()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.plot"><code class="docutils literal notranslate"><span class="pre">Envelopes.plot()</span></code></a></li>
 </ul>
 </li>
