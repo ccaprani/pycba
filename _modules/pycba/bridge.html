@@ -711,7 +711,11 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        From the envelopes output, returns the extreme values, their locations,</span>
-<span class="sd">        and the position of the vehicle for each in a dictionary of dictionaries</span>
+<span class="sd">        and the position of the vehicle for each in a dictionary of dictionaries.</span>
+
+<span class="sd">        Each moment entry (``Mmax``, ``Mmin``) also contains a ``&quot;Vco&quot;`` key with</span>
+<span class="sd">        the coincident shear at the critical location. Each shear entry (``Vmax``,</span>
+<span class="sd">        ``Vmin``) contains a ``&quot;Mco&quot;`` key with the coincident moment.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -729,7 +733,8 @@
 <span class="sd">        -------</span>
 <span class="sd">        crit_values : Dict[str, Dict[str, Union[float, np.ndarray]]]</span>
 <span class="sd">            A dictionary of dictionaries containing the critical values (i.e. extremes)</span>
-<span class="sd">            of each of the load effects, both maximum and minimum.</span>
+<span class="sd">            of each of the load effects, both maximum and minimum, along with</span>
+<span class="sd">            coincident values of the other effect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">crit_values</span> <span class="o">=</span> <span class="p">{}</span>
@@ -771,21 +776,25 @@
             <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Mmax</span><span class="p">,</span>
             <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
             <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Mmax&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Vco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
         <span class="p">}</span>
         <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;Mmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Mmin</span><span class="p">,</span>
             <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
             <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Mmin&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Vco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
         <span class="p">}</span>
         <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;Vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Vmax</span><span class="p">,</span>
             <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
             <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Vmax&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Mco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
         <span class="p">}</span>
         <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;Vmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Vmin</span><span class="p">,</span>
             <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
             <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Vmin&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Mco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
         <span class="p">}</span>
         <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;nsup&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">):</span>

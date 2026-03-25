@@ -503,7 +503,7 @@ each vehicle position analysis.</p>
 <td><p>Create and add the vehicle to the analysis</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.critical_values" title="pycba.bridge.BridgeAnalysis.critical_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">critical_values</span></code></a></p></td>
-<td><p>From the envelopes output, returns the extreme values, their locations, and the position of the vehicle for each in a dictionary of dictionaries</p></td>
+<td><p>From the envelopes output, returns the extreme values, their locations, and the position of the vehicle for each in a dictionary of dictionaries.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.envelopes_ratios" title="pycba.bridge.BridgeAnalysis.envelopes_ratios"><code class="xref py py-obj docutils literal notranslate"><span class="pre">envelopes_ratios</span></code></a></p></td>
 <td><p>Returns the ratios of two sets of envelopes considering zero values and reactions.</p></td>
@@ -664,7 +664,10 @@ vehicle length (front axle past the right end of the beam).</p></li>
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.critical_values">
 <span class="sig-name descname"><span class="pre">critical_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.critical_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.critical_values" title="Link to this definition">#</a></dt>
 <dd><p>From the envelopes output, returns the extreme values, their locations,
-and the position of the vehicle for each in a dictionary of dictionaries</p>
+and the position of the vehicle for each in a dictionary of dictionaries.</p>
+<p>Each moment entry (<code class="docutils literal notranslate"><span class="pre">Mmax</span></code>, <code class="docutils literal notranslate"><span class="pre">Mmin</span></code>) also contains a <code class="docutils literal notranslate"><span class="pre">&quot;Vco&quot;</span></code> key with
+the coincident shear at the critical location. Each shear entry (<code class="docutils literal notranslate"><span class="pre">Vmax</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Vmin</span></code>) contains a <code class="docutils literal notranslate"><span class="pre">&quot;Mco&quot;</span></code> key with the coincident moment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>env</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span>) – An <cite>pycba.Envelopes</cite> object containing the results of a moving load
@@ -676,7 +679,8 @@ analysis.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>crit_values</strong> – A dictionary of dictionaries containing the critical values (i.e. extremes)
-of each of the load effects, both maximum and minimum.</p>
+of each of the load effects, both maximum and minimum, along with
+coincident values of the other effect.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>

@@ -596,13 +596,35 @@
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Envelopes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Envelopes load effects from a vector of BeamResults</span>
+<span class="sd">    Envelopes load effects from a vector of BeamResults.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        Coordinates along the beam.</span>
+<span class="sd">    Vmax, Vmin : np.ndarray</span>
+<span class="sd">        Maximum and minimum shear force envelopes.</span>
+<span class="sd">    Mmax, Mmin : np.ndarray</span>
+<span class="sd">        Maximum and minimum bending moment envelopes.</span>
+<span class="sd">    Vco_Mmax : np.ndarray</span>
+<span class="sd">        Shear coincident with the moment maximum at each point.</span>
+<span class="sd">    Vco_Mmin : np.ndarray</span>
+<span class="sd">        Shear coincident with the moment minimum at each point.</span>
+<span class="sd">    Mco_Vmax : np.ndarray</span>
+<span class="sd">        Moment coincident with the shear maximum at each point.</span>
+<span class="sd">    Mco_Vmin : np.ndarray</span>
+<span class="sd">        Moment coincident with the shear minimum at each point.</span>
+<span class="sd">    Rmax, Rmin : np.ndarray</span>
+<span class="sd">        Reaction history matrices (nsup x nres).</span>
+<span class="sd">    Rmaxval, Rminval : np.ndarray</span>
+<span class="sd">        Maximum and minimum reaction per support.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vResults</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs the envelope of each load effect given a vector of results for</span>
-<span class="sd">        the beam.</span>
+<span class="sd">        the beam. Also tracks coincident (co-existing) load effects: the value of</span>
+<span class="sd">        the other effect (V or M) at the analysis that caused each envelope extreme.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -620,57 +642,67 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nres</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vResults</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nsup</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_envelope_V</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_envelope_M</span><span class="p">()</span>
+        <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_envelopes_VM</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_envelope_R</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rmaxval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rminval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelope_V</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelopes_VM</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates the envelopes for shear.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
+<span class="sd">        Creates the envelopes for shear and moment, and tracks the coincident</span>
+<span class="sd">        (co-existing) value of the other effect at the truck position that</span>
+<span class="sd">        caused each extreme.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Vmax : np.ndarray</span>
-<span class="sd">            The vector of enveloped maximum values.</span>
-<span class="sd">        Vmin : np.ndarray</span>
-<span class="sd">            The vector of enveloped minimum values.</span>
+<span class="sd">        Vmax, Vmin : np.ndarray</span>
+<span class="sd">            Enveloped maximum and minimum shear.</span>
+<span class="sd">        Mmax, Mmin : np.ndarray</span>
+<span class="sd">            Enveloped maximum and minimum moment.</span>
+<span class="sd">        Vco_Mmax, Vco_Mmin : np.ndarray</span>
+<span class="sd">            Shear coincident with the moment extreme at each point.</span>
+<span class="sd">        Mco_Vmax, Mco_Vmin : np.ndarray</span>
+<span class="sd">            Moment coincident with the shear extreme at each point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">:</span>
-            <span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
-            <span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">Vmin</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelope_M</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates the envelopes for moment.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Mmax : np.ndarray</span>
-<span class="sd">            The vector of enveloped maximum values.</span>
-<span class="sd">        Mmin : np.ndarray</span>
-<span class="sd">            The vector of enveloped minimum values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
 
+        <span class="n">Vco_Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">Vco_Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">Mco_Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">Mco_Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">:</span>
-            <span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
-            <span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">)</span>
+            <span class="n">V</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span>
+            <span class="n">M</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">M</span> <span class="o">&gt;</span> <span class="n">Mmax</span>
+            <span class="n">Vco_Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Vco_Mmax</span><span class="p">)</span>
+            <span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">Mmax</span><span class="p">)</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">M</span> <span class="o">&lt;</span> <span class="n">Mmin</span>
+            <span class="n">Vco_Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Vco_Mmin</span><span class="p">)</span>
+            <span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">)</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">V</span> <span class="o">&gt;</span> <span class="n">Vmax</span>
+            <span class="n">Mco_Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">Mco_Vmax</span><span class="p">)</span>
+            <span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Vmax</span><span class="p">)</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">V</span> <span class="o">&lt;</span> <span class="n">Vmin</span>
+            <span class="n">Mco_Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">Mco_Vmin</span><span class="p">)</span>
+            <span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Vmin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">Vmin</span><span class="p">,</span> <span class="n">Mmax</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">,</span> <span class="n">Vco_Mmax</span><span class="p">,</span> <span class="n">Vco_Mmin</span><span class="p">,</span> <span class="n">Mco_Vmax</span><span class="p">,</span> <span class="n">Mco_Vmin</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelope_R</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -728,6 +760,10 @@
         <span class="n">zero_env</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">zero_env</span><span class="o">.</span><span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">zero_env</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Vco_Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Vco_Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Mco_Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">zero_env</span><span class="o">.</span><span class="n">Mco_Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">):</span>
             <span class="n">zero_env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nres</span><span class="p">)</span>
             <span class="n">zero_env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nres</span><span class="p">)</span>
@@ -741,7 +777,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Augments this set of envelopes with another compatible set, making this the</span>
-<span class="sd">        envelopes of the two sets of envelopes.</span>
+<span class="sd">        envelopes of the two sets of envelopes. Coincident values are updated to</span>
+<span class="sd">        match whichever envelope governs at each point.</span>
 
 <span class="sd">        All envelopes must be from the same :class:`pycba.bridge.BridgeAnalysis` object.</span>
 
@@ -766,11 +803,23 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">npts</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsup</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot augment with an inconsistent envelope&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Track where envelope values will change BEFORE updating them</span>
+        <span class="n">vmax_update</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span>
+        <span class="n">vmin_update</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span>
+        <span class="n">mmax_update</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmax</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span>
+        <span class="n">mmin_update</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">)</span>
+
+        <span class="c1"># Update coincident values where the envelope changed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mmax_update</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mmin_update</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">vmax_update</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">vmin_update</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">Rmaxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rmaxval</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmaxval</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rminval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rminval</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rminval</span><span class="p">)</span>

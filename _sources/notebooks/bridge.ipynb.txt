@@ -305,6 +305,34 @@
   },
   {
    "cell_type": "markdown",
+   "id": "92ycitwmq6m",
+   "source": "### Coincident Load Effects\n\nIn bridge design it is important to know not just the extreme value of one load effect, but also the value of the *other* effect at the same vehicle position. For example, when checking combined stresses at a section, we need the shear force that co-exists with the maximum bending moment. The `Envelopes` object provides these as the `Vco_Mmax`, `Vco_Mmin`, `Mco_Vmax`, and `Mco_Vmin` attributes.\n\nThe `critical_values` dictionary also includes coincident values via the `\"Vco\"` key (for moment entries) and `\"Mco\"` key (for shear entries):",
+   "metadata": {}
+  },
+  {
+   "cell_type": "code",
+   "id": "592cinf69eo",
+   "source": "Vco = cvals[\"Mmax\"][\"Vco\"]\nprint(f\"At {at:.2f} m, Mmax = {val:.1f} kNm with coincident V = {Vco:.1f} kN\")",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d5ang668mz",
+   "source": "The full coincident arrays are available on the envelope for plotting or further analysis. For example, to plot the coincident shear alongside the moment envelope:",
+   "metadata": {}
+  },
+  {
+   "cell_type": "code",
+   "id": "hfm883qskp",
+   "source": "fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(9, 6))\n\nax1.plot(env.x, env.Mmax, \"r\", label=\"Mmax\")\nax1.plot(env.x, env.Mmin, \"b\", label=\"Mmin\")\nax1.plot(env.x, env.Mco_Vmax, \"r--\", alpha=0.5, label=\"M co. Vmax\")\nax1.plot(env.x, env.Mco_Vmin, \"b--\", alpha=0.5, label=\"M co. Vmin\")\nax1.invert_yaxis()\nax1.grid()\nax1.legend()\nax1.set_ylabel(\"Bending Moment (kNm)\")\n\nax2.plot(env.x, env.Vmax, \"r\", label=\"Vmax\")\nax2.plot(env.x, env.Vmin, \"b\", label=\"Vmin\")\nax2.plot(env.x, env.Vco_Mmax, \"r--\", alpha=0.5, label=\"V co. Mmax\")\nax2.plot(env.x, env.Vco_Mmin, \"b--\", alpha=0.5, label=\"V co. Mmin\")\nax2.grid()\nax2.legend()\nax2.set_ylabel(\"Shear Force (kN)\")\nax2.set_xlabel(\"Distance along beam (m)\");",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
    "id": "71f1bd0f-1a7e-442f-9bcd-d6aa5044e07b",
    "metadata": {},
    "source": [

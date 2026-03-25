@@ -601,6 +601,47 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <img alt="../_images/notebooks_bridge_22_0.png" src="../_images/notebooks_bridge_22_0.png" />
 </div>
 </div>
+<section id="Coincident-Load-Effects">
+<h3>Coincident Load Effects<a class="headerlink" href="#Coincident-Load-Effects" title="Link to this heading">#</a></h3>
+<p>In bridge design it is important to know not just the extreme value of one load effect, but also the value of the <em>other</em> effect at the same vehicle position. For example, when checking combined stresses at a section, we need the shear force that co-exists with the maximum bending moment. The <code class="docutils literal notranslate"><span class="pre">Envelopes</span></code> object provides these as the <code class="docutils literal notranslate"><span class="pre">Vco_Mmax</span></code>, <code class="docutils literal notranslate"><span class="pre">Vco_Mmin</span></code>, <code class="docutils literal notranslate"><span class="pre">Mco_Vmax</span></code>, and <code class="docutils literal notranslate"><span class="pre">Mco_Vmin</span></code> attributes.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">critical_values</span></code> dictionary also includes coincident values via the <code class="docutils literal notranslate"><span class="pre">&quot;Vco&quot;</span></code> key (for moment entries) and <code class="docutils literal notranslate"><span class="pre">&quot;Mco&quot;</span></code> key (for shear entries):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Vco</span> <span class="o">=</span> <span class="n">cvals</span><span class="p">[</span><span class="s2">&quot;Mmax&quot;</span><span class="p">][</span><span class="s2">&quot;Vco&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;At </span><span class="si">{</span><span class="n">at</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> m, Mmax = </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kNm with coincident V = </span><span class="si">{</span><span class="n">Vco</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kN&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The full coincident arrays are available on the envelope for plotting or further analysis. For example, to plot the coincident shear alongside the moment envelope:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mmax&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mmin&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;M co. Vmax&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">,</span> <span class="s2">&quot;b--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;M co. Vmin&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Vmax&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Vmin&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">,</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;V co. Mmax&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">,</span> <span class="s2">&quot;b--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;V co. Mmin&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Shear Force (kN)&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</section>
 </section>
 <section id="Example-3---Critical-M1600-Positions">
 <h2>Example 3 - Critical M1600 Positions<a class="headerlink" href="#Example-3---Critical-M1600-Positions" title="Link to this heading">#</a></h2>
@@ -659,7 +700,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_28_0.png" src="../_images/notebooks_bridge_28_0.png" />
+<img alt="../_images/notebooks_bridge_32_0.png" src="../_images/notebooks_bridge_32_0.png" />
 </div>
 </div>
 </section>
@@ -707,7 +748,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_34_0.png" src="../_images/notebooks_bridge_34_0.png" />
+<img alt="../_images/notebooks_bridge_38_0.png" src="../_images/notebooks_bridge_38_0.png" />
 </div>
 </div>
 <p>Now analyze the permit application vehicle; here just taking an example vehicle from the <code class="docutils literal notranslate"><span class="pre">VehicleLibrary</span></code>:</p>
@@ -725,7 +766,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_36_0.png" src="../_images/notebooks_bridge_36_0.png" />
+<img alt="../_images/notebooks_bridge_40_0.png" src="../_images/notebooks_bridge_40_0.png" />
 </div>
 </div>
 <p>And we can plot the ratios of trial to reference envelopes</p>
@@ -742,7 +783,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_38_0.png" src="../_images/notebooks_bridge_38_0.png" />
+<img alt="../_images/notebooks_bridge_42_0.png" src="../_images/notebooks_bridge_42_0.png" />
 </div>
 </div>
 <p>As can be seen in this case, the central support reaction is greater than 1.0, as is the hogging moment (by about 7%). This vehicle is unlikely to be granted a permit as a result.</p>
@@ -814,7 +855,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_49_0.png" src="../_images/notebooks_bridge_49_0.png" />
+<img alt="../_images/notebooks_bridge_53_0.png" src="../_images/notebooks_bridge_53_0.png" />
 </div>
 </div>
 <p>Note that this overall envelope can only show the extremes of reaction values, since the time histories of reactions are not compatible.</p>
@@ -1437,7 +1478,10 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1---Moving-Load-Envelope">Example 1 - Moving Load Envelope</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2---Critical-Values-and-Positions">Example 2 - Critical Values and Positions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2---Critical-Values-and-Positions">Example 2 - Critical Values and Positions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Coincident-Load-Effects">Coincident Load Effects</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3---Critical-M1600-Positions">Example 3 - Critical M1600 Positions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4---Access-Assessment-for-Single-Vehicles">Example 4 - Access Assessment for Single Vehicles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5---Access-Assessment-for-Vehicle-Spacings">Example 5 - Access Assessment for Vehicle Spacings</a></li>
