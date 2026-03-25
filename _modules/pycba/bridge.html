@@ -631,7 +631,12 @@
 <div class="viewcode-block" id="BridgeAnalysis.run_vehicle">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.run_vehicle">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_vehicle</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">plot_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">plot_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">plot_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">pos_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pos_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs the vehicle over the bridge performing a static analysis at each point</span>
@@ -645,6 +650,12 @@
 <span class="sd">        plot_all : bool, optional</span>
 <span class="sd">            Whether or not to plot the results for each position as an animation.</span>
 <span class="sd">            The default is False.</span>
+<span class="sd">        pos_start : Optional[float], optional</span>
+<span class="sd">            The starting position of the front axle. Defaults to 0 (front axle at</span>
+<span class="sd">            the left end of the beam).</span>
+<span class="sd">        pos_end : Optional[float], optional</span>
+<span class="sd">            The ending position of the front axle. Defaults to beam length plus</span>
+<span class="sd">            vehicle length (front axle past the right end of the beam).</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -661,14 +672,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">npts</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">pos_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pos_start</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">pos_end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pos_end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">L</span>
+
+        <span class="n">npts</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">pos_end</span> <span class="o">-</span> <span class="n">pos_start</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 
         <span class="k">if</span> <span class="n">plot_all</span><span class="p">:</span>
             <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
             <span class="c1"># load position</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">step</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">pos_start</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">step</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
             <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
