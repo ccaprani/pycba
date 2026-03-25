@@ -187,9 +187,7 @@ def test_coincident_at_every_point():
     for j in range(npts):
         # Only check points with significant Mmax (skip boundary/zero points)
         if env.Mmax[j] > 1.0:
-            assert env.Vco_Mmax[j] == pytest.approx(
-                V_all[idx_mmax[j], j], abs=1e-6
-            )
+            assert env.Vco_Mmax[j] == pytest.approx(V_all[idx_mmax[j], j], abs=1e-6)
             checked += 1
 
     # Ensure we checked a meaningful number of points
