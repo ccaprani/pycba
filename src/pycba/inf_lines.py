@@ -132,13 +132,19 @@ class InfluenceLines:
             self.ba.beam.no_fixed_restraints
         )
 
-        # idx = np.abs(x - poi).argmin()
+        # Find the span containing the poi and the closest non-padding index
+        # within that span. Padding indices (first/last per span) have M/V
+        # forced to zero, so we must avoid them.
+        ispan, _ = self.ba.beam.get_local_span_coords(poi)
+        if ispan == -1:
+            ispan = self.ba.beam.no_spans - 1
+        span_x = self.vResults[0].vRes[ispan].x
+        # Skip padding at indices 0 and -1; real data is at 1:-1
+        idx_in_span = np.abs(span_x[1:-1] - poi).argmin() + 1
 
         if load_effect.upper() == "V":
-            dx = x[2] - x[1]
-            idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
             for i, res in enumerate(self.vResults):
-                eta[i] = res.results.V[idx]
+                eta[i] = res.vRes[ispan].V[idx_in_span]
 
         elif load_effect.upper() == "R":
             #
@@ -182,10 +188,8 @@ class InfluenceLines:
                 eta[i] = res.R[mt_sup_idx]
 
         else:
-            dx = x[2] - x[1]
-            idx = np.where(np.abs(x - poi) <= dx * 1e-6)[0][0]
             for i, res in enumerate(self.vResults):
-                eta[i] = res.results.M[idx]
+                eta[i] = res.vRes[ispan].M[idx_in_span]
 
         return (np.array(self.pos), eta)
 
