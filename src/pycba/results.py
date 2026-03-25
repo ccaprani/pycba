@@ -188,13 +188,35 @@ class BeamResults:
 
 class Envelopes:
     """
-    Envelopes load effects from a vector of BeamResults
+    Envelopes load effects from a vector of BeamResults.
+
+    Attributes
+    ----------
+    x : np.ndarray
+        Coordinates along the beam.
+    Vmax, Vmin : np.ndarray
+        Maximum and minimum shear force envelopes.
+    Mmax, Mmin : np.ndarray
+        Maximum and minimum bending moment envelopes.
+    Vco_Mmax : np.ndarray
+        Shear coincident with the moment maximum at each point.
+    Vco_Mmin : np.ndarray
+        Shear coincident with the moment minimum at each point.
+    Mco_Vmax : np.ndarray
+        Moment coincident with the shear maximum at each point.
+    Mco_Vmin : np.ndarray
+        Moment coincident with the shear minimum at each point.
+    Rmax, Rmin : np.ndarray
+        Reaction history matrices (nsup x nres).
+    Rmaxval, Rminval : np.ndarray
+        Maximum and minimum reaction per support.
     """
 
     def __init__(self, vResults: List[MemberResults]):
         """
         Constructs the envelope of each load effect given a vector of results for
-        the beam.
+        the beam. Also tracks coincident (co-existing) load effects: the value of
+        the other effect (V or M) at the analysis that caused each envelope extreme.
 
         Parameters
         ----------
@@ -212,57 +234,67 @@ class Envelopes:
         self.nres = len(vResults)
         self.nsup = len(vResults[0].R)
 
-        self.Vmax, self.Vmin = self._get_envelope_V()
-        self.Mmax, self.Mmin = self._get_envelope_M()
+        (
+            self.Vmax, self.Vmin,
+            self.Mmax, self.Mmin,
+            self.Vco_Mmax, self.Vco_Mmin,
+            self.Mco_Vmax, self.Mco_Vmin,
+        ) = self._get_envelopes_VM()
         self.Rmax, self.Rmin = self._get_envelope_R()
         self.Rmaxval = self.Rmax.max(axis=1)
         self.Rminval = self.Rmin.min(axis=1)
 
-    def _get_envelope_V(self) -> Tuple[np.ndarray, np.ndarray]:
+    def _get_envelopes_VM(self) -> Tuple[
+        np.ndarray, np.ndarray, np.ndarray, np.ndarray,
+        np.ndarray, np.ndarray, np.ndarray, np.ndarray,
+    ]:
         """
-        Creates the envelopes for shear.
-
-        Parameters
-        ----------
-        None
+        Creates the envelopes for shear and moment, and tracks the coincident
+        (co-existing) value of the other effect at the truck position that
+        caused each extreme.
 
         Returns
         -------
-        Vmax : np.ndarray
-            The vector of enveloped maximum values.
-        Vmin : np.ndarray
-            The vector of enveloped minimum values.
+        Vmax, Vmin : np.ndarray
+            Enveloped maximum and minimum shear.
+        Mmax, Mmin : np.ndarray
+            Enveloped maximum and minimum moment.
+        Vco_Mmax, Vco_Mmin : np.ndarray
+            Shear coincident with the moment extreme at each point.
+        Mco_Vmax, Mco_Vmin : np.ndarray
+            Moment coincident with the shear extreme at each point.
         """
         Vmax = np.zeros(self.npts)
         Vmin = np.zeros(self.npts)
-
-        for res in self.vResults:
-            Vmax = np.maximum(Vmax, res.results.V)
-            Vmin = np.minimum(Vmin, res.results.V)
-        return (Vmax, Vmin)
-
-    def _get_envelope_M(self) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Creates the envelopes for moment.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        Mmax : np.ndarray
-            The vector of enveloped maximum values.
-        Mmin : np.ndarray
-            The vector of enveloped minimum values.
-        """
         Mmax = np.zeros(self.npts)
         Mmin = np.zeros(self.npts)
 
+        Vco_Mmax = np.zeros(self.npts)
+        Vco_Mmin = np.zeros(self.npts)
+        Mco_Vmax = np.zeros(self.npts)
+        Mco_Vmin = np.zeros(self.npts)
+
         for res in self.vResults:
-            Mmax = np.maximum(Mmax, res.results.M)
-            Mmin = np.minimum(Mmin, res.results.M)
-        return (Mmax, Mmin)
+            V = res.results.V
+            M = res.results.M
+
+            mask = M > Mmax
+            Vco_Mmax = np.where(mask, V, Vco_Mmax)
+            Mmax = np.where(mask, M, Mmax)
+
+            mask = M < Mmin
+            Vco_Mmin = np.where(mask, V, Vco_Mmin)
+            Mmin = np.where(mask, M, Mmin)
+
+            mask = V > Vmax
+            Mco_Vmax = np.where(mask, M, Mco_Vmax)
+            Vmax = np.where(mask, V, Vmax)
+
+            mask = V < Vmin
+            Mco_Vmin = np.where(mask, M, Mco_Vmin)
+            Vmin = np.where(mask, V, Vmin)
+
+        return (Vmax, Vmin, Mmax, Mmin, Vco_Mmax, Vco_Mmin, Mco_Vmax, Mco_Vmin)
 
     def _get_envelope_R(self) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -318,6 +350,10 @@ class Envelopes:
         zero_env.Vmin = np.zeros(env.npts)
         zero_env.Mmax = np.zeros(env.npts)
         zero_env.Mmin = np.zeros(env.npts)
+        zero_env.Vco_Mmax = np.zeros(env.npts)
+        zero_env.Vco_Mmin = np.zeros(env.npts)
+        zero_env.Mco_Vmax = np.zeros(env.npts)
+        zero_env.Mco_Vmin = np.zeros(env.npts)
         for i in range(env.nsup):
             zero_env.Rmax[i] = np.zeros(env.nres)
             zero_env.Rmin[i] = np.zeros(env.nres)
@@ -328,7 +364,8 @@ class Envelopes:
     def augment(self, env: Envelopes):
         """
         Augments this set of envelopes with another compatible set, making this the
-        envelopes of the two sets of envelopes.
+        envelopes of the two sets of envelopes. Coincident values are updated to
+        match whichever envelope governs at each point.
 
         All envelopes must be from the same :class:`pycba.bridge.BridgeAnalysis` object.
 
@@ -353,11 +390,23 @@ class Envelopes:
 
         if self.npts != env.npts or self.nsup != env.nsup:
             raise ValueError("Cannot augment with an inconsistent envelope")
+
+        # Track where envelope values will change BEFORE updating them
+        vmax_update = env.Vmax > self.Vmax
+        vmin_update = env.Vmin < self.Vmin
+        mmax_update = env.Mmax > self.Mmax
+        mmin_update = env.Mmin < self.Mmin
+
         self.Vmax = np.maximum(self.Vmax, env.Vmax)
         self.Vmin = np.minimum(self.Vmin, env.Vmin)
-
         self.Mmax = np.maximum(self.Mmax, env.Mmax)
         self.Mmin = np.minimum(self.Mmin, env.Mmin)
+
+        # Update coincident values where the envelope changed
+        self.Vco_Mmax = np.where(mmax_update, env.Vco_Mmax, self.Vco_Mmax)
+        self.Vco_Mmin = np.where(mmin_update, env.Vco_Mmin, self.Vco_Mmin)
+        self.Mco_Vmax = np.where(vmax_update, env.Mco_Vmax, self.Mco_Vmax)
+        self.Mco_Vmin = np.where(vmin_update, env.Mco_Vmin, self.Mco_Vmin)
 
         self.Rmaxval = np.maximum(self.Rmaxval, env.Rmaxval)
         self.Rminval = np.minimum(self.Rminval, env.Rminval)
