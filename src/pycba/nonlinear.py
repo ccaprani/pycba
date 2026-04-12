@@ -411,22 +411,82 @@ class NonlinearBeamAnalysis:
 
         return NonlinearResult(lam, False, hinge_events, self.node_coords, moments, R_elem.copy(), lam_hist, mom_hist)
 
+    # ---- Vehicle force vector ----
+
+    def _vehicle_force_vector(self, axle_weights, axle_coords, pos: float) -> np.ndarray:
+        """
+        Build force vector for a multi-axle vehicle at position *pos*.
+
+        Parameters
+        ----------
+        axle_weights : (n_axles,) array of axle loads (kN).
+        axle_coords : (n_axles,) array of axle positions relative to the
+            first axle (from :class:`pycba.Vehicle.axle_coords`).
+        pos : global coordinate of the first (leading) axle.
+        """
+        F = np.zeros(self.n_dof)
+        for w, ac in zip(axle_weights, axle_coords):
+            x = pos - ac  # axle_coords[0]=0, subsequent trail behind
+            if 0 <= x <= self.total_length:
+                self._add_point_load(F, w, x)
+        return F
+
     # ---- Moving load analysis ----
 
-    def analyze_moving(self, P, step=0.1, n_sub=10, record_every=0):
+    def analyze_moving(
+        self,
+        P=None,
+        vehicle=None,
+        step=0.5,
+        n_sub=5,
+        record_every=0,
+    ):
         """
         Moving-load nonlinear analysis.
 
-        A point load P traverses left to right. At each position step the
-        load is transferred via paired elastic-unload / nonlinear-reload
-        sub-increments.
+        A vehicle traverses the beam from left to right.  At each position
+        step the load is transferred via paired elastic-unload / nonlinear-
+        reload sub-increments.
+
+        The vehicle can be specified as:
+
+        * **Single axle** — pass ``P`` (float, kN).
+        * **Multi-axle** — pass a :class:`pycba.Vehicle` object.
+
+        Parameters
+        ----------
+        P : float, optional
+            Single point load magnitude.
+        vehicle : :class:`pycba.Vehicle`, optional
+            A pycba Vehicle object with axle weights and spacings.
+        step : float
+            Distance the front axle moves per position step.
+        n_sub : int
+            Sub-increments per position step for the unload/reload transfer.
+        record_every : int
+            Store moment snapshots every *n* position steps.
 
         Returns
         -------
         NonlinearResult
-            ``collapse_lambda`` stores the load position (m) at collapse.
+            ``collapse_lambda`` is the front-axle position (m) at collapse.
         """
-        positions = np.arange(0, self.total_length + step / 2, step)
+        # Resolve vehicle definition
+        if vehicle is not None:
+            aw = vehicle.axw
+            ax_coords = vehicle.axle_coords
+            vehicle_L = vehicle.L
+        elif P is not None:
+            aw = np.array([float(P)])
+            ax_coords = np.array([0.0])
+            vehicle_L = 0.0
+        else:
+            raise ValueError("Specify either P or vehicle")
+
+        # Front axle travels from 0 to total_length + vehicle_L
+        # (so the rear axle clears the bridge)
+        x_end = self.total_length + vehicle_L
+        positions = np.arange(0, x_end + step / 2, step)
         d_frac = 1.0 / n_sub
 
         R_elem = np.ones((self.n_elem, 2))
@@ -436,54 +496,47 @@ class NonlinearBeamAnalysis:
         yielded, hinged = set(), set()
 
         F_prev = np.zeros(self.n_dof)
-        # Precomputed elastic K with BCs (reused every unloading step)
         K_el_bc = self._K_elastic_bc
 
-        for i_pos, x_pos in enumerate(positions):
-            F_cur = self._point_load_vector(P, x_pos)
+        for i_pos, x_front in enumerate(positions):
+            F_cur = self._vehicle_force_vector(aw, ax_coords, x_front)
 
             if i_pos == 0:
-                # Initial loading
                 for _ in range(n_sub):
-                    self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_pos)
+                    self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_front)
                     K = self._assemble_from_elem_R(R_elem)
                     K_bc, F_bc = self._apply_bc(K, d_frac * F_cur)
                     try:
                         u = np.linalg.solve(K_bc, F_bc)
                     except np.linalg.LinAlgError:
-                        return self._mr(x_pos, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
+                        return self._mr(x_front, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
                     moments += self._extract_moments(u, R_elem)
             else:
-                # Transfer: unload old, load new
                 for _ in range(n_sub):
                     # Elastic unload
-                    F_ul = np.zeros(self.n_dof)
-                    F_ul[:] = -d_frac * F_prev
+                    F_ul = -d_frac * F_prev.copy()
                     for dof in self.bc_dofs:
                         F_ul[dof] = 0.0
                     u_ul = np.linalg.solve(K_el_bc, F_ul)
                     moments += self._extract_moments_elastic(u_ul)
 
-                    # Update R
-                    self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_pos)
+                    self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_front)
 
-                    # Nonlinear reload
                     K = self._assemble_from_elem_R(R_elem)
                     K_bc, F_bc = self._apply_bc(K, d_frac * F_cur)
                     try:
                         u = np.linalg.solve(K_bc, F_bc)
                     except np.linalg.LinAlgError:
-                        return self._mr(x_pos, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
+                        return self._mr(x_front, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
                     moments += self._extract_moments(u, R_elem)
 
-                # Mechanism check after position step
-                nh = self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_pos)
+                nh = self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_front)
                 if nh and self._is_mechanism(hinged):
-                    return self._mr(x_pos, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
+                    return self._mr(x_front, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
 
             F_prev = F_cur
             if record_every > 0 and i_pos % record_every == 0:
-                lam_hist.append(x_pos)
+                lam_hist.append(x_front)
                 mom_hist.append(moments.copy())
 
         return self._mr(positions[-1], False, hinge_events, moments, R_elem, lam_hist, mom_hist)
