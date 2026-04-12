@@ -17,5 +17,6 @@ Package Modules
     pycba.inf_lines
     pycba.bridge
     pycba.vehicle
+    pycba.nonlinear
     pycba.utils
 
