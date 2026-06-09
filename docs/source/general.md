@@ -15,10 +15,19 @@ A vector of the lengths of each member.
 Flexural Rigidity (`EI`)
 ------------------------
 
-The flexural rigidity for each member. 
-Currently, each member is considered as prismatic.
+The flexural rigidity for each member.
 
-**Dimension**: `N` x 1
+A member may be **prismatic** (constant `EI`, given as a scalar) or
+**non-prismatic** (variable `EI`). A non-prismatic member is defined with a
+`pycba.SectionEI` object holding the rigidity at points along the span, which
+is polynomial-interpolated to a continuous `EI(x)`. Non-prismatic members are
+analysed exactly by flexibility (force-method) integration of the element
+stiffness; a constant `SectionEI` reproduces the closed-form prismatic element
+to machine precision. Scalar and `SectionEI` members may be freely mixed in
+the same beam.
+
+**Dimension**: `N` x 1 (one scalar or `SectionEI` per span; a single value is
+applied to all spans)
 
 **Units**: kNm2
 
@@ -49,6 +58,7 @@ Each entry is a single load descriptor whose length depends on the load type:
 | 4 | Moment Load | `[span, 4, M, a]` | 4 |
 | 5 | Trapezoidal (full) | `[span, 5, w1, w2]` | 4 |
 | 5 | Trapezoidal (partial) | `[span, 5, w1, w2, a, c]` | 6 |
+| 6 | Imposed curvature | `[span, 6, k0, k1, ...]` | 3+ |
 
 Load Types:
 
@@ -64,7 +74,15 @@ Load Types:
         Full span: `[span, 5, w1, w2]` — `w1` at the left end, `w2` at the right end.
         Partial:   `[span, 5, w1, w2, a, c]` — `w1` at position `a`, `w2` at position `a + c`, where $L \geq a+c$.
 
-**Dimension**: `M` rows (one per applied load), with 3–6 columns per row depending on load type.
+    6 - **Imposed Curvature** (initial-strain) load, applying a free curvature
+        field $\kappa(x) = k_0 + k_1 x + \dots$ along the member. On a
+        statically-determinate span it induces no internal forces, only a free
+        deflected shape; on a restrained or continuous structure its restraint
+        generates real moments and reactions. This is the mechanism for
+        applying creep, shrinkage and thermal curvatures (e.g. for
+        prestressed-concrete time-dependent analysis).
+
+**Dimension**: `M` rows (one per applied load), with 3 or more columns per row depending on load type.
 
 **Units**: kN, kN/m, and metres.
 

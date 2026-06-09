@@ -11,6 +11,7 @@ Package Modules
 
     pycba.analysis
     pycba.beam
+    pycba.section
     pycba.load
     pycba.results
     pycba.pattern
