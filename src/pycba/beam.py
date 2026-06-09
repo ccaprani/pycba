@@ -104,6 +104,10 @@ class Beam:
         None.
 
         """
+        if isinstance(EI, SectionEI):
+            # A non-prismatic section must span the full member length so its
+            # piecewise EI(x) covers the element exactly.
+            EI.validate_length(L)
         self.mbr_lengths.append(L)
         self.mbr_EIs.append(EI)
         self.mbr_eletype.append(eletype)
@@ -399,27 +403,34 @@ class Beam:
             Released end force vector ``[Va, Ma, Vb, Mb]``.
         """
         eType = int(np.asarray(eType).item())
-        # Primary (simply-supported) curvature from flexibility integration.
-        # For ordinary loads this is the flexural curvature M(x)/EI(x); for an
-        # imposed-curvature (initial-strain) load M = 0 and the free curvature
-        # kappa_imp(x) is the primary curvature instead.  Simpson quadrature on
-        # a fine grid (odd number of points) is essentially exact for the
-        # polynomial moment / EI(x) integrands.
-        npts = 2001
-        x = np.linspace(0.0, L, npts)
-        M = load.get_mbr_results(x, L).M
-        EIx = EI(x)
-        curv = M / EIx
-        if isinstance(load, LoadIC):
-            curv = curv + load.kappa_imp(x)
-        mi = 1.0 - x / L
-        mj = -x / L
-        theta0 = np.array(
-            [
-                integrate.simpson(mi * curv, x=x),
-                integrate.simpson(mj * curv, x=x),
-            ]
-        )
+        # Primary (simply-supported) end rotations from flexibility integration.
+        # For ordinary loads the integrand is the flexural curvature M(x)/EI(x);
+        # for an imposed-curvature (initial-strain) load M = 0 and the free
+        # curvature kappa_imp(x) is the primary curvature instead.
+        #
+        # The integral is split at the section breakpoints (segment joins and
+        # pwl kinks) so that any EI discontinuity / kink is honoured exactly;
+        # within each piece a fine Simpson grid captures the (possibly
+        # non-polynomial, e.g. point-load-kinked) moment diagram.  For a single
+        # constant segment this reproduces the prismatic get_ref.
+        bps = EI.breakpoints
+        edges = np.unique(np.concatenate([bps, [0.0, L]]))
+        edges = edges[(edges >= -1e-12) & (edges <= L + 1e-12)]
+        edges[0], edges[-1] = 0.0, L
+        theta0 = np.zeros(2)
+        for a, b in zip(edges[:-1], edges[1:]):
+            if b <= a:
+                continue
+            n = 2001
+            xx = np.linspace(a, b, n)
+            M = load.get_mbr_results(xx, L).M
+            curv = M / EI(xx)
+            if isinstance(load, LoadIC):
+                curv = curv + load.kappa_imp(xx)
+            mi = 1.0 - xx / L
+            mj = -xx / L
+            theta0[0] += integrate.simpson(mi * curv, x=xx)
+            theta0[1] += integrate.simpson(mj * curv, x=xx)
 
         # Fixed-end moments (PyCBA nodal-moment sign convention)
         Kth = self.k_theta(EI, L)
@@ -628,7 +639,53 @@ class Beam:
     #  Non-prismatic (variable-EI) element
     # ------------------------------------------------------------------
     @staticmethod
-    def _flexibility(EI: SectionEI, L: float, n_gauss: int = 20) -> np.ndarray:
+    def _gauss_nodes(EI: "SectionEI", L: float):
+        """
+        Breakpoint-aware Gauss-Legendre nodes/weights over the span ``[0, L]``.
+
+        The flexibility integrals are evaluated **piece-by-piece between
+        consecutive breakpoints** (segment joins and interior ``pwl`` kinks),
+        rather than by a single global quadrature over a smoothed polynomial.
+        Splitting at the breakpoints makes kinks (haunch -> flat) and steps
+        (a discontinuous ``EI`` at a shared coordinate) exact.
+
+        The per-piece integrand is ``m_a(x) m_b(x) / EI(x)``: an (at most)
+        quadratic numerator over the piece's polynomial rigidity ``EI(x)``.
+        For a **constant** piece this is a pure quadratic polynomial, integrated
+        *exactly* by a 2-point Gauss rule -- so a single ``const`` segment (the
+        prismatic limit) reproduces the closed-form stiffness to machine
+        precision.  For a non-constant piece the integrand is a smooth (analytic,
+        ``EI > 0``) rational function; Gauss-Legendre then converges
+        exponentially, so an order ``>= 2*degree + 8`` (floored at 16) brings
+        every linear / pwl / poly piece to machine precision as well.
+
+        Parameters
+        ----------
+        EI : SectionEI
+            The variable-rigidity description of the member.
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        x, w : np.ndarray
+            The concatenated Gauss nodes and weights mapped onto ``[0, L]``.
+        """
+        xs = []
+        ws = []
+        for p in EI.pieces:
+            a, b = p.x0, p.x1
+            if p.degree == 0:
+                n = 2  # quadratic integrand -> 2-point Gauss is exact
+            else:
+                n = max(2 * p.degree + 8, 16)
+            xi, wi = np.polynomial.legendre.leggauss(n)
+            xs.append(0.5 * (b - a) * (xi + 1.0) + a)
+            ws.append(0.5 * (b - a) * wi)
+        return np.concatenate(xs), np.concatenate(ws)
+
+    @staticmethod
+    def _flexibility(EI: SectionEI, L: float) -> np.ndarray:
         """
         Rotational flexibility matrix of the simply-supported released element.
 
@@ -651,8 +708,11 @@ class Beam:
                 \\int_0^L \\frac{m_j^2}{EI(x)}\\,dx
             \\end{bmatrix}
 
-        Integrals are evaluated by Gauss-Legendre quadrature, which is exact for
-        the polynomial ``EI(x)`` interpolant up to the supported degree.
+        The integrals are evaluated by **breakpoint-aware** Gauss-Legendre
+        quadrature (see :meth:`_gauss_nodes`): summed piece-by-piece between
+        consecutive breakpoints, with a Gauss order sufficient for each piece.
+        For a constant ``EI(x)`` (a single ``const`` segment) this reproduces
+        the prismatic flexibility exactly.
 
         Parameters
         ----------
@@ -660,19 +720,13 @@ class Beam:
             The variable-rigidity description of the member.
         L : float
             The length of the member.
-        n_gauss : int, optional
-            Number of Gauss points.  Default 20, comfortably exact for the
-            capped polynomial degree of :class:`SectionEI`.
 
         Returns
         -------
         F : np.ndarray, shape (2, 2)
             The end-rotation flexibility matrix.
         """
-        # Gauss-Legendre nodes/weights mapped from [-1, 1] to [0, L]
-        xi, wi = np.polynomial.legendre.leggauss(n_gauss)
-        x = 0.5 * L * (xi + 1.0)
-        w = 0.5 * L * wi
+        x, w = Beam._gauss_nodes(EI, L)
 
         EIx = EI(x)
         mi = 1.0 - x / L

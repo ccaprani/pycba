@@ -955,17 +955,33 @@ class LoadIC(Load):
     def _end_moments(self, L: float) -> Tuple[float, float]:
         r"""
         Fixed-end moments ``[M_a, M_b] = K_theta theta_0`` from the curvature.
+
+        The primary (simply-supported) end-rotation integrals are split at the
+        section breakpoints when ``EI`` is a :class:`~pycba.section.SectionEI`,
+        so an imposed curvature on a non-prismatic member honours every EI
+        kink/step exactly; for a scalar ``EI`` the single interval is used.
         """
         from scipy import integrate
+        from .section import SectionEI
 
-        npts = 2001
-        x = np.linspace(0.0, L, npts)
-        k = self.kappa_imp(x)
-        mi = 1.0 - x / L
-        mj = -x / L
-        theta0 = np.array(
-            [integrate.simpson(mi * k, x=x), integrate.simpson(mj * k, x=x)]
-        )
+        if isinstance(self.EI, SectionEI):
+            bps = self.EI.breakpoints
+            edges = np.unique(np.concatenate([bps, [0.0, L]]))
+            edges = edges[(edges >= -1e-12) & (edges <= L + 1e-12)]
+            edges[0], edges[-1] = 0.0, L
+        else:
+            edges = np.array([0.0, L])
+
+        theta0 = np.zeros(2)
+        for a, b in zip(edges[:-1], edges[1:]):
+            if b <= a:
+                continue
+            x = np.linspace(a, b, 2001)
+            k = self.kappa_imp(x)
+            mi = 1.0 - x / L
+            mj = -x / L
+            theta0[0] += integrate.simpson(mi * k, x=x)
+            theta0[1] += integrate.simpson(mj * k, x=x)
         Ma, Mb = self._Ktheta(L) @ theta0
         return Ma, Mb
 

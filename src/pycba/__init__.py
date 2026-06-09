@@ -12,7 +12,6 @@ from .load import (
     MemberResults,
     LoadMatrix,
     LoadType,
-    LoadIC,
     parse_LM,
     add_LM,
     factor_LM,

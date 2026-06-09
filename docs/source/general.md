@@ -19,12 +19,44 @@ The flexural rigidity for each member.
 
 A member may be **prismatic** (constant `EI`, given as a scalar) or
 **non-prismatic** (variable `EI`). A non-prismatic member is defined with a
-`pycba.SectionEI` object holding the rigidity at points along the span, which
-is polynomial-interpolated to a continuous `EI(x)`. Non-prismatic members are
-analysed exactly by flexibility (force-method) integration of the element
-stiffness; a constant `SectionEI` reproduces the closed-form prismatic element
-to machine precision. Scalar and `SectionEI` members may be freely mixed in
-the same beam.
+`pycba.SectionEI` object built from one or more contiguous **segments** that
+together describe `EI(x)` over the span. `x` is the **span-local physical
+coordinate** (0 at the span start, the real span length at the end). Segments
+are added head-to-tail with `add_segment(seg_type, x, ei, degree=None)`
+(chainable), or in one line by passing a list of specs to the constructor:
+
+```python
+import pycba as cba
+# Straight haunch -> flat soffit -> straight haunch over a 12 m span:
+sec = (cba.SectionEI()
+       .add_segment("linear", [0.0, 3.0], [3.0e5, 1.2e5])
+       .add_segment("const",  [3.0, 9.0], 1.2e5)
+       .add_segment("linear", [9.0, 12.0], [1.2e5, 3.0e5]))
+```
+
+The `seg_type` is one of:
+
+- `"const"` — constant `EI` over `[x0, x1]`; `x = [x0, x1]`, `ei` scalar.
+- `"linear"` — one linear piece; `x = [x0, x1]`, `ei = [ei0, ei1]`.
+- `"pwl"` — piecewise-linear; `x = [x0, …, xn]` (n ≥ 2 stations), `ei` of the
+  same length, giving `n − 1` linear pieces with kinks at the interior
+  stations.
+- `"poly"` — one polynomial piece; `ei` is either sample values (a polynomial
+  of order `degree`, default `len(x) − 1`, is fitted) or a `callable`
+  `ei(x_local)` evaluated in the span-local coordinate (e.g. a parabolic soffit,
+  `EI ∝ depth³`).
+
+Segments must be **contiguous** (each new segment's `x[0]` equals the running
+end; the first starts at 0) — gaps/overlaps raise an error — and the total
+coverage must equal the span length. A coincident `x` carrying a different `ei`
+across a join is an allowed **step** (discontinuous `EI`).
+
+Non-prismatic members are analysed exactly by flexibility (force-method)
+integration of the element stiffness, evaluated **piece-by-piece between
+consecutive breakpoints** (segment joins and `pwl` kinks) so that kinks and
+steps are captured exactly; a single `const` segment reproduces the closed-form
+prismatic element to machine precision. Scalar and `SectionEI` members may be
+freely mixed in the same beam.
 
 **Dimension**: `N` x 1 (one scalar or `SectionEI` per span; a single value is
 applied to all spans)
