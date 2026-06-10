@@ -4,17 +4,17 @@ PyCBA - Load module
 The load matrix is a ``List[List]`` of load descriptors.  Each entry
 describes one load; the number of columns varies by load type:
 
-=====  ====================  ================================  ====
-Type   Name                  Format                            Cols
-=====  ====================  ================================  ====
-1      UDL                   ``[span, 1, w]``                  3
-2      Point Load            ``[span, 2, P, a]``               4
-3      Partial UDL           ``[span, 3, w, a, c]``            5
-4      Moment Load           ``[span, 4, M, a]``               4
-5      Trapezoidal (full)    ``[span, 5, w1, w2]``             4
-5      Trapezoidal (partial) ``[span, 5, w1, w2, a, c]``       6
-6      Imposed curvature     ``[span, 6, k0, k1, ...]``        3+
-=====  ====================  ================================  ====
+=====  =====================  ===========================  ====
+Type   Name                   Format                       Cols
+=====  =====================  ===========================  ====
+1      UDL                    ``[span, 1, w]``             3
+2      Point Load             ``[span, 2, P, a]``          4
+3      Partial UDL            ``[span, 3, w, a, c]``       5
+4      Moment Load            ``[span, 4, M, a]``          4
+5      Trapezoidal (full)     ``[span, 5, w1, w2]``        4
+5      Trapezoidal (partial)  ``[span, 5, w1, w2, a, c]``  6
+6      Imposed curvature      ``[span, 6, k0, k1, ...]``   3+
+=====  =====================  ===========================  ====
 
 Load type 6 (imposed curvature) carries the coefficients of the free
 (initial-strain) curvature polynomial ``kappa(x) = k0 + k1*x + ...`` and is
