@@ -22,6 +22,10 @@ Coverage
 
 import numpy as np
 import pytest
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import pycba as cba
 from pycba.section import SectionEI
 from pycba.load import (
@@ -542,3 +546,74 @@ def test_add_ic_wrapper():
     ba2.analyze()
 
     assert ba2.beam_results.results.M == pytest.approx(ba1.beam_results.results.M)
+
+
+# ---------------------------------------------------------------------------
+#  SectionEI.plot input-verification figure
+# ---------------------------------------------------------------------------
+def test_sectionei_plot_haunch_flat(monkeypatch):
+    """``SectionEI.plot`` returns a Figure/Axes spanning [0, L], marks the
+    breakpoints, and never calls ``plt.show()``."""
+
+    # plt.show() must not be called by a library plotting method.
+    def _boom(*args, **kwargs):  # pragma: no cover - only fires on failure
+        raise AssertionError("SectionEI.plot must not call plt.show()")
+
+    monkeypatch.setattr(plt, "show", _boom)
+
+    # Symmetric straight-haunch + flat-soffit member (kinks at the joins).
+    L = 12.0
+    sec = SectionEI(
+        [
+            ("linear", [0.0, 3.0], [3.0e5, 1.2e5]),
+            ("const", [3.0, 9.0], 1.2e5),
+            ("linear", [9.0, 12.0], [1.2e5, 3.0e5]),
+        ]
+    )
+
+    fig, ax = sec.plot()
+    assert isinstance(fig, matplotlib.figure.Figure)
+    assert isinstance(ax, matplotlib.axes.Axes)
+
+    # The drawn EI curve spans the full local span [0, L].
+    assert ax.get_xlim() == pytest.approx((0.0, L))
+    data_lines = [ln for ln in ax.lines if ln.get_linestyle() == "-"]
+    assert data_lines, "expected solid EI data lines"
+    xmin = min(ln.get_xdata().min() for ln in data_lines)
+    xmax = max(ln.get_xdata().max() for ln in data_lines)
+    assert xmin == pytest.approx(0.0)
+    assert xmax == pytest.approx(L)
+
+    # The breakpoints are marked with vertical lines.
+    vlines = [ln.get_xdata()[0] for ln in ax.lines if ln.get_linestyle() == ":"]
+    for bp in sec.breakpoints:
+        assert any(np.isclose(bp, vx) for vx in vlines), f"breakpoint {bp} not marked"
+
+    plt.close(fig)
+
+
+def test_sectionei_plot_prismatic_and_ax_reuse():
+    """A single-const (prismatic) section plots without error; a step renders a
+    dashed connector; and a supplied ``ax`` is reused."""
+    sec = SectionEI().add_segment("const", [0.0, 10.0], 2.0e5)
+    fig, ax = sec.plot()
+    assert isinstance(fig, matplotlib.figure.Figure)
+    assert isinstance(ax, matplotlib.axes.Axes)
+    plt.close(fig)
+
+    # A genuine step discontinuity draws exactly one dashed connector.
+    step = (
+        SectionEI()
+        .add_segment("const", [0.0, 5.0], 1.0e5)
+        .add_segment("const", [5.0, 10.0], 2.0e5)
+    )
+    fig2, ax2 = step.plot()
+    dashed = [ln for ln in ax2.lines if ln.get_linestyle() == "--"]
+    assert len(dashed) == 1
+    plt.close(fig2)
+
+    # A supplied axes (and its figure) is drawn into, not replaced.
+    my_fig, my_ax = plt.subplots()
+    rfig, rax = sec.plot(ax=my_ax)
+    assert rax is my_ax and rfig is my_fig
+    plt.close(my_fig)

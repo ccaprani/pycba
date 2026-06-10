@@ -41,6 +41,7 @@ from __future__ import annotations
 from typing import Callable, Optional, Sequence, Union
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 #: Supported segment types.
 _SEG_TYPES = ("const", "linear", "pwl", "poly")
@@ -391,6 +392,118 @@ class SectionEI:
                     out[m] = p(xv[m])
                     assigned |= m
         return float(out[0]) if scalar else out
+
+    # ------------------------------------------------------------------
+    #  Visualisation
+    # ------------------------------------------------------------------
+    def plot(
+        self,
+        ax=None,
+        n: int = 200,
+        show_breakpoints: bool = True,
+        annotate: bool = True,
+        **kwargs,
+    ):
+        """
+        Plot ``EI(x)`` over the whole span as an input-verification figure.
+
+        The rigidity is drawn **piece by piece** over each piece's own
+        ``[x0, x1]`` interval, so the curve faithfully reflects what was
+        entered:
+
+        * a **kink** (e.g. a ``pwl`` interior station, or a join where the
+          slope changes) renders as a slope change with no break, because
+          adjacent pieces share the boundary value;
+        * a **step** (a coincident ``x`` carrying a different ``EI`` across a
+          join) renders as a genuine discontinuity -- the left piece ends at
+          its value and the right piece starts at its own value, with no
+          spurious vertical line connecting them.  A thin dashed connector is
+          drawn at each such step purely to make the jump easy to read.
+
+        Constant pieces appear flat, linear pieces straight, and polynomial
+        pieces are sampled smoothly.
+
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw into.  When ``None`` (default) a new figure and axes
+            are created with ``plt.subplots(**kwargs)``; otherwise the given
+            axes (and its parent figure) are used and ``**kwargs`` is ignored.
+        n : int, optional
+            Total number of sample points distributed across the pieces
+            (proportional to each piece's length, at least 2 per piece).  Used
+            for smooth sampling of polynomial pieces; default ``200``.
+        show_breakpoints : bool, optional
+            When ``True`` (default) mark the segment boundaries and ``pwl``
+            kinks at :attr:`breakpoints` with light vertical gridlines.
+        annotate : bool, optional
+            When ``True`` (default) lightly label each piece with its degree
+            (``const`` / ``linear`` / ``poly``) via a legend, so the entered
+            variation can be confirmed at a glance.
+        **kwargs
+            Passed to :func:`matplotlib.pyplot.subplots` when ``ax is None``.
+
+        Returns
+        -------
+        (matplotlib.figure.Figure, matplotlib.axes.Axes)
+            The figure and axes, matching the PyCBA plotting convention.
+            ``plt.show()`` is never called.
+        """
+        if not self._pieces:
+            raise ValueError("SectionEI has no segments to plot")
+
+        if ax is None:
+            fig, ax = plt.subplots(**kwargs)
+        else:
+            fig = ax.figure
+
+        # Human-readable label for a piece, by polynomial degree.
+        def _kind(degree: int) -> str:
+            return {0: "const", 1: "linear"}.get(degree, f"poly (deg {degree})")
+
+        # Distribute the sample budget across pieces by length (>= 2 each).
+        total_len = sum(max(p.x1 - p.x0, 0.0) for p in self._pieces)
+        total_len = total_len if total_len > 0.0 else 1.0
+
+        seen_labels: set = set()
+        prev_x1 = None
+        prev_y1 = None
+        for p in self._pieces:
+            npts = max(2, int(round(n * (p.x1 - p.x0) / total_len)))
+            xs = np.linspace(p.x0, p.x1, npts)
+            ys = p(xs)
+
+            label = _kind(p.degree)
+            legend_label = label if (annotate and label not in seen_labels) else None
+            if legend_label is not None:
+                seen_labels.add(label)
+            ax.plot(xs, ys, lw=2, label=legend_label)
+
+            # A step: this piece starts at the previous piece's end x but with a
+            # different value.  Draw a thin dashed connector to read the jump.
+            if (
+                prev_x1 is not None
+                and np.isclose(p.x0, prev_x1, atol=1e-9 * max(1.0, self.length))
+                and not np.isclose(float(ys[0]), float(prev_y1), rtol=1e-9, atol=0.0)
+            ):
+                ax.plot(
+                    [p.x0, p.x0], [prev_y1, ys[0]], "k--", lw=0.8, alpha=0.6
+                )
+            prev_x1, prev_y1 = p.x1, float(ys[-1])
+
+        if show_breakpoints:
+            for bp in self.breakpoints:
+                ax.axvline(bp, color="0.7", lw=0.8, ls=":", zorder=0)
+
+        ax.set_xlim(self._x0, self._end)
+        ax.set_xlabel("distance along span (local)")
+        ax.set_ylabel("EI")
+        ax.set_title("SectionEI — input check")
+        ax.grid(True)
+        if annotate and seen_labels:
+            ax.legend(loc="best", fontsize="small")
+
+        return fig, ax
 
     def __repr__(self) -> str:
         segs = ", ".join(
