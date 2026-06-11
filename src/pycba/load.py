@@ -876,17 +876,10 @@ class LoadIC(Load):
     Constant (:math:`\kappa_0` only) and linear (:math:`\kappa_0, \kappa_1`)
     fields are the common cases; arbitrary polynomial order is supported.
 
-    The fixed-end forces are derived by the same flexibility integration used
-    for the non-prismatic element.  The primary (simply-supported) end
-    rotations are
-
-    .. math::
-        \theta_0 = \Big[\int_0^L m_i(x)\,\kappa_\text{imp}(x)\,dx,\;
-                        \int_0^L m_j(x)\,\kappa_\text{imp}(x)\,dx\Big]
-
-    with :math:`m_i = 1 - x/L` and :math:`m_j = -x/L`; the fixed-end moments
-    are :math:`[M_a, M_b] = K_\theta\,\theta_0`, and the end shears follow from
-    equilibrium of the resulting couple.
+    The fixed-end forces are derived by the same force-method (flexibility)
+    integration used for the non-prismatic element.  See the *Imposed-curvature
+    (initial-strain) loads* section of the Theoretical Basis in the
+    documentation for the derivation.
 
     .. note::
         The fixed-end moments scale with the flexural rigidity (e.g.

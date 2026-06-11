@@ -80,6 +80,7 @@ Current `PyCBA` includes modules for:
    general
    api
    theory
+   references
 ..
    inf_lines 
    bridges
