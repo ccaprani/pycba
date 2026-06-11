@@ -25,6 +25,11 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
+REM Wipe the autosummary-generated stubs (gitignored) before html/clean so
+REM stale stubs left over from another branch don't break the build.
+if "%1" == "html" rmdir /s /q %SOURCEDIR%\gen 2>NUL
+if "%1" == "clean" rmdir /s /q %SOURCEDIR%\gen 2>NUL
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
 goto end
 
