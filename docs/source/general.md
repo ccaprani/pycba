@@ -25,14 +25,14 @@ coordinate** (0 at the span start, the real span length at the end). Segments
 are added head-to-tail with `add_segment(seg_type, x, ei, degree=None)`
 (chainable), or in one line by passing a list of specs to the constructor:
 
-```python
-import pycba as cba
-# Straight haunch -> flat soffit -> straight haunch over a 12 m span:
-sec = (cba.SectionEI()
-       .add_segment("linear", [0.0, 3.0], [3.0e5, 1.2e5])
-       .add_segment("const",  [3.0, 9.0], 1.2e5)
-       .add_segment("linear", [9.0, 12.0], [1.2e5, 3.0e5]))
-```
+.. code-block:: python
+
+   import pycba as cba
+   # Straight haunch -> flat soffit -> straight haunch over a 12 m span:
+   sec = (cba.SectionEI()
+          .add_segment("linear", [0.0, 3.0], [3.0e5, 1.2e5])
+          .add_segment("const",  [3.0, 9.0], 1.2e5)
+          .add_segment("linear", [9.0, 12.0], [1.2e5, 3.0e5]))
 
 The `seg_type` is one of:
 
@@ -82,15 +82,42 @@ Load Matrix (`LM`)
 A `List` of `Lists` representing the applied loads.
 Each entry is a single load descriptor whose length depends on the load type:
 
-| Type | Name | Format | Columns |
-|------|------|--------|---------|
-| 1 | UDL | `[span, 1, w]` | 3 |
-| 2 | Point Load | `[span, 2, P, a]` | 4 |
-| 3 | Partial UDL | `[span, 3, w, a, c]` | 5 |
-| 4 | Moment Load | `[span, 4, M, a]` | 4 |
-| 5 | Trapezoidal (full) | `[span, 5, w1, w2]` | 4 |
-| 5 | Trapezoidal (partial) | `[span, 5, w1, w2, a, c]` | 6 |
-| 6 | Imposed curvature | `[span, 6, k0, k1, ...]` | 3+ |
+.. list-table::
+   :header-rows: 1
+   :widths: 8 24 34 10
+
+   * - Type
+     - Name
+     - Format
+     - Columns
+   * - 1
+     - UDL
+     - ``[span, 1, w]``
+     - 3
+   * - 2
+     - Point Load
+     - ``[span, 2, P, a]``
+     - 4
+   * - 3
+     - Partial UDL
+     - ``[span, 3, w, a, c]``
+     - 5
+   * - 4
+     - Moment Load
+     - ``[span, 4, M, a]``
+     - 4
+   * - 5
+     - Trapezoidal (full)
+     - ``[span, 5, w1, w2]``
+     - 4
+   * - 5
+     - Trapezoidal (partial)
+     - ``[span, 5, w1, w2, a, c]``
+     - 6
+   * - 6
+     - Imposed curvature
+     - ``[span, 6, k0, k1, ...]``
+     - 3+
 
 Load Types:
 
@@ -98,16 +125,16 @@ Load Types:
 
     2 - **Point Loads**, located at `a` from the left end of the span.
 
-    3 - **Partial UDLs**, starting at `a` for a distance of `c` (i.e. the cover) where $L >= a+c$.
+    3 - **Partial UDLs**, starting at `a` for a distance of `c` (i.e. the cover) where :math:`L \geq a + c`.
 
     4 - **Moment Load**, located at `a`.
 
     5 - **Trapezoidal Load**, linearly varying from `w1` to `w2`.
         Full span: `[span, 5, w1, w2]` — `w1` at the left end, `w2` at the right end.
-        Partial:   `[span, 5, w1, w2, a, c]` — `w1` at position `a`, `w2` at position `a + c`, where $L \geq a+c$.
+        Partial:   `[span, 5, w1, w2, a, c]` — `w1` at position `a`, `w2` at position `a + c`, where :math:`L \geq a + c`.
 
     6 - **Imposed Curvature** (initial-strain) load, applying a free curvature
-        field $\kappa(x) = k_0 + k_1 x + \dots$ along the member. On a
+        field :math:`\kappa(x) = k_0 + k_1 x + \dots` along the member. On a
         statically-determinate span it induces no internal forces, only a free
         deflected shape; on a restrained or continuous structure its restraint
         generates real moments and reactions. This is the mechanism for
