@@ -10,3 +10,4 @@ The easiest way to get started with `PyCBA` is to jump straight in and have a lo
    notebooks/envelopes
    notebooks/inf_lines
    notebooks/bridge
+   notebooks/nonlinear
