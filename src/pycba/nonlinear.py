@@ -39,6 +39,8 @@ import matplotlib.pyplot as plt
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
+from .section import SectionEI
+
 
 # ---------------------------------------------------------------------------
 #  Data classes
@@ -450,6 +452,22 @@ class NonlinearBeamAnalysis:
         self.total_length = float(np.sum(self.span_L))
         self.span_R = list(R)
         self.q = q
+
+        # The Generalized Clough element assumes a constant EI per element, so
+        # non-prismatic (SectionEI) members are not supported.  Reject them with
+        # a clear message rather than failing later in a float() conversion.
+        ei_members = EI if isinstance(EI, (list, tuple, np.ndarray)) else [EI]
+        nonprismatic = [
+            i + 1 for i, e in enumerate(ei_members) if isinstance(e, SectionEI)
+        ]
+        if nonprismatic:
+            raise TypeError(
+                "NonlinearBeamAnalysis supports prismatic (constant-EI) members "
+                f"only; member(s) {nonprismatic} were supplied as SectionEI "
+                "(non-prismatic). Use BeamAnalysis for non-prismatic "
+                "(variable-EI) elastic analysis, or pass a scalar EI for "
+                "nonlinear analysis."
+            )
 
         _as = lambda v, n: np.full(n, float(v)) if isinstance(v, (int, float)) else np.atleast_1d(np.asarray(v, dtype=float))
         self.span_EI = _as(EI, self.n_spans)

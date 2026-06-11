@@ -281,3 +281,22 @@ def test_three_span_symmetric_udl():
     assert any(abs(x - 10.0) <= 1.5 or abs(x - 20.0) <= 1.5 for x in locs), (
         f"No hinge near interior supports: {locs}"
     )
+
+
+def test_rejects_nonprismatic_member():
+    """NonlinearBeamAnalysis supports prismatic members only: a SectionEI
+    (non-prismatic) member must raise a clear error rather than failing later
+    in a cryptic float() conversion."""
+    from pycba.section import SectionEI
+
+    sec = SectionEI([("const", [0.0, L_SPAN], EI)])
+
+    # A SectionEI mixed into the per-span EI list.
+    with pytest.raises(TypeError, match="prismatic"):
+        NonlinearBeamAnalysis(
+            L=[L_SPAN, L_SPAN], EI=[sec, EI], R=[-1, 0, -1, 0, -1, 0], Mp=MP
+        )
+
+    # A single SectionEI applied to all spans.
+    with pytest.raises(TypeError, match="prismatic"):
+        NonlinearBeamAnalysis(L=[L_SPAN], EI=sec, R=[-1, 0, -1, 0], Mp=MP)
