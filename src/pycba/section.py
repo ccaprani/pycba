@@ -465,7 +465,13 @@ class SectionEI:
         total_len = sum(max(p.x1 - p.x0, 0.0) for p in self._pieces)
         total_len = total_len if total_len > 0.0 else 1.0
 
-        seen_labels: set = set()
+        # Colour each piece by its *kind* so pieces of the same kind share a
+        # colour; the by-kind legend then faithfully represents every piece.
+        # (A section like linear/const/linear shows a single "linear" entry that
+        # covers both haunches, rather than dropping the repeated kind and
+        # leaving the second linear piece unrepresented.)
+        prop_cycle = plt.rcParams["axes.prop_cycle"].by_key().get("color", [])
+        kind_color: dict = {}
         prev_x1 = None
         prev_y1 = None
         for p in self._pieces:
@@ -474,10 +480,17 @@ class SectionEI:
             ys = p(xs)
 
             label = _kind(p.degree)
-            legend_label = label if (annotate and label not in seen_labels) else None
-            if legend_label is not None:
-                seen_labels.add(label)
-            ax.plot(xs, ys, lw=2, label=legend_label)
+            if label in kind_color:
+                color, legend_label = kind_color[label], None
+            else:
+                color = (
+                    prop_cycle[len(kind_color) % len(prop_cycle)]
+                    if prop_cycle
+                    else None
+                )
+                kind_color[label] = color
+                legend_label = label if annotate else None
+            ax.plot(xs, ys, lw=2, color=color, label=legend_label)
 
             # A step: this piece starts at the previous piece's end x but with a
             # different value.  Draw a thin dashed connector to read the jump.
@@ -500,7 +513,7 @@ class SectionEI:
         ax.set_ylabel("EI")
         ax.set_title("SectionEI — input check")
         ax.grid(True)
-        if annotate and seen_labels:
+        if annotate and kind_color:
             ax.legend(loc="best", fontsize="small")
 
         return fig, ax
