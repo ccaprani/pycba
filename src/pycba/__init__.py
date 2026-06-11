@@ -22,3 +22,4 @@ from .utils import parse_beam_string
 from .bridge import BridgeAnalysis
 from .vehicle import Vehicle, make_train, VehicleLibrary
 from .pattern import LoadPattern
+from .nonlinear import NonlinearBeamAnalysis, NonlinearResult, HingeEvent

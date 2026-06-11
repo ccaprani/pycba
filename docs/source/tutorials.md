@@ -9,6 +9,7 @@ notebooks/intro
 notebooks/envelopes
 notebooks/inf_lines
 notebooks/bridge
+notebooks/nonlinear
 notebooks/nonprismatic
 notebooks/imposed_curvature
 ```
