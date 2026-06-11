@@ -1,0 +1,7 @@
+# Normalise line endings going forward: store everything with LF in the repo.
+# A one-off `git add --renormalize .` on `main` (after PR #139 merges) will
+# convert the existing CRLF files; until then this only governs new/changed lines.
+* text=auto eol=lf
+
+# Notebooks are JSON and must stay LF to keep diffs clean across platforms.
+*.ipynb text eol=lf

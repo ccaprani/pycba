@@ -4,16 +4,21 @@ PyCBA - Load module
 The load matrix is a ``List[List]`` of load descriptors.  Each entry
 describes one load; the number of columns varies by load type:
 
-=====  ====================  ================================  ====
-Type   Name                  Format                            Cols
-=====  ====================  ================================  ====
-1      UDL                   ``[span, 1, w]``                  3
-2      Point Load            ``[span, 2, P, a]``               4
-3      Partial UDL           ``[span, 3, w, a, c]``            5
-4      Moment Load           ``[span, 4, M, a]``               4
-5      Trapezoidal (full)    ``[span, 5, w1, w2]``             4
-5      Trapezoidal (partial) ``[span, 5, w1, w2, a, c]``       6
-=====  ====================  ================================  ====
+=====  =====================  ===========================  ====
+Type   Name                   Format                       Cols
+=====  =====================  ===========================  ====
+1      UDL                    ``[span, 1, w]``             3
+2      Point Load             ``[span, 2, P, a]``          4
+3      Partial UDL            ``[span, 3, w, a, c]``       5
+4      Moment Load            ``[span, 4, M, a]``          4
+5      Trapezoidal (full)     ``[span, 5, w1, w2]``        4
+5      Trapezoidal (partial)  ``[span, 5, w1, w2, a, c]``  6
+6      Imposed curvature      ``[span, 6, k0, k1, ...]``   3+
+=====  =====================  ===========================  ====
+
+Load type 6 (imposed curvature) carries the coefficients of the free
+(initial-strain) curvature polynomial ``kappa(x) = k0 + k1*x + ...`` and is
+used to apply creep, shrinkage or thermal curvatures; see :class:`LoadIC`.
 
 The type alias `LoadMatrix` is defined as
 
@@ -844,6 +849,215 @@ class LoadML(Load):
         return res
 
 
+class LoadIC(Load):
+    r"""
+    Imposed-curvature (initial-strain) member load.
+
+    Applies a *free* (stress-free) curvature field :math:`\kappa_\text{imp}(x)`
+    along the member.  Unlike a transverse load, an imposed curvature induces
+    **no internal forces on a statically-determinate (simply-supported)
+    span** -- it produces only a free deflected shape.  On a restrained or
+    continuous structure, however, the restraint of this free curvature
+    generates real bending moments and reactions, exactly as for differential
+    settlement or a temperature gradient.
+
+    This is the mechanism by which PyBridge (and other downstream
+    time-dependent prestressed-concrete tools) apply **creep, shrinkage and
+    thermal curvatures** to a continuous beam: the time-dependent sectional
+    analysis yields a free curvature distribution which is imposed here, and
+    PyCBA returns the resulting restraint moments and reactions.
+
+    The curvature field is described by a polynomial in the local member
+    coordinate ``x`` (measured from the i-end):
+
+    .. math::
+        \kappa_\text{imp}(x) = \kappa_0 + \kappa_1 x + \kappa_2 x^2 + \dots
+
+    Constant (:math:`\kappa_0` only) and linear (:math:`\kappa_0, \kappa_1`)
+    fields are the common cases; arbitrary polynomial order is supported.
+
+    The fixed-end forces are derived by the same force-method (flexibility)
+    integration used for the non-prismatic element.  See the *Imposed-curvature
+    (initial-strain) loads* section of the Theoretical Basis in the
+    documentation for the derivation.
+
+    .. note::
+        The fixed-end moments scale with the flexural rigidity (e.g.
+        :math:`M = EI\kappa` for a uniform curvature on a fixed-fixed prismatic
+        member).  The rigidity is supplied to the load by the
+        :class:`~pycba.beam.Beam` when the loads are parsed; it therefore need
+        not be specified by the user.
+    """
+
+    def __init__(self, i_span: int, kappa, EI=None):
+        r"""
+        Creates an imposed-curvature load for the member.
+
+        Parameters
+        ----------
+        i_span : int
+            The member index to which the load is applied.
+        kappa : float or array_like of float
+            The imposed-curvature polynomial coefficients in *increasing*
+            powers of ``x``: ``[k0, k1, k2, ...]`` =>
+            ``kappa(x) = k0 + k1*x + k2*x^2 + ...``.  A scalar is interpreted
+            as a uniform curvature ``kappa(x) = k0``.
+        EI : float or pycba.section.SectionEI, optional
+            The flexural rigidity of the member.  Normally left ``None`` and
+            populated by the owning :class:`~pycba.beam.Beam`; only required to
+            evaluate the fixed-end forces (:meth:`get_cnl`).
+        """
+        super().__init__(i_span)
+        self.kappa = np.atleast_1d(np.asarray(kappa, dtype=float))
+        self.EI = EI
+
+    def kappa_imp(self, x: np.ndarray) -> np.ndarray:
+        r"""
+        Evaluate the imposed-curvature field :math:`\kappa_\text{imp}(x)`.
+
+        Parameters
+        ----------
+        x : float or np.ndarray
+            Position(s) along the member (local coordinate from the i-end).
+
+        Returns
+        -------
+        float or np.ndarray
+            The imposed curvature at ``x``.
+        """
+        # numpy.polyval expects highest-order coefficient first.
+        return np.polyval(self.kappa[::-1], x)
+
+    def _Ktheta(self, L: float) -> np.ndarray:
+        """
+        End moment-rotation stiffness ``K_theta`` for the member.
+
+        Uses the closed-form prismatic value when ``EI`` is scalar, or the
+        flexibility-integrated value for a :class:`~pycba.section.SectionEI`.
+        """
+        from .section import SectionEI
+
+        if isinstance(self.EI, SectionEI):
+            # Lazy import avoids a circular dependency at module import time.
+            from .beam import Beam
+
+            return Beam().k_theta(self.EI, L)
+        EI = float(self.EI)
+        return (2.0 * EI / L) * np.array([[2.0, 1.0], [1.0, 2.0]])
+
+    def _end_moments(self, L: float) -> Tuple[float, float]:
+        r"""
+        Fixed-end moments ``[M_a, M_b] = K_theta theta_0`` from the curvature.
+
+        The primary (simply-supported) end-rotation integrals are split at the
+        section breakpoints when ``EI`` is a :class:`~pycba.section.SectionEI`,
+        so an imposed curvature on a non-prismatic member honours every EI
+        kink/step exactly; for a scalar ``EI`` the single interval is used.
+        """
+        from scipy import integrate
+        from .section import SectionEI
+
+        if isinstance(self.EI, SectionEI):
+            bps = self.EI.breakpoints
+            edges = np.unique(np.concatenate([bps, [0.0, L]]))
+            edges = edges[(edges >= -1e-12) & (edges <= L + 1e-12)]
+            edges[0], edges[-1] = 0.0, L
+        else:
+            edges = np.array([0.0, L])
+
+        theta0 = np.zeros(2)
+        for a, b in zip(edges[:-1], edges[1:]):
+            if b <= a:
+                continue
+            x = np.linspace(a, b, 2001)
+            k = self.kappa_imp(x)
+            mi = 1.0 - x / L
+            mj = -x / L
+            theta0[0] += integrate.simpson(mi * k, x=x)
+            theta0[1] += integrate.simpson(mj * k, x=x)
+        Ma, Mb = self._Ktheta(L) @ theta0
+        return Ma, Mb
+
+    def get_cnl(self, L: float, eType: int) -> LoadCNL:
+        """
+        Consistent Nodal Loads (fixed-fixed) for the imposed curvature.
+
+        Parameters
+        ----------
+        L : float
+            The length of the member
+        eType : int
+            The member element type
+
+        Returns
+        -------
+        LoadCNL
+            Consistent Nodal Loads for this load type
+        """
+        if self.EI is None:
+            raise ValueError(
+                "LoadIC requires the member EI to evaluate fixed-end forces; "
+                "it is normally supplied automatically by the Beam."
+            )
+        Ma, Mb = self._end_moments(L)
+        # No transverse load: the end-moment couple is balanced by end shears.
+        return LoadCNL(Va=(Ma + Mb) / L, Vb=-(Ma + Mb) / L, Ma=Ma, Mb=Mb)
+
+    def get_mbr_results(self, x: np.ndarray, L: float) -> MemberResults:
+        r"""
+        Simply-supported member results from the free (imposed) curvature.
+
+        The imposed curvature produces **no** internal moment or shear on a
+        simple span (``M = V = 0``); it generates only a deflected shape found
+        by integrating the curvature twice subject to ``D(0) = D(L) = 0``:
+
+        .. math::
+            \theta(x) = \theta_0 + \int_0^x \kappa_\text{imp}(s)\,ds, \qquad
+            D(x) = \int_0^x \theta(s)\,ds
+
+        with the constant :math:`\theta_0` chosen so that ``D(L) = 0``.
+
+        Parameters
+        ----------
+        x : np.ndarray
+            Vector of points along the length of the member
+        L : float
+            The length of the member
+
+        Returns
+        -------
+        res : MemberResults
+            A populated :class:`pycba.types.MemberResults` object
+        """
+        npts = len(x)
+        res = MemberResults(vals=None, n=npts)
+        res.x = x
+
+        from scipy import integrate
+
+        k = self.kappa_imp(x)
+        # First integral: rotation up to a constant (theta0 = 0 for now)
+        rot = integrate.cumulative_trapezoid(k, x, initial=0.0)
+        defl = integrate.cumulative_trapezoid(rot, x, initial=0.0)
+        # Enforce D(L) = 0 by adding a linear (rigid-body) rotation theta0
+        theta0 = -defl[-1] / L
+        rot = rot + theta0
+        defl = defl + theta0 * x
+
+        res.V = np.zeros(npts)
+        res.M = np.zeros(npts)
+        res.R = rot
+        res.D = defl
+
+        # Endpoints carry no internal force (consistent with other loads)
+        res.V[0] = 0.0
+        res.V[npts - 1] = 0.0
+        res.M[0] = 0.0
+        res.M[npts - 1] = 0.0
+
+        return res
+
+
 def parse_LM(LM: LoadMatrix) -> List[Load]:
     """
     This function parses the Load Matrix and returns a list
@@ -896,6 +1110,12 @@ def parse_LM(LM: LoadMatrix) -> List[Load]:
             a = load[4] if len(load) > 4 else 0.0
             c = load[5] if len(load) > 5 else None
             loads.append(LoadTrapez(span, w1, w2, a, c))
+        # Imposed-curvature (initial-strain) load
+        elif ltype == 6:
+            # Remaining entries are the curvature polynomial coefficients
+            # [k0, k1, k2, ...] in increasing powers of x.
+            kappa = load[2:]
+            loads.append(LoadIC(span, kappa))
     return loads
 
 
@@ -956,6 +1176,9 @@ def factor_LM(LM: LoadMatrix, gamma: float) -> LoadMatrix:
             new_load = [i_span, l_type, mag, gamma * load[3]]
             if len(load) > 4:
                 new_load.extend(load[4:])  # a, c are not factored
+            LMnew.append(new_load)
+        elif l_type == 6:  # Imposed curvature: factor all coefficients
+            new_load = [i_span, l_type] + [gamma * c for c in load[2:]]
             LMnew.append(new_load)
         else:  # PUDL
             LMnew.append([i_span, l_type, mag, load[3], load[4]])

@@ -78,9 +78,13 @@ class BeamAnalysis:
         ----------
         L : array_like of float
             Span lengths.  Length ``N`` for an ``N``-span beam.
-        EI : float or array_like of float
-            Flexural rigidity of each span.  A scalar value is applied to all
-            spans; otherwise one value per span is required.
+        EI : float, pycba.section.SectionEI, or array_like
+            Flexural rigidity of each span.  A single scalar (or a single
+            :class:`~pycba.section.SectionEI`) is applied to all spans;
+            otherwise one entry per span is required.  A span whose rigidity is
+            given as a :class:`~pycba.section.SectionEI` is treated as
+            **non-prismatic** (variable ``EI``) and analysed by flexibility
+            integration; scalar entries use the closed-form prismatic element.
         R : array_like of int or float
             Nodal restraint vector, length ``2(N+1)``.  Two entries per node
             (vertical DOF then rotational DOF), ordered left to right:
@@ -100,6 +104,9 @@ class BeamAnalysis:
             4. Moment load — ``[span, 4, M, a]``.
             5. Trapezoidal — ``[span, 5, w1, w2]`` (full span) or
                ``[span, 5, w1, w2, a, c]`` (partial).
+            6. Imposed curvature — ``[span, 6, k0, k1, ...]`` where the free
+               curvature field is ``κ(x) = k0 + k1·x + …`` (e.g. creep,
+               shrinkage or thermal curvature).
 
         eletype : array_like of int, optional
             Element type for each span, controlling which end(s) carry moment:
@@ -241,6 +248,29 @@ class BeamAnalysis:
             Distance from the left end of the span to the load.
         """
         load = [i_span, 4, m, a]
+        self._beam.add_load(load)
+
+    def add_ic(self, i_span: int, kappa):
+        r"""
+        Append an imposed-curvature (initial-strain) member load.
+
+        The free curvature field ``κ(x) = k0 + k1·x + k2·x² + …`` is imposed
+        over the member.  On a simply-supported span it produces no internal
+        forces (only a free deflected shape); on a restrained or continuous
+        structure its restraint generates real moments and reactions.  This is
+        the mechanism for applying creep, shrinkage and thermal curvatures to a
+        continuous beam (see :class:`pycba.load.LoadIC`).
+
+        Parameters
+        ----------
+        i_span : int
+            1-based span index.
+        kappa : float or array_like of float
+            Imposed-curvature polynomial coefficients in increasing powers of
+            ``x``: ``[k0, k1, k2, ...]``.  A scalar is a uniform curvature.
+        """
+        coeffs = np.atleast_1d(np.asarray(kappa, dtype=float)).tolist()
+        load = [i_span, 6] + coeffs
         self._beam.add_load(load)
 
     def add_trap(

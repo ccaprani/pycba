@@ -45,9 +45,13 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx.ext.coverage",
     "sphinx.ext.githubpages",
-    # .. "recommonmark",
+    "myst_parser",  # Markdown (MyST) source files
     "nbsphinx",
 ]
+
+# MyST Markdown options.  ``dollarmath`` enables $...$ / $$...$$ math (matching
+# the notebooks); ``amsmath`` allows LaTeX align/bmatrix environments.
+myst_enable_extensions = ["dollarmath", "amsmath"]
 
 autodoc_member_order = "bysource"
 autosummary_generate = True  # Turn on sphinx.ext.autosummary

@@ -1,9 +1,11 @@
 """
 PyCBA - Beam Class definition
 """
-from typing import Optional
+from typing import Optional, Union
 import numpy as np
-from .load import parse_LM, LoadType, LoadMatrix, LoadCNL
+from scipy import integrate
+from .load import parse_LM, LoadType, LoadMatrix, LoadCNL, LoadIC
+from .section import SectionEI
 
 
 class Beam:
@@ -58,8 +60,9 @@ class Beam:
         self._terminal_coords = [0.0]
 
         if L is not None and eletype is not None:
-            # scalar EI - same for all spans
-            if isinstance(EI, float):
+            # A single rigidity (scalar EI, or one SectionEI) applies to all
+            # spans; otherwise one rigidity per span is required.
+            if isinstance(EI, (float, int, SectionEI)):
                 for l, et in zip(L, eletype):
                     self.add_span(l, EI, et)
             else:
@@ -101,6 +104,10 @@ class Beam:
         None.
 
         """
+        if isinstance(EI, SectionEI):
+            # A non-prismatic section must span the full member length so its
+            # piecewise EI(x) covers the element exactly.
+            EI.validate_length(L)
         self.mbr_lengths.append(L)
         self.mbr_EIs.append(EI)
         self.mbr_eletype.append(eletype)
@@ -171,6 +178,11 @@ class Beam:
 
         """
         self._loads = parse_LM(self.LM)
+        # Imposed-curvature loads need the member rigidity to evaluate their
+        # fixed-end forces; supply it from the span definition.
+        for load in self._loads:
+            if isinstance(load, LoadIC):
+                load.EI = self.mbr_EIs[load.i_span]
 
     @property
     def restraints(self) -> np.ndarray:
@@ -336,10 +348,130 @@ class Beam:
         ref = np.zeros(4)
         L = self.mbr_lengths[i_span]
         eType = self.mbr_eletype[i_span]
+        EI = self.mbr_EIs[i_span]
 
         for load in self._loads:
-            if load.i_span == i_span:
+            if load.i_span != i_span:
+                continue
+            if isinstance(EI, SectionEI):
+                ref += self._ref_nonprismatic(load, EI, L, eType)
+            else:
                 ref += load.get_ref(L, eType)
+        return ref
+
+    def _ref_nonprismatic(
+        self, load, EI: SectionEI, L: float, eType: int
+    ) -> np.ndarray:
+        """
+        Released end forces of a single load on a non-prismatic member.
+
+        The fixed-end moments are obtained by the same flexibility integration
+        used for the element stiffness.  On the simply-supported released
+        element the load produces the moment diagram ``M(x)`` (taken from the
+        load's :meth:`~pycba.load.Load.get_mbr_results`), and the primary end
+        rotations are
+
+        .. math::
+            θ_{0} = \\Big[\\int_0^L \\frac{m_i(x)\\,M(x)}{EI(x)}\\,dx,\\;
+                          \\int_0^L \\frac{m_j(x)\\,M(x)}{EI(x)}\\,dx\\Big]
+
+        with ``m_i = 1 − x/L`` and ``m_j = −x/L`` (the same unit-moment
+        diagrams used for the element flexibility).  The fixed-end moments
+        follow directly as ``[M_a, M_b] = K_θ θ_0`` in PyCBA's nodal-moment
+        sign convention, and the corresponding end shears are the
+        simply-supported reactions plus the ``(M_a + M_b)/L`` couple.  Moment
+        releases are then imposed by static condensation, mirroring
+        :meth:`get_ref`.
+
+        For a constant ``EI(x)`` this reproduces the prismatic
+        :meth:`pycba.load.Load.get_ref` to machine precision.
+
+        Parameters
+        ----------
+        load : pycba.load.Load
+            The load object.
+        EI : SectionEI
+            The variable-rigidity description of the member.
+        L : float
+            The length of the member.
+        eType : int
+            The element type (1: FF, 2: FP, 3: PF, 4: PP).
+
+        Returns
+        -------
+        np.ndarray, shape (4,)
+            Released end force vector ``[Va, Ma, Vb, Mb]``.
+        """
+        eType = int(np.asarray(eType).item())
+        # Primary (simply-supported) end rotations from flexibility integration.
+        # For ordinary loads the integrand is the flexural curvature M(x)/EI(x);
+        # for an imposed-curvature (initial-strain) load M = 0 and the free
+        # curvature kappa_imp(x) is the primary curvature instead.
+        #
+        # The integral is split at the section breakpoints (segment joins and
+        # pwl kinks) so that any EI discontinuity / kink is honoured exactly;
+        # within each piece a fine Simpson grid captures the (possibly
+        # non-polynomial, e.g. point-load-kinked) moment diagram.  For a single
+        # constant segment this reproduces the prismatic get_ref.
+        bps = EI.breakpoints
+        edges = np.unique(np.concatenate([bps, [0.0, L]]))
+        edges = edges[(edges >= -1e-12) & (edges <= L + 1e-12)]
+        edges[0], edges[-1] = 0.0, L
+        theta0 = np.zeros(2)
+        for a, b in zip(edges[:-1], edges[1:]):
+            if b <= a:
+                continue
+            n = 2001
+            xx = np.linspace(a, b, n)
+            M = load.get_mbr_results(xx, L).M
+            curv = M / EI(xx)
+            if isinstance(load, LoadIC):
+                curv = curv + load.kappa_imp(xx)
+            mi = 1.0 - xx / L
+            mj = -xx / L
+            theta0[0] += integrate.simpson(mi * curv, x=xx)
+            theta0[1] += integrate.simpson(mj * curv, x=xx)
+
+        # Fixed-end moments (PyCBA nodal-moment sign convention)
+        Kth = self.k_theta(EI, L)
+        FEM = Kth @ theta0
+        Ma = FEM[0]
+        Mb = FEM[1]
+
+        # Simply-supported reactions: recover from the load's prismatic CNL by
+        # removing the (prismatic) end-moment couple, leaving pure SS shears.
+        cnl_p = load.get_cnl(L, 1)
+        Va_ss = cnl_p.Va - (cnl_p.Ma + cnl_p.Mb) / L
+        Vb_ss = cnl_p.Vb + (cnl_p.Ma + cnl_p.Mb) / L
+
+        # Fixed-fixed released end forces with the *non-prismatic* moments
+        ref = np.array(
+            [
+                Va_ss + (Ma + Mb) / L,
+                Ma,
+                Vb_ss - (Ma + Mb) / L,
+                Mb,
+            ]
+        )
+
+        if eType == 4:
+            # Pinned-pinned: release both end moments.  Mirror the prismatic
+            # :meth:`pycba.load.Load.get_ref` convention exactly (the vertical
+            # correction is ``(Ma + Mb)/L`` applied to the fixed-fixed CNL),
+            # so the constant-EI limit is reproduced.
+            Va_ff, Vb_ff = ref[0], ref[2]
+            ref[0] = Va_ff + (Ma + Mb) / L
+            ref[1] = 0.0
+            ref[2] = Vb_ff - (Ma + Mb) / L
+            ref[3] = 0.0
+        elif eType in (2, 3):
+            # Single moment release: condense the released rotational DOF so
+            # that its moment is nulled, mirroring the prismatic k_FP / k_PF.
+            r = [3] if eType == 2 else [1]
+            kff = self.k_nonprismatic(EI, L, 1)
+            Krr = kff[np.ix_(r, r)]
+            theta_r = np.linalg.solve(Krr, ref[r])
+            ref = ref - kff[:, r] @ theta_r
         return ref
 
     def get_span_k(self, i_span: int) -> np.ndarray:
@@ -360,6 +492,12 @@ class Beam:
         EI = self.mbr_EIs[i_span]
         L = self.mbr_lengths[i_span]
         eType = self.mbr_eletype[i_span]
+
+        # Non-prismatic (variable-EI) members are handled by flexibility
+        # integration; the scalar/prismatic path below is unchanged.
+        if isinstance(EI, SectionEI):
+            return self.k_nonprismatic(EI, L, eType)
+
         if eType == 2:
             kb = self.k_FP(EI, L)
         elif eType == 3:
@@ -496,3 +634,223 @@ class Beam:
         k = np.zeros((4, 4))
 
         return k
+
+    # ------------------------------------------------------------------
+    #  Non-prismatic (variable-EI) element
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _gauss_nodes(EI: "SectionEI", L: float):
+        """
+        Breakpoint-aware Gauss-Legendre nodes/weights over the span ``[0, L]``.
+
+        The flexibility integrals are evaluated **piece-by-piece between
+        consecutive breakpoints** (segment joins and interior ``pwl`` kinks),
+        rather than by a single global quadrature over a smoothed polynomial.
+        Splitting at the breakpoints makes kinks (haunch -> flat) and steps
+        (a discontinuous ``EI`` at a shared coordinate) exact.
+
+        The per-piece integrand is ``m_a(x) m_b(x) / EI(x)``: an (at most)
+        quadratic numerator over the piece's polynomial rigidity ``EI(x)``.
+        For a **constant** piece this is a pure quadratic polynomial, integrated
+        *exactly* by a 2-point Gauss rule -- so a single ``const`` segment (the
+        prismatic limit) reproduces the closed-form stiffness to machine
+        precision.  For a non-constant piece the integrand is a smooth (analytic,
+        ``EI > 0``) rational function; Gauss-Legendre then converges
+        exponentially, so an order ``>= 2*degree + 8`` (floored at 16) brings
+        every linear / pwl / poly piece to machine precision as well.
+
+        Parameters
+        ----------
+        EI : SectionEI
+            The variable-rigidity description of the member.
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        x, w : np.ndarray
+            The concatenated Gauss nodes and weights mapped onto ``[0, L]``.
+        """
+        xs = []
+        ws = []
+        for p in EI.pieces:
+            a, b = p.x0, p.x1
+            if p.degree == 0:
+                n = 2  # quadratic integrand -> 2-point Gauss is exact
+            else:
+                n = max(2 * p.degree + 8, 16)
+            xi, wi = np.polynomial.legendre.leggauss(n)
+            xs.append(0.5 * (b - a) * (xi + 1.0) + a)
+            ws.append(0.5 * (b - a) * wi)
+        return np.concatenate(xs), np.concatenate(ws)
+
+    @staticmethod
+    def _flexibility(EI: SectionEI, L: float) -> np.ndarray:
+        """
+        Rotational flexibility matrix of the simply-supported released element.
+
+        Using the force (flexibility) method, the released (simply-supported)
+        element is loaded by unit end moments giving the linear moment diagrams
+
+        .. math::
+            m_i(x) = 1 - x/L, \\qquad m_j(x) = -x/L
+
+        (the ``j``-end diagram carries the sign required by PyCBA's
+        counter-clockwise-positive nodal-moment convention, so that the
+        resulting stiffness reproduces :meth:`k_FF` exactly for constant
+        ``EI``) and the 2x2 rotational flexibility about the two end DOFs is
+
+        .. math::
+            F = \\begin{bmatrix}
+                \\int_0^L \\frac{m_i^2}{EI(x)}\\,dx &
+                \\int_0^L \\frac{m_i m_j}{EI(x)}\\,dx \\\\
+                \\int_0^L \\frac{m_i m_j}{EI(x)}\\,dx &
+                \\int_0^L \\frac{m_j^2}{EI(x)}\\,dx
+            \\end{bmatrix}
+
+        The integrals are evaluated by **breakpoint-aware** Gauss-Legendre
+        quadrature (see :meth:`_gauss_nodes`): summed piece-by-piece between
+        consecutive breakpoints, with a Gauss order sufficient for each piece.
+        For a constant ``EI(x)`` (a single ``const`` segment) this reproduces
+        the prismatic flexibility exactly.
+
+        Parameters
+        ----------
+        EI : SectionEI
+            The variable-rigidity description of the member.
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        F : np.ndarray, shape (2, 2)
+            The end-rotation flexibility matrix.
+        """
+        x, w = Beam._gauss_nodes(EI, L)
+
+        EIx = EI(x)
+        mi = 1.0 - x / L
+        mj = -x / L
+
+        F = np.zeros((2, 2))
+        F[0, 0] = np.sum(w * mi * mi / EIx)
+        F[0, 1] = np.sum(w * mi * mj / EIx)
+        F[1, 0] = F[0, 1]
+        F[1, 1] = np.sum(w * mj * mj / EIx)
+        return F
+
+    def k_theta(self, EI: SectionEI, L: float) -> np.ndarray:
+        """
+        2x2 moment-rotation stiffness of the (chord-relative) element ends.
+
+        This is the inverse of the rotational flexibility matrix
+        (see :meth:`_flexibility`), relating the end moments ``[M_i, M_j]`` to
+        the chord-relative end rotations ``[theta_i, theta_j]``.
+
+        Parameters
+        ----------
+        EI : SectionEI
+            The variable-rigidity description of the member.
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        np.ndarray, shape (2, 2)
+            The end moment-rotation stiffness matrix ``K_theta = F^-1``.
+        """
+        return np.linalg.inv(self._flexibility(EI, L))
+
+    def k_nonprismatic(self, EI: SectionEI, L: float, eType: int) -> np.ndarray:
+        """
+        4x4 stiffness matrix of a non-prismatic (variable-EI) element.
+
+        The 2x2 moment-rotation stiffness ``K_theta`` from flexibility
+        integration (see :meth:`k_theta`) is expanded to the full 4-DOF element
+        using the kinematic transformation that removes the rigid-body chord
+        rotation ``psi = (v_j - v_i)/L``:
+
+        .. math::
+            \\begin{bmatrix} \\theta_i \\\\ \\theta_j \\end{bmatrix}
+            = T \\begin{bmatrix} v_i \\\\ \\theta_i \\\\ v_j \\\\ \\theta_j
+            \\end{bmatrix},
+            \\quad
+            T = \\begin{bmatrix}
+                1/L & 1 & -1/L & 0 \\\\
+                1/L & 0 & -1/L & 1
+            \\end{bmatrix}
+
+        so the element stiffness is ``k = T^T K_theta T``.  The end shears
+        emerge automatically as ``(M_i + M_j)/L`` from this transformation,
+        matching PyCBA's DOF order ``[v_i, theta_i, v_j, theta_j]`` and sign
+        convention.
+
+        Moment releases (element types 2, 3, 4) are imposed by static
+        condensation of the released rotational DOF(s), exactly mirroring the
+        prismatic :meth:`k_FP`, :meth:`k_PF`, and :meth:`k_PP`: the released
+        row/column are zeroed and their flexibility is condensed out.
+
+        For a constant ``EI(x)`` this reproduces the closed-form prismatic
+        :meth:`k_FF`, :meth:`k_FP`, :meth:`k_PF`, :meth:`k_PP` to machine
+        precision.
+
+        Parameters
+        ----------
+        EI : SectionEI
+            The variable-rigidity description of the member.
+        L : float
+            The length of the member.
+        eType : int
+            The element type (1: FF, 2: FP, 3: PF, 4: PP).
+
+        Returns
+        -------
+        k : np.ndarray, shape (4, 4)
+            The element stiffness matrix.
+        """
+        Kth = self.k_theta(EI, L)
+        T = np.array(
+            [
+                [1.0 / L, 1.0, -1.0 / L, 0.0],
+                [1.0 / L, 0.0, -1.0 / L, 1.0],
+            ]
+        )
+        k = T.T @ Kth @ T
+
+        # Moment releases: condense out released rotational DOF(s).
+        released = {1: [], 2: [3], 3: [1], 4: [1, 3]}[int(np.asarray(eType).item())]
+        if released:
+            k = self._condense(k, released)
+        return k
+
+    @staticmethod
+    def _condense(k: np.ndarray, released: list) -> np.ndarray:
+        """
+        Statically condense released DOF(s) out of a 4x4 element stiffness.
+
+        The released rows/columns are zeroed (as in the prismatic released
+        matrices) and their stiffness is condensed into the retained DOFs via
+        the Schur complement ``k_kk - k_kr k_rr^-1 k_rk``.
+
+        Parameters
+        ----------
+        k : np.ndarray, shape (4, 4)
+            The fully-fixed element stiffness matrix.
+        released : list of int
+            DOF indices to release (e.g. ``[3]`` for a pin at the ``j`` end).
+
+        Returns
+        -------
+        np.ndarray, shape (4, 4)
+            Condensed stiffness with released rows/columns zeroed.
+        """
+        kept = [i for i in range(4) if i not in released]
+        Kkk = k[np.ix_(kept, kept)]
+        Krr = k[np.ix_(released, released)]
+        Kkr = k[np.ix_(kept, released)]
+        Krk = k[np.ix_(released, kept)]
+        Kcond = Kkk - Kkr @ np.linalg.inv(Krr) @ Krk
+
+        kc = np.zeros((4, 4))
+        kc[np.ix_(kept, kept)] = Kcond
+        return kc

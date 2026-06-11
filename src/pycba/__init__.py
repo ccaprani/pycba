@@ -6,6 +6,7 @@ __version__ = "0.7.0"
 
 from .analysis import BeamAnalysis
 from .beam import Beam
+from .section import SectionEI
 from .load import (
     LoadCNL,
     MemberResults,

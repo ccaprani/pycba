@@ -1,9 +1,8 @@
-API Reference
-=============
+# API Reference
 
-Package Modules
----------------
+## Package Modules
 
+```{eval-rst}
 .. autosummary::
     :toctree: gen
     :template: custom-module-template.rst
@@ -11,6 +10,7 @@ Package Modules
 
     pycba.analysis
     pycba.beam
+    pycba.section
     pycba.load
     pycba.results
     pycba.pattern
@@ -19,4 +19,4 @@ Package Modules
     pycba.vehicle
     pycba.nonlinear
     pycba.utils
-
+```

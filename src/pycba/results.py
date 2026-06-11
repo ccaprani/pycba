@@ -8,8 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
 from .beam import Beam
+from .section import SectionEI
 from .types import MemberResults
-from .load import LoadMaMb, LoadCNL
+from .load import LoadMaMb, LoadCNL, LoadIC
 from copy import deepcopy
 
 
@@ -161,9 +162,12 @@ class BeamResults:
         MaMb = LoadMaMb(i_span=i_span, Ma=f[1], Mb=f[3])
         res = MaMb.get_mbr_results(x, L)
 
-        # Now get the results for all the applied loads on a simple span
+        # Now get the results for all the applied loads on a simple span.  Any
+        # imposed-curvature (initial-strain) load contributes a free curvature
+        # kappa_imp(x) which is accumulated here for the moment-area integration.
         Ma = 0
         Mb = 0
+        kappa_imp = np.zeros_like(x)
         for load in beam._loads:
             if load.i_span != i_span:
                 continue
@@ -171,20 +175,40 @@ class BeamResults:
             cnl = load.get_cnl(L, etype)
             Ma += cnl.Ma
             Mb += cnl.Mb
+            if isinstance(load, LoadIC):
+                kappa_imp += load.kappa_imp(x)
 
-        # If no releases, the rotation at i is easy
+        # Total curvature along the member: flexural M(x)/EI(x) plus any free
+        # (imposed) curvature.  EI(x) is evaluated point-wise for non-prismatic
+        # members and is constant for the prismatic path.
+        if isinstance(EI, SectionEI):
+            curv = res.M / EI(x)
+        else:
+            curv = res.M / EI
+        curv = curv + kappa_imp
+
+        # If no releases, the rotation at i is the nodal DOF.
         R0 = d[1]
 
-        # Otherwise, check account for releases
-        if etype > 1:
+        # Otherwise, account for the release.  When no imposed curvature is
+        # present the prismatic closed-form rotation correction is retained
+        # (identical to previous behaviour); otherwise -- and for non-prismatic
+        # members -- R0 is recovered from the kinematic boundary condition
+        # D(L) = d[2], which is valid for any EI(x) and curvature field.
+        h = L / self.npts
+        use_bc = isinstance(EI, SectionEI) or np.any(kappa_imp != 0.0)
+        if etype > 1 and not use_bc:
             theta = (d[2] - d[0]) / L
             phi = (L / (3 * EI)) * (-(f[1] - 0.5 * f[3]) + (Ma - 0.5 * Mb))
             R0 = theta - phi
 
-        # And superimpose end displacements using Moment-Area
-        h = L / self.npts
-
-        R = integrate.cumulative_trapezoid(res.M[1:-1], dx=h, initial=0) / EI + R0
+        if etype > 1 and use_bc:
+            R_prov = integrate.cumulative_trapezoid(curv[1:-1], dx=h, initial=0)
+            D_prov = integrate.cumulative_trapezoid(R_prov, dx=h, initial=0)
+            R0 = (d[2] - d[0] - D_prov[-1]) / L
+            R = R_prov + R0
+        else:
+            R = integrate.cumulative_trapezoid(curv[1:-1], dx=h, initial=0) + R0
         D = integrate.cumulative_trapezoid(R, dx=h, initial=0) + d[0]
 
         res.R[1:-1] = R
