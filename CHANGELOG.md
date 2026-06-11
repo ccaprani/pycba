@@ -1,10 +1,16 @@
 # Changelog
 
-## Unreleased
+## 0.8.0 — 2026-06-11
 
 ### Features
+- **Nonlinear (elasto-plastic) beam analysis** (#140): `NonlinearBeamAnalysis`, an incremental analysis using the Generalized Clough concentrated-plasticity model. Tracks plastic-hinge formation and moment redistribution to collapse for both proportional static loading and moving vehicle loads, with rank-test mechanism detection. Prismatic members only — a non-prismatic (`SectionEI`) member raises a clear `TypeError`.
+- **Non-prismatic (variable-EI) elements** (#139): `SectionEI`, a member whose flexural rigidity varies along its length, built from `const` / `linear` / `pwl` / `poly` segments and analysed exactly by piece-by-piece flexibility integration. Scalar and `SectionEI` members can be mixed in one beam.
+- **Imposed-curvature (initial-strain) loads** (#139): load type 6 / `BeamAnalysis.add_ic`, a free curvature field for modelling creep, shrinkage and thermal effects.
 - Add coincident load effects to `Envelopes` (#122). New attributes `Vco_Mmax`, `Vco_Mmin`, `Mco_Vmax`, `Mco_Vmin` track the co-existing value of the other effect (V or M) at the truck position that caused each envelope extreme. `critical_values()` output now includes `"Vco"` and `"Mco"` keys. Coincident values are preserved through `augment()` and `zero_like()`.
 - Add trapezoidal (linearly varying) distributed load type (#101). Load type 5 supports both full-span `[span, 5, w1, w2]` and partial coverage `[span, 5, w1, w2, a, c]` where w1/w2 are intensities at positions a and a+c respectively. Also adds `BeamAnalysis.add_trap()` convenience method with optional `a` and `c` parameters.
 - Add `pos_start` and `pos_end` parameters to `BridgeAnalysis.run_vehicle()` to restrict the vehicle traverse range (#53). Useful for transverse deck analyses where the vehicle is confined to specific lanes.
 - Add `Envelopes.sum()` method for element-wise addition of compatible envelopes (#92). This enables superimposing load effects from different sources, e.g. a patterned UDL envelope with a moving vehicle envelope.
 - Fix `InfluenceLines.get_il()` raising `IndexError` when the point of interest does not fall exactly on the result grid (#89). This occurred with longer spans where the default 100-point discretization produced a grid spacing that could not match arbitrary poi values. The fix uses per-member result lookup, avoiding both the overly tight floating-point tolerance and the zero-valued padding indices at span boundaries.
+
+### Documentation
+- Migrated the documentation to Markdown (MyST); reorganised and expanded the Theoretical Basis page (elements, loads, nonlinear analysis); added tutorials for non-prismatic elements and imposed curvature (#139, #140).
