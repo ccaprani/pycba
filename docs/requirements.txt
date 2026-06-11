@@ -5,6 +5,7 @@ setuptools
 scipy
 pydata-sphinx-theme
 Sphinx>=4.0
+myst-parser
 nbsphinx
 sphinx-autodoc-typehints
 pandoc

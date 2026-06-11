@@ -1,9 +1,8 @@
-API Reference
-=============
+# API Reference
 
-Package Modules
----------------
+## Package Modules
 
+```{eval-rst}
 .. autosummary::
     :toctree: gen
     :template: custom-module-template.rst
@@ -19,4 +18,4 @@ Package Modules
     pycba.bridge
     pycba.vehicle
     pycba.utils
-
+```
