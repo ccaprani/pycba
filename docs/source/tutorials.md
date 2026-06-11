@@ -10,4 +10,5 @@ notebooks/envelopes
 notebooks/inf_lines
 notebooks/bridge
 notebooks/nonprismatic
+notebooks/imposed_curvature
 ```
