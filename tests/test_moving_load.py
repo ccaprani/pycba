@@ -77,6 +77,6 @@ def test_moving_load_hinge_sequence():
     if result.collapsed:
         for h in result.hinge_events:
             if h.event_type == "plastic_hinge":
-                assert 0 <= h.location <= sum([L_SPAN, L_SPAN]), (
-                    f"Hinge at x={h.location:.1f} is outside the bridge"
-                )
+                assert (
+                    0 <= h.location <= sum([L_SPAN, L_SPAN])
+                ), f"Hinge at x={h.location:.1f} is outside the bridge"

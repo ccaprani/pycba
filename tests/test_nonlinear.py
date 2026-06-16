@@ -38,6 +38,7 @@ BEAM_KWARGS = dict(
 
 # ---- Helpers ----
 
+
 def hinge_locations(result):
     """Return sorted x-coordinates of plastic hinges."""
     return sorted(
@@ -65,6 +66,7 @@ def moments_at_hinges(result):
 #   External work = lambda*P*(L/2)*theta
 #   lambda = 3*Mp / (P*L/2)
 
+
 def test_point_load_midspan():
     """Point load P=100 kN at midspan of span 1.
 
@@ -81,7 +83,9 @@ def test_point_load_midspan():
 
     # 2. Load factor within 1% of closed-form
     error_pct = abs(result.collapse_lambda - lambda_theory) / lambda_theory * 100
-    assert error_pct < 1.0, f"error {error_pct:.2f}% exceeds 1% (got {result.collapse_lambda:.4f}, expected {lambda_theory:.4f})"
+    assert (
+        error_pct < 1.0
+    ), f"error {error_pct:.2f}% exceeds 1% (got {result.collapse_lambda:.4f}, expected {lambda_theory:.4f})"
 
     # 3. Hinges at midspan (x=6) and interior support (x=12)
     locs = hinge_locations(result)
@@ -90,7 +94,9 @@ def test_point_load_midspan():
 
     # 4. Moments at hinge locations ~ Mp
     for m in moments_at_hinges(result):
-        assert m == pytest.approx(MP, rel=0.02), f"|M| = {m:.1f} at hinge, expected ~ {MP}"
+        assert m == pytest.approx(
+            MP, rel=0.02
+        ), f"|M| = {m:.1f} at hinge, expected ~ {MP}"
 
 
 # ---- Test 2: UDL on one span ----
@@ -115,6 +121,7 @@ def test_point_load_midspan():
 #   which nearby node the hinge snaps to.  This is inherent to the method
 #   and convergence is not monotonic with mesh refinement.
 
+
 def test_udl_one_span():
     """UDL w=20 kN/m on span 1 only.
 
@@ -131,7 +138,9 @@ def test_udl_one_span():
     assert result.collapsed
 
     error_pct = abs(result.collapse_lambda - lambda_theory) / lambda_theory * 100
-    assert error_pct < 3.0, f"error {error_pct:.2f}% exceeds 3% (got {result.collapse_lambda:.4f}, expected {lambda_theory:.4f})"
+    assert (
+        error_pct < 3.0
+    ), f"error {error_pct:.2f}% exceeds 3% (got {result.collapse_lambda:.4f}, expected {lambda_theory:.4f})"
 
     # Support hinge at x=12
     locs = hinge_locations(result)
@@ -163,6 +172,7 @@ def test_udl_one_span():
 #   lambda = 5*432/1000 = 2.16
 #
 # Mechanism (a) governs: lambda = 1.571
+
 
 def test_two_point_loads():
     """Two point loads: P1=100 kN at x=4 m, P2=75 kN at x=8 m.
@@ -197,6 +207,7 @@ def test_two_point_loads():
 # For point loads coinciding with mesh nodes, the only error source is the
 # incremental load stepping.  Verify that all mesh sizes produce small error.
 
+
 def test_mesh_sizes_point_load():
     """Point load at midspan: all mesh sizes should give < 0.5% error
     (the load point always falls on a node for these mesh sizes).
@@ -213,6 +224,7 @@ def test_mesh_sizes_point_load():
 
 
 # ---- Test 5: Elastic regime — no collapse below yield ----
+
 
 def test_no_collapse_below_yield():
     """At a load factor well below first yield, no hinges should form."""
@@ -245,6 +257,7 @@ def test_no_collapse_below_yield():
 #   lambda_centre = 3.456
 # Outer span governs.
 
+
 def test_three_span_symmetric_udl():
     """Three equal 10 m spans, UDL on all spans.
 
@@ -257,7 +270,7 @@ def test_three_span_symmetric_udl():
     # Outer-span mechanism governs
     a_opt = L_s * (np.sqrt(2) - 1)
     lambda_outer = 2 * MP * (L_s + a_opt) / (w * a_opt * L_s * (L_s - a_opt))
-    lambda_centre = 16 * MP / (w * L_s ** 2)
+    lambda_centre = 16 * MP / (w * L_s**2)
     assert lambda_outer < lambda_centre  # confirm outer governs
 
     nba = NonlinearBeamAnalysis(
@@ -274,13 +287,15 @@ def test_three_span_symmetric_udl():
     assert result.collapsed
 
     error_pct = abs(result.collapse_lambda - lambda_outer) / lambda_outer * 100
-    assert error_pct < 5.0, f"error {error_pct:.2f}% (got {result.collapse_lambda:.4f}, expected {lambda_outer:.4f})"
+    assert (
+        error_pct < 5.0
+    ), f"error {error_pct:.2f}% (got {result.collapse_lambda:.4f}, expected {lambda_outer:.4f})"
 
     # At least one hinge near an interior support
     locs = hinge_locations(result)
-    assert any(abs(x - 10.0) <= 1.5 or abs(x - 20.0) <= 1.5 for x in locs), (
-        f"No hinge near interior supports: {locs}"
-    )
+    assert any(
+        abs(x - 10.0) <= 1.5 or abs(x - 20.0) <= 1.5 for x in locs
+    ), f"No hinge near interior supports: {locs}"
 
 
 def test_rejects_nonprismatic_member():
