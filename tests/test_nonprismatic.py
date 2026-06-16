@@ -104,7 +104,9 @@ def test_prismatic_limit_stiffness(eType):
         2: beam.k_FP,
         3: beam.k_PF,
         4: beam.k_PP,
-    }[eType](EI_REF, L_REF)
+    }[
+        eType
+    ](EI_REF, L_REF)
     # Machine-precision gate: a single const segment is integrated exactly.
     assert np.allclose(k_np, k_prism, rtol=1e-12, atol=1e-6)
 
@@ -221,8 +223,8 @@ def test_builder_poly_callable():
         "poly", [0.0, 4.0], lambda x: 1.0e5 * (1.0 + 0.1 * x) ** 3, degree=6
     )
     assert sec(0.0) == pytest.approx(1.0e5, rel=1e-9)
-    assert sec(4.0) == pytest.approx(1.0e5 * 1.4 ** 3, rel=1e-9)
-    assert sec(2.0) == pytest.approx(1.0e5 * 1.2 ** 3, rel=1e-9)
+    assert sec(4.0) == pytest.approx(1.0e5 * 1.4**3, rel=1e-9)
+    assert sec(2.0) == pytest.approx(1.0e5 * 1.2**3, rel=1e-9)
 
 
 def test_builder_validation():

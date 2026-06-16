@@ -204,8 +204,10 @@ class SectionEI:
         # Contiguity: first segment must start at 0; later ones at the running end.
         anchor = 0.0 if not self._pieces else self._end
         if not np.isclose(x0, anchor, rtol=0.0, atol=1e-9 * max(1.0, abs(anchor))):
-            kind = "first segment must start at x = 0" if not self._pieces else (
-                f"segment must start at the running end x = {anchor}"
+            kind = (
+                "first segment must start at x = 0"
+                if not self._pieces
+                else (f"segment must start at the running end x = {anchor}")
             )
             raise ValueError(
                 f"Non-contiguous segment: {kind}, got x[0] = {x0} "
@@ -386,7 +388,10 @@ class SectionEI:
                 assigned |= mask
         # Anything outside the covered range: clamp to the nearest end piece.
         if not np.all(assigned):
-            for p, sel in ((self._pieces[0], xv < self._x0), (self._pieces[-1], xv > self._end)):
+            for p, sel in (
+                (self._pieces[0], xv < self._x0),
+                (self._pieces[-1], xv > self._end),
+            ):
                 m = (~assigned) & sel
                 if np.any(m):
                     out[m] = p(xv[m])
@@ -499,9 +504,7 @@ class SectionEI:
                 and np.isclose(p.x0, prev_x1, atol=1e-9 * max(1.0, self.length))
                 and not np.isclose(float(ys[0]), float(prev_y1), rtol=1e-9, atol=0.0)
             ):
-                ax.plot(
-                    [p.x0, p.x0], [prev_y1, ys[0]], "k--", lw=0.8, alpha=0.6
-                )
+                ax.plot([p.x0, p.x0], [prev_y1, ys[0]], "k--", lw=0.8, alpha=0.6)
             prev_x1, prev_y1 = p.x1, float(ys[-1])
 
         if show_breakpoints:
@@ -519,7 +522,5 @@ class SectionEI:
         return fig, ax
 
     def __repr__(self) -> str:
-        segs = ", ".join(
-            f"[{p.x0:g},{p.x1:g}] deg{p.degree}" for p in self._pieces
-        )
+        segs = ", ".join(f"[{p.x0:g},{p.x1:g}] deg{p.degree}" for p in self._pieces)
         return f"SectionEI({len(self._pieces)} pieces: {segs})"

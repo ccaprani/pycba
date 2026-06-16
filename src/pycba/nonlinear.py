@@ -46,6 +46,7 @@ from .section import SectionEI
 #  Data classes
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class HingeEvent:
     """Record of a yield or plastic-hinge formation event.
@@ -135,7 +136,11 @@ class NonlinearResult:
         for mom in self.moment_history:
             ax.plot(self.node_coords, mom, "r", lw=0.5, alpha=0.3)
 
-        label = f"Collapse (\u03bb={self.collapse_lambda:.2f})" if self.collapsed else "Final"
+        label = (
+            f"Collapse (\u03bb={self.collapse_lambda:.2f})"
+            if self.collapsed
+            else "Final"
+        )
         ax.plot(self.node_coords, self.final_moments, "r", lw=2, label=label)
 
         if Mp is not None:
@@ -159,9 +164,16 @@ class NonlinearResult:
             support_size = abs(ylim[1] - ylim[0]) * 0.04 or 0.1
         for xs in self.support_coords:
             tri = plt.Polygon(
-                [[xs, y], [xs - support_size * 0.6, y - support_size],
-                 [xs + support_size * 0.6, y - support_size]],
-                closed=True, fc="white", ec="black", lw=1.2, zorder=3,
+                [
+                    [xs, y],
+                    [xs - support_size * 0.6, y - support_size],
+                    [xs + support_size * 0.6, y - support_size],
+                ],
+                closed=True,
+                fc="white",
+                ec="black",
+                lw=1.2,
+                zorder=3,
             )
             ax.add_patch(tri)
 
@@ -203,8 +215,9 @@ class NonlinearResult:
             if events:
                 xs = [e.location for e in events]
                 ys = [e.load_factor for e in events]
-                ax.scatter(xs, ys, marker=marker, color=color,
-                           s=50, zorder=4, label=label)
+                ax.scatter(
+                    xs, ys, marker=marker, color=color, s=50, zorder=4, label=label
+                )
 
         if not moving:
             ax.plot([0, L], [1.0, 1.0], "k-", lw=2, zorder=2)
@@ -255,8 +268,15 @@ class NonlinearResult:
             events = [h for h in self.hinge_events if h.event_type == etype]
             if events:
                 xs = [h.location for h in events]
-                ax.scatter(xs, [beam_y + yoff] * len(xs), marker=marker,
-                           color=color, s=sz, zorder=5, label=label)
+                ax.scatter(
+                    xs,
+                    [beam_y + yoff] * len(xs),
+                    marker=marker,
+                    color=color,
+                    s=sz,
+                    zorder=5,
+                    label=label,
+                )
 
         # Vehicle axles at collapse position
         if vehicle is not None:
@@ -264,11 +284,23 @@ class NonlinearResult:
             for i, (w, ac) in enumerate(zip(vehicle.axw, vehicle.axle_coords)):
                 x = front - ac
                 if 0 <= x <= L:
-                    ax.annotate("", xy=(x, beam_y), xytext=(x, beam_y + 1.0),
-                                arrowprops=dict(arrowstyle="->,head_width=0.3",
-                                                color="C2", lw=2))
-                    ax.text(x, beam_y + 1.1, f"{w:.0f}", ha="center",
-                            va="bottom", fontsize=8, color="C2")
+                    ax.annotate(
+                        "",
+                        xy=(x, beam_y),
+                        xytext=(x, beam_y + 1.0),
+                        arrowprops=dict(
+                            arrowstyle="->,head_width=0.3", color="C2", lw=2
+                        ),
+                    )
+                    ax.text(
+                        x,
+                        beam_y + 1.1,
+                        f"{w:.0f}",
+                        ha="center",
+                        va="bottom",
+                        fontsize=8,
+                        color="C2",
+                    )
 
             status = "collapse" if self.collapsed else "final"
             ax.set_title(f"Vehicle at {status}: front axle x = {front:.1f} m")
@@ -287,45 +319,53 @@ class NonlinearResult:
 #  Element stiffness matrices (4×4)
 # ---------------------------------------------------------------------------
 
+
 def _k_FF(EI: float, L: float) -> np.ndarray:
     """Fixed-fixed 4-DOF beam element stiffness matrix (*k_e* in Clough notation)."""
     L2, L3 = L * L, L * L * L
     c = EI / L3
-    return c * np.array([
-        [12, 6*L, -12, 6*L],
-        [6*L, 4*L2, -6*L, 2*L2],
-        [-12, -6*L, 12, -6*L],
-        [6*L, 2*L2, -6*L, 4*L2],
-    ])
+    return c * np.array(
+        [
+            [12, 6 * L, -12, 6 * L],
+            [6 * L, 4 * L2, -6 * L, 2 * L2],
+            [-12, -6 * L, 12, -6 * L],
+            [6 * L, 2 * L2, -6 * L, 4 * L2],
+        ]
+    )
 
 
 def _k_PF(EI: float, L: float) -> np.ndarray:
     """Pinned-fixed element stiffness, hinge at left end (*k_1* in Clough notation)."""
     L2, L3 = L * L, L * L * L
     c = EI / L3
-    return c * np.array([
-        [3, 0, -3, 3*L],
-        [0, 0, 0, 0],
-        [-3, 0, 3, -3*L],
-        [3*L, 0, -3*L, 3*L2],
-    ])
+    return c * np.array(
+        [
+            [3, 0, -3, 3 * L],
+            [0, 0, 0, 0],
+            [-3, 0, 3, -3 * L],
+            [3 * L, 0, -3 * L, 3 * L2],
+        ]
+    )
 
 
 def _k_FP(EI: float, L: float) -> np.ndarray:
     """Fixed-pinned element stiffness, hinge at right end (*k_2* in Clough notation)."""
     L2, L3 = L * L, L * L * L
     c = EI / L3
-    return c * np.array([
-        [3, 3*L, -3, 0],
-        [3*L, 3*L2, -3*L, 0],
-        [-3, -3*L, 3, 0],
-        [0, 0, 0, 0],
-    ])
+    return c * np.array(
+        [
+            [3, 3 * L, -3, 0],
+            [3 * L, 3 * L2, -3 * L, 0],
+            [-3, -3 * L, 3, 0],
+            [0, 0, 0, 0],
+        ]
+    )
 
 
 # ---------------------------------------------------------------------------
 #  Mesh generation
 # ---------------------------------------------------------------------------
+
 
 def _build_mesh(span_L, span_R, mesh_size):
     """Generate an internal finite-element mesh for the continuous beam.
@@ -388,6 +428,7 @@ def _build_mesh(span_L, span_R, mesh_size):
 # ---------------------------------------------------------------------------
 #  Main analysis class
 # ---------------------------------------------------------------------------
+
 
 class NonlinearBeamAnalysis:
     """Nonlinear continuous beam analysis using the Generalized Clough model.
@@ -469,14 +510,18 @@ class NonlinearBeamAnalysis:
                 "nonlinear analysis."
             )
 
-        _as = lambda v, n: np.full(n, float(v)) if isinstance(v, (int, float)) else np.atleast_1d(np.asarray(v, dtype=float))
+        _as = (
+            lambda v, n: np.full(n, float(v))
+            if isinstance(v, (int, float))
+            else np.atleast_1d(np.asarray(v, dtype=float))
+        )
         self.span_EI = _as(EI, self.n_spans)
         self.span_Mp = _as(Mp, self.n_spans)
         self.span_My = (self.span_Mp / 1.15) if My is None else _as(My, self.n_spans)
 
         # Build mesh
-        self.node_coords, self.elem_L, self.bc_dofs, self.node_to_span = (
-            _build_mesh(self.span_L, self.span_R, mesh_size)
+        self.node_coords, self.elem_L, self.bc_dofs, self.node_to_span = _build_mesh(
+            self.span_L, self.span_R, mesh_size
         )
         self.n_nodes = len(self.node_coords)
         self.n_elem = len(self.elem_L)
@@ -484,15 +529,21 @@ class NonlinearBeamAnalysis:
         self.support_coords = np.concatenate(([0.0], np.cumsum(self.span_L)))
 
         # Per-element / per-node properties
-        self.elem_EI = self.span_EI[self.node_to_span[:self.n_elem]]
+        self.elem_EI = self.span_EI[self.node_to_span[: self.n_elem]]
         self.node_Mp = self.span_Mp[self.node_to_span]
         self.node_My = self.span_My[self.node_to_span]
         self.node_gamma_y = self.node_My / self.node_Mp
 
         # ---- Precompute element stiffness matrices (n_elem, 4, 4) ----
-        self._ke_all = np.array([_k_FF(self.elem_EI[i], self.elem_L[i]) for i in range(self.n_elem)])
-        self._k1_all = np.array([_k_PF(self.elem_EI[i], self.elem_L[i]) for i in range(self.n_elem)])
-        self._k2_all = np.array([_k_FP(self.elem_EI[i], self.elem_L[i]) for i in range(self.n_elem)])
+        self._ke_all = np.array(
+            [_k_FF(self.elem_EI[i], self.elem_L[i]) for i in range(self.n_elem)]
+        )
+        self._k1_all = np.array(
+            [_k_PF(self.elem_EI[i], self.elem_L[i]) for i in range(self.n_elem)]
+        )
+        self._k2_all = np.array(
+            [_k_FP(self.elem_EI[i], self.elem_L[i]) for i in range(self.n_elem)]
+        )
 
         # Precompute elastic global K with BCs applied (for unloading)
         self._K_elastic_bc = self._apply_bc_inplace(self._assemble_elastic())
@@ -507,7 +558,7 @@ class NonlinearBeamAnalysis:
         K = np.zeros((self.n_dof, self.n_dof))
         for i in range(self.n_elem):
             d = 2 * i
-            K[d:d+4, d:d+4] += self._ke_all[i]
+            K[d : d + 4, d : d + 4] += self._ke_all[i]
         return K
 
     def _assemble_from_elem_R(self, R_elem: np.ndarray) -> np.ndarray:
@@ -525,7 +576,7 @@ class NonlinearBeamAnalysis:
             else:
                 k = R1 * self._ke_all[i] + (R2 - R1) * self._k1_all[i]
             d = 2 * i
-            K[d:d+4, d:d+4] += k
+            K[d : d + 4, d : d + 4] += k
         return K
 
     def _apply_bc_inplace(self, K: np.ndarray) -> np.ndarray:
@@ -563,11 +614,14 @@ class NonlinearBeamAnalysis:
             if lt == 1:  # UDL
                 xs, xe = span_starts[i_span], span_starts[i_span + 1]
                 for ie in range(self.n_elem):
-                    if self.node_coords[ie+1] <= xs + 1e-10 or self.node_coords[ie] >= xe - 1e-10:
+                    if (
+                        self.node_coords[ie + 1] <= xs + 1e-10
+                        or self.node_coords[ie] >= xe - 1e-10
+                    ):
                         continue
                     h = self.elem_L[ie]
-                    F[2*ie] -= val * h / 2
-                    F[2*(ie+1)] -= val * h / 2
+                    F[2 * ie] -= val * h / 2
+                    F[2 * (ie + 1)] -= val * h / 2
             elif lt == 2:  # Point load
                 self._add_point_load(F, val, span_starts[i_span] + float(ld[3]))
         return F
@@ -589,10 +643,10 @@ class NonlinearBeamAnalysis:
             h = self.node_coords[nR] - self.node_coords[nL]
             a = x - self.node_coords[nL]
             b = h - a
-            F[2*nL] -= P * b**2 * (3*a + b) / h**3
-            F[2*nL+1] -= P * a * b**2 / h**2
-            F[2*nR] -= P * a**2 * (a + 3*b) / h**3
-            F[2*nR+1] += P * a**2 * b / h**2
+            F[2 * nL] -= P * b**2 * (3 * a + b) / h**3
+            F[2 * nL + 1] -= P * a * b**2 / h**2
+            F[2 * nR] -= P * a**2 * (a + 3 * b) / h**3
+            F[2 * nR + 1] += P * a**2 * b / h**2
 
     def _point_load_vector(self, P: float, x: float) -> np.ndarray:
         """Return a new force vector for a single point load *P* at *x*."""
@@ -615,10 +669,10 @@ class NonlinearBeamAnalysis:
                 k = R2 * self._ke_all[i] + (R1 - R2) * self._k2_all[i]
             else:
                 k = R1 * self._ke_all[i] + (R2 - R1) * self._k1_all[i]
-            fe = k @ u[d:d+4]
+            fe = k @ u[d : d + 4]
             if i == 0:
                 moments[0] = fe[1]
-            moments[i+1] = fe[3]
+            moments[i + 1] = fe[3]
         return moments
 
     def _extract_moments_elastic(self, u: np.ndarray) -> np.ndarray:
@@ -626,15 +680,17 @@ class NonlinearBeamAnalysis:
         moments = np.zeros(self.n_nodes)
         for i in range(self.n_elem):
             d = 2 * i
-            fe = self._ke_all[i] @ u[d:d+4]
+            fe = self._ke_all[i] @ u[d : d + 4]
             if i == 0:
                 moments[0] = fe[1]
-            moments[i+1] = fe[3]
+            moments[i + 1] = fe[3]
         return moments
 
     # ---- R update (vectorized) ----
 
-    def _update_R(self, moments, gamma_max, R_elem, yielded, hinged, hinge_events, pos_label):
+    def _update_R(
+        self, moments, gamma_max, R_elem, yielded, hinged, hinge_events, pos_label
+    ):
         """Update element-end *R* parameters from current bending moments.
 
         The normalised moment ratio gamma = |M| / M_p controls stiffness
@@ -665,10 +721,14 @@ class NonlinearBeamAnalysis:
 
             if gamma[j] >= self.node_gamma_y[j] and j not in yielded:
                 yielded.add(j)
-                hinge_events.append(HingeEvent(pos_label, self.node_coords[j], j, "initial_yield"))
+                hinge_events.append(
+                    HingeEvent(pos_label, self.node_coords[j], j, "initial_yield")
+                )
             if gamma[j] >= 1.0 and j not in hinged:
                 hinged.add(j)
-                hinge_events.append(HingeEvent(pos_label, self.node_coords[j], j, "plastic_hinge"))
+                hinge_events.append(
+                    HingeEvent(pos_label, self.node_coords[j], j, "plastic_hinge")
+                )
                 new_hinge = True
         return new_hinge
 
@@ -692,7 +752,7 @@ class NonlinearBeamAnalysis:
                 clusters[-1].append(n)
             else:
                 clusters.append([n])
-        return [c[len(c)//2] for c in clusters]
+        return [c[len(c) // 2] for c in clusters]
 
     def _is_mechanism(self, hinged_nodes):
         """Test whether the current hinge pattern forms a collapse mechanism.
@@ -707,7 +767,7 @@ class NonlinearBeamAnalysis:
         R_test = np.ones((self.n_elem, 2))
         for j in reps:
             if j > 0:
-                R_test[j-1, 1] = 0.0
+                R_test[j - 1, 1] = 0.0
             if j < self.n_elem:
                 R_test[j, 0] = 0.0
         K_test = self._assemble_from_elem_R(R_test)
@@ -764,23 +824,57 @@ class NonlinearBeamAnalysis:
             try:
                 u = np.linalg.solve(K_bc, F_bc)
             except np.linalg.LinAlgError:
-                return NonlinearResult(lam - dl, True, hinge_events, self.node_coords, moments, R_elem.copy(), self.support_coords, lam_hist, mom_hist)
+                return NonlinearResult(
+                    lam - dl,
+                    True,
+                    hinge_events,
+                    self.node_coords,
+                    moments,
+                    R_elem.copy(),
+                    self.support_coords,
+                    lam_hist,
+                    mom_hist,
+                )
 
             moments += self._extract_moments(u, R_elem)
-            new_h = self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, lam)
+            new_h = self._update_R(
+                moments, gamma_max, R_elem, yielded, hinged, hinge_events, lam
+            )
 
             if new_h and self._is_mechanism(hinged):
-                return NonlinearResult(lam, True, hinge_events, self.node_coords, moments, R_elem.copy(), self.support_coords, lam_hist, mom_hist)
+                return NonlinearResult(
+                    lam,
+                    True,
+                    hinge_events,
+                    self.node_coords,
+                    moments,
+                    R_elem.copy(),
+                    self.support_coords,
+                    lam_hist,
+                    mom_hist,
+                )
 
             if record_every > 0 and step % record_every == 0:
                 lam_hist.append(lam)
                 mom_hist.append(moments.copy())
 
-        return NonlinearResult(lam, False, hinge_events, self.node_coords, moments, R_elem.copy(), self.support_coords, lam_hist, mom_hist)
+        return NonlinearResult(
+            lam,
+            False,
+            hinge_events,
+            self.node_coords,
+            moments,
+            R_elem.copy(),
+            self.support_coords,
+            lam_hist,
+            mom_hist,
+        )
 
     # ---- Vehicle force vector ----
 
-    def _vehicle_force_vector(self, axle_weights, axle_coords, pos: float) -> np.ndarray:
+    def _vehicle_force_vector(
+        self, axle_weights, axle_coords, pos: float
+    ) -> np.ndarray:
         """
         Build force vector for a multi-axle vehicle at position *pos*.
 
@@ -870,13 +964,29 @@ class NonlinearBeamAnalysis:
 
             if i_pos == 0:
                 for _ in range(n_sub):
-                    self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_front)
+                    self._update_R(
+                        moments,
+                        gamma_max,
+                        R_elem,
+                        yielded,
+                        hinged,
+                        hinge_events,
+                        x_front,
+                    )
                     K = self._assemble_from_elem_R(R_elem)
                     K_bc, F_bc = self._apply_bc(K, d_frac * F_cur)
                     try:
                         u = np.linalg.solve(K_bc, F_bc)
                     except np.linalg.LinAlgError:
-                        return self._mr(x_front, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
+                        return self._mr(
+                            x_front,
+                            True,
+                            hinge_events,
+                            moments,
+                            R_elem,
+                            lam_hist,
+                            mom_hist,
+                        )
                     moments += self._extract_moments(u, R_elem)
             else:
                 for _ in range(n_sub):
@@ -887,27 +997,51 @@ class NonlinearBeamAnalysis:
                     u_ul = np.linalg.solve(K_el_bc, F_ul)
                     moments += self._extract_moments_elastic(u_ul)
 
-                    self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_front)
+                    self._update_R(
+                        moments,
+                        gamma_max,
+                        R_elem,
+                        yielded,
+                        hinged,
+                        hinge_events,
+                        x_front,
+                    )
 
                     K = self._assemble_from_elem_R(R_elem)
                     K_bc, F_bc = self._apply_bc(K, d_frac * F_cur)
                     try:
                         u = np.linalg.solve(K_bc, F_bc)
                     except np.linalg.LinAlgError:
-                        return self._mr(x_front, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
+                        return self._mr(
+                            x_front,
+                            True,
+                            hinge_events,
+                            moments,
+                            R_elem,
+                            lam_hist,
+                            mom_hist,
+                        )
                     moments += self._extract_moments(u, R_elem)
 
-                nh = self._update_R(moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_front)
+                nh = self._update_R(
+                    moments, gamma_max, R_elem, yielded, hinged, hinge_events, x_front
+                )
                 if nh and self._is_mechanism(hinged):
-                    return self._mr(x_front, True, hinge_events, moments, R_elem, lam_hist, mom_hist)
+                    return self._mr(
+                        x_front, True, hinge_events, moments, R_elem, lam_hist, mom_hist
+                    )
 
             F_prev = F_cur
             if record_every > 0 and i_pos % record_every == 0:
                 lam_hist.append(x_front)
                 mom_hist.append(moments.copy())
 
-        return self._mr(positions[-1], False, hinge_events, moments, R_elem, lam_hist, mom_hist)
+        return self._mr(
+            positions[-1], False, hinge_events, moments, R_elem, lam_hist, mom_hist
+        )
 
     def _mr(self, x, coll, he, mom, R, lh, mh):
         """Package analysis state into a :class:`NonlinearResult`."""
-        return NonlinearResult(x, coll, he, self.node_coords, mom, R.copy(), self.support_coords, lh, mh)
+        return NonlinearResult(
+            x, coll, he, self.node_coords, mom, R.copy(), self.support_coords, lh, mh
+        )
