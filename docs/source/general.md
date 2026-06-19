@@ -111,13 +111,17 @@ Each entry is a single load descriptor whose length depends on the load type:
 ## Load Cases and Response Combinations
 
 For independent analyses and arbitrary additive combinations, add named cases
-to a `LoadCases` collection and supply either a factor vector or a mapping from
-names to factors. This is the natural place to translate design-code action
-categories and combination equations into analysis input: for example, a code
-may define permanent (`G`) and variable (`Q`) actions with partial factors,
-combination factors, and arrangement rules. PyCBA does not implement a design
-code directly; it provides the load-case, factor and patterning machinery for
-applying the code you choose.
+to a `LoadCases` collection. A `LoadCase` is one arrangement of loads that can
+be analysed directly. A `LoadCombination` is a weighted superposition of those
+cases. Envelopes are then formed from the extrema of analysed cases or
+combinations.
+
+This is the natural place to translate design-code action categories and
+combination equations into analysis input: for example, a code may define
+permanent (`G`) and variable (`Q`) actions with partial factors, combination
+factors, and arrangement rules. PyCBA does not implement a design code directly;
+it provides the load-case, factor and patterning machinery for applying the code
+you choose.
 
 A load case can be built from a raw load matrix, or by using higher-level load
 helpers:
@@ -128,8 +132,18 @@ load_cases = cba.LoadCases(beam)
 load_cases.add_case("G").add_udl(1, 5.0).add_udl(2, 5.0)
 load_cases.add_udl("Q1", 1, 10.0)
 load_cases.add_pl("Q2", 2, 20.0, 3.0)
+# A UDL over global beam coordinates is split at span boundaries.
+load_cases.add_segment_udl("Q3", x0=3.0, x1=12.0, w=8.0)
 
 x, y = load_cases.combine({"G": 1.2, "Q1": 1.5}, response="M")
+```
+
+Use a `LoadCombination` when a named factor set is useful:
+
+```python
+combo = cba.LoadCombination("1.2G + 1.5Q1", {"G": 1.2, "Q1": 1.5})
+x, y = combo.response(load_cases, response="M")
+LM = combo.to_LM(load_cases)
 ```
 
 To inspect or plot one factored combination as a normal beam analysis, use
@@ -139,6 +153,32 @@ To inspect or plot one factored combination as a normal beam analysis, use
 analysis = load_cases.analyze_combination({"G": 1.2, "Q1": 1.5})
 analysis.plot_results()
 ```
+
+For a UDL that may be placed on selected parts of the beam, `make_patterned_udl`
+creates one basis load case per span segment. A target combination then selects
+the segments that increase one selected load effect:
+
+```python
+udl_basis = cba.make_patterned_udl(beam, w=10.0, n_segments=20)
+hogging = udl_basis.target_combination(
+    "Hogging at first internal support",
+    x=beam.beam.mbr_lengths[0],
+    sense="min",
+    response="M",
+)
+x, M = hogging.response(udl_basis)
+LM = hogging.to_LM(udl_basis)
+```
+
+Changing `n_segments` changes the discretisation used by both the generated
+basis cases and any combinations selected from them.
+
+This segmented selection is related to Kadane's maximum-subarray algorithm. If
+segments may be selected independently, the target combination is formed by
+including every segment with an adverse contribution at the target coordinate.
+If a future loading rule requires a single contiguous loaded length, the same
+segment response vector can instead be searched with a Kadane-style contiguous
+subarray step before forming the `LoadCombination`.
 
 `LoadCases` is a lower-level response-matrix and linear-combination utility.
 `LoadPattern` is the high-level design-patterning workflow for dead and live
