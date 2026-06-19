@@ -108,6 +108,57 @@ Each entry is a single load descriptor whose length depends on the load type:
 
 **Units**: kN, kN/m, and metres.
 
+## Load Cases and Response Combinations
+
+For independent analyses and arbitrary additive combinations, add named cases
+to a `LoadCases` collection and supply either a factor vector or a mapping from
+names to factors. This is the natural place to translate design-code action
+categories and combination equations into analysis input: for example, a code
+may define permanent (`G`) and variable (`Q`) actions with partial factors,
+combination factors, and arrangement rules. PyCBA does not implement a design
+code directly; it provides the load-case, factor and patterning machinery for
+applying the code you choose.
+
+A load case can be built from a raw load matrix, or by using higher-level load
+helpers:
+
+```python
+load_cases = cba.LoadCases(beam)
+
+load_cases.add_case("G").add_udl(1, 5.0).add_udl(2, 5.0)
+load_cases.add_udl("Q1", 1, 10.0)
+load_cases.add_pl("Q2", 2, 20.0, 3.0)
+
+x, y = load_cases.combine({"G": 1.2, "Q1": 1.5}, response="M")
+```
+
+To inspect or plot one factored combination as a normal beam analysis, use
+`analyze_combination` and then the standard `BeamAnalysis` methods:
+
+```python
+analysis = load_cases.analyze_combination({"G": 1.2, "Q1": 1.5})
+analysis.plot_results()
+```
+
+`LoadCases` is a lower-level response-matrix and linear-combination utility.
+`LoadPattern` is the high-level design-patterning workflow for dead and live
+load max/min factors. The combined load-cases and load-patterning tutorial
+shows how code-style combinations and patterning rules fit together. Internally,
+a `LoadPattern` can be treated as a generator of factored `LoadCases`.
+
+Each `LoadCase` stores ordinary `PyCBA` load-matrix rows, so it can also be
+passed to `LoadPattern.set_dead_loads` or `LoadPattern.set_live_loads` where a
+raw load matrix would otherwise be used:
+
+```python
+lp = cba.LoadPattern(beam)
+lp.set_dead_loads(load_cases.case("G"), 1.35, 0.9)
+lp.set_live_loads(load_cases.case("Q1"), 1.5, 0.0)
+
+pattern_cases = lp.to_load_cases()
+env = lp.analyze()
+```
+
 ## Prescribed Displacements (`D`)
 
 An optional vector of prescribed nodal displacements (settlements), one entry per degree of freedom.

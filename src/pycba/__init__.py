@@ -21,5 +21,17 @@ from .inf_lines import InfluenceLines
 from .utils import parse_beam_string
 from .bridge import BridgeAnalysis
 from .vehicle import Vehicle, make_train, VehicleLibrary
-from .pattern import LoadPattern
+from .pattern import (
+    LoadPattern,
+    LoadCase,
+    LoadCases,
+    build_pycba_model,
+    analyse_load_case,
+    analyze_load_case,
+    collect_response_matrix,
+    additive_envelope,
+    make_span_udl_cases,
+    plot_response_envelope,
+    plot_load_patterns,
+)
 from .nonlinear import NonlinearBeamAnalysis, NonlinearResult, HingeEvent
