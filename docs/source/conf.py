@@ -12,8 +12,29 @@
 #
 import os
 import sys
+import warnings
 
-sys.path.insert(0, os.path.abspath("../../src/"))
+try:
+    from sphinx.deprecation import RemovedInSphinx10Warning
+except ImportError:  # pragma: no cover - Sphinx < 9 compatibility
+    RemovedInSphinx10Warning = None
+
+if RemovedInSphinx10Warning is not None:
+    warnings.filterwarnings(
+        "ignore",
+        category=RemovedInSphinx10Warning,
+        module=r"sphinx_autodoc_typehints\._parser",
+    )
+
+src_dir = os.path.abspath("../../src/")
+sys.path.insert(0, src_dir)
+
+# nbsphinx executes notebooks in a separate kernel process, so the sys.path
+# change above is not inherited by notebook code. Prepend the source tree to
+# PYTHONPATH for rendered docs so notebooks exercise the checked-out package.
+os.environ["PYTHONPATH"] = os.pathsep.join(
+    [src_dir, os.environ.get("PYTHONPATH", "")]
+).rstrip(os.pathsep)
 from pycba import __version__ as ver
 
 
@@ -62,6 +83,11 @@ html_show_sourcelink = (
 autodoc_inherit_docstrings = True  # If no docstring, inherit from base class
 set_type_checking_flag = True  # Enable 'expensive' imports for sphinx_autodoc_typehints
 nbsphinx_allow_errors = True  # Continue through Jupyter errors
+nbsphinx_kernel_name = "python3"  # Use the docs build env; PYTHONPATH selects src.
+# Render committed notebook outputs rather than executing notebooks during the
+# Sphinx build. Some tutorial notebooks are intentionally expensive; execute
+# them separately when updating their stored outputs.
+nbsphinx_execute = "never"
 add_module_names = False  # Remove namespaces from class/method signatures
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
