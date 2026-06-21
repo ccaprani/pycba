@@ -156,8 +156,14 @@ lp.set_dead_loads(load_cases.case("G"), 1.35, 0.9)
 lp.set_live_loads(load_cases.case("Q1"), 1.5, 0.0)
 
 pattern_cases = lp.to_load_cases()
+pattern_LM = lp.to_LM()
 env = lp.analyze()
 ```
+
+`pattern_cases.names` lists the generated pattern names. `pattern_LM` is a
+dictionary from generated pattern name to the exact factored `LM` used for that
+analysis, which is useful when debugging a patterning rule. For a single
+generated case, use `pattern_cases[i].name` and `pattern_cases[i].to_LM()`.
 
 ## Prescribed Displacements (`D`)
 

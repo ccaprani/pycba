@@ -35,6 +35,11 @@ class LoadCase:
         self.loads.append(deepcopy(load))
         return self
 
+    def to_LM(self) -> LoadMatrix:
+        """Return a copy of this load case's PyCBA load matrix."""
+
+        return deepcopy(self.loads)
+
     def add_udl(self, i_span: int, w: float) -> LoadCase:
         """Append a full-span UDL to this load case."""
 
@@ -120,6 +125,17 @@ class LoadCases:
         """Load-case names in collection order."""
 
         return tuple(case.name for case in self._cases)
+
+    def to_LM(self) -> dict[str, LoadMatrix]:
+        """
+        Return the load matrices keyed by load-case name.
+
+        The dictionary preserves the collection order and each load matrix is
+        copied so callers can inspect or mutate it without changing the
+        stored load cases.
+        """
+
+        return {case.name: case.to_LM() for case in self._cases}
 
     def case(self, name: str, create: bool = True) -> LoadCase:
         """Return a named load case, optionally creating it when missing."""
@@ -940,3 +956,20 @@ class LoadPattern:
         )
 
         return load_cases
+
+    def to_LM(self) -> dict[str, LoadMatrix]:
+        """
+        Generate the factored load matrices used by :meth:`analyze`.
+
+        This is a debugging convenience for users who want to inspect the
+        actual PyCBA load matrix for each generated load pattern without
+        working through the intermediate :class:`LoadCases` object.
+
+        Returns
+        -------
+        dict[str, LoadMatrix]
+            Mapping from generated load-pattern name to its factored load
+            matrix. The dictionary preserves the analysis order.
+        """
+
+        return self.to_load_cases().to_LM()

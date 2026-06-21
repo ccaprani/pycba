@@ -170,6 +170,18 @@ def test_load_pattern_accepts_load_case_inputs():
         [1, 1, 0.0],
         [2, 1, 15.0],
     ]
+    pattern_LM = lp.to_LM()
+    assert tuple(pattern_LM) == pattern_cases.names
+    assert pattern_LM["Max even spans"] == pattern_cases.case(
+        "Max even spans"
+    ).loads
+    assert pattern_cases.to_LM() == pattern_LM
+    assert pattern_cases[2].name == "Max even spans"
+    assert pattern_cases[2].to_LM() == pattern_LM["Max even spans"]
+
+    pattern_LM["Max even spans"][0][2] = 999.0
+    assert lp.to_LM()["Max even spans"][0][2] == 4.5
+    assert pattern_cases[2].to_LM()[0][2] == 4.5
     assert lp.LMg == dead.loads
     assert lp.LMq == live.loads
     assert env is not None
