@@ -17,6 +17,7 @@ from .load import (
     factor_LM,
 )
 from .results import BeamResults, Envelopes
+from .render import BeamPlotter
 from .inf_lines import InfluenceLines
 from .utils import parse_beam_string
 from .bridge import BridgeAnalysis
