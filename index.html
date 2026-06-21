@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to PyCBA’s documentation! &#8212; PyCBA 0.7.0 documentation</title>
+    <title>Welcome to PyCBA’s documentation! &#8212; PyCBA 0.8.0 documentation</title>
   
   
   
@@ -27,42 +27,49 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="_static/documentation_options.js?v=486e5634"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.0" />
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -88,7 +95,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -114,8 +121,8 @@
       
     
     
-    <img src="_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.7.0 documentation - Home"/>
-    <img src="_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.7.0 documentation - Home"/>
+    <img src="_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
   
   
 </a></div>
@@ -164,6 +171,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -185,11 +199,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -202,8 +223,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -214,8 +234,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -301,6 +320,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -313,11 +339,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -330,8 +363,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -342,8 +374,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -379,27 +410,20 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <figure class="align-center">
-<a class="reference internal image-reference" href="_images/pycba_logo.png"><img alt="PyCBA logo" height="88" src="_images/pycba_logo.png" width="343" />
+  <a class="reference internal image-reference" href="_images/pycba_logo.png"><img alt="PyCBA logo" class="align-center" height="88" src="_images/pycba_logo.png" width="343" />
 </a>
-</figure>
 <p><a class="reference external" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
 <a class="reference external" href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
-.. 0.7.0
 <img alt="GitHub issues" src="https://img.shields.io/github/issues/ccaprani/ospgrillage?logoColor=yellowgreen" />
 <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/ccaprani/ospgrillage?color=yellowgreen" />
 <img alt="PyPI" src="https://img.shields.io/pypi/v/ospgrillage" />
-..    <img alt="GitHub Workflow Deploy" src="https://img.shields.io/github/workflow/status/ccaprani/pycba/Build%20and%20deploy" />
-..    <img alt="GitHub Workflow Build" src="https://img.shields.io/github/workflow/status/ccaprani/pycba/Deploy%20to%20GitHub%20Pages?label=gh%20page%20build" />
-..    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/ccaprani/pycba/Tests?label=Tests" />
-..    <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/ccaprani/ospgrillage" />
-..    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ccaprani/ospgrillage?color=ff69b4" />
-..    <a class="reference external" href="code_of_conduct.md"><img alt="Contributor Covenant" src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg" /></a>
 <a class="reference external" href="https://codecov.io/gh/ccaprani/pycba"><img alt="codecov" src="https://codecov.io/gh/ccaprani/pycba/branch/main/graph/badge.svg?token=dUTOmPBnyP" /></a></p>
-<section id="welcome-to-pycba-s-documentation">
+<section class="tex2jax_ignore mathjax_ignore" id="welcome-to-pycba-s-documentation">
 <h1>Welcome to PyCBA’s documentation!<a class="headerlink" href="#welcome-to-pycba-s-documentation" title="Link to this heading">#</a></h1>
-<p><cite>PyCBA</cite> is a python implementation of the Continuous Beam Analysis program, <a class="reference external" href="http://www.colincaprani.com/programming/matlab/">originally coded in Matlab</a> and subsequently <a class="reference external" href="http://cbeam.sourceforge.net/">ported to C++</a> (by Pierrot).</p>
-<p><cite>PyCBA</cite> is for fast linear elastic analysis of general beam configurations.
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is a python implementation of the Continuous Beam Analysis program,
+<a class="reference external" href="http://www.colincaprani.com/programming/matlab/">originally coded in Matlab</a> and
+subsequently <a class="reference external" href="http://cbeam.sourceforge.net/">ported to C++</a> (by Pierrot).</p>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is for fast linear elastic analysis of general beam configurations.
 It uses the matrix stiffness method to determine the displacements at each node.
 These are then used to determine the member end forces.
 Exact expressions are then used to determine the distribution of shear, moment, and rotation along each member.
@@ -410,8 +434,8 @@ The program features:</p>
 <li><p>Spring supports, both vertical and rotational, enabling it to be used as part of a subframe analysis;</p></li>
 <li><p>Results are output at 100 (user can change) positions along each span, enable accurate deflection estimation.</p></li>
 </ul>
-<p>One of the main functions of <cite>PyCBA</cite> is that the basic analysis engine forms the basis for higher-level analysis.
-Current <cite>PyCBA</cite> includes modules for:</p>
+<p>One of the main functions of <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is that the basic analysis engine forms the basis for higher-level analysis.
+Current <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> includes modules for:</p>
 <ul class="simple">
 <li><p>Influence line generation</p></li>
 <li><p>Moving load analysis for bridges, targeted at bridge access assessments</p></li>
@@ -427,18 +451,22 @@ Current <cite>PyCBA</cite> includes modules for:</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/intro.html">Introduction to PyCBA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/envelopes.html">Load Patterning &amp; Envelopes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/envelopes.html">Load Cases, Load Patterning &amp; Design Envelopes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/inf_lines.html">Influence Lines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/bridge.html">Bridge Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/nonlinear.html">Nonlinear Beam Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/nonprismatic.html">Non-prismatic Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/imposed_curvature.html">Imposed Curvature</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="general.html">Beam Configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="general.html#member-lengths-l">Member Lengths (<cite>L</cite>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#flexural-rigidity-ei">Flexural Rigidity (<cite>EI</cite>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#restraints-r">Restraints (<cite>R</cite>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#load-matrix-lm">Load Matrix (<cite>LM</cite>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#prescribed-displacements-d">Prescribed Displacements (<cite>D</cite>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#element-types-eletype">Element Types (<cite>eleType</cite>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general.html#member-lengths-l">Member Lengths (<code class="docutils literal notranslate"><span class="pre">L</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general.html#flexural-rigidity-ei">Flexural Rigidity (<code class="docutils literal notranslate"><span class="pre">EI</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general.html#restraints-r">Restraints (<code class="docutils literal notranslate"><span class="pre">R</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general.html#load-matrix-lm">Load Matrix (<code class="docutils literal notranslate"><span class="pre">LM</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general.html#load-cases-and-response-combinations">Load Cases and Response Combinations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general.html#prescribed-displacements-d">Prescribed Displacements (<code class="docutils literal notranslate"><span class="pre">D</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general.html#element-types-eletype">Element Types (<code class="docutils literal notranslate"><span class="pre">eleType</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
@@ -446,19 +474,27 @@ Current <cite>PyCBA</cite> includes modules for:</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theoretical Basis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Note">Note</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#Elements">Elements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Displacements">Displacements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#Global-Stiffness-Matrix">Global Stiffness Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#Loads">Loads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#Boundary-Conditions">Boundary Conditions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#Reaction-Recovery">Reaction Recovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#Member-Displacements">Member Displacements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#Nonlinear-Analysis-—-Generalized-Clough-Model">Nonlinear Analysis — Generalized Clough Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="references.html#matrix-stiffness-method">Matrix stiffness method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#non-prismatic-elements-and-imposed-curvature">Non-prismatic elements and imposed curvature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#nonlinear-analysis-and-plastic-hinge-models">Nonlinear analysis and plastic hinge models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#plastic-analysis-virtual-work-collapse-load-factors">Plastic analysis (virtual work / collapse load factors)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#bridge-loading-and-moving-load-analysis">Bridge loading and moving load analysis</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
 <section id="related-packages">
-<h1>Related Packages<a class="headerlink" href="#related-packages" title="Link to this heading">#</a></h1>
+<h2>Related Packages<a class="headerlink" href="#related-packages" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/ritchie46/anaStruct">anastruct</a> is an analysis package for 2D frames and trusses with both linear and non-linear analysis capability.</p></li>
 <li><p><a class="reference external" href="https://github.com/robbievanleeuwen/section-properties">sectionproperties</a> is a package for the analysis of cross-sectional geometric properties and stress distributions.</p></li>
@@ -466,12 +502,13 @@ Current <cite>PyCBA</cite> includes modules for:</p>
 </ul>
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">#</a></h1>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
+</section>
 </section>
 
 
@@ -510,20 +547,18 @@ Current <cite>PyCBA</cite> includes modules for:</p>
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Welcome to PyCBA’s documentation!</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#related-packages">Related Packages</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-packages">Related Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
-
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/index.rst">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/index.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -548,8 +583,8 @@ Current <cite>PyCBA</cite> includes modules for:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -583,7 +618,7 @@ Current <cite>PyCBA</cite> includes modules for:</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
 </p></div>
       
     </div>

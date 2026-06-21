@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Beam Configuration &#8212; PyCBA 0.7.0 documentation</title>
+    <title>Beam Configuration &#8212; PyCBA 0.8.0 documentation</title>
   
   
   
@@ -27,43 +27,52 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="_static/documentation_options.js?v=486e5634"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'general';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Reference" href="api.html" />
-    <link rel="prev" title="Bridge Analysis" href="notebooks/bridge.html" />
+    <link rel="prev" title="Imposed Curvature" href="notebooks/imposed_curvature.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.0" />
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -89,7 +98,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -115,8 +124,8 @@
       
     
     
-    <img src="_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.7.0 documentation - Home"/>
-    <img src="_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.7.0 documentation - Home"/>
+    <img src="_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
   
   
 </a></div>
@@ -165,6 +174,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -186,11 +202,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -203,8 +226,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -215,8 +237,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -300,6 +321,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -312,11 +340,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -329,8 +364,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -341,8 +375,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -351,7 +384,14 @@
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
@@ -411,85 +451,216 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="beam-configuration">
+  <section class="tex2jax_ignore mathjax_ignore" id="beam-configuration">
 <h1>Beam Configuration<a class="headerlink" href="#beam-configuration" title="Link to this heading">#</a></h1>
 <p>The beam configuration input data is to be in the following format:</p>
 <section id="member-lengths-l">
-<h2>Member Lengths (<cite>L</cite>)<a class="headerlink" href="#member-lengths-l" title="Link to this heading">#</a></h2>
+<h2>Member Lengths (<code class="docutils literal notranslate"><span class="pre">L</span></code>)<a class="headerlink" href="#member-lengths-l" title="Link to this heading">#</a></h2>
 <p>A vector of the lengths of each member.</p>
-<p><strong>Dimension</strong>: <cite>N</cite> x 1, where <cite>N</cite> is the number of members.</p>
+<p><strong>Dimension</strong>: <code class="docutils literal notranslate"><span class="pre">N</span></code> x 1, where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of members.</p>
 <p><strong>Units</strong>: m</p>
 </section>
 <section id="flexural-rigidity-ei">
-<h2>Flexural Rigidity (<cite>EI</cite>)<a class="headerlink" href="#flexural-rigidity-ei" title="Link to this heading">#</a></h2>
-<p>The flexural rigidity for each member.
-Currently, each member is considered as prismatic.</p>
-<p><strong>Dimension</strong>: <cite>N</cite> x 1</p>
+<h2>Flexural Rigidity (<code class="docutils literal notranslate"><span class="pre">EI</span></code>)<a class="headerlink" href="#flexural-rigidity-ei" title="Link to this heading">#</a></h2>
+<p>The flexural rigidity for each member.</p>
+<p>A member may be <strong>prismatic</strong> (constant <code class="docutils literal notranslate"><span class="pre">EI</span></code>, given as a scalar) or
+<strong>non-prismatic</strong> (variable <code class="docutils literal notranslate"><span class="pre">EI</span></code>). A non-prismatic member is defined with a
+<code class="docutils literal notranslate"><span class="pre">pycba.SectionEI</span></code> object built from one or more contiguous <strong>segments</strong> that
+together describe <code class="docutils literal notranslate"><span class="pre">EI(x)</span></code> over the span. <code class="docutils literal notranslate"><span class="pre">x</span></code> is the <strong>span-local physical
+coordinate</strong> (0 at the span start, the real span length at the end). Segments
+are added head-to-tail with <code class="docutils literal notranslate"><span class="pre">add_segment(seg_type,</span> <span class="pre">x,</span> <span class="pre">ei,</span> <span class="pre">degree=None)</span></code>
+(chainable), or in one line by passing a list of specs to the constructor:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
+<span class="c1"># Straight haunch -&gt; flat soffit -&gt; straight haunch over a 12 m span:</span>
+<span class="n">sec</span> <span class="o">=</span> <span class="p">(</span><span class="n">cba</span><span class="o">.</span><span class="n">SectionEI</span><span class="p">()</span>
+       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0e5</span><span class="p">,</span> <span class="mf">1.2e5</span><span class="p">])</span>
+       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>  <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">],</span> <span class="mf">1.2e5</span><span class="p">)</span>
+       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.2e5</span><span class="p">,</span> <span class="mf">3.0e5</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">seg_type</span></code> is one of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;const&quot;</span></code> — constant <code class="docutils literal notranslate"><span class="pre">EI</span></code> over <code class="docutils literal notranslate"><span class="pre">[x0,</span> <span class="pre">x1]</span></code>; <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">[x0,</span> <span class="pre">x1]</span></code>, <code class="docutils literal notranslate"><span class="pre">ei</span></code> scalar.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;linear&quot;</span></code> — one linear piece; <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">[x0,</span> <span class="pre">x1]</span></code>, <code class="docutils literal notranslate"><span class="pre">ei</span> <span class="pre">=</span> <span class="pre">[ei0,</span> <span class="pre">ei1]</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;pwl&quot;</span></code> — piecewise-linear; <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">[x0,</span> <span class="pre">…,</span> <span class="pre">xn]</span></code> (n ≥ 2 stations), <code class="docutils literal notranslate"><span class="pre">ei</span></code> of the
+same length, giving <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">−</span> <span class="pre">1</span></code> linear pieces with kinks at the interior
+stations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;poly&quot;</span></code> — one polynomial piece; <code class="docutils literal notranslate"><span class="pre">ei</span></code> is either sample values (a polynomial
+of order <code class="docutils literal notranslate"><span class="pre">degree</span></code>, default <code class="docutils literal notranslate"><span class="pre">len(x)</span> <span class="pre">−</span> <span class="pre">1</span></code>, is fitted) or a <code class="docutils literal notranslate"><span class="pre">callable</span></code>
+<code class="docutils literal notranslate"><span class="pre">ei(x_local)</span></code> evaluated in the span-local coordinate (e.g. a parabolic soffit,
+<code class="docutils literal notranslate"><span class="pre">EI</span> <span class="pre">∝</span> <span class="pre">depth³</span></code>).</p></li>
+</ul>
+<p>Segments must be <strong>contiguous</strong> (each new segment’s <code class="docutils literal notranslate"><span class="pre">x[0]</span></code> equals the running
+end; the first starts at 0) — gaps/overlaps raise an error — and the total
+coverage must equal the span length. A coincident <code class="docutils literal notranslate"><span class="pre">x</span></code> carrying a different <code class="docutils literal notranslate"><span class="pre">ei</span></code>
+across a join is an allowed <strong>step</strong> (discontinuous <code class="docutils literal notranslate"><span class="pre">EI</span></code>).</p>
+<p>Non-prismatic members are analysed exactly by flexibility (force-method)
+integration of the element stiffness, evaluated <strong>piece-by-piece between
+consecutive breakpoints</strong> (segment joins and <code class="docutils literal notranslate"><span class="pre">pwl</span></code> kinks) so that kinks and
+steps are captured exactly; a single <code class="docutils literal notranslate"><span class="pre">const</span></code> segment reproduces the closed-form
+prismatic element to machine precision. Scalar and <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> members may be
+freely mixed in the same beam.</p>
+<p><strong>Dimension</strong>: <code class="docutils literal notranslate"><span class="pre">N</span></code> x 1 (one scalar or <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> per span; a single value is
+applied to all spans)</p>
 <p><strong>Units</strong>: kNm2</p>
 </section>
 <section id="restraints-r">
-<h2>Restraints (<cite>R</cite>)<a class="headerlink" href="#restraints-r" title="Link to this heading">#</a></h2>
+<h2>Restraints (<code class="docutils literal notranslate"><span class="pre">R</span></code>)<a class="headerlink" href="#restraints-r" title="Link to this heading">#</a></h2>
 <p>A vector of restraints for each node, as defined by the ends of each member.
 Each node has 2 degrees of freedom, vertical deflection and rotation, in that order, for each node.
 Restraint for a degree of freedom is indicated by a “-1” value.
 Unrestrained degrees of freedom are indicated by a “0” value.
-Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of the stiffness, <cite>k</cite>: i.e. “+k”</p>
-<p><strong>Dimension</strong>: 2`N` x 1</p>
+Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of the stiffness, <code class="docutils literal notranslate"><span class="pre">k</span></code>: i.e. “+k”</p>
+<p><strong>Dimension</strong>: 2<code class="docutils literal notranslate"><span class="pre">N</span></code> x 1</p>
 <p><strong>Units</strong>: kN/m or kNm/rad or None</p>
 </section>
 <section id="load-matrix-lm">
-<h2>Load Matrix (<cite>LM</cite>)<a class="headerlink" href="#load-matrix-lm" title="Link to this heading">#</a></h2>
-<p>A <cite>List</cite> of <cite>Lists</cite> representing the applied loads.
+<h2>Load Matrix (<code class="docutils literal notranslate"><span class="pre">LM</span></code>)<a class="headerlink" href="#load-matrix-lm" title="Link to this heading">#</a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">List</span></code> of <code class="docutils literal notranslate"><span class="pre">Lists</span></code> representing the applied loads.
 Each entry is a single load descriptor whose length depends on the load type:</p>
-<div class="line-block">
-<div class="line">Type | Name | Format | Columns |</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Format</p></th>
+<th class="head"><p>Columns</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>UDL</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">1,</span> <span class="pre">w]</span></code></p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Point Load</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">2,</span> <span class="pre">P,</span> <span class="pre">a]</span></code></p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Partial UDL</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">3,</span> <span class="pre">w,</span> <span class="pre">a,</span> <span class="pre">c]</span></code></p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Moment Load</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">4,</span> <span class="pre">M,</span> <span class="pre">a]</span></code></p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Trapezoidal (full)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">5,</span> <span class="pre">w1,</span> <span class="pre">w2]</span></code></p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Trapezoidal (partial)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">5,</span> <span class="pre">w1,</span> <span class="pre">w2,</span> <span class="pre">a,</span> <span class="pre">c]</span></code></p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>Imposed curvature</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">6,</span> <span class="pre">k0,</span> <span class="pre">k1,</span> <span class="pre">...]</span></code></p></td>
+<td><p>3+</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<p><a href="#id1"><span class="problematic" id="id2">|------|</span></a>——<a href="#id3"><span class="problematic" id="id4">|--------|</span></a>———|
-| 1 | UDL | <cite>[span, 1, w]</cite> | 3 |
-| 2 | Point Load | <cite>[span, 2, P, a]</cite> | 4 |
-| 3 | Partial UDL | <cite>[span, 3, w, a, c]</cite> | 5 |
-| 4 | Moment Load | <cite>[span, 4, M, a]</cite> | 4 |
-| 5 | Trapezoidal (full) | <cite>[span, 5, w1, w2]</cite> | 4 |
-| 5 | Trapezoidal (partial) | <cite>[span, 5, w1, w2, a, c]</cite> | 6 |</p>
-<p>Load Types:</p>
-<blockquote>
-<div><p>1 - <strong>Uniformly Distributed Loads</strong>, which only have a load value.</p>
-<p>2 - <strong>Point Loads</strong>, located at <cite>a</cite> from the left end of the span.</p>
-<p>3 - <strong>Partial UDLs</strong>, starting at <cite>a</cite> for a distance of <cite>c</cite> (i.e. the cover) where $L &gt;= a+c$.</p>
-<p>4 - <strong>Moment Load</strong>, located at <cite>a</cite>.</p>
-<dl class="simple">
-<dt>5 - <strong>Trapezoidal Load</strong>, linearly varying from <cite>w1</cite> to <cite>w2</cite>.</dt><dd><p>Full span: <cite>[span, 5, w1, w2]</cite> — <cite>w1</cite> at the left end, <cite>w2</cite> at the right end.
-Partial:   <cite>[span, 5, w1, w2, a, c]</cite> — <cite>w1</cite> at position <cite>a</cite>, <cite>w2</cite> at position <cite>a + c</cite>, where $L geq a+c$.</p>
-</dd>
-</dl>
-</div></blockquote>
-<p><strong>Dimension</strong>: <cite>M</cite> rows (one per applied load), with 3–6 columns per row depending on load type.</p>
+<p><strong>Load Types:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Uniformly Distributed Loads</strong>, which only have a load value.</p></li>
+<li><p><strong>Point Loads</strong>, located at <code class="docutils literal notranslate"><span class="pre">a</span></code> from the left end of the span.</p></li>
+<li><p><strong>Partial UDLs</strong>, starting at <code class="docutils literal notranslate"><span class="pre">a</span></code> for a distance of <code class="docutils literal notranslate"><span class="pre">c</span></code> (i.e. the cover) where <span class="math notranslate nohighlight">\(L \geq a + c\)</span>.</p></li>
+<li><p><strong>Moment Load</strong>, located at <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p></li>
+<li><p><strong>Trapezoidal Load</strong>, linearly varying from <code class="docutils literal notranslate"><span class="pre">w1</span></code> to <code class="docutils literal notranslate"><span class="pre">w2</span></code>.</p>
+<ul class="simple">
+<li><p>Full span: <code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">5,</span> <span class="pre">w1,</span> <span class="pre">w2]</span></code> — <code class="docutils literal notranslate"><span class="pre">w1</span></code> at the left end, <code class="docutils literal notranslate"><span class="pre">w2</span></code> at the right end.</p></li>
+<li><p>Partial: <code class="docutils literal notranslate"><span class="pre">[span,</span> <span class="pre">5,</span> <span class="pre">w1,</span> <span class="pre">w2,</span> <span class="pre">a,</span> <span class="pre">c]</span></code> — <code class="docutils literal notranslate"><span class="pre">w1</span></code> at position <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">w2</span></code> at position <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">c</span></code>, where <span class="math notranslate nohighlight">\(L \geq a + c\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Imposed Curvature</strong> (initial-strain) load, applying a free curvature field
+<span class="math notranslate nohighlight">\(\kappa(x) = k_0 + k_1 x + \dots\)</span> along the member. On a
+statically-determinate span it induces no internal forces, only a free
+deflected shape; on a restrained or continuous structure its restraint
+generates real moments and reactions. This is the mechanism for applying
+creep, shrinkage and thermal curvatures (e.g. for prestressed-concrete
+time-dependent analysis).</p></li>
+</ol>
+<p><strong>Dimension</strong>: <code class="docutils literal notranslate"><span class="pre">M</span></code> rows (one per applied load), with 3 or more columns per row depending on load type.</p>
 <p><strong>Units</strong>: kN, kN/m, and metres.</p>
 </section>
+<section id="load-cases-and-response-combinations">
+<h2>Load Cases and Response Combinations<a class="headerlink" href="#load-cases-and-response-combinations" title="Link to this heading">#</a></h2>
+<p>For independent analyses and arbitrary additive combinations, add named cases
+to a <code class="docutils literal notranslate"><span class="pre">LoadCases</span></code> collection and supply either a factor vector or a mapping from
+names to factors. This is the natural place to translate design-code action
+categories and combination equations into analysis input: for example, a code
+may define permanent (<code class="docutils literal notranslate"><span class="pre">G</span></code>) and variable (<code class="docutils literal notranslate"><span class="pre">Q</span></code>) actions with partial factors,
+combination factors, and arrangement rules. PyCBA does not implement a design
+code directly; it provides the load-case, factor and patterning machinery for
+applying the code you choose.</p>
+<p>A load case can be built from a raw load matrix, or by using higher-level load
+helpers:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_cases</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
+
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="s2">&quot;Q1&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="s2">&quot;Q2&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combine</span><span class="p">({</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">},</span> <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To inspect or plot one factored combination as a normal beam analysis, use
+<code class="docutils literal notranslate"><span class="pre">analyze_combination</span></code> and then the standard <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code> methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">({</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">LoadCases</span></code> is a lower-level response-matrix and linear-combination utility.
+<code class="docutils literal notranslate"><span class="pre">LoadPattern</span></code> is the high-level design-patterning workflow for dead and live
+load max/min factors. The combined load-cases and load-patterning tutorial
+shows how code-style combinations and patterning rules fit together. Internally,
+a <code class="docutils literal notranslate"><span class="pre">LoadPattern</span></code> can be treated as a generator of factored <code class="docutils literal notranslate"><span class="pre">LoadCases</span></code>.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">LoadCase</span></code> stores ordinary <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> load-matrix rows, so it can also be
+passed to <code class="docutils literal notranslate"><span class="pre">LoadPattern.set_dead_loads</span></code> or <code class="docutils literal notranslate"><span class="pre">LoadPattern.set_live_loads</span></code> where a
+raw load matrix would otherwise be used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadPattern</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
+<span class="n">lp</span><span class="o">.</span><span class="n">set_dead_loads</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">),</span> <span class="mf">1.35</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+<span class="n">lp</span><span class="o">.</span><span class="n">set_live_loads</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;Q1&quot;</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">pattern_cases</span> <span class="o">=</span> <span class="n">lp</span><span class="o">.</span><span class="n">to_load_cases</span><span class="p">()</span>
+<span class="n">pattern_LM</span> <span class="o">=</span> <span class="n">lp</span><span class="o">.</span><span class="n">to_LM</span><span class="p">()</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">lp</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pattern_cases.names</span></code> lists the generated pattern names. <code class="docutils literal notranslate"><span class="pre">pattern_LM</span></code> is a
+dictionary from generated pattern name to the exact factored <code class="docutils literal notranslate"><span class="pre">LM</span></code> used for that
+analysis, which is useful when debugging a patterning rule. For a single
+generated case, use <code class="docutils literal notranslate"><span class="pre">pattern_cases[i].name</span></code> and <code class="docutils literal notranslate"><span class="pre">pattern_cases[i].to_LM()</span></code>.</p>
+</section>
 <section id="prescribed-displacements-d">
-<h2>Prescribed Displacements (<cite>D</cite>)<a class="headerlink" href="#prescribed-displacements-d" title="Link to this heading">#</a></h2>
+<h2>Prescribed Displacements (<code class="docutils literal notranslate"><span class="pre">D</span></code>)<a class="headerlink" href="#prescribed-displacements-d" title="Link to this heading">#</a></h2>
 <p>An optional vector of prescribed nodal displacements (settlements), one entry per degree of freedom.
-Use <cite>None</cite> for DOFs where the displacement is unknown (the default), and a float for DOFs whose displacement is known (e.g. a support settlement).</p>
+Use <code class="docutils literal notranslate"><span class="pre">None</span></code> for DOFs where the displacement is unknown (the default), and a float for DOFs whose displacement is known (e.g. a support settlement).</p>
 <ul class="simple">
-<li><p>Fixed supports (<cite>R = -1</cite>) default to zero displacement unless overridden by <cite>D</cite>.</p></li>
-<li><p>Spring supports (<cite>R &gt; 0</cite>) can also have a prescribed displacement; in that case the spring force is <cite>k_s × δ</cite> and is reported in <cite>beam_results.Rs</cite>.</p></li>
-<li><p><strong>Constraint</strong>: a DOF cannot simultaneously have a spring (<cite>R &gt; 0</cite>), a prescribed displacement (<cite>D[i] ≠ None</cite>), <em>and</em> a non-zero consistent nodal load — this combination is physically inconsistent and <cite>analyze()</cite> will raise a <cite>ValueError</cite>.</p></li>
+<li><p>Fixed supports (<code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">=</span> <span class="pre">-1</span></code>) default to zero displacement unless overridden by <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p></li>
+<li><p>Spring supports (<code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>) can also have a prescribed displacement; in that case the spring force is <code class="docutils literal notranslate"><span class="pre">k_s</span> <span class="pre">×</span> <span class="pre">δ</span></code> and is reported in <code class="docutils literal notranslate"><span class="pre">beam_results.Rs</span></code>.</p></li>
+<li><p><strong>Constraint</strong>: a DOF cannot simultaneously have a spring (<code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>), a prescribed displacement (<code class="docutils literal notranslate"><span class="pre">D[i]</span> <span class="pre">≠</span> <span class="pre">None</span></code>), <em>and</em> a non-zero consistent nodal load — this combination is physically inconsistent and <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> will raise a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p></li>
 </ul>
-<p><strong>Dimension</strong>: 2`N+2` x 1 (same length as <cite>R</cite>)</p>
+<p><strong>Dimension</strong>: 2<code class="docutils literal notranslate"><span class="pre">N+2</span></code> x 1 (same length as <code class="docutils literal notranslate"><span class="pre">R</span></code>)</p>
 <p><strong>Units</strong>: m (vertical DOFs), rad (rotational DOFs)</p>
 </section>
 <section id="element-types-eletype">
-<h2>Element Types (<cite>eleType</cite>)<a class="headerlink" href="#element-types-eletype" title="Link to this heading">#</a></h2>
+<h2>Element Types (<code class="docutils literal notranslate"><span class="pre">eleType</span></code>)<a class="headerlink" href="#element-types-eletype" title="Link to this heading">#</a></h2>
 <p>Each member can be one of several element types, depending on the presence of hinges in the beam.</p>
 <p><strong>Note that at a hinge, only one of the members meeting at that node should have a pinned end.</strong></p>
 <p>The element types are given by an index:</p>
-<blockquote>
-<div><p>1 - fixed-fixed</p>
-<p>2 - fixed-pinned</p>
-<p>3 - pinned-fixed</p>
-<p>4 - pinned-pinned</p>
-</div></blockquote>
-<p><strong>Dimension</strong>: <cite>N</cite> x 1</p>
+<ol class="arabic simple">
+<li><p>fixed-fixed</p></li>
+<li><p>fixed-pinned</p></li>
+<li><p>pinned-fixed</p></li>
+<li><p>pinned-pinned</p></li>
+</ol>
+<p><strong>Dimension</strong>: <code class="docutils literal notranslate"><span class="pre">N</span></code> x 1</p>
 <p><strong>Units</strong>: N/A</p>
 </section>
 </section>
@@ -505,12 +676,12 @@ Use <cite>None</cite> for DOFs where the displacement is unknown (the default), 
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="notebooks/bridge.html"
+       href="notebooks/imposed_curvature.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Bridge Analysis</p>
+        <p class="prev-next-title">Imposed Curvature</p>
       </div>
     </a>
     <a class="right-next"
@@ -539,14 +710,15 @@ Use <cite>None</cite> for DOFs where the displacement is unknown (the default), 
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#member-lengths-l">Member Lengths (<cite>L</cite>)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flexural-rigidity-ei">Flexural Rigidity (<cite>EI</cite>)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restraints-r">Restraints (<cite>R</cite>)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-matrix-lm">Load Matrix (<cite>LM</cite>)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prescribed-displacements-d">Prescribed Displacements (<cite>D</cite>)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#element-types-eletype">Element Types (<cite>eleType</cite>)</a></li>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#member-lengths-l">Member Lengths (<code class="docutils literal notranslate"><span class="pre">L</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flexural-rigidity-ei">Flexural Rigidity (<code class="docutils literal notranslate"><span class="pre">EI</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restraints-r">Restraints (<code class="docutils literal notranslate"><span class="pre">R</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-matrix-lm">Load Matrix (<code class="docutils literal notranslate"><span class="pre">LM</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-cases-and-response-combinations">Load Cases and Response Combinations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prescribed-displacements-d">Prescribed Displacements (<code class="docutils literal notranslate"><span class="pre">D</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#element-types-eletype">Element Types (<code class="docutils literal notranslate"><span class="pre">eleType</span></code>)</a></li>
 </ul>
   </nav></div>
 
@@ -579,8 +751,8 @@ Use <cite>None</cite> for DOFs where the displacement is unknown (the default), 
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -614,7 +786,7 @@ Use <cite>None</cite> for DOFs where the displacement is unknown (the default), 
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
 </p></div>
       
     </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Theoretical Basis &#8212; PyCBA 0.7.0 documentation</title>
+    <title>Theoretical Basis &#8212; PyCBA 0.8.0 documentation</title>
   
   
   
@@ -27,44 +27,52 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="_static/documentation_options.js?v=486e5634"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'theory';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="references.html" />
     <link rel="prev" title="pycba.utils.parse_beam_string" href="gen/pycba.utils.parse_beam_string.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.0" />
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -90,7 +98,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -116,8 +124,8 @@
       
     
     
-    <img src="_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.7.0 documentation - Home"/>
-    <img src="_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.7.0 documentation - Home"/>
+    <img src="_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
   
   
 </a></div>
@@ -166,6 +174,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -187,11 +202,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -204,8 +226,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -216,8 +237,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -301,6 +321,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -313,11 +340,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -330,8 +364,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -342,8 +375,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -352,7 +384,14 @@
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
@@ -414,11 +453,17 @@
                   
   <section id="Theoretical-Basis">
 <h1>Theoretical Basis<a class="headerlink" href="#Theoretical-Basis" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is based on the matrix stiffness method.</p>
-<section id="Note">
-<h2>Note<a class="headerlink" href="#Note" title="Link to this heading">#</a></h2>
-<p>Until this section is completed, please also see the Matrix Stiffness Method lecture notes <a class="reference external" href="http://www.colincaprani.com/structural-engineering/courses/structural-analysis-iv">here</a> for more information.</p>
-</section>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> analyses continuous beams by the <strong>matrix (direct) stiffness method</strong>. This page follows the steps of that method:</p>
+<ol class="arabic simple">
+<li><p><strong>Elements</strong> — each span is a two-node Euler–Bernoulli beam element whose <span class="math notranslate nohighlight">\(4\times4\)</span> stiffness matrix depends on its end releases and, for a non-prismatic member, on the variation of <span class="math notranslate nohighlight">\(EI\)</span> along its length.</p></li>
+<li><p><strong>Global stiffness matrix</strong> — the element matrices are assembled by the direct stiffness method into the global matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>.</p></li>
+<li><p><strong>Loads</strong> — span loads are converted to consistent (equivalent) nodal forces that assemble into the force vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span>.</p></li>
+<li><p><strong>Boundary conditions</strong> — supports, settlements and spring supports are imposed.</p></li>
+</ol>
+<p>The system <span class="math notranslate nohighlight">\(\mathbf{K}\,\mathbf{d}=\mathbf{f}\)</span> is then solved for the nodal displacements <span class="math notranslate nohighlight">\(\mathbf{d}\)</span>, from which the support <strong>reactions</strong> and the <strong>member results</strong> (bending moment, shear, rotation and deflection along each span) are recovered.</p>
+<p><strong>Notation and conventions.</strong> <span class="math notranslate nohighlight">\(EI\)</span> is the flexural rigidity, <span class="math notranslate nohighlight">\(L\)</span> a member length, and <span class="math notranslate nohighlight">\(M\)</span> a bending moment. Each node has two degrees of freedom — a vertical displacement <span class="math notranslate nohighlight">\(v\)</span> and a rotation <span class="math notranslate nohighlight">\(\theta\)</span> — collected in the global DOF vector <span class="math notranslate nohighlight">\(\mathbf{d}\)</span>. Bending moments follow the sagging-positive convention, and upward forces and displacements are positive.</p>
+<p>For background on the matrix stiffness method see the lecture notes <a class="reference external" href="http://www.colincaprani.com/structural-engineering/courses/structural-analysis-iv">here</a>; worked examples are in the <a class="reference internal" href="tutorials.html"><span class="doc">tutorials</span></a>, and the source texts for the element and load formulations are listed on the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
+<p>Beyond linear elastic analysis, <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> also provides an incremental <strong>nonlinear (elasto-plastic)</strong> analysis that tracks plastic-hinge formation to collapse; this is described in the final section.</p>
 <section id="Elements">
 <h2>Elements<a class="headerlink" href="#Elements" title="Link to this heading">#</a></h2>
 <p>The stiffness matrices for the elements used in <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> are given below.</p>
@@ -467,23 +512,18 @@ L &amp; 0 &amp; -L &amp; L^2
 0 &amp; 0 &amp; 0 &amp; 0
 \end{bmatrix}\end{split}\]</div>
 </section>
+<section id="Non-prismatic-(variable-EI)-elements">
+<h3>Non-prismatic (variable-EI) elements<a class="headerlink" href="#Non-prismatic-(variable-EI)-elements" title="Link to this heading">#</a></h3>
+<p>A <em>non-prismatic</em> member has a flexural rigidity <span class="math notranslate nohighlight">\(EI(x)\)</span> that varies along its length (a haunch, a taper, or a stepped section). <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> represents the variation with a <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> object built from contiguous <strong>segments</strong> (<code class="docutils literal notranslate"><span class="pre">const</span></code>, <code class="docutils literal notranslate"><span class="pre">linear</span></code>, <code class="docutils literal notranslate"><span class="pre">pwl</span></code>, <code class="docutils literal notranslate"><span class="pre">poly</span></code>) that describe <span class="math notranslate nohighlight">\(EI(x)\)</span> in the span-local coordinate <span class="math notranslate nohighlight">\(x\)</span>, and analyses the member with a flexibility-integrated element (<code class="docutils literal notranslate"><span class="pre">Beam.k_nonprismatic</span></code>).</p>
+<p>The element is formed by the <strong>force (flexibility) method</strong>. Releasing the span to a simply-supported beam and applying unit end moments gives the unit-moment diagrams <span class="math notranslate nohighlight">\(m_i = 1 - x/L\)</span> and <span class="math notranslate nohighlight">\(m_j = -x/L\)</span>. The end-rotation flexibility is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}F = \begin{bmatrix} f_{ii} &amp; f_{ij} \\ f_{ij} &amp; f_{jj} \end{bmatrix},
+\qquad
+f_{pq} = \int_0^L \frac{m_p\,m_q}{EI(x)}\,dx,\end{split}\]</div>
+<p>and the end moment–rotation stiffness is its inverse, <span class="math notranslate nohighlight">\(K_\theta = F^{-1}\)</span>. The diagonal terms are the rotational <strong>stiffness factors</strong> (end moment per unit rotation, far end fixed) and the off-diagonal term gives the <strong>carry-over factors</strong>. The full <span class="math notranslate nohighlight">\(4\times4\)</span> element stiffness follows from the complete flexibility, <span class="math notranslate nohighlight">\([S^{*}] = [f^{*}]^{-1}\)</span>.</p>
+<p>The flexibility integrals are evaluated <strong>piece-by-piece between consecutive breakpoints</strong> (segment joins and <code class="docutils literal notranslate"><span class="pre">pwl</span></code> kinks), so slope changes (haunch → flat) and steps are captured exactly rather than smeared by a single global quadrature. When the section is a single constant segment the integrals collapse to the closed form and the element reproduces the prismatic Type 1 matrix above to machine precision.</p>
+<p>This is the formulation of Ghali, Favre &amp; Elbadry (2002, Ch. 13) and Hulse &amp; Mosley (1986, §2.6), and the idiom tabulated in the PCA <em>Handbook of Frame Constants</em> — see the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
 </section>
-<section id="Displacements">
-<h2>Displacements<a class="headerlink" href="#Displacements" title="Link to this heading">#</a></h2>
-<p>Displacement along an element are found using cumulative trapezoidal integration to approximate the integral. It is not accurate to use the beam element shape functions due to the presence of inter-nodal loading. Thus, the rotations along an element are found by integrating the curvatures:</p>
-<div class="math notranslate nohighlight">
-\[\theta(x) = \theta_0 + \int_{x=0}^{x=L} \frac{M(x)}{EI} dx,\]</div>
-<p>and similarly the displacements then found by integrating the rotations:</p>
-<div class="math notranslate nohighlight">
-\[\delta(x) = \delta_0 + \int_{x=0}^{x=L} \theta(x) dx.\]</div>
-<p>In both cases we approximate the integral with:</p>
-<div class="math notranslate nohighlight">
-\[\int_0^L y(x) dx \approx \sum_{i=1}^{i=n} \frac{y_{i-1}+y_i}{2} \Delta x.\]</div>
-<p>which is implemented using <code class="docutils literal notranslate"><span class="pre">SciPy</span></code>’s <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.cumulative_trapezoid.html#scipy.integrate.cumulative_trapezoid">cumulative trapezoidal</a> integration along the <span class="math notranslate nohighlight">\(n\)</span> integration points along the member.</p>
-<p>Note that <span class="math notranslate nohighlight">\(\theta_0\)</span> and <span class="math notranslate nohighlight">\(\delta_0\)</span> are required: the rotation and translation at the <span class="math notranslate nohighlight">\(i\)</span>-node of the element. This is typically the output of the global system of equations; i.e., the nodal displacements. However, for elements with releases (types 2, 3, 4 above), we need to determine the starting rotation, <span class="math notranslate nohighlight">\(\theta_0\)</span>. From the slope deflection equations we can find this starting rotation at the <span class="math notranslate nohighlight">\(i\)</span>-node:</p>
-<div class="math notranslate nohighlight">
-\[\theta_i = \frac{\delta_j - \delta_i}{L} - \frac{L}{3EI}\left(-FEM_i + 0.5FEM_j + M_i - 0.5 M_j\right)\]</div>
-<p>in which the <span class="math notranslate nohighlight">\(FEM\)</span> are the consistent nodal loading moments due to the inter-nodal loads, and the <span class="math notranslate nohighlight">\(M\)</span> moments are solved from the global stiffness equation.</p>
 </section>
 <section id="Global-Stiffness-Matrix">
 <h2>Global Stiffness Matrix<a class="headerlink" href="#Global-Stiffness-Matrix" title="Link to this heading">#</a></h2>
@@ -502,6 +542,26 @@ L &amp; 0 &amp; -L &amp; L^2
 <p>A spring DOF remains as a free unknown in the linear system — no row or column elimination is performed. The spring force is recovered after solving as:</p>
 <div class="math notranslate nohighlight">
 \[F_s^{(i)} = k_s \, u_i\]</div>
+</section>
+</section>
+<section id="Loads">
+<h2>Loads<a class="headerlink" href="#Loads" title="Link to this heading">#</a></h2>
+<p>Span loads are not applied at the nodes directly. Each load on a member is first converted to its <strong>consistent (equivalent) nodal forces</strong> — the fixed-end forces the load would produce with both member ends clamped. These assemble into the global force vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> of <span class="math notranslate nohighlight">\(\mathbf{K}\,\mathbf{d}=\mathbf{f}\)</span> (with sign reversed, as they oppose the reactions they generate).</p>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> supports point loads, uniformly distributed loads, partial UDLs, moment loads, trapezoidal loads and imposed curvatures. The load-matrix format and the complete list of load types are given in the <a class="reference internal" href="general.html"><span class="doc">input data reference</span></a>; the fixed-end forces for the standard load types are the textbook closed forms, while the imposed-curvature load (load type 6) is derived below.</p>
+<section id="Imposed-curvature-(initial-strain)-loads">
+<h3>Imposed-curvature (initial-strain) loads<a class="headerlink" href="#Imposed-curvature-(initial-strain)-loads" title="Link to this heading">#</a></h3>
+<p>An <strong>imposed-curvature</strong> (or initial-strain) load applies a <em>free</em>, stress-free curvature field along a member,</p>
+<div class="math notranslate nohighlight">
+\[\kappa_\text{imp}(x) = \kappa_0 + \kappa_1 x + \kappa_2 x^2 + \dots,\]</div>
+<p>specified by its polynomial coefficients (load type 6, applied with <code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_ic</span></code>). It is the mechanism for <strong>creep, shrinkage and thermal</strong> curvatures in time-dependent analysis.</p>
+<p>On a statically-determinate (simply-supported) span an imposed curvature induces <strong>no internal forces</strong> — only a free deflected shape (e.g. a midspan deflection <span class="math notranslate nohighlight">\(\kappa L^2/8\)</span> for a uniform <span class="math notranslate nohighlight">\(\kappa\)</span>). On a restrained or continuous structure the restraint of the free curvature generates <strong>real bending moments and reactions</strong>, exactly as for differential settlement or a temperature gradient.</p>
+<p>The fixed-end forces use the same flexibility integration as the non-prismatic element. The primary (simply-supported) end rotations are</p>
+<div class="math notranslate nohighlight">
+\[\theta_0 = \Big[\int_0^L m_i(x)\,\kappa_\text{imp}(x)\,dx,\;
+                \int_0^L m_j(x)\,\kappa_\text{imp}(x)\,dx\Big],
+\qquad m_i = 1 - \tfrac{x}{L},\;\; m_j = -\tfrac{x}{L},\]</div>
+<p>and the fixed-end moments are <span class="math notranslate nohighlight">\([M_a, M_b] = K_\theta\,\theta_0\)</span>, with the end shears following from equilibrium of the resulting couple. For a <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> member the integrals are split at the section breakpoints, so an imposed curvature on a non-prismatic member honours every <span class="math notranslate nohighlight">\(EI\)</span> kink exactly.</p>
+<p>Two reference cases fix ideas: a uniform curvature on a prismatic <strong>fixed–fixed</strong> member gives a constant restraint moment <span class="math notranslate nohighlight">\(M = EI\kappa\)</span>; two equal continuous spans give an interior-support (pier) moment <span class="math notranslate nohighlight">\(-1.5\,EI\kappa\)</span>, fully self-equilibrating (zero net reaction). This is Ghali, Favre &amp; Elbadry (2002, §13.7); see the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
 </section>
 </section>
 <section id="Boundary-Conditions">
@@ -537,6 +597,106 @@ L &amp; 0 &amp; -L &amp; L^2
 \[R_i = r^*_i\]</div>
 <p>For spring DOFs the spring force is reported separately as <span class="math notranslate nohighlight">\(F_s^{(i)} = -k_s\,u_i\)</span> (upward positive), because the residual <span class="math notranslate nohighlight">\(r^*_i\)</span> at a spring DOF contains structural coupling contributions from neighbouring DOFs in addition to the spring force itself.</p>
 </section>
+<section id="Member-Displacements">
+<h2>Member Displacements<a class="headerlink" href="#Member-Displacements" title="Link to this heading">#</a></h2>
+<p>Displacement along an element are found using cumulative trapezoidal integration to approximate the integral. It is not accurate to use the beam element shape functions due to the presence of inter-nodal loading. Thus, the rotations along an element are found by integrating the curvatures:</p>
+<div class="math notranslate nohighlight">
+\[\theta(x) = \theta_0 + \int_{x=0}^{x=L} \frac{M(x)}{EI} dx,\]</div>
+<p>and similarly the displacements then found by integrating the rotations:</p>
+<div class="math notranslate nohighlight">
+\[\delta(x) = \delta_0 + \int_{x=0}^{x=L} \theta(x) dx.\]</div>
+<p>In both cases we approximate the integral with:</p>
+<div class="math notranslate nohighlight">
+\[\int_0^L y(x) dx \approx \sum_{i=1}^{i=n} \frac{y_{i-1}+y_i}{2} \Delta x.\]</div>
+<p>which is implemented using <code class="docutils literal notranslate"><span class="pre">SciPy</span></code>’s <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.cumulative_trapezoid.html#scipy.integrate.cumulative_trapezoid">cumulative trapezoidal</a> integration along the <span class="math notranslate nohighlight">\(n\)</span> integration points along the member.</p>
+<p>Note that <span class="math notranslate nohighlight">\(\theta_0\)</span> and <span class="math notranslate nohighlight">\(\delta_0\)</span> are required: the rotation and translation at the <span class="math notranslate nohighlight">\(i\)</span>-node of the element. This is typically the output of the global system of equations; i.e., the nodal displacements. However, for elements with releases (types 2, 3, 4 above), we need to determine the starting rotation, <span class="math notranslate nohighlight">\(\theta_0\)</span>. From the slope deflection equations we can find this starting rotation at the <span class="math notranslate nohighlight">\(i\)</span>-node:</p>
+<div class="math notranslate nohighlight">
+\[\theta_i = \frac{\delta_j - \delta_i}{L} - \frac{L}{3EI}\left(-FEM_i + 0.5FEM_j + M_i - 0.5 M_j\right)\]</div>
+<p>in which the <span class="math notranslate nohighlight">\(FEM\)</span> are the consistent nodal loading moments due to the inter-nodal loads, and the <span class="math notranslate nohighlight">\(M\)</span> moments are solved from the global stiffness equation.</p>
+</section>
+<section id="Nonlinear-Analysis-—-Generalized-Clough-Model">
+<h2>Nonlinear Analysis — Generalized Clough Model<a class="headerlink" href="#Nonlinear-Analysis-—-Generalized-Clough-Model" title="Link to this heading">#</a></h2>
+<p>PyCBA extends the linear elastic framework with an incremental nonlinear analysis that tracks plastic hinge formation and moment redistribution up to collapse. The approach is based on <em>concentrated plasticity</em>: nonlinear behaviour is localised at element ends (potential hinge locations), while the element interior remains elastic.</p>
+<section id="Concentrated-Plasticity-via-Stiffness-Degradation">
+<h3>Concentrated Plasticity via Stiffness Degradation<a class="headerlink" href="#Concentrated-Plasticity-via-Stiffness-Degradation" title="Link to this heading">#</a></h3>
+<p>The Generalized Clough model (Clough &amp; Johnston, 1966) introduces a stiffness-reduction parameter <span class="math notranslate nohighlight">\(R\)</span> at each element end. The parameter varies between:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(R = 1\)</span>: fully elastic (no yielding)</p></li>
+<li><p><span class="math notranslate nohighlight">\(R = q\)</span>: fully plastic hinge (<span class="math notranslate nohighlight">\(q\)</span> is the strain-hardening ratio; <span class="math notranslate nohighlight">\(q = 0\)</span> for elastic-perfectly-plastic)</p></li>
+</ul>
+<p>The transition is governed by the normalised moment ratio <span class="math notranslate nohighlight">\(\gamma = |M| / M_p\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}R = \begin{cases}
+1 &amp; \text{if } \gamma \leq \gamma_y \\[4pt]
+1 - \dfrac{\gamma - \gamma_y}{1 - \gamma_y}(1 - q) &amp; \text{if } \gamma_y &lt; \gamma &lt; 1 \\[4pt]
+q &amp; \text{if } \gamma \geq 1
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma_y = M_y / M_p\)</span> is the normalised yield moment. This produces a bilinear moment–rotation response at the section level. On unloading (<span class="math notranslate nohighlight">\(\gamma\)</span> decreasing below the historical peak), <span class="math notranslate nohighlight">\(R\)</span> resets to 1 — the Clough “origin-oriented” unloading rule.</p>
+</section>
+<section id="Element-Stiffness-with-Degradation">
+<h3>Element Stiffness with Degradation<a class="headerlink" href="#Element-Stiffness-with-Degradation" title="Link to this heading">#</a></h3>
+<p>For an element with left-end parameter <span class="math notranslate nohighlight">\(R_1\)</span> and right-end parameter <span class="math notranslate nohighlight">\(R_2\)</span>, the element stiffness matrix is interpolated between the standard fixed-fixed (<span class="math notranslate nohighlight">\(\mathbf{k}_e\)</span>), pinned-fixed (<span class="math notranslate nohighlight">\(\mathbf{k}_1\)</span>), and fixed-pinned (<span class="math notranslate nohighlight">\(\mathbf{k}_2\)</span>) matrices. Following Li &amp; Li (2007, Chapter 4), if <span class="math notranslate nohighlight">\(R_1 \geq R_2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{k} = R_2\,\mathbf{k}_e + (R_1 - R_2)\,\mathbf{k}_2\]</div>
+<p>and if <span class="math notranslate nohighlight">\(R_1 &lt; R_2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{k} = R_1\,\mathbf{k}_e + (R_2 - R_1)\,\mathbf{k}_1\]</div>
+<p>This interpolation ensures that the element stiffness degrades smoothly as either end yields, and reduces to the standard elastic matrix when <span class="math notranslate nohighlight">\(R_1 = R_2 = 1\)</span>.</p>
+</section>
+<section id="Hinge-Ownership">
+<h3>Hinge Ownership<a class="headerlink" href="#Hinge-Ownership" title="Link to this heading">#</a></h3>
+<p>At a shared node between two elements, each plastic hinge is <em>owned</em> by a single element end — the element whose end reached plasticity first. The adjacent element retains <span class="math notranslate nohighlight">\(R = 1\)</span> at that shared node. This is essential: if both element ends at a node were simultaneously degraded, the global stiffness matrix would become singular prematurely, terminating the analysis before the true collapse mechanism forms.</p>
+<p>The owning element is chosen as follows: for an interior node <span class="math notranslate nohighlight">\(j\)</span>, the hinge is assigned to element <span class="math notranslate nohighlight">\(j-1\)</span> (right end). This convention keeps the global stiffness matrix non-singular during the progressive formation of hinges.</p>
+</section>
+<section id="Incremental-Analysis-(Static)">
+<h3>Incremental Analysis (Static)<a class="headerlink" href="#Incremental-Analysis-(Static)" title="Link to this heading">#</a></h3>
+<p>The proportional-load analysis proceeds incrementally:</p>
+<ol class="arabic">
+<li><p><strong>Initialise:</strong> Set all <span class="math notranslate nohighlight">\(R = 1\)</span>, <span class="math notranslate nohighlight">\(\lambda = 0\)</span> (load factor), <span class="math notranslate nohighlight">\(\mathbf{M} = \mathbf{0}\)</span> (moments).</p></li>
+<li><p><strong>Increment:</strong> Choose a step <span class="math notranslate nohighlight">\(\Delta\lambda\)</span> (adaptive: smaller steps when any <span class="math notranslate nohighlight">\(R\)</span> is low, i.e. near plasticity).</p></li>
+<li><p><strong>Solve:</strong> Assemble <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> from the current <span class="math notranslate nohighlight">\(R\)</span> values, apply boundary conditions, and solve:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{K}\,\Delta\mathbf{u} = \Delta\lambda\,\mathbf{f}_{\text{ref}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{f}_{\text{ref}}\)</span> is the reference load vector.</p>
+</li>
+<li><p><strong>Update moments:</strong> <span class="math notranslate nohighlight">\(\mathbf{M} \leftarrow \mathbf{M} + \Delta\mathbf{M}(\Delta\mathbf{u})\)</span></p></li>
+<li><p><strong>Update R:</strong> Recompute <span class="math notranslate nohighlight">\(\gamma\)</span> at each node. If <span class="math notranslate nohighlight">\(\gamma\)</span> exceeds the historical peak, degrade <span class="math notranslate nohighlight">\(R\)</span> accordingly. If <span class="math notranslate nohighlight">\(\gamma\)</span> has decreased (unloading), reset <span class="math notranslate nohighlight">\(R = 1\)</span>.</p></li>
+<li><p><strong>Check for collapse:</strong> If a new plastic hinge has formed, test whether the current hinge pattern constitutes a mechanism (see below).</p></li>
+<li><p><strong>Repeat</strong> until collapse or <span class="math notranslate nohighlight">\(\lambda_{\max}\)</span> is reached.</p></li>
+</ol>
+</section>
+<section id="Moving-Load-Analysis">
+<h3>Moving Load Analysis<a class="headerlink" href="#Moving-Load-Analysis" title="Link to this heading">#</a></h3>
+<p>For a vehicle traversing the beam, the load position changes at each step. The key challenge is that the load must be <em>transferred</em> from the old position to the new one without introducing spurious plastic deformation. PyCBA uses paired <strong>elastic-unload / nonlinear-reload</strong> sub-increments at each position step:</p>
+<ol class="arabic simple">
+<li><p><strong>Unload</strong> the previous position’s load fraction using the <em>elastic</em> stiffness matrix (unloading is always elastic in the Clough model).</p></li>
+<li><p><strong>Reload</strong> the new position’s load fraction using the <em>current</em> (degraded) stiffness matrix.</p></li>
+</ol>
+<p>Each position step is divided into <span class="math notranslate nohighlight">\(n_{\text{sub}}\)</span> sub-increments for accuracy. This paired unload/reload procedure ensures that elastic unloading does not trigger spurious yielding, while correctly accumulating plastic damage as the vehicle traverses.</p>
+</section>
+<section id="Collapse-Detection">
+<h3>Collapse Detection<a class="headerlink" href="#Collapse-Detection" title="Link to this heading">#</a></h3>
+<p>A collapse mechanism requires sufficient plastic hinges to render the structure kinematically unstable. PyCBA detects this by a <strong>rank test</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Cluster</strong> nearby hinged nodes (within a tolerance of <span class="math notranslate nohighlight">\(2 h_{\min}\)</span>, where <span class="math notranslate nohighlight">\(h_{\min}\)</span> is the smallest element length) to account for mesh discretisation.</p></li>
+<li><p>At each clustered hinge location, set <span class="math notranslate nohighlight">\(R = 0\)</span> at <em>both</em> element ends meeting at that node — this fully releases the node, as would occur in a true mechanism.</p></li>
+<li><p>Assemble the test stiffness matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{\text{test}}\)</span> and apply boundary conditions.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\operatorname{rank}(\mathbf{K}_{\text{test}}) &lt; n_{\text{dof}}\)</span>, the structure is a mechanism and collapse has occurred.</p></li>
+</ol>
+<p>This approach is more robust than monitoring determinant magnitude or displacement growth, as it directly tests for kinematic instability.</p>
+</section>
+<section id="Mesh-Considerations">
+<h3>Mesh Considerations<a class="headerlink" href="#Mesh-Considerations" title="Link to this heading">#</a></h3>
+<p>The continuous beam is internally meshed into short elements of a target length (<code class="docutils literal notranslate"><span class="pre">mesh_size</span></code>). The mesh density affects accuracy because:</p>
+<ul class="simple">
+<li><p><strong>Point loads</strong> coinciding with mesh nodes are represented exactly. For loads between nodes, Hermite shape-function interpolation distributes the load to adjacent nodes.</p></li>
+<li><p><strong>UDL</strong> is converted to lumped nodal forces (half the tributary load at each node of each element).</p></li>
+<li><p><strong>Plastic hinges</strong> can only form at mesh nodes. For UDL, the theoretical hinge location (e.g. at <span class="math notranslate nohighlight">\(x^* = 0.414\,L\)</span> for a propped cantilever) may not coincide with a node, causing the hinge to “snap” to a nearby node. This introduces a discretisation error that is <em>not</em> monotonically decreasing with mesh refinement — it depends on how close a node falls to the theoretical location.</p></li>
+</ul>
+<p>For point-load problems where the load and hinge locations coincide with mesh nodes, the method converges rapidly. For UDL problems, errors of a few percent are typical and can be reduced by choosing mesh sizes that place nodes near the expected hinge locations.</p>
+<p>The nonlinear analysis is demonstrated in the <a class="reference internal" href="notebooks/nonlinear.html"><span class="doc">nonlinear tutorial</span></a>; the source texts (Clough &amp; Johnston, Li &amp; Li, McCarthy, and others) are on the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
+</section>
+</section>
 </section>
 
 
@@ -558,6 +718,15 @@ L &amp; 0 &amp; -L &amp; L^2
         <p class="prev-next-title">pycba.utils.parse_beam_string</p>
       </div>
     </a>
+    <a class="right-next"
+       href="references.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -575,23 +744,37 @@ L &amp; 0 &amp; -L &amp; L^2
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Note">Note</a></li>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Elements">Elements</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-1:-Fixed-Fixed">Type 1: Fixed-Fixed</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-2:-Fixed-Pinned">Type 2: Fixed-Pinned</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-3:-Pinned-Fixed">Type 3: Pinned-Fixed</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-4:-Pinned-Pinned">Type 4: Pinned-Pinned</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Non-prismatic-(variable-EI)-elements">Non-prismatic (variable-EI) elements</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Displacements">Displacements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Global-Stiffness-Matrix">Global Stiffness Matrix</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Spring-Supports">Spring Supports</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Loads">Loads</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Imposed-curvature-(initial-strain)-loads">Imposed-curvature (initial-strain) loads</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Boundary-Conditions">Boundary Conditions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Reaction-Recovery">Reaction Recovery</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Member-Displacements">Member Displacements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Nonlinear-Analysis-—-Generalized-Clough-Model">Nonlinear Analysis — Generalized Clough Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Concentrated-Plasticity-via-Stiffness-Degradation">Concentrated Plasticity via Stiffness Degradation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Element-Stiffness-with-Degradation">Element Stiffness with Degradation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Hinge-Ownership">Hinge Ownership</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Incremental-Analysis-(Static)">Incremental Analysis (Static)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Moving-Load-Analysis">Moving Load Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Collapse-Detection">Collapse Detection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Mesh-Considerations">Mesh Considerations</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -624,8 +807,8 @@ L &amp; 0 &amp; -L &amp; L^2
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -659,7 +842,7 @@ L &amp; 0 &amp; -L &amp; L^2
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
 </p></div>
       
     </div>

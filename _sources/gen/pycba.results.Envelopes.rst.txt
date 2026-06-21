@@ -1,4 +1,4 @@
-﻿pycba.results.Envelopes
+pycba.results.Envelopes
 =======================
 
 .. currentmodule:: pycba.results

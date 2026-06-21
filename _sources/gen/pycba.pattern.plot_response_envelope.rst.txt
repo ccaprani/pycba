@@ -1,0 +1,6 @@
+pycba.pattern.plot\_response\_envelope
+======================================
+
+.. currentmodule:: pycba.pattern
+
+.. autofunction:: plot_response_envelope

@@ -1,0 +1,6 @@
+pycba.pattern.plot\_load\_patterns
+==================================
+
+.. currentmodule:: pycba.pattern
+
+.. autofunction:: plot_load_patterns

@@ -1,0 +1,6 @@
+pycba.pattern.analyze\_load\_case
+=================================
+
+.. currentmodule:: pycba.pattern
+
+.. autofunction:: analyze_load_case

@@ -1,0 +1,36 @@
+pycba.section.SectionEI
+=======================
+
+.. currentmodule:: pycba.section
+
+.. autoclass:: SectionEI
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~SectionEI.add_segment
+      ~SectionEI.plot
+      ~SectionEI.validate_length
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SectionEI.breakpoints
+      ~SectionEI.is_constant
+      ~SectionEI.length
+      ~SectionEI.pieces
+   
+   

@@ -1,0 +1,26 @@
+pycba.nonlinear.NonlinearBeamAnalysis
+=====================================
+
+.. currentmodule:: pycba.nonlinear
+
+.. autoclass:: NonlinearBeamAnalysis
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~NonlinearBeamAnalysis.analyze
+      ~NonlinearBeamAnalysis.analyze_moving
+   
+   
+
+   
+   
+   

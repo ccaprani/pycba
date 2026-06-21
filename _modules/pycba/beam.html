@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pycba.beam &#8212; PyCBA 0.7.0 documentation</title>
+    <title>pycba.beam &#8212; PyCBA 0.8.0 documentation</title>
   
   
   
@@ -26,41 +26,48 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/documentation_options.js?v=486e5634"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pycba/beam';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.0" />
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -86,7 +93,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -112,8 +119,8 @@
       
     
     
-    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.7.0 documentation - Home"/>
-    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.7.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
   
   
 </a></div>
@@ -162,6 +169,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -183,11 +197,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -200,8 +221,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -212,8 +232,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -295,6 +314,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -307,11 +333,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -324,8 +357,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -336,8 +368,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -404,9 +435,11 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">PyCBA - Beam Class definition</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_LM</span><span class="p">,</span> <span class="n">LoadType</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCNL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_LM</span><span class="p">,</span> <span class="n">LoadType</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCNL</span><span class="p">,</span> <span class="n">LoadIC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
 
 
 <div class="viewcode-block" id="Beam">
@@ -463,8 +496,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># scalar EI - same for all spans</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="c1"># A single rigidity (scalar EI, or one SectionEI) applies to all</span>
+            <span class="c1"># spans; otherwise one rigidity per span is required.</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)):</span>
                 <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">et</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eletype</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">et</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -508,6 +542,10 @@
 <span class="sd">        None.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="c1"># A non-prismatic section must span the full member length so its</span>
+            <span class="c1"># piecewise EI(x) covers the element exactly.</span>
+            <span class="n">EI</span><span class="o">.</span><span class="n">validate_length</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EI</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eletype</span><span class="p">)</span>
@@ -582,6 +620,11 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="n">parse_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
+        <span class="c1"># Imposed-curvature loads need the member rigidity to evaluate their</span>
+        <span class="c1"># fixed-end forces; supply it from the span definition.</span>
+        <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="n">LoadIC</span><span class="p">):</span>
+                <span class="n">load</span><span class="o">.</span><span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">load</span><span class="o">.</span><span class="n">i_span</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -752,12 +795,132 @@
         <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">==</span> <span class="n">i_span</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">!=</span> <span class="n">i_span</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+                <span class="n">ref</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_nonprismatic</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
                 <span class="n">ref</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ref</span></div>
 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ref_nonprismatic</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">load</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Released end forces of a single load on a non-prismatic member.</span>
+
+<span class="sd">        The fixed-end moments are obtained by the same flexibility integration</span>
+<span class="sd">        used for the element stiffness.  On the simply-supported released</span>
+<span class="sd">        element the load produces the moment diagram ``M(x)`` (taken from the</span>
+<span class="sd">        load&#39;s :meth:`~pycba.load.Load.get_mbr_results`), and the primary end</span>
+<span class="sd">        rotations are</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            θ_{0} = \\Big[\\int_0^L \\frac{m_i(x)\\,M(x)}{EI(x)}\\,dx,\\;</span>
+<span class="sd">                          \\int_0^L \\frac{m_j(x)\\,M(x)}{EI(x)}\\,dx\\Big]</span>
+
+<span class="sd">        with ``m_i = 1 − x/L`` and ``m_j = −x/L`` (the same unit-moment</span>
+<span class="sd">        diagrams used for the element flexibility).  The fixed-end moments</span>
+<span class="sd">        follow directly as ``[M_a, M_b] = K_θ θ_0`` in PyCBA&#39;s nodal-moment</span>
+<span class="sd">        sign convention, and the corresponding end shears are the</span>
+<span class="sd">        simply-supported reactions plus the ``(M_a + M_b)/L`` couple.  Moment</span>
+<span class="sd">        releases are then imposed by static condensation, mirroring</span>
+<span class="sd">        :meth:`get_ref`.</span>
+
+<span class="sd">        For a constant ``EI(x)`` this reproduces the prismatic</span>
+<span class="sd">        :meth:`pycba.load.Load.get_ref` to machine precision.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load : pycba.load.Load</span>
+<span class="sd">            The load object.</span>
+<span class="sd">        EI : SectionEI</span>
+<span class="sd">            The variable-rigidity description of the member.</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+<span class="sd">        eType : int</span>
+<span class="sd">            The element type (1: FF, 2: FP, 3: PF, 4: PP).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray, shape (4,)</span>
+<span class="sd">            Released end force vector ``[Va, Ma, Vb, Mb]``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eType</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">eType</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+        <span class="c1"># Primary (simply-supported) end rotations from flexibility integration.</span>
+        <span class="c1"># For ordinary loads the integrand is the flexural curvature M(x)/EI(x);</span>
+        <span class="c1"># for an imposed-curvature (initial-strain) load M = 0 and the free</span>
+        <span class="c1"># curvature kappa_imp(x) is the primary curvature instead.</span>
+        <span class="c1">#</span>
+        <span class="c1"># The integral is split at the section breakpoints (segment joins and</span>
+        <span class="c1"># pwl kinks) so that any EI discontinuity / kink is honoured exactly;</span>
+        <span class="c1"># within each piece a fine Simpson grid captures the (possibly</span>
+        <span class="c1"># non-polynomial, e.g. point-load-kinked) moment diagram.  For a single</span>
+        <span class="c1"># constant segment this reproduces the prismatic get_ref.</span>
+        <span class="n">bps</span> <span class="o">=</span> <span class="n">EI</span><span class="o">.</span><span class="n">breakpoints</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">bps</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span><span class="p">]]))</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[(</span><span class="n">edges</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-12</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">edges</span> <span class="o">&lt;=</span> <span class="n">L</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)]</span>
+        <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span>
+        <span class="n">theta0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="mi">2001</span>
+            <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">M</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span><span class="o">.</span><span class="n">M</span>
+            <span class="n">curv</span> <span class="o">=</span> <span class="n">M</span> <span class="o">/</span> <span class="n">EI</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="n">LoadIC</span><span class="p">):</span>
+                <span class="n">curv</span> <span class="o">=</span> <span class="n">curv</span> <span class="o">+</span> <span class="n">load</span><span class="o">.</span><span class="n">kappa_imp</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+            <span class="n">mi</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">xx</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">mj</span> <span class="o">=</span> <span class="o">-</span><span class="n">xx</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">theta0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">mi</span> <span class="o">*</span> <span class="n">curv</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">xx</span><span class="p">)</span>
+            <span class="n">theta0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">mj</span> <span class="o">*</span> <span class="n">curv</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">xx</span><span class="p">)</span>
+
+        <span class="c1"># Fixed-end moments (PyCBA nodal-moment sign convention)</span>
+        <span class="n">Kth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_theta</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="n">FEM</span> <span class="o">=</span> <span class="n">Kth</span> <span class="o">@</span> <span class="n">theta0</span>
+        <span class="n">Ma</span> <span class="o">=</span> <span class="n">FEM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">Mb</span> <span class="o">=</span> <span class="n">FEM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Simply-supported reactions: recover from the load&#39;s prismatic CNL by</span>
+        <span class="c1"># removing the (prismatic) end-moment couple, leaving pure SS shears.</span>
+        <span class="n">cnl_p</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">Va_ss</span> <span class="o">=</span> <span class="n">cnl_p</span><span class="o">.</span><span class="n">Va</span> <span class="o">-</span> <span class="p">(</span><span class="n">cnl_p</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">cnl_p</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+        <span class="n">Vb_ss</span> <span class="o">=</span> <span class="n">cnl_p</span><span class="o">.</span><span class="n">Vb</span> <span class="o">+</span> <span class="p">(</span><span class="n">cnl_p</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">cnl_p</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+
+        <span class="c1"># Fixed-fixed released end forces with the *non-prismatic* moments</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">Va_ss</span> <span class="o">+</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span>
+                <span class="n">Ma</span><span class="p">,</span>
+                <span class="n">Vb_ss</span> <span class="o">-</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span>
+                <span class="n">Mb</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="c1"># Pinned-pinned: release both end moments.  Mirror the prismatic</span>
+            <span class="c1"># :meth:`pycba.load.Load.get_ref` convention exactly (the vertical</span>
+            <span class="c1"># correction is ``(Ma + Mb)/L`` applied to the fixed-fixed CNL),</span>
+            <span class="c1"># so the constant-EI limit is reproduced.</span>
+            <span class="n">Va_ff</span><span class="p">,</span> <span class="n">Vb_ff</span> <span class="o">=</span> <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Va_ff</span> <span class="o">+</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vb_ff</span> <span class="o">-</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">elif</span> <span class="n">eType</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="c1"># Single moment release: condense the released rotational DOF so</span>
+            <span class="c1"># that its moment is nulled, mirroring the prismatic k_FP / k_PF.</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">if</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">kff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_nonprismatic</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">Krr</span> <span class="o">=</span> <span class="n">kff</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">)]</span>
+            <span class="n">theta_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">Krr</span><span class="p">,</span> <span class="n">ref</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">ref</span> <span class="o">-</span> <span class="n">kff</span><span class="p">[:,</span> <span class="n">r</span><span class="p">]</span> <span class="o">@</span> <span class="n">theta_r</span>
+        <span class="k">return</span> <span class="n">ref</span>
 
 <div class="viewcode-block" id="Beam.get_span_k">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_span_k">[docs]</a>
@@ -779,6 +942,12 @@
         <span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+
+        <span class="c1"># Non-prismatic (variable-EI) members are handled by flexibility</span>
+        <span class="c1"># integration; the scalar/prismatic path below is unchanged.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_nonprismatic</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">kb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_FP</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
@@ -927,7 +1096,233 @@
         <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">k</span></div>
-</div>
+
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1">#  Non-prismatic (variable-EI) element</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gauss_nodes</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Breakpoint-aware Gauss-Legendre nodes/weights over the span ``[0, L]``.</span>
+
+<span class="sd">        The flexibility integrals are evaluated **piece-by-piece between</span>
+<span class="sd">        consecutive breakpoints** (segment joins and interior ``pwl`` kinks),</span>
+<span class="sd">        rather than by a single global quadrature over a smoothed polynomial.</span>
+<span class="sd">        Splitting at the breakpoints makes kinks (haunch -&gt; flat) and steps</span>
+<span class="sd">        (a discontinuous ``EI`` at a shared coordinate) exact.</span>
+
+<span class="sd">        The per-piece integrand is ``m_a(x) m_b(x) / EI(x)``: an (at most)</span>
+<span class="sd">        quadratic numerator over the piece&#39;s polynomial rigidity ``EI(x)``.</span>
+<span class="sd">        For a **constant** piece this is a pure quadratic polynomial, integrated</span>
+<span class="sd">        *exactly* by a 2-point Gauss rule -- so a single ``const`` segment (the</span>
+<span class="sd">        prismatic limit) reproduces the closed-form stiffness to machine</span>
+<span class="sd">        precision.  For a non-constant piece the integrand is a smooth (analytic,</span>
+<span class="sd">        ``EI &gt; 0``) rational function; Gauss-Legendre then converges</span>
+<span class="sd">        exponentially, so an order ``&gt;= 2*degree + 8`` (floored at 16) brings</span>
+<span class="sd">        every linear / pwl / poly piece to machine precision as well.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EI : SectionEI</span>
+<span class="sd">            The variable-rigidity description of the member.</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        x, w : np.ndarray</span>
+<span class="sd">            The concatenated Gauss nodes and weights mapped onto ``[0, L]``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">EI</span><span class="o">.</span><span class="n">pieces</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">x1</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">degree</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># quadratic integrand -&gt; 2-point Gauss is exact</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">degree</span> <span class="o">+</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+            <span class="n">xi</span><span class="p">,</span> <span class="n">wi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polynomial</span><span class="o">.</span><span class="n">legendre</span><span class="o">.</span><span class="n">leggauss</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xi</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">wi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotational flexibility matrix of the simply-supported released element.</span>
+
+<span class="sd">        Using the force (flexibility) method, the released (simply-supported)</span>
+<span class="sd">        element is loaded by unit end moments giving the linear moment diagrams</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            m_i(x) = 1 - x/L, \\qquad m_j(x) = -x/L</span>
+
+<span class="sd">        (the ``j``-end diagram carries the sign required by PyCBA&#39;s</span>
+<span class="sd">        counter-clockwise-positive nodal-moment convention, so that the</span>
+<span class="sd">        resulting stiffness reproduces :meth:`k_FF` exactly for constant</span>
+<span class="sd">        ``EI``) and the 2x2 rotational flexibility about the two end DOFs is</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            F = \\begin{bmatrix}</span>
+<span class="sd">                \\int_0^L \\frac{m_i^2}{EI(x)}\\,dx &amp;</span>
+<span class="sd">                \\int_0^L \\frac{m_i m_j}{EI(x)}\\,dx \\\\</span>
+<span class="sd">                \\int_0^L \\frac{m_i m_j}{EI(x)}\\,dx &amp;</span>
+<span class="sd">                \\int_0^L \\frac{m_j^2}{EI(x)}\\,dx</span>
+<span class="sd">            \\end{bmatrix}</span>
+
+<span class="sd">        The integrals are evaluated by **breakpoint-aware** Gauss-Legendre</span>
+<span class="sd">        quadrature (see :meth:`_gauss_nodes`): summed piece-by-piece between</span>
+<span class="sd">        consecutive breakpoints, with a Gauss order sufficient for each piece.</span>
+<span class="sd">        For a constant ``EI(x)`` (a single ``const`` segment) this reproduces</span>
+<span class="sd">        the prismatic flexibility exactly.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EI : SectionEI</span>
+<span class="sd">            The variable-rigidity description of the member.</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        F : np.ndarray, shape (2, 2)</span>
+<span class="sd">            The end-rotation flexibility matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">Beam</span><span class="o">.</span><span class="n">_gauss_nodes</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+
+        <span class="n">EIx</span> <span class="o">=</span> <span class="n">EI</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span>
+        <span class="n">mj</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span> <span class="o">/</span> <span class="n">L</span>
+
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">mi</span> <span class="o">*</span> <span class="n">mi</span> <span class="o">/</span> <span class="n">EIx</span><span class="p">)</span>
+        <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">mi</span> <span class="o">*</span> <span class="n">mj</span> <span class="o">/</span> <span class="n">EIx</span><span class="p">)</span>
+        <span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">mj</span> <span class="o">*</span> <span class="n">mj</span> <span class="o">/</span> <span class="n">EIx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">F</span>
+
+<div class="viewcode-block" id="Beam.k_theta">
+<a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_theta">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">k_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        2x2 moment-rotation stiffness of the (chord-relative) element ends.</span>
+
+<span class="sd">        This is the inverse of the rotational flexibility matrix</span>
+<span class="sd">        (see :meth:`_flexibility`), relating the end moments ``[M_i, M_j]`` to</span>
+<span class="sd">        the chord-relative end rotations ``[theta_i, theta_j]``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EI : SectionEI</span>
+<span class="sd">            The variable-rigidity description of the member.</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray, shape (2, 2)</span>
+<span class="sd">            The end moment-rotation stiffness matrix ``K_theta = F^-1``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Beam.k_nonprismatic">
+<a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_nonprismatic">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">k_nonprismatic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        4x4 stiffness matrix of a non-prismatic (variable-EI) element.</span>
+
+<span class="sd">        The 2x2 moment-rotation stiffness ``K_theta`` from flexibility</span>
+<span class="sd">        integration (see :meth:`k_theta`) is expanded to the full 4-DOF element</span>
+<span class="sd">        using the kinematic transformation that removes the rigid-body chord</span>
+<span class="sd">        rotation ``psi = (v_j - v_i)/L``:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \\begin{bmatrix} \\theta_i \\\\ \\theta_j \\end{bmatrix}</span>
+<span class="sd">            = T \\begin{bmatrix} v_i \\\\ \\theta_i \\\\ v_j \\\\ \\theta_j</span>
+<span class="sd">            \\end{bmatrix},</span>
+<span class="sd">            \\quad</span>
+<span class="sd">            T = \\begin{bmatrix}</span>
+<span class="sd">                1/L &amp; 1 &amp; -1/L &amp; 0 \\\\</span>
+<span class="sd">                1/L &amp; 0 &amp; -1/L &amp; 1</span>
+<span class="sd">            \\end{bmatrix}</span>
+
+<span class="sd">        so the element stiffness is ``k = T^T K_theta T``.  The end shears</span>
+<span class="sd">        emerge automatically as ``(M_i + M_j)/L`` from this transformation,</span>
+<span class="sd">        matching PyCBA&#39;s DOF order ``[v_i, theta_i, v_j, theta_j]`` and sign</span>
+<span class="sd">        convention.</span>
+
+<span class="sd">        Moment releases (element types 2, 3, 4) are imposed by static</span>
+<span class="sd">        condensation of the released rotational DOF(s), exactly mirroring the</span>
+<span class="sd">        prismatic :meth:`k_FP`, :meth:`k_PF`, and :meth:`k_PP`: the released</span>
+<span class="sd">        row/column are zeroed and their flexibility is condensed out.</span>
+
+<span class="sd">        For a constant ``EI(x)`` this reproduces the closed-form prismatic</span>
+<span class="sd">        :meth:`k_FF`, :meth:`k_FP`, :meth:`k_PF`, :meth:`k_PP` to machine</span>
+<span class="sd">        precision.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EI : SectionEI</span>
+<span class="sd">            The variable-rigidity description of the member.</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+<span class="sd">        eType : int</span>
+<span class="sd">            The element type (1: FF, 2: FP, 3: PF, 4: PP).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        k : np.ndarray, shape (4, 4)</span>
+<span class="sd">            The element stiffness matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Kth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_theta</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Kth</span> <span class="o">@</span> <span class="n">T</span>
+
+        <span class="c1"># Moment releases: condense out released rotational DOF(s).</span>
+        <span class="n">released</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[],</span> <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">eType</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())]</span>
+        <span class="k">if</span> <span class="n">released</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_condense</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">released</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">k</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_condense</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">released</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Statically condense released DOF(s) out of a 4x4 element stiffness.</span>
+
+<span class="sd">        The released rows/columns are zeroed (as in the prismatic released</span>
+<span class="sd">        matrices) and their stiffness is condensed into the retained DOFs via</span>
+<span class="sd">        the Schur complement ``k_kk - k_kr k_rr^-1 k_rk``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k : np.ndarray, shape (4, 4)</span>
+<span class="sd">            The fully-fixed element stiffness matrix.</span>
+<span class="sd">        released : list of int</span>
+<span class="sd">            DOF indices to release (e.g. ``[3]`` for a pin at the ``j`` end).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray, shape (4, 4)</span>
+<span class="sd">            Condensed stiffness with released rows/columns zeroed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kept</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">released</span><span class="p">]</span>
+        <span class="n">Kkk</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">kept</span><span class="p">,</span> <span class="n">kept</span><span class="p">)]</span>
+        <span class="n">Krr</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">released</span><span class="p">)]</span>
+        <span class="n">Kkr</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">kept</span><span class="p">,</span> <span class="n">released</span><span class="p">)]</span>
+        <span class="n">Krk</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">kept</span><span class="p">)]</span>
+        <span class="n">Kcond</span> <span class="o">=</span> <span class="n">Kkk</span> <span class="o">-</span> <span class="n">Kkr</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Krr</span><span class="p">)</span> <span class="o">@</span> <span class="n">Krk</span>
+
+        <span class="n">kc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">kc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">kept</span><span class="p">,</span> <span class="n">kept</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Kcond</span>
+        <span class="k">return</span> <span class="n">kc</span></div>
 
 </pre></div>
 
@@ -958,8 +1353,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -993,7 +1388,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
 </p></div>
       
     </div>

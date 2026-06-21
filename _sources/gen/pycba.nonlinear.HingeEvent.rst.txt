@@ -1,0 +1,33 @@
+pycba.nonlinear.HingeEvent
+==========================
+
+.. currentmodule:: pycba.nonlinear
+
+.. autoclass:: HingeEvent
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HingeEvent.load_factor
+      ~HingeEvent.location
+      ~HingeEvent.node_index
+      ~HingeEvent.event_type
+   
+   

@@ -1,0 +1,1579 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pycba.nonlinear &#8212; PyCBA 0.8.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=486e5634"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pycba/nonlinear';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.nonlinear</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pycba.nonlinear</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">PyCBA Nonlinear Module — Generalized Clough Model</span>
+<span class="sd">==================================================</span>
+
+<span class="sd">Incremental nonlinear analysis of continuous beams using the Generalized</span>
+<span class="sd">Clough model for material nonlinearity (concentrated plasticity).</span>
+
+<span class="sd">The Generalized Clough model tracks a stiffness-reduction parameter *R* at</span>
+<span class="sd">each element end.  *R* = 1 is fully elastic and *R* = *q* (the strain-</span>
+<span class="sd">hardening ratio) indicates a fully plastic hinge.  Between yield (*M_y*)</span>
+<span class="sd">and the plastic moment (*M_p*), *R* degrades linearly, producing a bilinear</span>
+<span class="sd">moment–rotation response at the section level.</span>
+
+<span class="sd">Each plastic hinge is *owned* by a single element end so that the adjacent</span>
+<span class="sd">element retains rotational stiffness at the shared node.  This keeps the</span>
+<span class="sd">global stiffness matrix non-singular during load redistribution and allows</span>
+<span class="sd">the analysis to continue past first-hinge formation.  True collapse is</span>
+<span class="sd">detected by a separate rank test that zeros both element ends at every</span>
+<span class="sd">hinged node and checks for global singularity.</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">- Clough, R.W. &amp; Johnston, S.B. (1966). &quot;Effect of stiffness degradation</span>
+<span class="sd">  on earthquake ductility requirements.&quot; *Proc. Japan Earthquake</span>
+<span class="sd">  Engineering Symposium*, Tokyo, pp. 227–232.</span>
+<span class="sd">- Li, G.Q. &amp; Li, J.J. (2007). *Advanced Analysis and Design of Steel</span>
+<span class="sd">  Frames*. John Wiley &amp; Sons, Chapter 4.</span>
+<span class="sd">- McCarthy, L.A. (2012). *Probabilistic Analysis of Indeterminate Highway</span>
+<span class="sd">  Bridges Considering Material Nonlinearity*. MPhil Thesis, Dublin</span>
+<span class="sd">  Institute of Technology.</span>
+<span class="sd">- Caprani, C.C. (2006). &quot;Probabilistic Analysis of Highway Bridge Traffic</span>
+<span class="sd">  Loading.&quot; PhD Thesis, University College Dublin.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1">#  Data classes</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="HingeEvent">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.HingeEvent.html#pycba.nonlinear.HingeEvent">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HingeEvent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Record of a yield or plastic-hinge formation event.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    load_factor : float</span>
+<span class="sd">        Load factor (for static analysis) or front-axle position in metres</span>
+<span class="sd">        (for moving-load analysis) at which the event occurred.</span>
+<span class="sd">    location : float</span>
+<span class="sd">        Global coordinate (m) along the beam where the hinge formed.</span>
+<span class="sd">    node_index : int</span>
+<span class="sd">        Internal mesh node index.</span>
+<span class="sd">    event_type : str</span>
+<span class="sd">        Either ``&#39;initial_yield&#39;`` or ``&#39;plastic_hinge&#39;``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">load_factor</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">node_index</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">event_type</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="NonlinearResult">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NonlinearResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Results container for a nonlinear beam analysis.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    collapse_lambda : float</span>
+<span class="sd">        Load factor at collapse (static) or front-axle position in metres</span>
+<span class="sd">        at collapse (moving load).  If no collapse occurred, this is the</span>
+<span class="sd">        final value reached.</span>
+<span class="sd">    collapsed : bool</span>
+<span class="sd">        ``True`` if a collapse mechanism was detected.</span>
+<span class="sd">    hinge_events : list[HingeEvent]</span>
+<span class="sd">        Chronological list of yield and plastic-hinge events.</span>
+<span class="sd">    node_coords : ndarray</span>
+<span class="sd">        Global coordinates of all mesh nodes.</span>
+<span class="sd">    final_moments : ndarray</span>
+<span class="sd">        Nodal bending moments at the end of the analysis.</span>
+<span class="sd">    final_R : ndarray, shape (n_elem, 2)</span>
+<span class="sd">        Final element-end stiffness-reduction parameters.</span>
+<span class="sd">    support_coords : ndarray</span>
+<span class="sd">        Global x-coordinates of the support locations.</span>
+<span class="sd">    lambda_history : list[float]</span>
+<span class="sd">        Recorded load-factor (or position) snapshots.</span>
+<span class="sd">    moment_history : list[ndarray]</span>
+<span class="sd">        Recorded moment-distribution snapshots (same length as</span>
+<span class="sd">        *lambda_history*).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">collapse_lambda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">collapsed</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">hinge_events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">HingeEvent</span><span class="p">]</span>
+    <span class="n">node_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">final_moments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">final_R</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">support_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+    <span class="n">lambda_history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">moment_history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NonlinearResult.plot_moments">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_moments">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the bending moment distribution at collapse.</span>
+
+<span class="sd">        If moment history snapshots were recorded (via ``record_every``),</span>
+<span class="sd">        they are shown as light traces behind the final distribution.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Mp : float, optional</span>
+<span class="sd">            Plastic moment capacity.  If given, horizontal dashed lines</span>
+<span class="sd">            are drawn at +/- *Mp*.</span>
+<span class="sd">        ax : matplotlib Axes, optional</span>
+<span class="sd">            Axes to plot on.  If ``None``, a new figure is created.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ax : matplotlib Axes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">mom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">moment_history</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="n">label</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Collapse (</span><span class="se">\u03bb</span><span class="s2">=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span>
+            <span class="k">else</span> <span class="s2">&quot;Final&quot;</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_moments</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">Mp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">Mp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;$M_p$ = </span><span class="si">{</span><span class="n">Mp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="n">Mp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">ax</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_draw_beam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">support_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw beam line and support triangles at vertical position *y*.&quot;&quot;&quot;</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">support_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ylim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+            <span class="n">support_size</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.04</span> <span class="ow">or</span> <span class="mf">0.1</span>
+        <span class="k">for</span> <span class="n">xs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">:</span>
+            <span class="n">tri</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">[</span><span class="n">xs</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">xs</span> <span class="o">-</span> <span class="n">support_size</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">support_size</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">xs</span> <span class="o">+</span> <span class="n">support_size</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">support_size</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+                <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">tri</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NonlinearResult.plot_hinge_history">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_hinge_history">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_hinge_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moving</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the hinge formation sequence along the beam.</span>
+
+<span class="sd">        Each event is shown as a marker at ``(x, stage)`` where *x* is the</span>
+<span class="sd">        hinge location on the beam.</span>
+
+<span class="sd">        For **static** analysis, *stage* is the load factor at which the</span>
+<span class="sd">        event occurred.  The beam line is drawn at $\\lambda = 1$.</span>
+
+<span class="sd">        For **moving-load** analysis (``moving=True``), *stage* is the</span>
+<span class="sd">        front-axle position when the event occurred — showing where the</span>
+<span class="sd">        load was when each hinge formed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        moving : bool, optional</span>
+<span class="sd">            If ``True``, label the y-axis as front-axle position.</span>
+<span class="sd">            Default ``False`` (load factor).</span>
+<span class="sd">        ax : matplotlib Axes, optional</span>
+<span class="sd">            Axes to plot on.  If ``None``, a new figure is created.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ax : matplotlib Axes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">etype</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;initial_yield&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="s2">&quot;Initial yield&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;plastic_hinge&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="s2">&quot;Plastic hinge&quot;</span><span class="p">),</span>
+        <span class="p">]:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_events</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">etype</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">events</span><span class="p">:</span>
+                <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">location</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">]</span>
+                <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">load_factor</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">moving</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Load factor $</span><span class="se">\\</span><span class="s2">lambda$&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Front axle position (m)&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="NonlinearResult.plot_beam_state">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_beam_state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_beam_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the beam with hinge locations and optional vehicle position.</span>
+
+<span class="sd">        Draws the beam, supports, and marks yield/hinge locations along</span>
+<span class="sd">        the beam line.  If *vehicle* is given and the analysis collapsed,</span>
+<span class="sd">        axle positions at collapse are shown above the beam.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vehicle : :class:`pycba.Vehicle`, optional</span>
+<span class="sd">            Vehicle object.  Axle positions are drawn at the collapse</span>
+<span class="sd">            position (``collapse_lambda``).</span>
+<span class="sd">        ax : matplotlib Axes, optional</span>
+<span class="sd">            Axes to plot on.  If ``None``, a new figure is created.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ax : matplotlib Axes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">beam_y</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Beam and supports</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_draw_beam</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">beam_y</span><span class="p">,</span> <span class="n">support_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="c1"># Hinge markers on the beam line</span>
+        <span class="k">for</span> <span class="n">etype</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">yoff</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;initial_yield&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="s2">&quot;Initial yield&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;plastic_hinge&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;Plastic hinge&quot;</span><span class="p">),</span>
+        <span class="p">]:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_events</span> <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">etype</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">events</span><span class="p">:</span>
+                <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="o">.</span><span class="n">location</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">events</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">xs</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">beam_y</span> <span class="o">+</span> <span class="n">yoff</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                    <span class="n">s</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
+                    <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Vehicle axles at collapse position</span>
+        <span class="k">if</span> <span class="n">vehicle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">front</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">ac</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">vehicle</span><span class="o">.</span><span class="n">axw</span><span class="p">,</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">)):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">front</span> <span class="o">-</span> <span class="n">ac</span>
+                <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                        <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">beam_y</span><span class="p">),</span>
+                        <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">beam_y</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">),</span>
+                        <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                            <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&gt;,head_width=0.3&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                        <span class="n">x</span><span class="p">,</span>
+                        <span class="n">beam_y</span> <span class="o">+</span> <span class="mf">1.1</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                        <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                        <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;collapse&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="s2">&quot;final&quot;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vehicle at </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">: front axle x = </span><span class="si">{</span><span class="n">front</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ax</span></div>
+</div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1">#  Element stiffness matrices (4×4)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_k_FF</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixed-fixed 4-DOF beam element stiffness matrix (*k_e* in Clough notation).&quot;&quot;&quot;</span>
+    <span class="n">L2</span><span class="p">,</span> <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
+    <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">L2</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">L2</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">L2</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">L2</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_k_PF</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pinned-fixed element stiffness, hinge at left end (*k_1* in Clough notation).&quot;&quot;&quot;</span>
+    <span class="n">L2</span><span class="p">,</span> <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
+    <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">L2</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_k_FP</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixed-pinned element stiffness, hinge at right end (*k_2* in Clough notation).&quot;&quot;&quot;</span>
+    <span class="n">L2</span><span class="p">,</span> <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
+    <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">L2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1">#  Mesh generation</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_mesh</span><span class="p">(</span><span class="n">span_L</span><span class="p">,</span> <span class="n">span_R</span><span class="p">,</span> <span class="n">mesh_size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate an internal finite-element mesh for the continuous beam.</span>
+
+<span class="sd">    Each span is divided into elements of approximately *mesh_size* length.</span>
+<span class="sd">    Boundary conditions are derived from the pycba restraint vector *span_R*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    span_L : ndarray</span>
+<span class="sd">        Span lengths.</span>
+<span class="sd">    span_R : list</span>
+<span class="sd">        Restraint vector (pycba convention: ``-1`` = fixed, ``0`` = free,</span>
+<span class="sd">        positive = spring stiffness).</span>
+<span class="sd">    mesh_size : float</span>
+<span class="sd">        Target element length.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    node_coords : ndarray</span>
+<span class="sd">        Global x-coordinates of each mesh node.</span>
+<span class="sd">    elem_lengths : ndarray</span>
+<span class="sd">        Length of each element.</span>
+<span class="sd">    bc_dofs : list[int]</span>
+<span class="sd">        Global DOF indices that are restrained.</span>
+<span class="sd">    node_to_span : ndarray</span>
+<span class="sd">        Maps each node index to its parent span index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_spans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">span_L</span><span class="p">)</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+    <span class="n">elem_L_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n2s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_spans</span><span class="p">):</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">span_L</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">L</span> <span class="o">/</span> <span class="n">mesh_size</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="n">ne</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ne</span><span class="p">):</span>
+            <span class="n">elem_L_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+            <span class="n">n2s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="n">node_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+    <span class="n">elem_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">elem_L_list</span><span class="p">)</span>
+    <span class="n">node_to_span</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">n2s</span><span class="p">)</span>
+
+    <span class="n">bc_dofs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">support_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">span_L</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i_sup</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_spans</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">mn</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">node_coords</span> <span class="o">-</span> <span class="n">support_x</span><span class="p">[</span><span class="n">i_sup</span><span class="p">])))</span>
+        <span class="k">if</span> <span class="n">span_R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i_sup</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">bc_dofs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">mn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">span_R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i_sup</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">bc_dofs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">mn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">node_coords</span><span class="p">,</span> <span class="n">elem_lengths</span><span class="p">,</span> <span class="n">bc_dofs</span><span class="p">,</span> <span class="n">node_to_span</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1">#  Main analysis class</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="NonlinearBeamAnalysis">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearBeamAnalysis.html#pycba.nonlinear.NonlinearBeamAnalysis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NonlinearBeamAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Nonlinear continuous beam analysis using the Generalized Clough model.</span>
+
+<span class="sd">    The beam is automatically meshed into short elements whose end stiffnesses</span>
+<span class="sd">    degrade from elastic (*R* = 1) to plastic (*R* = *q*) as the bending moment</span>
+<span class="sd">    increases from *M_y* to *M_p*.  Collapse is detected when the pattern of</span>
+<span class="sd">    plastic hinges forms a mechanism (global stiffness matrix becomes singular).</span>
+
+<span class="sd">    Two analysis modes are provided:</span>
+
+<span class="sd">    * :meth:`analyze` — proportional static loading with an increasing load</span>
+<span class="sd">      factor.</span>
+<span class="sd">    * :meth:`analyze_moving` — a vehicle (single axle or multi-axle) traverses</span>
+<span class="sd">      the beam, with paired elastic-unload / nonlinear-reload sub-increments at</span>
+<span class="sd">      each position step.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    L : array_like</span>
+<span class="sd">        Span lengths (m).</span>
+<span class="sd">    EI : float or array_like</span>
+<span class="sd">        Flexural rigidity (kNm²), scalar or per-span.</span>
+<span class="sd">    R : array_like</span>
+<span class="sd">        Restraint vector in pycba convention (``-1`` = fixed, ``0`` = free).</span>
+<span class="sd">    Mp : float or array_like</span>
+<span class="sd">        Plastic moment capacity (kNm), scalar or per-span.</span>
+<span class="sd">    My : float or array_like, optional</span>
+<span class="sd">        Yield moment capacity (kNm).  Defaults to ``Mp / 1.15``.</span>
+<span class="sd">    q : float, optional</span>
+<span class="sd">        Strain-hardening ratio.  ``0`` gives elastic-perfectly-plastic</span>
+<span class="sd">        behaviour; a small positive value (e.g. 0.01) adds post-yield</span>
+<span class="sd">        stiffness.  Default ``0``.</span>
+<span class="sd">    mesh_size : float, optional</span>
+<span class="sd">        Target element length (m) for the internal mesh.  Default ``0.5``.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    See module-level docstring for full reference list.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; nba = NonlinearBeamAnalysis(L=[12, 12], EI=67035.0,</span>
+<span class="sd">    ...     R=[-1, 0, -1, 0, -1, 0], Mp=432.0, My=376.0)</span>
+<span class="sd">    &gt;&gt;&gt; result = nba.analyze(LM=[[1, 2, 100, 6]], lambda_max=5.0)</span>
+<span class="sd">    &gt;&gt;&gt; result.collapsed</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">L</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">R</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">Mp</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">My</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">mesh_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">span_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_spans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">span_L</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">span_L</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">span_R</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span>
+
+        <span class="c1"># The Generalized Clough element assumes a constant EI per element, so</span>
+        <span class="c1"># non-prismatic (SectionEI) members are not supported.  Reject them with</span>
+        <span class="c1"># a clear message rather than failing later in a float() conversion.</span>
+        <span class="n">ei_members</span> <span class="o">=</span> <span class="n">EI</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span> <span class="k">else</span> <span class="p">[</span><span class="n">EI</span><span class="p">]</span>
+        <span class="n">nonprismatic</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ei_members</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">nonprismatic</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;NonlinearBeamAnalysis supports prismatic (constant-EI) members &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;only; member(s) </span><span class="si">{</span><span class="n">nonprismatic</span><span class="si">}</span><span class="s2"> were supplied as SectionEI &quot;</span>
+                <span class="s2">&quot;(non-prismatic). Use BeamAnalysis for non-prismatic &quot;</span>
+                <span class="s2">&quot;(variable-EI) elastic analysis, or pass a scalar EI for &quot;</span>
+                <span class="s2">&quot;nonlinear analysis.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">_as</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+            <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">span_EI</span> <span class="o">=</span> <span class="n">_as</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_spans</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">span_Mp</span> <span class="o">=</span> <span class="n">_as</span><span class="p">(</span><span class="n">Mp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_spans</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">span_My</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">span_Mp</span> <span class="o">/</span> <span class="mf">1.15</span><span class="p">)</span> <span class="k">if</span> <span class="n">My</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_as</span><span class="p">(</span><span class="n">My</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_spans</span><span class="p">)</span>
+
+        <span class="c1"># Build mesh</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elem_L</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bc_dofs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_to_span</span> <span class="o">=</span> <span class="n">_build_mesh</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">span_L</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">span_R</span><span class="p">,</span> <span class="n">mesh_size</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elem_L</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">span_L</span><span class="p">)))</span>
+
+        <span class="c1"># Per-element / per-node properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elem_EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span_EI</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node_to_span</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_Mp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span_Mp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node_to_span</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_My</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span_My</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node_to_span</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_gamma_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_My</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_Mp</span>
+
+        <span class="c1"># ---- Precompute element stiffness matrices (n_elem, 4, 4) ----</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ke_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">_k_FF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elem_EI</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">elem_L</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_k1_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">_k_PF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elem_EI</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">elem_L</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_k2_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">_k_FP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elem_EI</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">elem_L</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">)]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Precompute elastic global K with BCs applied (for unloading)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_K_elastic_bc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_bc_inplace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_assemble_elastic</span><span class="p">())</span>
+
+        <span class="c1"># BC mask for fast BC application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bc_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bc_dofs</span><span class="p">)</span>
+
+    <span class="c1"># ---- Assembly (vectorized) ----</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_elastic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assemble the global elastic stiffness matrix (all *R* = 1).&quot;&quot;&quot;</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
+            <span class="n">K</span><span class="p">[</span><span class="n">d</span> <span class="p">:</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">d</span> <span class="p">:</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ke_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">K</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_from_elem_R</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assemble global stiffness using current element-end *R* values.</span>
+
+<span class="sd">        The element stiffness is interpolated between the fixed-fixed,</span>
+<span class="sd">        pinned-fixed, and fixed-pinned matrices according to the *R*</span>
+<span class="sd">        parameters at each end (see Li &amp; Li, 2007, Chapter 4).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
+            <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">R_elem</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R_elem</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">R1</span> <span class="o">&gt;=</span> <span class="n">R2</span><span class="p">:</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ke_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">R1</span> <span class="o">-</span> <span class="n">R2</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k2_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">R1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ke_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">R2</span> <span class="o">-</span> <span class="n">R1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k1_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
+            <span class="n">K</span><span class="p">[</span><span class="n">d</span> <span class="p">:</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">d</span> <span class="p">:</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span> <span class="o">+=</span> <span class="n">k</span>
+        <span class="k">return</span> <span class="n">K</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc_inplace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply BCs to K (modifies and returns K).&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bc_dofs</span><span class="p">:</span>
+            <span class="n">K</span><span class="p">[</span><span class="n">dof</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">K</span><span class="p">[:,</span> <span class="n">dof</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">K</span><span class="p">[</span><span class="n">dof</span><span class="p">,</span> <span class="n">dof</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">return</span> <span class="n">K</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply boundary conditions to copies of *K* and *F*.&quot;&quot;&quot;</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bc_dofs</span><span class="p">:</span>
+            <span class="n">K</span><span class="p">[</span><span class="n">dof</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">K</span><span class="p">[:,</span> <span class="n">dof</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">K</span><span class="p">[</span><span class="n">dof</span><span class="p">,</span> <span class="n">dof</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">F</span><span class="p">[</span><span class="n">dof</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="n">K</span><span class="p">,</span> <span class="n">F</span>
+
+    <span class="c1"># ---- Force vectors ----</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_force_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the global force vector from a pycba load matrix.</span>
+
+<span class="sd">        Supports UDL (type 1) and point load (type 2) entries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
+        <span class="n">span_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">span_L</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">ld</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">:</span>
+            <span class="n">i_span</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ld</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">lt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ld</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ld</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">lt</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># UDL</span>
+                <span class="n">xs</span><span class="p">,</span> <span class="n">xe</span> <span class="o">=</span> <span class="n">span_starts</span><span class="p">[</span><span class="n">i_span</span><span class="p">],</span> <span class="n">span_starts</span><span class="p">[</span><span class="n">i_span</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">ie</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">ie</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">xs</span> <span class="o">+</span> <span class="mf">1e-10</span>
+                        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">ie</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xe</span> <span class="o">-</span> <span class="mf">1e-10</span>
+                    <span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elem_L</span><span class="p">[</span><span class="n">ie</span><span class="p">]</span>
+                    <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ie</span><span class="p">]</span> <span class="o">-=</span> <span class="n">val</span> <span class="o">*</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">ie</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">-=</span> <span class="n">val</span> <span class="o">*</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">elif</span> <span class="n">lt</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># Point load</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_point_load</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">span_starts</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">ld</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">F</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_point_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">F</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a point load *P* at global coordinate *x* into force vector *F*.</span>
+
+<span class="sd">        Uses Hermite shape-function interpolation when *x* falls between</span>
+<span class="sd">        mesh nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_length</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">ni</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span> <span class="o">-</span> <span class="n">x</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">ni</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+            <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ni</span><span class="p">]</span> <span class="o">-=</span> <span class="n">P</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nL</span> <span class="o">=</span> <span class="n">ni</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">ni</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="k">else</span> <span class="n">ni</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">nR</span> <span class="o">=</span> <span class="n">nL</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">nR</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">nL</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">nL</span><span class="p">]</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">h</span> <span class="o">-</span> <span class="n">a</span>
+            <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nL</span><span class="p">]</span> <span class="o">-=</span> <span class="n">P</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">3</span>
+            <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nL</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="n">P</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nR</span><span class="p">]</span> <span class="o">-=</span> <span class="n">P</span> <span class="o">*</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">3</span>
+            <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nR</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">P</span> <span class="o">*</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_point_load_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a new force vector for a single point load *P* at *x*.&quot;&quot;&quot;</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_point_load</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">F</span>
+
+    <span class="c1"># ---- Moment extraction (vectorized) ----</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract nodal bending moments from displacement vector *u*.</span>
+
+<span class="sd">        Uses the current (degraded) element stiffnesses defined by *R_elem*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
+            <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">R_elem</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R_elem</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">R1</span> <span class="o">&gt;=</span> <span class="n">R2</span><span class="p">:</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ke_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">R1</span> <span class="o">-</span> <span class="n">R2</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k2_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">R1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ke_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">R2</span> <span class="o">-</span> <span class="n">R1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k1_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">fe</span> <span class="o">=</span> <span class="n">k</span> <span class="o">@</span> <span class="n">u</span><span class="p">[</span><span class="n">d</span> <span class="p">:</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">moments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fe</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">moments</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">fe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">moments</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_moments_elastic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract nodal moments assuming fully elastic element stiffnesses.&quot;&quot;&quot;</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
+            <span class="n">fe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ke_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">@</span> <span class="n">u</span><span class="p">[</span><span class="n">d</span> <span class="p">:</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">moments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fe</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">moments</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">fe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">moments</span>
+
+    <span class="c1"># ---- R update (vectorized) ----</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_R</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">,</span> <span class="n">yielded</span><span class="p">,</span> <span class="n">hinged</span><span class="p">,</span> <span class="n">hinge_events</span><span class="p">,</span> <span class="n">pos_label</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update element-end *R* parameters from current bending moments.</span>
+
+<span class="sd">        The normalised moment ratio gamma = |M| / M_p controls stiffness</span>
+<span class="sd">        degradation: *R* = 1 for gamma &lt;= gamma_y, linearly decreasing to</span>
+<span class="sd">        *q* at gamma = 1 (full plasticity).  Unloading resets *R* to 1</span>
+<span class="sd">        (elastic rebound) — the Clough &quot;origin-oriented&quot; rule.</span>
+
+<span class="sd">        Returns ``True`` if a new plastic hinge formed at any node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">moments</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_Mp</span>
+        <span class="n">new_hinge</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">):</span>
+            <span class="n">ie</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># owning element</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+            <span class="k">if</span> <span class="n">gamma</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">gamma_max</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                <span class="n">gamma_max</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">g</span><span class="p">,</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_gamma_y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">g</span> <span class="o">&lt;=</span> <span class="n">gy</span><span class="p">:</span>
+                    <span class="n">R_elem</span><span class="p">[</span><span class="n">ie</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="k">elif</span> <span class="n">g</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="n">R_elem</span><span class="p">[</span><span class="n">ie</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">R_elem</span><span class="p">[</span><span class="n">ie</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="n">gy</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">gy</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">R_elem</span><span class="p">[</span><span class="n">ie</span><span class="p">,</span> <span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+            <span class="k">if</span> <span class="n">gamma</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_gamma_y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">yielded</span><span class="p">:</span>
+                <span class="n">yielded</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">hinge_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">HingeEvent</span><span class="p">(</span><span class="n">pos_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;initial_yield&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">gamma</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hinged</span><span class="p">:</span>
+                <span class="n">hinged</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">hinge_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">HingeEvent</span><span class="p">(</span><span class="n">pos_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;plastic_hinge&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">new_hinge</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">new_hinge</span>
+
+    <span class="c1"># ---- Mechanism test ----</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cluster_hinges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hinged_nodes</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cluster nearby hinged nodes into representative locations.</span>
+
+<span class="sd">        Because the mesh may produce multiple hinged nodes at nearly the</span>
+<span class="sd">        same physical location, this groups them within *tol* (default</span>
+<span class="sd">        2 * min element length) and returns one representative per cluster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hinged_nodes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">tol</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">tol</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elem_L</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+        <span class="n">sn</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">hinged_nodes</span><span class="p">)</span>
+        <span class="n">clusters</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sn</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sn</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">clusters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&lt;=</span> <span class="n">tol</span><span class="p">:</span>
+                <span class="n">clusters</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">clusters</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">n</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_mechanism</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hinged_nodes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test whether the current hinge pattern forms a collapse mechanism.</span>
+
+<span class="sd">        Builds a test stiffness matrix with *R* = 0 at both element ends</span>
+<span class="sd">        of every clustered hinge location.  If this matrix is rank-deficient</span>
+<span class="sd">        the structure has become a mechanism.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cluster_hinges</span><span class="p">(</span><span class="n">hinged_nodes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reps</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">R_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">reps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">R_test</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">:</span>
+                <span class="n">R_test</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">K_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_from_elem_R</span><span class="p">(</span><span class="n">R_test</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_bc_inplace</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">K_test</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span>
+
+    <span class="c1"># ---- Static incremental analysis ----</span>
+
+<div class="viewcode-block" id="NonlinearBeamAnalysis.analyze">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearBeamAnalysis.html#pycba.nonlinear.NonlinearBeamAnalysis.analyze">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">,</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">record_every</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a proportional-load incremental nonlinear analysis.</span>
+
+<span class="sd">        The reference load defined by *LM* is scaled by a load factor</span>
+<span class="sd">        lambda that increases from 0 to *lambda_max* (or until collapse).</span>
+<span class="sd">        Step sizes adapt automatically based on the minimum *R* value.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        LM : list of lists</span>
+<span class="sd">            Load matrix in pycba convention.  Each entry is</span>
+<span class="sd">            ``[span, type, value, position]`` where type 1 = UDL,</span>
+<span class="sd">            type 2 = point load.</span>
+<span class="sd">        lambda_max : float, optional</span>
+<span class="sd">            Maximum load factor to reach.  Default ``20.0``.</span>
+<span class="sd">        record_every : int, optional</span>
+<span class="sd">            Store moment snapshots every *n* increments (0 = off).</span>
+<span class="sd">        max_steps : int, optional</span>
+<span class="sd">            Safety limit on the number of increments.  Default ``50000``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        NonlinearResult</span>
+<span class="sd">            Contains collapse load factor, hinge history, and moment</span>
+<span class="sd">            distribution at end of analysis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">F_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_force_vector</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
+        <span class="n">R_elem</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+        <span class="n">gamma_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+
+        <span class="n">lam</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">hinge_events</span><span class="p">,</span> <span class="n">lam_hist</span><span class="p">,</span> <span class="n">mom_hist</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">yielded</span><span class="p">,</span> <span class="n">hinged</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">while</span> <span class="n">lam</span> <span class="o">&lt;</span> <span class="n">lambda_max</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="n">max_steps</span><span class="p">:</span>
+            <span class="n">Rmin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">R_elem</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+            <span class="n">dl</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="k">if</span> <span class="n">Rmin</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="p">(</span><span class="mf">0.01</span> <span class="k">if</span> <span class="n">Rmin</span> <span class="o">&gt;</span> <span class="mf">0.25</span> <span class="k">else</span> <span class="mf">0.001</span><span class="p">)</span>
+            <span class="n">dl</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="n">lambda_max</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span>
+            <span class="n">lam</span> <span class="o">+=</span> <span class="n">dl</span>
+            <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_from_elem_R</span><span class="p">(</span><span class="n">R_elem</span><span class="p">)</span>
+            <span class="n">K_bc</span><span class="p">,</span> <span class="n">F_bc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_bc</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">dl</span> <span class="o">*</span> <span class="n">F_ref</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K_bc</span><span class="p">,</span> <span class="n">F_bc</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">NonlinearResult</span><span class="p">(</span>
+                    <span class="n">lam</span> <span class="o">-</span> <span class="n">dl</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">hinge_events</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span>
+                    <span class="n">moments</span><span class="p">,</span>
+                    <span class="n">R_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">,</span>
+                    <span class="n">lam_hist</span><span class="p">,</span>
+                    <span class="n">mom_hist</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">moments</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_moments</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">)</span>
+            <span class="n">new_h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_R</span><span class="p">(</span>
+                <span class="n">moments</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">,</span> <span class="n">yielded</span><span class="p">,</span> <span class="n">hinged</span><span class="p">,</span> <span class="n">hinge_events</span><span class="p">,</span> <span class="n">lam</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">new_h</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_mechanism</span><span class="p">(</span><span class="n">hinged</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">NonlinearResult</span><span class="p">(</span>
+                    <span class="n">lam</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">hinge_events</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span>
+                    <span class="n">moments</span><span class="p">,</span>
+                    <span class="n">R_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">,</span>
+                    <span class="n">lam_hist</span><span class="p">,</span>
+                    <span class="n">mom_hist</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">record_every</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">step</span> <span class="o">%</span> <span class="n">record_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lam_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span>
+                <span class="n">mom_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moments</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">NonlinearResult</span><span class="p">(</span>
+            <span class="n">lam</span><span class="p">,</span>
+            <span class="kc">False</span><span class="p">,</span>
+            <span class="n">hinge_events</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span>
+            <span class="n">moments</span><span class="p">,</span>
+            <span class="n">R_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">,</span>
+            <span class="n">lam_hist</span><span class="p">,</span>
+            <span class="n">mom_hist</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="c1"># ---- Vehicle force vector ----</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_vehicle_force_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">,</span> <span class="n">axle_coords</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build force vector for a multi-axle vehicle at position *pos*.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        axle_weights : (n_axles,) array of axle loads (kN).</span>
+<span class="sd">        axle_coords : (n_axles,) array of axle positions relative to the</span>
+<span class="sd">            first axle (from :class:`pycba.Vehicle.axle_coords`).</span>
+<span class="sd">        pos : global coordinate of the first (leading) axle.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">ac</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axle_weights</span><span class="p">,</span> <span class="n">axle_coords</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="n">ac</span>  <span class="c1"># axle_coords[0]=0, subsequent trail behind</span>
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_length</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_point_load</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">F</span>
+
+    <span class="c1"># ---- Moving load analysis ----</span>
+
+<div class="viewcode-block" id="NonlinearBeamAnalysis.analyze_moving">
+<a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearBeamAnalysis.html#pycba.nonlinear.NonlinearBeamAnalysis.analyze_moving">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_moving</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">vehicle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">n_sub</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">record_every</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Moving-load nonlinear analysis.</span>
+
+<span class="sd">        A vehicle traverses the beam from left to right.  At each position</span>
+<span class="sd">        step the load is transferred via paired elastic-unload / nonlinear-</span>
+<span class="sd">        reload sub-increments.</span>
+
+<span class="sd">        The vehicle can be specified as:</span>
+
+<span class="sd">        * **Single axle** — pass ``P`` (float, kN).</span>
+<span class="sd">        * **Multi-axle** — pass a :class:`pycba.Vehicle` object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        P : float, optional</span>
+<span class="sd">            Single point load magnitude.</span>
+<span class="sd">        vehicle : :class:`pycba.Vehicle`, optional</span>
+<span class="sd">            A pycba Vehicle object with axle weights and spacings.</span>
+<span class="sd">        step : float</span>
+<span class="sd">            Distance the front axle moves per position step.</span>
+<span class="sd">        n_sub : int</span>
+<span class="sd">            Sub-increments per position step for the unload/reload transfer.</span>
+<span class="sd">        record_every : int</span>
+<span class="sd">            Store moment snapshots every *n* position steps.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        NonlinearResult</span>
+<span class="sd">            ``collapse_lambda`` is the front-axle position (m) at collapse.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Resolve vehicle definition</span>
+        <span class="k">if</span> <span class="n">vehicle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">aw</span> <span class="o">=</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">axw</span>
+            <span class="n">ax_coords</span> <span class="o">=</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">axle_coords</span>
+            <span class="n">vehicle_L</span> <span class="o">=</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">L</span>
+        <span class="k">elif</span> <span class="n">P</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">aw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">P</span><span class="p">)])</span>
+            <span class="n">ax_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+            <span class="n">vehicle_L</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Specify either P or vehicle&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Front axle travels from 0 to total_length + vehicle_L</span>
+        <span class="c1"># (so the rear axle clears the bridge)</span>
+        <span class="n">x_end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_length</span> <span class="o">+</span> <span class="n">vehicle_L</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_end</span> <span class="o">+</span> <span class="n">step</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+        <span class="n">d_frac</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">n_sub</span>
+
+        <span class="n">R_elem</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+        <span class="n">gamma_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
+        <span class="n">hinge_events</span><span class="p">,</span> <span class="n">lam_hist</span><span class="p">,</span> <span class="n">mom_hist</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">yielded</span><span class="p">,</span> <span class="n">hinged</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="n">F_prev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
+        <span class="n">K_el_bc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_K_elastic_bc</span>
+
+        <span class="k">for</span> <span class="n">i_pos</span><span class="p">,</span> <span class="n">x_front</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">positions</span><span class="p">):</span>
+            <span class="n">F_cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_force_vector</span><span class="p">(</span><span class="n">aw</span><span class="p">,</span> <span class="n">ax_coords</span><span class="p">,</span> <span class="n">x_front</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">i_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sub</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_update_R</span><span class="p">(</span>
+                        <span class="n">moments</span><span class="p">,</span>
+                        <span class="n">gamma_max</span><span class="p">,</span>
+                        <span class="n">R_elem</span><span class="p">,</span>
+                        <span class="n">yielded</span><span class="p">,</span>
+                        <span class="n">hinged</span><span class="p">,</span>
+                        <span class="n">hinge_events</span><span class="p">,</span>
+                        <span class="n">x_front</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_from_elem_R</span><span class="p">(</span><span class="n">R_elem</span><span class="p">)</span>
+                    <span class="n">K_bc</span><span class="p">,</span> <span class="n">F_bc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_bc</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">d_frac</span> <span class="o">*</span> <span class="n">F_cur</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K_bc</span><span class="p">,</span> <span class="n">F_bc</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mr</span><span class="p">(</span>
+                            <span class="n">x_front</span><span class="p">,</span>
+                            <span class="kc">True</span><span class="p">,</span>
+                            <span class="n">hinge_events</span><span class="p">,</span>
+                            <span class="n">moments</span><span class="p">,</span>
+                            <span class="n">R_elem</span><span class="p">,</span>
+                            <span class="n">lam_hist</span><span class="p">,</span>
+                            <span class="n">mom_hist</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="n">moments</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_moments</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sub</span><span class="p">):</span>
+                    <span class="c1"># Elastic unload</span>
+                    <span class="n">F_ul</span> <span class="o">=</span> <span class="o">-</span><span class="n">d_frac</span> <span class="o">*</span> <span class="n">F_prev</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bc_dofs</span><span class="p">:</span>
+                        <span class="n">F_ul</span><span class="p">[</span><span class="n">dof</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+                    <span class="n">u_ul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K_el_bc</span><span class="p">,</span> <span class="n">F_ul</span><span class="p">)</span>
+                    <span class="n">moments</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_moments_elastic</span><span class="p">(</span><span class="n">u_ul</span><span class="p">)</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_update_R</span><span class="p">(</span>
+                        <span class="n">moments</span><span class="p">,</span>
+                        <span class="n">gamma_max</span><span class="p">,</span>
+                        <span class="n">R_elem</span><span class="p">,</span>
+                        <span class="n">yielded</span><span class="p">,</span>
+                        <span class="n">hinged</span><span class="p">,</span>
+                        <span class="n">hinge_events</span><span class="p">,</span>
+                        <span class="n">x_front</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_from_elem_R</span><span class="p">(</span><span class="n">R_elem</span><span class="p">)</span>
+                    <span class="n">K_bc</span><span class="p">,</span> <span class="n">F_bc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_bc</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">d_frac</span> <span class="o">*</span> <span class="n">F_cur</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K_bc</span><span class="p">,</span> <span class="n">F_bc</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mr</span><span class="p">(</span>
+                            <span class="n">x_front</span><span class="p">,</span>
+                            <span class="kc">True</span><span class="p">,</span>
+                            <span class="n">hinge_events</span><span class="p">,</span>
+                            <span class="n">moments</span><span class="p">,</span>
+                            <span class="n">R_elem</span><span class="p">,</span>
+                            <span class="n">lam_hist</span><span class="p">,</span>
+                            <span class="n">mom_hist</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="n">moments</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_moments</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">)</span>
+
+                <span class="n">nh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_R</span><span class="p">(</span>
+                    <span class="n">moments</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">,</span> <span class="n">yielded</span><span class="p">,</span> <span class="n">hinged</span><span class="p">,</span> <span class="n">hinge_events</span><span class="p">,</span> <span class="n">x_front</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">nh</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_mechanism</span><span class="p">(</span><span class="n">hinged</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mr</span><span class="p">(</span>
+                        <span class="n">x_front</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">hinge_events</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">,</span> <span class="n">lam_hist</span><span class="p">,</span> <span class="n">mom_hist</span>
+                    <span class="p">)</span>
+
+            <span class="n">F_prev</span> <span class="o">=</span> <span class="n">F_cur</span>
+            <span class="k">if</span> <span class="n">record_every</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i_pos</span> <span class="o">%</span> <span class="n">record_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lam_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_front</span><span class="p">)</span>
+                <span class="n">mom_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moments</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mr</span><span class="p">(</span>
+            <span class="n">positions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="kc">False</span><span class="p">,</span> <span class="n">hinge_events</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">,</span> <span class="n">lam_hist</span><span class="p">,</span> <span class="n">mom_hist</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_mr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">coll</span><span class="p">,</span> <span class="n">he</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">lh</span><span class="p">,</span> <span class="n">mh</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Package analysis state into a :class:`NonlinearResult`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">NonlinearResult</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">coll</span><span class="p">,</span> <span class="n">he</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">,</span> <span class="n">lh</span><span class="p">,</span> <span class="n">mh</span>
+        <span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Colin Caprani.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

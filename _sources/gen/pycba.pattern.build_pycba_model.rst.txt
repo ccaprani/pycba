@@ -1,0 +1,6 @@
+pycba.pattern.build\_pycba\_model
+=================================
+
+.. currentmodule:: pycba.pattern
+
+.. autofunction:: build_pycba_model

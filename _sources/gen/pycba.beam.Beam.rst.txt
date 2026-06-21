@@ -1,4 +1,4 @@
-﻿pycba.beam.Beam
+pycba.beam.Beam
 ===============
 
 .. currentmodule:: pycba.beam
@@ -25,6 +25,8 @@
       ~Beam.k_FP
       ~Beam.k_PF
       ~Beam.k_PP
+      ~Beam.k_nonprismatic
+      ~Beam.k_theta
    
    
 

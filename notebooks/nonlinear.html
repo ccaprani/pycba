@@ -1,0 +1,956 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Nonlinear Beam Analysis &#8212; PyCBA 0.8.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../_static/documentation_options.js?v=486e5634"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/nonlinear';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Non-prismatic Elements" href="nonprismatic.html" />
+    <link rel="prev" title="Bridge Analysis" href="bridge.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction to PyCBA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="envelopes.html">Load Cases, Load Patterning &amp; Design Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inf_lines.html">Influence Lines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge Analysis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Nonlinear Beam Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonprismatic.html">Non-prismatic Elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imposed_curvature.html">Imposed Curvature</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Nonlinear Beam Analysis</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Nonlinear-Beam-Analysis">
+<h1>Nonlinear Beam Analysis<a class="headerlink" href="#Nonlinear-Beam-Analysis" title="Link to this heading">#</a></h1>
+<p>PyCBA includes an incremental nonlinear analysis capability based on the <strong>Generalized Clough model</strong> for concentrated plasticity. This allows the formation and tracking of plastic hinges in continuous beams up to collapse.</p>
+<p>For the full theoretical background — the <span class="math notranslate nohighlight">\(R\)</span>-parameter degradation law, element stiffness interpolation, hinge ownership, incremental algorithm, moving load transfer, and collapse detection — see the <a class="reference internal" href="../theory.html#Nonlinear-Analysis-—-Generalized-Clough-Model"><span class="std std-ref">Theoretical Basis</span></a> page.</p>
+<div class="admonition note">
+<p><strong>Note</strong> — Nonlinear analysis supports <strong>prismatic</strong> (constant-<span class="math notranslate nohighlight">\(EI\)</span>) members only. The Generalized Clough element assumes a constant <span class="math notranslate nohighlight">\(EI\)</span> per element, so passing a <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> (non-prismatic) member to <code class="docutils literal notranslate"><span class="pre">NonlinearBeamAnalysis</span></code> raises a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>. For variable-<span class="math notranslate nohighlight">\(EI\)</span> members use the linear <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code> — see the <a class="reference internal" href="nonprismatic.html"><span class="doc">Non-prismatic Elements</span></a> tutorial.</p>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<section id="Example-1-—-Point-Load-at-Midspan-(Validation)">
+<h2>Example 1 — Point Load at Midspan (Validation)<a class="headerlink" href="#Example-1-—-Point-Load-at-Midspan-(Validation)" title="Link to this heading">#</a></h2>
+<p>We validate against a closed-form plastic analysis result.</p>
+<p>A two-span continuous beam (two equal spans of <span class="math notranslate nohighlight">\(L = 12\)</span> m, three pin supports) is loaded with a single point load <span class="math notranslate nohighlight">\(P = 100\)</span> kN at the midspan of span 1 (<span class="math notranslate nohighlight">\(x = 6\)</span> m).</p>
+<p><strong>Section properties:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(M_p = 432\)</span> kNm, <span class="math notranslate nohighlight">\(M_y = 376\)</span> kNm, <span class="math notranslate nohighlight">\(EI = 67{,}035\)</span> kNm<span class="math notranslate nohighlight">\(^2\)</span></p></li>
+</ul>
+<p><strong>Collapse load factor from virtual work:</strong></p>
+<p>The collapse mechanism has hinges at midspan (<span class="math notranslate nohighlight">\(x = L/2\)</span>) and at the interior support (<span class="math notranslate nohighlight">\(x = L\)</span>). Let the left part rotate <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<ul class="simple">
+<li><p>Deflection at midspan: <span class="math notranslate nohighlight">\(\delta = (L/2)\,\theta\)</span></p></li>
+<li><p>Right part of span 1 also rotates <span class="math notranslate nohighlight">\(\theta\)</span> (by geometry)</p></li>
+<li><p>Midspan hinge rotation: <span class="math notranslate nohighlight">\(2\theta\)</span>. Support hinge rotation: <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>Internal work: <span class="math notranslate nohighlight">\(W_i = M_p \cdot 2\theta + M_p \cdot \theta = 3\,M_p\,\theta\)</span></p></li>
+<li><p>External work: <span class="math notranslate nohighlight">\(W_e = \lambda P \cdot (L/2)\,\theta\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\lambda = \frac{3\,M_p}{P \cdot L/2} = \frac{3 \times 432}{100 \times 6} = 2.16\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Mp</span><span class="p">,</span> <span class="n">My</span> <span class="o">=</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">432.0</span><span class="p">,</span> <span class="mf">376.0</span>
+<span class="n">EI</span> <span class="o">=</span> <span class="mf">67035.0</span>
+
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
+    <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span>
+    <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="n">lam_theory</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">Mp</span> <span class="o">/</span> <span class="p">(</span><span class="n">P</span> <span class="o">*</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">error_pct</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">collapse_lambda</span> <span class="o">-</span> <span class="n">lam_theory</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_theory</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">lam_theory</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NFEA </span><span class="se">\u03bb</span><span class="s2">         = </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error           = </span><span class="si">{</span><span class="n">error_pct</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Collapsed       = </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">collapsed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The hinge formation sequence shows which locations yielded and became plastic, and at what load factor:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">plot_hinge_history</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Hinge formation sequence&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Yield initiates at the interior support, the support hinge forms first, then the midspan hinge completes the mechanism. Moments at hinge locations are at <span class="math notranslate nohighlight">\(M_p\)</span>, confirming equilibrium.</p>
+</section>
+<section id="Example-2-—-UDL-on-One-Span">
+<h2>Example 2 — UDL on One Span<a class="headerlink" href="#Example-2-—-UDL-on-One-Span" title="Link to this heading">#</a></h2>
+<p>UDL <span class="math notranslate nohighlight">\(w = 20\)</span> kN/m on span 1 only. The collapse mechanism has hinges at <span class="math notranslate nohighlight">\(x = a^*\)</span> (sagging) and <span class="math notranslate nohighlight">\(x = L\)</span> (support B, hogging).</p>
+<p><strong>Virtual work derivation:</strong></p>
+<p>Left part rotates <span class="math notranslate nohighlight">\(\theta\)</span>, deflection at hinge = <span class="math notranslate nohighlight">\(a\,\theta\)</span>. Right part rotates <span class="math notranslate nohighlight">\(\varphi = a\theta/(L-a)\)</span>. The deflected shape is triangular with area <span class="math notranslate nohighlight">\(= a L \theta / 2\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\lambda = \frac{2\,M_p\,(L + a)}{w\,a\,L\,(L - a)}\]</div>
+<p>Minimising over <span class="math notranslate nohighlight">\(a\)</span> gives <span class="math notranslate nohighlight">\(a^* = L(\sqrt{2}-1) \approx 0.414\,L\)</span>.</p>
+<p><strong>Note on mesh sensitivity:</strong> The concentrated-plasticity model requires a hinge to form at a mesh node. For UDL, the theoretical hinge at <span class="math notranslate nohighlight">\(a^* = 4.97\)</span> m generally doesn’t coincide with a mesh node, so accuracy depends on which nearby node captures the hinge.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="mf">20.0</span>
+<span class="n">a_opt</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">lam_theory</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Mp</span> <span class="o">*</span> <span class="p">(</span><span class="n">L</span> <span class="o">+</span> <span class="n">a_opt</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">a_opt</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="p">(</span><span class="n">L</span> <span class="o">-</span> <span class="n">a_opt</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal hinge location: x* = </span><span class="si">{</span><span class="n">a_opt</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">lam_theory</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">ms</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]:</span>
+    <span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
+        <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span>
+        <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span> <span class="o">-</span> <span class="n">lam_theory</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_theory</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">locs</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="o">.</span><span class="n">location</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">hinge_events</span> <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s1">&#39;plastic_hinge&#39;</span><span class="p">]</span>
+    <span class="n">sag</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">locs</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">L</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  mesh = </span><span class="si">{</span><span class="n">ms</span><span class="si">:</span><span class="s2">4.2f</span><span class="si">}</span><span class="s2"> m  |  </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  |  error = </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">%  |  sagging hinge at x = </span><span class="si">{</span><span class="n">sag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> m&quot;</span> <span class="k">if</span> <span class="n">sag</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;  mesh = </span><span class="si">{</span><span class="n">ms</span><span class="si">}</span><span class="s2"> m  |  no sagging hinge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The error is not monotonically decreasing with mesh refinement — this is characteristic of concentrated-plasticity models where the hinge must snap to a discrete node. Meshes that happen to place a node near <span class="math notranslate nohighlight">\(x^* = 4.97\)</span> m perform best.</p>
+</section>
+<section id="Example-3-—-Moment-Redistribution-History">
+<h2>Example 3 — Moment Redistribution History<a class="headerlink" href="#Example-3-—-Moment-Redistribution-History" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">record_every</span></code> parameter captures moment distributions at regular intervals. This visualises how moments redistribute as hinges form.</p>
+<p>Repeating Example 1 with snapshots every 50 increments:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
+    <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span>
+    <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">record_every</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">result</span><span class="o">.</span><span class="n">plot_moments</span><span class="p">(</span><span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Moment redistribution during incremental loading&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>The hogging moment at the interior support reaches <span class="math notranslate nohighlight">\(M_p\)</span> first. Further load is redistributed to the sagging region until the midspan hinge forms and collapse occurs.</p>
+</section>
+<section id="Example-4-—-Strain-Hardening">
+<h2>Example 4 — Strain Hardening<a class="headerlink" href="#Example-4-—-Strain-Hardening" title="Link to this heading">#</a></h2>
+<p>The strain-hardening ratio <span class="math notranslate nohighlight">\(q\)</span> controls post-yield stiffness. With <span class="math notranslate nohighlight">\(q = 0\)</span> (elastic-perfectly-plastic) the moment is capped at <span class="math notranslate nohighlight">\(M_p\)</span>. A positive <span class="math notranslate nohighlight">\(q\)</span> allows the moment to exceed <span class="math notranslate nohighlight">\(M_p\)</span>, which increases the collapse load.</p>
+<p>Comparing three values of <span class="math notranslate nohighlight">\(q\)</span> for the same beam and loading as Example 1:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">q_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+<span class="n">lam_theory_q0</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">Mp</span> <span class="o">/</span> <span class="p">(</span><span class="n">P</span> <span class="o">*</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">q_values</span><span class="p">:</span>
+    <span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
+        <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span>
+        <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;collapse at </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;no collapse (</span><span class="se">\u03bb</span><span class="s2">_max reached)&quot;</span>
+    <span class="n">increase</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span> <span class="o">/</span> <span class="n">lam_theory_q0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;q = </span><span class="si">{</span><span class="n">q</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">increase</span><span class="si">:</span><span class="s2">+.1f</span><span class="si">}</span><span class="s2">% vs q=0 theory)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Example-5-—-Three-Span-Beam">
+<h2>Example 5 — Three-Span Beam<a class="headerlink" href="#Example-5-—-Three-Span-Beam" title="Link to this heading">#</a></h2>
+<p>For a three-span beam with UDL on all spans, the critical mechanism is in an <strong>outer span</strong> (which acts as a propped cantilever: pinned at one end, continuous at the other). The centre span, being effectively fixed-fixed, has a higher collapse load and is not critical.</p>
+<p>The theoretical collapse load factors are:</p>
+<ul class="simple">
+<li><p>Outer span: <span class="math notranslate nohighlight">\(\lambda_{\text{outer}} = 2\,M_p(L+a^*)\,/\,(w\,a^*\,L(L-a^*))\)</span> where <span class="math notranslate nohighlight">\(a^* = L(\sqrt{2}-1)\)</span></p></li>
+<li><p>Centre span: <span class="math notranslate nohighlight">\(\lambda_{\text{centre}} = 16\,M_p\,/\,(w\,L^2)\)</span></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">L_s</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">w</span> <span class="o">=</span> <span class="mf">20.0</span>
+<span class="n">a_s</span> <span class="o">=</span> <span class="n">L_s</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">lam_outer</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Mp</span> <span class="o">*</span> <span class="p">(</span><span class="n">L_s</span> <span class="o">+</span> <span class="n">a_s</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">a_s</span> <span class="o">*</span> <span class="n">L_s</span> <span class="o">*</span> <span class="p">(</span><span class="n">L_s</span> <span class="o">-</span> <span class="n">a_s</span><span class="p">))</span>
+<span class="n">lam_centre</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">Mp</span> <span class="o">/</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">L_s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Outer span theory:  </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">lam_outer</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Centre span theory: </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">lam_centre</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Critical mechanism: </span><span class="si">{</span><span class="s1">&#39;outer span&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">lam_outer</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lam_centre</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;centre span&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
+    <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L_s</span><span class="p">,</span> <span class="n">L_s</span><span class="p">,</span> <span class="n">L_s</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span>
+    <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span>
+    <span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]],</span>
+    <span class="n">lambda_max</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">record_every</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">collapse_lambda</span> <span class="o">-</span> <span class="n">lam_outer</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_outer</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NFEA </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  (error = </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% vs outer span theory)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hinge sequence:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">hinge_events</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;plastic_hinge&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="se">\u03bb</span><span class="s2"> = </span><span class="si">{</span><span class="n">h</span><span class="o">.</span><span class="n">load_factor</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  |  x = </span><span class="si">{</span><span class="n">h</span><span class="o">.</span><span class="n">location</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="n">result</span><span class="o">.</span><span class="n">plot_hinge_history</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Hinge formation sequence&quot;</span><span class="p">)</span>
+
+<span class="n">result</span><span class="o">.</span><span class="n">plot_moments</span><span class="p">(</span><span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Three-span beam: moment redistribution to collapse&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Example-6-—-Validation-Summary">
+<h2>Example 6 — Validation Summary<a class="headerlink" href="#Example-6-—-Validation-Summary" title="Link to this heading">#</a></h2>
+<p>We collect all closed-form validation cases into a summary table. Each theoretical result is derived from virtual work (upper-bound plastic analysis) and is exact for elastic-perfectly-plastic material (<span class="math notranslate nohighlight">\(q = 0\)</span>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cases</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Case 1: Point load at midspan</span>
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">cases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Point load at midspan&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">Mp</span><span class="o">/</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span> <span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="p">))</span>
+
+<span class="c1"># Case 2: UDL on span 1</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">L</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">cases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;UDL on one span&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Mp</span><span class="o">*</span><span class="p">(</span><span class="n">L</span><span class="o">+</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="n">a</span><span class="p">)),</span> <span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="p">))</span>
+
+<span class="c1"># Case 3: Two point loads</span>
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">8</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="n">cases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Two point loads&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Mp</span><span class="o">/</span><span class="mi">550</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="p">))</span>
+
+<span class="c1"># Case 4: 3-span beam, UDL all spans (outer span governs)</span>
+<span class="n">L3</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">a3</span> <span class="o">=</span> <span class="n">L3</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L3</span><span class="p">,</span><span class="n">L3</span><span class="p">,</span><span class="n">L3</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Mp</span><span class="o">=</span><span class="n">Mp</span><span class="p">,</span> <span class="n">My</span><span class="o">=</span><span class="n">My</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">LM</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">]],</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="n">cases</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;3-span UDL (outer span)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Mp</span><span class="o">*</span><span class="p">(</span><span class="n">L3</span><span class="o">+</span><span class="n">a3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">a3</span><span class="o">*</span><span class="n">L3</span><span class="o">*</span><span class="p">(</span><span class="n">L3</span><span class="o">-</span><span class="n">a3</span><span class="p">)),</span> <span class="n">r</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="p">))</span>
+
+<span class="n">hdr_t</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\u03bb</span><span class="s2"> theory&quot;</span>
+<span class="n">hdr_n</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\u03bb</span><span class="s2"> NFEA&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Case&#39;</span><span class="si">:</span><span class="s2">&lt;28s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">hdr_t</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">hdr_n</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Error&#39;</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">lt</span><span class="p">,</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">cases</span><span class="p">:</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ln</span> <span class="o">-</span> <span class="n">lt</span><span class="p">)</span> <span class="o">/</span> <span class="n">lt</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;28s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">lt</span><span class="si">:</span><span class="s2">10.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ln</span><span class="si">:</span><span class="s2">10.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s2">7.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>All cases agree with the closed-form virtual-work solutions to within a few percent. The largest errors arise for UDL cases where the theoretical hinge location doesn’t coincide with a mesh node — this is inherent to the concentrated-plasticity model.</p>
+</section>
+<section id="Example-7-—-Moving-Load-Analysis">
+<h2>Example 7 — Moving Load Analysis<a class="headerlink" href="#Example-7-—-Moving-Load-Analysis" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">analyze_moving</span></code> method simulates a vehicle traversing the beam from left to right. At each position step, the load transfer uses paired elastic-unload / nonlinear-reload sub-increments.</p>
+<p>We consider a two-span bridge (2 × 15 m) with a single point load. The theoretical static collapse load for a point load at midspan is:</p>
+<div class="math notranslate nohighlight">
+\[P_{\text{static}} = \frac{3\,M_p}{L/2} = \frac{3 \times 2694}{7.5} = 1077.6 \text{ kN}\]</div>
+<p>We run the analysis at twice this load to guarantee collapse during the traverse:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Mp_bridge</span> <span class="o">=</span> <span class="mf">2694.0</span>
+<span class="n">L_bridge</span> <span class="o">=</span> <span class="mf">15.0</span>
+<span class="n">P_static</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">Mp_bridge</span> <span class="o">/</span> <span class="p">(</span><span class="n">L_bridge</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
+    <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L_bridge</span><span class="p">,</span> <span class="n">L_bridge</span><span class="p">],</span>
+    <span class="n">EI</span><span class="o">=</span><span class="mf">1_870_000.0</span><span class="p">,</span>
+    <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">Mp</span><span class="o">=</span><span class="n">Mp_bridge</span><span class="p">,</span>
+    <span class="n">My</span><span class="o">=</span><span class="n">Mp_bridge</span> <span class="o">/</span> <span class="mf">1.15</span><span class="p">,</span>
+    <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze_moving</span><span class="p">(</span><span class="n">P</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">P_static</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_sub</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">record_every</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Static collapse load:   P = </span><span class="si">{</span><span class="n">P_static</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kN&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applied load:           P = </span><span class="si">{</span><span class="mi">2</span><span class="o">*</span><span class="n">P_static</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kN&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Collapsed:              </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">collapsed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">collapsed</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Front axle at collapse: x = </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="n">result</span><span class="o">.</span><span class="n">plot_hinge_history</span><span class="p">(</span><span class="n">moving</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Hinge events: load position vs hinge location&quot;</span><span class="p">)</span>
+
+<span class="n">result</span><span class="o">.</span><span class="n">plot_moments</span><span class="p">(</span><span class="n">Mp</span><span class="o">=</span><span class="n">Mp_bridge</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Moment evolution during traverse&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Example-8-—-Multi-Axle-Vehicle-Collapse">
+<h2>Example 8 — Multi-Axle Vehicle Collapse<a class="headerlink" href="#Example-8-—-Multi-Axle-Vehicle-Collapse" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">analyze_moving</span></code> method also accepts a <code class="docutils literal notranslate"><span class="pre">pycba.Vehicle</span></code> object for multi-axle vehicles. Here we define a heavy 3-axle truck and run it across the same bridge. The axle weights are scaled up to ensure collapse occurs during the traverse:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">truck</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Vehicle</span><span class="p">(</span><span class="n">axle_weights</span><span class="o">=</span><span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">],</span> <span class="n">axle_spacings</span><span class="o">=</span><span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vehicle length: </span><span class="si">{</span><span class="n">truck</span><span class="o">.</span><span class="n">L</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Axle coordinates: </span><span class="si">{</span><span class="n">truck</span><span class="o">.</span><span class="n">axle_coords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total weight: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">truck</span><span class="o">.</span><span class="n">axw</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kN&quot;</span><span class="p">)</span>
+
+<span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
+    <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L_bridge</span><span class="p">,</span> <span class="n">L_bridge</span><span class="p">],</span>
+    <span class="n">EI</span><span class="o">=</span><span class="mf">1_870_000.0</span><span class="p">,</span>
+    <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">Mp</span><span class="o">=</span><span class="n">Mp_bridge</span><span class="p">,</span>
+    <span class="n">My</span><span class="o">=</span><span class="n">Mp_bridge</span> <span class="o">/</span> <span class="mf">1.15</span><span class="p">,</span>
+    <span class="n">q</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">nlba</span><span class="o">.</span><span class="n">analyze_moving</span><span class="p">(</span><span class="n">vehicle</span><span class="o">=</span><span class="n">truck</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_sub</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">record_every</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Collapsed: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">collapsed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">collapsed</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Front axle at collapse: x = </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">plot_beam_state</span><span class="p">(</span><span class="n">vehicle</span><span class="o">=</span><span class="n">truck</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bridge.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bridge Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nonprismatic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Non-prismatic Elements</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1-—-Point-Load-at-Midspan-(Validation)">Example 1 — Point Load at Midspan (Validation)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2-—-UDL-on-One-Span">Example 2 — UDL on One Span</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3-—-Moment-Redistribution-History">Example 3 — Moment Redistribution History</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4-—-Strain-Hardening">Example 4 — Strain Hardening</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5-—-Three-Span-Beam">Example 5 — Three-Span Beam</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-6-—-Validation-Summary">Example 6 — Validation Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-7-—-Moving-Load-Analysis">Example 7 — Moving Load Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-8-—-Multi-Axle-Vehicle-Collapse">Example 8 — Multi-Axle Vehicle Collapse</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/notebooks/nonlinear.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Colin Caprani.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+pycba.nonlinear.NonlinearResult
+===============================
+
+.. currentmodule:: pycba.nonlinear
+
+.. autoclass:: NonlinearResult
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~NonlinearResult.plot_beam_state
+      ~NonlinearResult.plot_hinge_history
+      ~NonlinearResult.plot_moments
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NonlinearResult.collapse_lambda
+      ~NonlinearResult.collapsed
+      ~NonlinearResult.hinge_events
+      ~NonlinearResult.node_coords
+      ~NonlinearResult.final_moments
+      ~NonlinearResult.final_R
+      ~NonlinearResult.support_coords
+      ~NonlinearResult.lambda_history
+      ~NonlinearResult.moment_history
+   
+   

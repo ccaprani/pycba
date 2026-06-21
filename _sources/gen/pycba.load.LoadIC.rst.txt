@@ -1,0 +1,30 @@
+pycba.load.LoadIC
+=================
+
+.. currentmodule:: pycba.load
+
+.. autoclass:: LoadIC
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~LoadIC.H
+      ~LoadIC.MB
+      ~LoadIC.get_cnl
+      ~LoadIC.get_mbr_results
+      ~LoadIC.get_ref
+      ~LoadIC.kappa_imp
+   
+   
+
+   
+   
+   

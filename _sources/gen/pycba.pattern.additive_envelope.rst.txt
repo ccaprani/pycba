@@ -1,0 +1,6 @@
+pycba.pattern.additive\_envelope
+================================
+
+.. currentmodule:: pycba.pattern
+
+.. autofunction:: additive_envelope

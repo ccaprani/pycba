@@ -1,4 +1,4 @@
-﻿pycba.analysis.BeamAnalysis
+pycba.analysis.BeamAnalysis
 ===========================
 
 .. currentmodule:: pycba.analysis
@@ -16,6 +16,7 @@
    .. autosummary::
       :nosignatures:
    
+      ~BeamAnalysis.add_ic
       ~BeamAnalysis.add_ml
       ~BeamAnalysis.add_pl
       ~BeamAnalysis.add_pudl

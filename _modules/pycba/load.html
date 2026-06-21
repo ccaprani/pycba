@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pycba.load &#8212; PyCBA 0.7.0 documentation</title>
+    <title>pycba.load &#8212; PyCBA 0.8.0 documentation</title>
   
   
   
@@ -26,41 +26,48 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../../_static/documentation_options.js?v=fe7df9b0"></script>
+    <script src="../../_static/documentation_options.js?v=486e5634"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pycba/load';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.7.0" />
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -86,7 +93,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -112,8 +119,8 @@
       
     
     
-    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.7.0 documentation - Home"/>
-    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.7.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
   
   
 </a></div>
@@ -162,6 +169,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -183,11 +197,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -200,8 +221,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -212,8 +232,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -295,6 +314,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -307,11 +333,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -324,8 +357,7 @@
           
           
           
-          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -336,8 +368,7 @@
           
           
           
-          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -407,16 +438,21 @@
 <span class="sd">The load matrix is a ``List[List]`` of load descriptors.  Each entry</span>
 <span class="sd">describes one load; the number of columns varies by load type:</span>
 
-<span class="sd">=====  ====================  ================================  ====</span>
-<span class="sd">Type   Name                  Format                            Cols</span>
-<span class="sd">=====  ====================  ================================  ====</span>
-<span class="sd">1      UDL                   ``[span, 1, w]``                  3</span>
-<span class="sd">2      Point Load            ``[span, 2, P, a]``               4</span>
-<span class="sd">3      Partial UDL           ``[span, 3, w, a, c]``            5</span>
-<span class="sd">4      Moment Load           ``[span, 4, M, a]``               4</span>
-<span class="sd">5      Trapezoidal (full)    ``[span, 5, w1, w2]``             4</span>
-<span class="sd">5      Trapezoidal (partial) ``[span, 5, w1, w2, a, c]``       6</span>
-<span class="sd">=====  ====================  ================================  ====</span>
+<span class="sd">=====  =====================  ===========================  ====</span>
+<span class="sd">Type   Name                   Format                       Cols</span>
+<span class="sd">=====  =====================  ===========================  ====</span>
+<span class="sd">1      UDL                    ``[span, 1, w]``             3</span>
+<span class="sd">2      Point Load             ``[span, 2, P, a]``          4</span>
+<span class="sd">3      Partial UDL            ``[span, 3, w, a, c]``       5</span>
+<span class="sd">4      Moment Load            ``[span, 4, M, a]``          4</span>
+<span class="sd">5      Trapezoidal (full)     ``[span, 5, w1, w2]``        4</span>
+<span class="sd">5      Trapezoidal (partial)  ``[span, 5, w1, w2, a, c]``  6</span>
+<span class="sd">6      Imposed curvature      ``[span, 6, k0, k1, ...]``   3+</span>
+<span class="sd">=====  =====================  ===========================  ====</span>
+
+<span class="sd">Load type 6 (imposed curvature) carries the coefficients of the free</span>
+<span class="sd">(initial-strain) curvature polynomial ``kappa(x) = k0 + k1*x + ...`` and is</span>
+<span class="sd">used to apply creep, shrinkage or thermal curvatures; see :class:`LoadIC`.</span>
 
 <span class="sd">The type alias `LoadMatrix` is defined as</span>
 
@@ -1313,6 +1349,227 @@
 
 
 
+<div class="viewcode-block" id="LoadIC">
+<a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoadIC</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Imposed-curvature (initial-strain) member load.</span>
+
+<span class="sd">    Applies a *free* (stress-free) curvature field :math:`\kappa_\text{imp}(x)`</span>
+<span class="sd">    along the member.  Unlike a transverse load, an imposed curvature induces</span>
+<span class="sd">    **no internal forces on a statically-determinate (simply-supported)</span>
+<span class="sd">    span** -- it produces only a free deflected shape.  On a restrained or</span>
+<span class="sd">    continuous structure, however, the restraint of this free curvature</span>
+<span class="sd">    generates real bending moments and reactions, exactly as for differential</span>
+<span class="sd">    settlement or a temperature gradient.</span>
+
+<span class="sd">    This is the mechanism by which PyBridge (and other downstream</span>
+<span class="sd">    time-dependent prestressed-concrete tools) apply **creep, shrinkage and</span>
+<span class="sd">    thermal curvatures** to a continuous beam: the time-dependent sectional</span>
+<span class="sd">    analysis yields a free curvature distribution which is imposed here, and</span>
+<span class="sd">    PyCBA returns the resulting restraint moments and reactions.</span>
+
+<span class="sd">    The curvature field is described by a polynomial in the local member</span>
+<span class="sd">    coordinate ``x`` (measured from the i-end):</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \kappa_\text{imp}(x) = \kappa_0 + \kappa_1 x + \kappa_2 x^2 + \dots</span>
+
+<span class="sd">    Constant (:math:`\kappa_0` only) and linear (:math:`\kappa_0, \kappa_1`)</span>
+<span class="sd">    fields are the common cases; arbitrary polynomial order is supported.</span>
+
+<span class="sd">    The fixed-end forces are derived by the same force-method (flexibility)</span>
+<span class="sd">    integration used for the non-prismatic element.  See the *Imposed-curvature</span>
+<span class="sd">    (initial-strain) loads* section of the Theoretical Basis in the</span>
+<span class="sd">    documentation for the derivation.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        The fixed-end moments scale with the flexural rigidity (e.g.</span>
+<span class="sd">        :math:`M = EI\kappa` for a uniform curvature on a fixed-fixed prismatic</span>
+<span class="sd">        member).  The rigidity is supplied to the load by the</span>
+<span class="sd">        :class:`~pycba.beam.Beam` when the loads are parsed; it therefore need</span>
+<span class="sd">        not be specified by the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates an imposed-curvature load for the member.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        i_span : int</span>
+<span class="sd">            The member index to which the load is applied.</span>
+<span class="sd">        kappa : float or array_like of float</span>
+<span class="sd">            The imposed-curvature polynomial coefficients in *increasing*</span>
+<span class="sd">            powers of ``x``: ``[k0, k1, k2, ...]`` =&gt;</span>
+<span class="sd">            ``kappa(x) = k0 + k1*x + k2*x^2 + ...``.  A scalar is interpreted</span>
+<span class="sd">            as a uniform curvature ``kappa(x) = k0``.</span>
+<span class="sd">        EI : float or pycba.section.SectionEI, optional</span>
+<span class="sd">            The flexural rigidity of the member.  Normally left ``None`` and</span>
+<span class="sd">            populated by the owning :class:`~pycba.beam.Beam`; only required to</span>
+<span class="sd">            evaluate the fixed-end forces (:meth:`get_cnl`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kappa</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EI</span> <span class="o">=</span> <span class="n">EI</span>
+
+<div class="viewcode-block" id="LoadIC.kappa_imp">
+<a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC.kappa_imp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kappa_imp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the imposed-curvature field :math:`\kappa_\text{imp}(x)`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : float or np.ndarray</span>
+<span class="sd">            Position(s) along the member (local coordinate from the i-end).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float or np.ndarray</span>
+<span class="sd">            The imposed curvature at ``x``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># numpy.polyval expects highest-order coefficient first.</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_Ktheta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        End moment-rotation stiffness ``K_theta`` for the member.</span>
+
+<span class="sd">        Uses the closed-form prismatic value when ``EI`` is scalar, or the</span>
+<span class="sd">        flexibility-integrated value for a :class:`~pycba.section.SectionEI`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="c1"># Lazy import avoids a circular dependency at module import time.</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.beam</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beam</span>
+
+            <span class="k">return</span> <span class="n">Beam</span><span class="p">()</span><span class="o">.</span><span class="n">k_theta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="n">EI</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EI</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_end_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fixed-end moments ``[M_a, M_b] = K_theta theta_0`` from the curvature.</span>
+
+<span class="sd">        The primary (simply-supported) end-rotation integrals are split at the</span>
+<span class="sd">        section breakpoints when ``EI`` is a :class:`~pycba.section.SectionEI`,</span>
+<span class="sd">        so an imposed curvature on a non-prismatic member honours every EI</span>
+<span class="sd">        kink/step exactly; for a scalar ``EI`` the single interval is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="n">bps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EI</span><span class="o">.</span><span class="n">breakpoints</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">bps</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span><span class="p">]]))</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[(</span><span class="n">edges</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-12</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">edges</span> <span class="o">&lt;=</span> <span class="n">L</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)]</span>
+            <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span><span class="p">])</span>
+
+        <span class="n">theta0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">2001</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa_imp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">mi</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">mj</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">theta0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">mi</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">theta0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">mj</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Ktheta</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">@</span> <span class="n">theta0</span>
+        <span class="k">return</span> <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span>
+
+<div class="viewcode-block" id="LoadIC.get_cnl">
+<a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC.get_cnl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Consistent Nodal Loads (fixed-fixed) for the imposed curvature.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member</span>
+<span class="sd">        eType : int</span>
+<span class="sd">            The member element type</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LoadCNL</span>
+<span class="sd">            Consistent Nodal Loads for this load type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EI</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;LoadIC requires the member EI to evaluate fixed-end forces; &quot;</span>
+                <span class="s2">&quot;it is normally supplied automatically by the Beam.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_moments</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+        <span class="c1"># No transverse load: the end-moment couple is balanced by end shears.</span>
+        <span class="k">return</span> <span class="n">LoadCNL</span><span class="p">(</span><span class="n">Va</span><span class="o">=</span><span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="n">Vb</span><span class="o">=-</span><span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="n">Ma</span><span class="o">=</span><span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span><span class="o">=</span><span class="n">Mb</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadIC.get_mbr_results">
+<a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC.get_mbr_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simply-supported member results from the free (imposed) curvature.</span>
+
+<span class="sd">        The imposed curvature produces **no** internal moment or shear on a</span>
+<span class="sd">        simple span (``M = V = 0``); it generates only a deflected shape found</span>
+<span class="sd">        by integrating the curvature twice subject to ``D(0) = D(L) = 0``:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \theta(x) = \theta_0 + \int_0^x \kappa_\text{imp}(s)\,ds, \qquad</span>
+<span class="sd">            D(x) = \int_0^x \theta(s)\,ds</span>
+
+<span class="sd">        with the constant :math:`\theta_0` chosen so that ``D(L) = 0``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : np.ndarray</span>
+<span class="sd">            Vector of points along the length of the member</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        res : MemberResults</span>
+<span class="sd">            A populated :class:`pycba.types.MemberResults` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa_imp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># First integral: rotation up to a constant (theta0 = 0 for now)</span>
+        <span class="n">rot</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">defl</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">rot</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="c1"># Enforce D(L) = 0 by adding a linear (rigid-body) rotation theta0</span>
+        <span class="n">theta0</span> <span class="o">=</span> <span class="o">-</span><span class="n">defl</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">L</span>
+        <span class="n">rot</span> <span class="o">=</span> <span class="n">rot</span> <span class="o">+</span> <span class="n">theta0</span>
+        <span class="n">defl</span> <span class="o">=</span> <span class="n">defl</span> <span class="o">+</span> <span class="n">theta0</span> <span class="o">*</span> <span class="n">x</span>
+
+        <span class="n">res</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">rot</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">defl</span>
+
+        <span class="c1"># Endpoints carry no internal force (consistent with other loads)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">[</span><span class="n">npts</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="n">npts</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+</div>
+
+
+
 <div class="viewcode-block" id="parse_LM">
 <a class="viewcode-back" href="../../gen/pycba.load.parse_LM.html#pycba.load.parse_LM">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Load</span><span class="p">]:</span>
@@ -1367,6 +1624,12 @@
             <span class="n">a</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="k">else</span> <span class="mf">0.0</span>
             <span class="n">c</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LoadTrapez</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+        <span class="c1"># Imposed-curvature (initial-strain) load</span>
+        <span class="k">elif</span> <span class="n">ltype</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="c1"># Remaining entries are the curvature polynomial coefficients</span>
+            <span class="c1"># [k0, k1, k2, ...] in increasing powers of x.</span>
+            <span class="n">kappa</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+            <span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LoadIC</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="n">kappa</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">loads</span></div>
 
 
@@ -1434,6 +1697,9 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
                 <span class="n">new_load</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>  <span class="c1"># a, c are not factored</span>
             <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_load</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">l_type</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>  <span class="c1"># Imposed curvature: factor all coefficients</span>
+            <span class="n">new_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">load</span><span class="p">[</span><span class="mi">2</span><span class="p">:]]</span>
+            <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_load</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># PUDL</span>
             <span class="n">LMnew</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="n">l_type</span><span class="p">,</span> <span class="n">mag</span><span class="p">,</span> <span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">]])</span>
 
@@ -1468,8 +1734,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1503,7 +1769,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
 </p></div>
       
     </div>

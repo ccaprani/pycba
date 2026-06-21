@@ -1,0 +1,6 @@
+pycba.pattern.collect\_response\_matrix
+=======================================
+
+.. currentmodule:: pycba.pattern
+
+.. autofunction:: collect_response_matrix

@@ -19,6 +19,8 @@ pycba.pattern.LoadPattern
       ~LoadPattern.analyze
       ~LoadPattern.set_dead_loads
       ~LoadPattern.set_live_loads
+      ~LoadPattern.to_LM
+      ~LoadPattern.to_load_cases
    
    
 

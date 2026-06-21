@@ -9,6 +9,21 @@
 
    
    
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      additive_envelope
+      analyse_load_case
+      analyze_load_case
+      build_pycba_model
+      collect_response_matrix
+      make_span_udl_cases
+      plot_load_patterns
+      plot_response_envelope
+   
    
 
    
@@ -20,6 +35,8 @@
       :template: custom-class-template.rst
       :nosignatures:
    
+      LoadCase
+      LoadCases
       LoadPattern
    
    
