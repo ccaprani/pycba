@@ -260,6 +260,14 @@ class BeamPlotter:
                 hinges.append(Hinge(self.node_x[i], i))
         return hinges
 
+    def _is_partial_dist(self, d: DistLoad) -> bool:
+        """True if a distributed load covers less than its full span (so its
+        extent is worth dimensioning)."""
+        eps = 1e-6 * max(self.L, 1.0)
+        span_start = self.node_x[d.i_span]
+        span_end = self.node_x[d.i_span + 1]
+        return d.x0 > span_start + eps or d.x1 < span_end - eps
+
     # ------------------------------------------------------------------ #
     # matplotlib backend
     # ------------------------------------------------------------------ #
@@ -267,7 +275,7 @@ class BeamPlotter:
         self,
         ax=None,
         *,
-        dimensions: bool = True,
+        dimensions: bool = False,
         labels: bool = True,
         load_values: bool = True,
         color: str = "tab:red",
@@ -280,11 +288,15 @@ class BeamPlotter:
         ax : matplotlib.axes.Axes, optional
             Axes to draw into; a new figure/axes is created if omitted.
         dimensions : bool
-            Draw span-length dimension lines below the beam.
+            Draw span-length dimension lines below the beam.  Off by default
+            because the x-axis already shows distance along the beam (the
+            extent of a partial distributed load is still dimensioned with
+            ``load_values``).
         labels : bool
             Label the support nodes ``A``, ``B``, ...
         load_values : bool
-            Annotate the load magnitudes.
+            Annotate the load magnitudes (and the extent of any partial
+            distributed load).
         color : str
             Colour used for the load arrows/labels.
 
@@ -324,7 +336,7 @@ class BeamPlotter:
         for p in self.point_loads:
             self._draw_point_mpl(ax, p, pmax, sh, color, load_values)
         for m in self.moment_loads:
-            self._draw_moment_mpl(ax, m, 0.06 * L, sh, color, load_values)
+            self._draw_moment_mpl(ax, m, 0.045 * L, sh, color, load_values)
 
         if labels:
             # Node letters sit just below the beam and offset to one side, so
@@ -345,18 +357,30 @@ class BeamPlotter:
 
         if dimensions:
             self._draw_dimensions_mpl(ax, sh)
+        # The extent of a partial distributed load is a load annotation, not a
+        # span dimension, so it follows ``load_values`` and shows even when the
+        # span dimensions are off.
+        partial = [d for d in self.dist_loads if self._is_partial_dist(d)]
+        if load_values:
+            for d in partial:
+                self._draw_load_extent_mpl(ax, d, sh)
 
         # Axes cosmetics: labelled x, no meaningful y
         load_top = [0.0]
         if self.point_loads:
-            load_top.append(0.19 * L)
+            load_top.append(0.16 * L)
         if self.dist_loads:
             load_top.append(0.07 * L)
         if self.moment_loads:
-            load_top.append(0.06 * L)
+            load_top.append(0.045 * L)
         any_loads = self.point_loads or self.dist_loads or self.moment_loads
         ymax = max(load_top) + (1.4 * sh if any_loads else 0.9 * sh)
-        ymin = -3.0 * sh if dimensions else -1.6 * sh
+        if dimensions:
+            ymin = -3.0 * sh
+        elif load_values and partial:
+            ymin = -2.2 * sh
+        else:
+            ymin = -1.6 * sh
 
         ax.set_xlim(-0.06 * L, 1.06 * L)
         ax.set_ylim(ymin, ymax)
@@ -498,7 +522,7 @@ class BeamPlotter:
 
     # --- matplotlib load glyphs ---------------------------------------- #
     def _draw_point_mpl(self, ax, p: PointLoad, pmax: float, sh, color, show_val):
-        length = 0.19 * self.L * (0.55 + 0.45 * abs(p.P) / pmax if pmax else 1.0)
+        length = 0.16 * self.L * (0.55 + 0.45 * abs(p.P) / pmax if pmax else 1.0)
         x = p.x
         tail_y = length if p.P >= 0 else -length
         ax.annotate(
@@ -579,6 +603,8 @@ class BeamPlotter:
         from matplotlib.patches import Arc, Polygon
 
         x = m.x
+        # Tick marking the point of application on the beam.
+        ax.plot([x, x], [-0.22 * sh, 0.22 * sh], color=color, lw=1.5, zorder=6)
         th1, th2 = -50.0, 230.0
         ax.add_patch(
             Arc(
@@ -646,6 +672,31 @@ class BeamPlotter:
                 color="0.35",
                 fontsize=8,
             )
+
+    def _draw_load_extent_mpl(self, ax, d: DistLoad, sh: float):
+        """Dimension the loaded length of a partial distributed load, on a
+        stacked dimension row just above the span-length dimensions."""
+        yd = -1.55 * sh
+        x0, x1 = d.x0, d.x1
+        ax.annotate(
+            "",
+            xy=(x0, yd),
+            xytext=(x1, yd),
+            arrowprops=dict(arrowstyle="<->", color="0.45", lw=0.8),
+        )
+        for xb in (x0, x1):
+            ax.plot(
+                [xb, xb], [yd + 0.22 * sh, yd - 0.22 * sh], color="0.45", lw=0.6
+            )
+        ax.text(
+            0.5 * (x0 + x1),
+            yd - 0.12 * sh,
+            f"{x1 - x0:g} m",
+            ha="center",
+            va="top",
+            color="0.45",
+            fontsize=7.5,
+        )
 
     # ------------------------------------------------------------------ #
     # TikZ / stanli backend
@@ -801,7 +852,15 @@ class BeamPlotter:
         if s.kind == ROLLER:
             return f"\\support{{2ooo}}{{{n}}};"
         if s.kind == FIXED:
-            rot = "[180]" if s.at_right_end else ""
+            # stanli's fixed support defaults to a horizontal wall (beam
+            # vertical); rotate it to a vertical wall at the beam end - the
+            # wall faces outward, so the left and right ends differ by 180.
+            if s.at_right_end:
+                rot = "[90]"
+            elif s.at_left_end:
+                rot = "[-90]"
+            else:
+                rot = ""  # interior fixed node: keep the default orientation
             return f"\\support{{4}}{{{n}}}{rot};"
         if s.kind == SPRING:
             return f"\\support{{5}}{{{n}}};"
@@ -857,6 +916,7 @@ class BeamPlotter:
                 )
             out.append("\\end{scope}")
             if show_val:
+                pdist = -max(0.6, 0.055 * self.L)
                 for k, d in enumerate(self.dist_loads):
                     if abs(d.w0 - d.w1) < 1e-9:
                         lbl = f"${abs(d.w0):g}$ kN/m"
@@ -865,6 +925,14 @@ class BeamPlotter:
                     out.append(
                         f"\\notation{{5}}{{dl{k}a}}{{dl{k}b}}[{lbl}][0.5][above=8mm];"
                     )
+                    # The extent of a partial distributed load is a load
+                    # annotation (shown with the magnitudes), not a span
+                    # dimension.
+                    if self._is_partial_dist(d):
+                        out.append(
+                            f"\\dimensioning{{1}}{{dl{k}a}}{{dl{k}b}}"
+                            f"{{{pdist:g}}}[${d.x1 - d.x0:g}$~m];"
+                        )
 
         for k, p in enumerate(self.point_loads):
             ni, nj = nodes[p.i_span], nodes[p.i_span + 1]
@@ -883,7 +951,10 @@ class BeamPlotter:
         for k, m in enumerate(self.moment_loads):
             ni, nj = nodes[m.i_span], nodes[m.i_span + 1]
             f = self._span_fraction(m.i_span, m.x)
-            mtype = "2" if m.M >= 0 else "3"  # 2 = ccw, 3 = cw
+            # stanli \load{2} (<-) reads clockwise and \load{3} (->) reads
+            # anticlockwise; positive M is anticlockwise (matching the
+            # matplotlib backend), so positive -> 3.
+            mtype = "3" if m.M >= 0 else "2"
             out.append(f"\\node (ml{k}) at ($({ni})!{f:g}!({nj})$){{}};")
             out.append(
                 f"\\begin{{scope}}[color=red]\\load{{{mtype}}}{{ml{k}}}\\end{{scope}}"

@@ -1,4 +1,4 @@
-# Beam Configuration
+# Defining Beams
 
 The beam configuration input data is to be in the following format:
 
@@ -275,7 +275,7 @@ beam = cba.Beam(
     ],
 )
 
-ax = beam.plot()            # supports, loads, span dimensions and labels
+ax = beam.plot()            # supports, loads, magnitudes and node labels
 ```
 
 ```{image} images/beam_render_mpl.png
@@ -283,10 +283,13 @@ ax = beam.plot()            # supports, loads, span dimensions and labels
 :align: center
 ```
 
-The annotations are toggleable, and an existing `Axes` may be supplied:
+By default the matplotlib schematic relies on its x-axis for distance, so
+span-length dimensions are off; pass `dimensions=True` to add them. Each
+annotation is toggleable, and an existing `Axes` may be supplied:
 
 ```python
-beam.plot(ax=my_ax, dimensions=False, labels=False, load_values=False)
+beam.plot(ax=my_ax, dimensions=True)            # add span dimensions
+beam.plot(labels=False, load_values=False)      # bare structure + loads
 ```
 
 ### TikZ / stanli

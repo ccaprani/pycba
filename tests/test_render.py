@@ -97,8 +97,31 @@ def test_showcase_beam_all_features():
     plt.close(ax.figure)
     tx = beam.to_tikz()
     assert tx.count(r"\support") == 4
-    assert r"\support{4}" in tx and r"\support{5}" in tx  # fixed + spring
+    assert r"\support{4}{a}[-90]" in tx  # left-end fixed -> vertical wall
+    assert r"\support{5}" in tx  # spring
     assert r"\hinge" in tx
+    # The partial UDL (span 3, the 2nd distributed load) has its extent
+    # dimensioned; the full-span UDL on span 1 does not.
+    assert r"\dimensioning{1}{dl1a}{dl1b}" in tx
+    assert r"\dimensioning{1}{dl0a}{dl0b}" not in tx
+
+
+def test_tikz_fixed_support_rotation():
+    # The encastre wall is rotated to vertical, and the left/right ends differ
+    # by 180 degrees so the wall faces outward.
+    assert r"\support{4}{a}[-90]" in make_beam("E10R").to_tikz()
+    assert r"\support{4}{b}[90]" in make_beam("R10E").to_tikz()
+
+
+def test_partial_udl_extent_dimensioned():
+    # A partial UDL gets an extent dimension; a full-span UDL does not.
+    beam = make_beam("P10R", LM=[[1, 3, 10, 2, 5]])
+    # The extent follows load_values (a load annotation), so it shows even when
+    # the span dimensions are off, and is removed with load_values=False.
+    assert r"\dimensioning{1}{dl0a}{dl0b}" in beam.to_tikz(dimensions=False)
+    assert r"\dimensioning{1}{dl0a}{dl0b}" not in beam.to_tikz(load_values=False)
+    full = make_beam("P10R", LM=[[1, 1, 10]]).to_tikz()
+    assert r"\dimensioning{1}{dl0a}{dl0b}" not in full
 
 
 # --------------------------------------------------------------------------- #
