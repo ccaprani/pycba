@@ -76,6 +76,31 @@ def test_internal_hinge_inferred_from_eletype():
     assert [round(h.x, 1) for h in bp.hinges] == [40.0]
 
 
+def test_showcase_beam_all_features():
+    # The documented showcase: encastre + rollers + spring + internal hinge,
+    # with a UDL, point load, partial UDL and moment.
+    L, EI, R, eType = parse_beam_string("E6R6H6R6R")
+    R[6] = 2000.0  # node 3 -> vertical spring support
+    beam = cba.Beam(
+        L,
+        EI,
+        R,
+        eletype=eType,
+        LM=[[1, 1, 20], [2, 2, 50, 3.0], [3, 3, 12, 1.0, 4.0], [4, 4, 40, 3.0]],
+    )
+    bp = BeamPlotter(beam)
+    assert [s.kind for s in bp.supports] == [FIXED, ROLLER, SPRING, ROLLER]
+    assert [round(h.x, 1) for h in bp.hinges] == [12.0]
+    # Both backends render the full beam without error.
+    ax = beam.plot()
+    assert ax.patches
+    plt.close(ax.figure)
+    tx = beam.to_tikz()
+    assert tx.count(r"\support") == 4
+    assert r"\support{4}" in tx and r"\support{5}" in tx  # fixed + spring
+    assert r"\hinge" in tx
+
+
 # --------------------------------------------------------------------------- #
 # Load normalisation
 # --------------------------------------------------------------------------- #

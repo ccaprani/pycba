@@ -252,14 +252,28 @@ spring. Internal moment releases are read from `eleType` and drawn as hinges.
 ### Native matplotlib
 
 `Beam.plot()` draws the schematic on labelled axes (distance along the beam) and
-returns the `matplotlib` `Axes` for further customisation:
+returns the `matplotlib` `Axes` for further customisation. The beam below
+exercises every support type — an encastré (`E`), rollers (`R`), an internal
+hinge (`H`) and a spring set directly on the restraint vector — together with a
+UDL, a point load, a partial UDL and a moment:
 
 ```python
 import pycba as cba
 
-(L, EI, R, eType) = cba.parse_beam_string("P7.5R7.0R")
-beam = cba.Beam(L, EI, R, LM=[[1, 1, 20], [2, 1, 20], [2, 2, 50, 3.5]],
-                eletype=eType)
+(L, EI, R, eType) = cba.parse_beam_string("E6R6H6R6R")
+R[6] = 2000.0  # node 3: vertical spring support (stiffness in kN/m)
+beam = cba.Beam(
+    L,
+    EI,
+    R,
+    eletype=eType,
+    LM=[
+        [1, 1, 20],            # UDL on span 1
+        [2, 2, 50, 3.0],       # point load on span 2
+        [3, 3, 12, 1.0, 4.0],  # partial UDL on span 3
+        [4, 4, 40, 3.0],       # moment on span 4
+    ],
+)
 
 ax = beam.plot()            # supports, loads, span dimensions and labels
 ```

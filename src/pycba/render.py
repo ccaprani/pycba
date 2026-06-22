@@ -327,16 +327,20 @@ class BeamPlotter:
             self._draw_moment_mpl(ax, m, 0.06 * L, sh, color, load_values)
 
         if labels:
+            # Node letters sit just below the beam and offset to one side, so
+            # they clear the loads (above) and the support symbol (directly
+            # below): to the right for the right-hand end, to the left otherwise.
             for s in self.supports:
+                right = s.at_right_end
                 ax.text(
-                    s.x,
-                    0.5 * sh,
+                    s.x + (0.8 * sh if right else -0.8 * sh),
+                    -0.55 * sh,
                     chr(ord("A") + s.node),
-                    ha="center",
-                    va="bottom",
+                    ha="left" if right else "right",
+                    va="center",
                     fontsize=9,
                     fontweight="bold",
-                    zorder=7,
+                    zorder=8,
                 )
 
         if dimensions:
@@ -345,9 +349,9 @@ class BeamPlotter:
         # Axes cosmetics: labelled x, no meaningful y
         load_top = [0.0]
         if self.point_loads:
-            load_top.append(0.14 * L)
+            load_top.append(0.19 * L)
         if self.dist_loads:
-            load_top.append(0.10 * L)
+            load_top.append(0.07 * L)
         if self.moment_loads:
             load_top.append(0.06 * L)
         any_loads = self.point_loads or self.dist_loads or self.moment_loads
@@ -369,41 +373,52 @@ class BeamPlotter:
         from matplotlib.patches import Circle, Polygon
 
         x = s.x
-        if s.kind == PIN:
-            ax.add_patch(
-                Polygon(
-                    [[x, 0], [x - 0.5 * sh, -sh], [x + 0.5 * sh, -sh]],
-                    closed=True,
-                    fc="white",
-                    ec="k",
-                    lw=1.3,
-                    zorder=4,
-                )
-            )
-            self._ground_mpl(ax, x, -sh, 1.5 * sh)
-        elif s.kind == ROLLER:
-            ax.add_patch(
-                Polygon(
-                    [[x, 0], [x - 0.5 * sh, -0.7 * sh], [x + 0.5 * sh, -0.7 * sh]],
-                    closed=True,
-                    fc="white",
-                    ec="k",
-                    lw=1.3,
-                    zorder=4,
-                )
-            )
-            for dx in (-0.27 * sh, 0.27 * sh):
+        if s.kind in (PIN, ROLLER):
+            end = s.at_left_end or s.at_right_end
+            # Internal supports are seated a touch below the beam so the pin
+            # half-disc marker reads clearly below the beam line; end supports
+            # sit at the beam with a full-circle pin straddling it.
+            top = 0.0 if end else -0.20 * sh
+            if s.kind == PIN:
                 ax.add_patch(
-                    Circle(
-                        (x + dx, -0.86 * sh),
-                        0.15 * sh,
+                    Polygon(
+                        [[x, top], [x - 0.5 * sh, top - sh], [x + 0.5 * sh, top - sh]],
+                        closed=True,
                         fc="white",
                         ec="k",
-                        lw=1.0,
+                        lw=1.3,
                         zorder=4,
                     )
                 )
-            self._ground_mpl(ax, x, -1.02 * sh, 1.5 * sh)
+                self._ground_mpl(ax, x, top - sh, 1.5 * sh)
+            else:  # ROLLER
+                ax.add_patch(
+                    Polygon(
+                        [
+                            [x, top],
+                            [x - 0.5 * sh, top - 0.7 * sh],
+                            [x + 0.5 * sh, top - 0.7 * sh],
+                        ],
+                        closed=True,
+                        fc="white",
+                        ec="k",
+                        lw=1.3,
+                        zorder=4,
+                    )
+                )
+                for dx in (-0.27 * sh, 0.27 * sh):
+                    ax.add_patch(
+                        Circle(
+                            (x + dx, top - 0.86 * sh),
+                            0.15 * sh,
+                            fc="white",
+                            ec="k",
+                            lw=1.0,
+                            zorder=4,
+                        )
+                    )
+                self._ground_mpl(ax, x, top - 1.02 * sh, 1.5 * sh)
+            self._pin_marker_mpl(ax, x, sh, end)
         elif s.kind == FIXED:
             side = 1 if s.at_right_end else -1
             ax.plot([x, x], [-sh, sh], "k-", lw=2, zorder=4)
@@ -437,6 +452,21 @@ class BeamPlotter:
             )
             self._ground_mpl(ax, x, -0.6 * sh, 1.3 * sh)
 
+    def _pin_marker_mpl(self, ax, x: float, sh: float, end: bool):
+        """Little pin at a pin/roller support: full circle at an end, a
+        half-disc below the beam (seated on the support) at an internal one."""
+        from matplotlib.patches import Circle, Wedge
+
+        r = 0.17 * sh
+        if end:
+            ax.add_patch(
+                Circle((x, 0), r, fc="white", ec="k", lw=1.1, zorder=7)
+            )
+        else:
+            ax.add_patch(
+                Wedge((x, 0), r, 180, 360, fc="white", ec="k", lw=1.1, zorder=7)
+            )
+
     def _ground_mpl(self, ax, xc: float, ytop: float, width: float, n: int = 6):
         """A hatched ground line centred at ``xc`` with its top at ``ytop``."""
         ax.plot(
@@ -468,7 +498,7 @@ class BeamPlotter:
 
     # --- matplotlib load glyphs ---------------------------------------- #
     def _draw_point_mpl(self, ax, p: PointLoad, pmax: float, sh, color, show_val):
-        length = 0.14 * self.L * (0.45 + 0.55 * abs(p.P) / pmax if pmax else 1.0)
+        length = 0.19 * self.L * (0.55 + 0.45 * abs(p.P) / pmax if pmax else 1.0)
         x = p.x
         tail_y = length if p.P >= 0 else -length
         ax.annotate(
@@ -493,7 +523,7 @@ class BeamPlotter:
     def _draw_dist_mpl(self, ax, d: DistLoad, wmax: float, color, show_val):
         from matplotlib.patches import Polygon
 
-        w_h = 0.10 * self.L
+        w_h = 0.07 * self.L
 
         def height(w):
             if not wmax:
@@ -691,7 +721,13 @@ class BeamPlotter:
         if labels:
             lines.append("\t% Labels")
             for s in self.supports:
-                pos = "above right" if s.at_right_end else "above left"
+                # Offset below and to one side so the letter clears the loads
+                # (above) and the support symbol (directly below).
+                pos = (
+                    "below right=1mm and 4mm"
+                    if s.at_right_end
+                    else "below left=1mm and 4mm"
+                )
                 letter = chr(ord("A") + s.node)
                 lines.append(
                     f"\t\\notation{{1}}{{{nodes[s.node]}}}{{${letter}$}}[{pos}];"
@@ -777,16 +813,24 @@ class BeamPlotter:
 
     def _hinges_tikz(self, nodes: List[str]) -> List[str]:
         out: List[str] = []
-        # Pin marker at simply-supported extremities (matches the doc figures)
+        support_nodes = set()
+        # Little pin at every pin/roller support: a full circle at an end
+        # support, and a half-circle (clipped to the member side) at an internal
+        # support - matching the doc examples (e.g. B in intro_ex_1).
         for s in self.supports:
-            if s.kind in (PIN, ROLLER) and (s.at_left_end or s.at_right_end):
-                out.append(f"\\hinge{{1}}{{{nodes[s.node]}}};")
-        # Internal moment releases
+            if s.kind in (PIN, ROLLER):
+                i = s.node
+                support_nodes.add(i)
+                if s.at_left_end or s.at_right_end:
+                    out.append(f"\\hinge{{1}}{{{nodes[i]}}};")
+                else:
+                    out.append(
+                        f"\\hinge{{2}}{{{nodes[i]}}}[{nodes[i - 1]}][{nodes[i + 1]}];"
+                    )
+        # Free internal moment-release hinges (not at a support) are full circles.
         for h in self.hinges:
-            i = h.node
-            out.append(
-                f"\\hinge{{2}}{{{nodes[i]}}}[{nodes[i - 1]}][{nodes[i + 1]}];"
-            )
+            if h.node not in support_nodes:
+                out.append(f"\\hinge{{1}}{{{nodes[h.node]}}};")
         return out
 
     def _span_fraction(self, i_span: int, x: float) -> float:
@@ -827,10 +871,13 @@ class BeamPlotter:
             f = self._span_fraction(p.i_span, p.x)
             ang = "90" if p.P >= 0 else "270"
             out.append(f"\\node (pl{k}) at ($({ni})!{f:g}!({nj})$){{}};")
-            out.append(f"\\begin{{scope}}[color=red]\\load{{1}}{{pl{k}}}[{ang}]\\end{{scope}}")
+            # 4th arg lengthens the force arrow (default \forceLength is short).
+            out.append(
+                f"\\begin{{scope}}[color=red]\\load{{1}}{{pl{k}}}[{ang}][18mm]\\end{{scope}}"
+            )
             if show_val:
                 out.append(
-                    f"\\notation{{1}}{{pl{k}}}{{${abs(p.P):g}$ kN}}[above=12mm];"
+                    f"\\notation{{1}}{{pl{k}}}{{${abs(p.P):g}$ kN}}[above=20mm];"
                 )
 
         for k, m in enumerate(self.moment_loads):
