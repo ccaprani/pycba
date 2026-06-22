@@ -329,6 +329,98 @@ class Beam:
 
         return ispan, pos_in_span
 
+    def plot(self, loads=None, *, ax=None, load_cases=None, **kwargs):
+        """
+        Draw a structural schematic of the beam with matplotlib.
+
+        The beam structure (geometry, supports, internal hinges) is always
+        drawn; the loads layer is optional and its source is selected with
+        ``loads``:
+
+        * ``None`` (default) - the beam's own load matrix ``self.LM``.
+        * ``[]`` - draw the bare structure only.
+        * a PyCBA load matrix, a :class:`~pycba.load_cases.LoadCase`, or a
+          :class:`~pycba.load_cases.LoadCombination` (supply its
+          :class:`~pycba.load_cases.LoadCases` via ``load_cases``).
+
+        Parameters
+        ----------
+        loads : list | LoadCase | LoadCombination, optional
+            The load source to draw.
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw into; a new figure is created if omitted.
+        load_cases : pycba.load_cases.LoadCases, optional
+            Required only when ``loads`` is a ``LoadCombination``.
+        **kwargs
+            Forwarded to :meth:`pycba.render.BeamPlotter.render_mpl`
+            (``dimensions``, ``labels``, ``load_values``, ``color``).
+
+        Returns
+        -------
+        matplotlib.axes.Axes
+            The axes the schematic was drawn into.
+        """
+        from .render import BeamPlotter
+
+        return BeamPlotter(self, loads, load_cases=load_cases).render_mpl(
+            ax=ax, **kwargs
+        )
+
+    def to_tikz(self, loads=None, *, load_cases=None, **kwargs) -> str:
+        """
+        Generate a TikZ/``stanli`` representation of the beam.
+
+        Loads are selected with ``loads`` exactly as for :meth:`plot`.
+
+        Parameters
+        ----------
+        loads : list | LoadCase | LoadCombination, optional
+            The load source to draw.
+        load_cases : pycba.load_cases.LoadCases, optional
+            Required only when ``loads`` is a ``LoadCombination``.
+        **kwargs
+            Forwarded to :meth:`pycba.render.BeamPlotter.render_tikz`
+            (``standalone``, ``scale``, ``dimensions``, ``labels``,
+            ``load_values``).
+
+        Returns
+        -------
+        str
+            The LaTeX source.
+        """
+        from .render import BeamPlotter
+
+        return BeamPlotter(self, loads, load_cases=load_cases).render_tikz(**kwargs)
+
+    def save_tikz(self, path, loads=None, *, compile=False, load_cases=None, **kwargs):
+        """
+        Write the TikZ/``stanli`` source to ``path`` (and optionally compile it).
+
+        Loads are selected with ``loads`` exactly as for :meth:`plot`.
+
+        Parameters
+        ----------
+        path : str or pathlib.Path
+            Output ``.tex`` path.
+        loads : list | LoadCase | LoadCombination, optional
+            The load source to draw.
+        compile : bool
+            If ``True``, run ``pdflatex`` to also produce a PDF (requires a
+            LaTeX install with the ``stanli`` package).
+        load_cases : pycba.load_cases.LoadCases, optional
+            Required only when ``loads`` is a ``LoadCombination``.
+
+        Returns
+        -------
+        pathlib.Path
+            The ``.tex`` path, or the produced ``.pdf`` when ``compile=True``.
+        """
+        from .render import BeamPlotter
+
+        return BeamPlotter(self, loads, load_cases=load_cases).save_tikz(
+            path, compile=compile, **kwargs
+        )
+
     def get_ref(self, i_span: int) -> LoadCNL:
         """
         Returns Released End Forces for the member; that is, the Consistent Nodal Loads

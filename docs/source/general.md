@@ -1,4 +1,4 @@
-# Beam Configuration
+# Defining Beams
 
 The beam configuration input data is to be in the following format:
 
@@ -234,3 +234,105 @@ The element types are given by an index:
 **Dimension**: `N` x 1
 
 **Units**: N/A
+
+## Visualising the Beam and Loads
+
+Once a beam is configured it can be drawn as a structural schematic — the beam,
+its supports, internal hinges and the applied loads — using either a native
+matplotlib backend or a TikZ/[`stanli`](https://github.com/bsdomergue/stanli)
+backend for publication-quality LaTeX figures. These draw the *model* (unlike
+`BeamAnalysis.plot_results`, which draws the bending-moment, shear and deflection
+*results*), so the beam does not need to have been analysed.
+
+The supports are inferred from the restraint vector `R`: the first
+vertical-only support is drawn as a pin and the remainder as rollers, a
+fully-fixed node as an encastre wall, and a positive (spring) stiffness as a
+spring. Internal moment releases are read from `eleType` and drawn as hinges.
+
+### Native matplotlib
+
+`Beam.plot()` draws the schematic on labelled axes (distance along the beam) and
+returns the `matplotlib` `Axes` for further customisation. The beam below
+exercises every support type — an encastré (`E`), rollers (`R`), an internal
+hinge (`H`) and a spring set directly on the restraint vector — together with a
+UDL, a point load, a partial UDL and a moment:
+
+```python
+import pycba as cba
+
+(L, EI, R, eType) = cba.parse_beam_string("E6R6H6R6R")
+R[6] = 2000.0  # node 3: vertical spring support (stiffness in kN/m)
+beam = cba.Beam(
+    L,
+    EI,
+    R,
+    eletype=eType,
+    LM=[
+        [1, 1, 20],            # UDL on span 1
+        [2, 2, 50, 3.0],       # point load on span 2
+        [3, 3, 12, 1.0, 4.0],  # partial UDL on span 3
+        [4, 4, 40, 3.0],       # moment on span 4
+    ],
+)
+
+ax = beam.plot()            # supports, loads, magnitudes and node labels
+```
+
+```{image} images/beam_render_mpl.png
+:alt: Matplotlib beam schematic
+:align: center
+```
+
+By default the matplotlib schematic relies on its x-axis for distance, so
+span-length dimensions are off; pass `dimensions=True` to add them. Each
+annotation is toggleable, and an existing `Axes` may be supplied:
+
+```python
+beam.plot(ax=my_ax, dimensions=True)            # add span dimensions
+beam.plot(labels=False, load_values=False)      # bare structure + loads
+```
+
+### TikZ / stanli
+
+`Beam.to_tikz()` returns a standalone LaTeX document built on the `stanli`
+package, and `Beam.save_tikz()` writes it to a file. With `compile=True` it is
+rendered straight to PDF with `pdflatex` (which must be available, with the
+`stanli` package installed):
+
+```python
+tex = beam.to_tikz()                     # LaTeX source as a string
+beam.save_tikz("beam.tex")               # write the .tex
+beam.save_tikz("beam.tex", compile=True) # also produce beam.pdf
+```
+
+```{image} images/beam_render_tikz.png
+:alt: TikZ/stanli beam schematic
+:align: center
+```
+
+Pass `standalone=False` to emit just the `tikzpicture` environment for
+embedding in a larger document.
+
+### Choosing what loads to draw
+
+By default the beam's own load matrix is drawn. The `loads` argument (accepted
+by `plot`, `to_tikz` and `save_tikz`) selects a different source, so the same
+beam structure can be drawn with any loading — or none:
+
+```python
+beam.plot()                 # the beam's own load matrix (default)
+beam.plot(loads=[])         # the bare structure only
+beam.plot(loads=[[1, 1, 10]])  # an explicit load matrix
+
+# A high-level load case or factored combination
+load_cases = cba.LoadCases(beam)
+load_cases.add_case("G").add_udl(1, 5.0).add_udl(2, 5.0)
+load_cases.add_pl("Q", 2, 20.0, 3.0)
+beam.plot(load_cases.case("G"))
+
+combo = cba.LoadCombination("ULS", {"G": 1.35, "Q": 1.5})
+beam.plot(combo, load_cases=load_cases)   # draws the factored loads
+```
+
+The underlying `pycba.render.BeamPlotter` class is also available directly if
+you want to build the renderer once and call both backends.
