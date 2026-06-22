@@ -15,6 +15,7 @@
     pycba.load_cases
     pycba.results
     pycba.pattern
+    pycba.render
     pycba.inf_lines
     pycba.bridge
     pycba.vehicle
