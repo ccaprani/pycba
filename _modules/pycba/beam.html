@@ -151,7 +151,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -296,7 +296,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -772,6 +772,107 @@
         <span class="n">pos_in_span</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="p">[</span><span class="n">ispan</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">ispan</span><span class="p">,</span> <span class="n">pos_in_span</span></div>
+
+
+<div class="viewcode-block" id="Beam.plot">
+<a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw a structural schematic of the beam with matplotlib.</span>
+
+<span class="sd">        The beam structure (geometry, supports, internal hinges) is always</span>
+<span class="sd">        drawn; the loads layer is optional and its source is selected with</span>
+<span class="sd">        ``loads``:</span>
+
+<span class="sd">        * ``None`` (default) - the beam&#39;s own load matrix ``self.LM``.</span>
+<span class="sd">        * ``[]`` - draw the bare structure only.</span>
+<span class="sd">        * a PyCBA load matrix, a :class:`~pycba.load_cases.LoadCase`, or a</span>
+<span class="sd">          :class:`~pycba.load_cases.LoadCombination` (supply its</span>
+<span class="sd">          :class:`~pycba.load_cases.LoadCases` via ``load_cases``).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        loads : list | LoadCase | LoadCombination, optional</span>
+<span class="sd">            The load source to draw.</span>
+<span class="sd">        ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">            Axes to draw into; a new figure is created if omitted.</span>
+<span class="sd">        load_cases : pycba.load_cases.LoadCases, optional</span>
+<span class="sd">            Required only when ``loads`` is a ``LoadCombination``.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Forwarded to :meth:`pycba.render.BeamPlotter.render_mpl`</span>
+<span class="sd">            (``dimensions``, ``labels``, ``load_values``, ``color``).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes</span>
+<span class="sd">            The axes the schematic was drawn into.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
+
+        <span class="k">return</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Beam.to_tikz">
+<a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.to_tikz">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_tikz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a TikZ/``stanli`` representation of the beam.</span>
+
+<span class="sd">        Loads are selected with ``loads`` exactly as for :meth:`plot`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        loads : list | LoadCase | LoadCombination, optional</span>
+<span class="sd">            The load source to draw.</span>
+<span class="sd">        load_cases : pycba.load_cases.LoadCases, optional</span>
+<span class="sd">            Required only when ``loads`` is a ``LoadCombination``.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Forwarded to :meth:`pycba.render.BeamPlotter.render_tikz`</span>
+<span class="sd">            (``standalone``, ``scale``, ``dimensions``, ``labels``,</span>
+<span class="sd">            ``load_values``).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The LaTeX source.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
+
+        <span class="k">return</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">render_tikz</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Beam.save_tikz">
+<a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.save_tikz">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_tikz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write the TikZ/``stanli`` source to ``path`` (and optionally compile it).</span>
+
+<span class="sd">        Loads are selected with ``loads`` exactly as for :meth:`plot`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str or pathlib.Path</span>
+<span class="sd">            Output ``.tex`` path.</span>
+<span class="sd">        loads : list | LoadCase | LoadCombination, optional</span>
+<span class="sd">            The load source to draw.</span>
+<span class="sd">        compile : bool</span>
+<span class="sd">            If ``True``, run ``pdflatex`` to also produce a PDF (requires a</span>
+<span class="sd">            LaTeX install with the ``stanli`` package).</span>
+<span class="sd">        load_cases : pycba.load_cases.LoadCases, optional</span>
+<span class="sd">            Required only when ``loads`` is a ``LoadCombination``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pathlib.Path</span>
+<span class="sd">            The ``.tex`` path, or the produced ``.pdf`` when ``compile=True``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
+
+        <span class="k">return</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span>
+            <span class="n">path</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Beam.get_ref">

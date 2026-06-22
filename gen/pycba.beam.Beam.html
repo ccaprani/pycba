@@ -156,7 +156,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -303,7 +303,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -445,6 +445,15 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.pattern.html">pycba.pattern</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.pattern.LoadPattern.html">pycba.pattern.LoadPattern</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.render.html">pycba.render</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.render.BeamPlotter.html">pycba.render.BeamPlotter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.render.DistLoad.html">pycba.render.DistLoad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.render.Hinge.html">pycba.render.Hinge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.render.MomentLoad.html">pycba.render.MomentLoad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.render.PointLoad.html">pycba.render.PointLoad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.render.Support.html">pycba.render.Support</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -594,6 +603,15 @@ Use None for DOFs without prescribed displacement.</p></li>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_theta" title="pycba.beam.Beam.k_theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_theta</span></code></a></p></td>
 <td><p>2x2 moment-rotation stiffness of the (chord-relative) element ends.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.plot" title="pycba.beam.Beam.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
+<td><p>Draw a structural schematic of the beam with matplotlib.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.save_tikz" title="pycba.beam.Beam.save_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_tikz</span></code></a></p></td>
+<td><p>Write the TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> source to <code class="docutils literal notranslate"><span class="pre">path</span></code> (and optionally compile it).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.to_tikz" title="pycba.beam.Beam.to_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_tikz</span></code></a></p></td>
+<td><p>Generate a TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> representation of the beam.</p></td>
 </tr>
 </tbody>
 </table>
@@ -766,6 +784,87 @@ coordinates on the beam</p>
 <li><p><strong>pos_in_span</strong> (<em>float</em>) – The local coordinate along the member of the point of interest</p></li>
 </ul>
 </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.beam.Beam.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.plot" title="Link to this definition">#</a></dt>
+<dd><p>Draw a structural schematic of the beam with matplotlib.</p>
+<p>The beam structure (geometry, supports, internal hinges) is always
+drawn; the loads layer is optional and its source is selected with
+<code class="docutils literal notranslate"><span class="pre">loads</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default) - the beam’s own load matrix <code class="docutils literal notranslate"><span class="pre">self.LM</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[]</span></code> - draw the bare structure only.</p></li>
+<li><p>a PyCBA load matrix, a <a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a>, or a
+<a class="reference internal" href="pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination" title="pycba.load_cases.LoadCombination"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCombination</span></code></a> (supply its
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a> via <code class="docutils literal notranslate"><span class="pre">load_cases</span></code>).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>loads</strong> (<em>list</em><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><em>LoadCase</em></a><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination" title="pycba.load_cases.LoadCombination"><em>LoadCombination</em></a><em>, </em><em>optional</em>) – The load source to draw.</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into; a new figure is created if omitted.</p></li>
+<li><p><strong>load_cases</strong> (<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><em>pycba.load_cases.LoadCases</em></a><em>, </em><em>optional</em>) – Required only when <code class="docutils literal notranslate"><span class="pre">loads</span></code> is a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> – Forwarded to <a class="reference internal" href="pycba.render.BeamPlotter.html#pycba.render.BeamPlotter.render_mpl" title="pycba.render.BeamPlotter.render_mpl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.render.BeamPlotter.render_mpl()</span></code></a>
+(<code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">load_values</span></code>, <code class="docutils literal notranslate"><span class="pre">color</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The axes the schematic was drawn into.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib.axes.Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.beam.Beam.to_tikz">
+<span class="sig-name descname"><span class="pre">to_tikz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.to_tikz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.to_tikz" title="Link to this definition">#</a></dt>
+<dd><p>Generate a TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> representation of the beam.</p>
+<p>Loads are selected with <code class="docutils literal notranslate"><span class="pre">loads</span></code> exactly as for <a class="reference internal" href="#pycba.beam.Beam.plot" title="pycba.beam.Beam.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>loads</strong> (<em>list</em><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><em>LoadCase</em></a><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination" title="pycba.load_cases.LoadCombination"><em>LoadCombination</em></a><em>, </em><em>optional</em>) – The load source to draw.</p></li>
+<li><p><strong>load_cases</strong> (<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><em>pycba.load_cases.LoadCases</em></a><em>, </em><em>optional</em>) – Required only when <code class="docutils literal notranslate"><span class="pre">loads</span></code> is a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> – Forwarded to <a class="reference internal" href="pycba.render.BeamPlotter.html#pycba.render.BeamPlotter.render_tikz" title="pycba.render.BeamPlotter.render_tikz"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.render.BeamPlotter.render_tikz()</span></code></a>
+(<code class="docutils literal notranslate"><span class="pre">standalone</span></code>, <code class="docutils literal notranslate"><span class="pre">scale</span></code>, <code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>,
+<code class="docutils literal notranslate"><span class="pre">load_values</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The LaTeX source.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.beam.Beam.save_tikz">
+<span class="sig-name descname"><span class="pre">save_tikz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.save_tikz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.save_tikz" title="Link to this definition">#</a></dt>
+<dd><p>Write the TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> source to <code class="docutils literal notranslate"><span class="pre">path</span></code> (and optionally compile it).</p>
+<p>Loads are selected with <code class="docutils literal notranslate"><span class="pre">loads</span></code> exactly as for <a class="reference internal" href="#pycba.beam.Beam.plot" title="pycba.beam.Beam.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em><em> or </em><em>pathlib.Path</em>) – Output <code class="docutils literal notranslate"><span class="pre">.tex</span></code> path.</p></li>
+<li><p><strong>loads</strong> (<em>list</em><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><em>LoadCase</em></a><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination" title="pycba.load_cases.LoadCombination"><em>LoadCombination</em></a><em>, </em><em>optional</em>) – The load source to draw.</p></li>
+<li><p><strong>compile</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, run <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> to also produce a PDF (requires a
+LaTeX install with the <code class="docutils literal notranslate"><span class="pre">stanli</span></code> package).</p></li>
+<li><p><strong>load_cases</strong> (<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><em>pycba.load_cases.LoadCases</em></a><em>, </em><em>optional</em>) – Required only when <code class="docutils literal notranslate"><span class="pre">loads</span></code> is a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">.tex</span></code> path, or the produced <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> when <code class="docutils literal notranslate"><span class="pre">compile=True</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1015,6 +1114,9 @@ precision.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_fixed_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_fixed_restraints</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.length"><code class="docutils literal notranslate"><span class="pre">Beam.length</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_local_span_coords"><code class="docutils literal notranslate"><span class="pre">Beam.get_local_span_coords()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.plot"><code class="docutils literal notranslate"><span class="pre">Beam.plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.to_tikz"><code class="docutils literal notranslate"><span class="pre">Beam.to_tikz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.save_tikz"><code class="docutils literal notranslate"><span class="pre">Beam.save_tikz()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_ref"><code class="docutils literal notranslate"><span class="pre">Beam.get_ref()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.get_span_k"><code class="docutils literal notranslate"><span class="pre">Beam.get_span_k()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.k_FF"><code class="docutils literal notranslate"><span class="pre">Beam.k_FF()</span></code></a></li>

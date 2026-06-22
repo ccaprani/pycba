@@ -27,6 +27,9 @@ pycba.beam.Beam
       ~Beam.k_PP
       ~Beam.k_nonprismatic
       ~Beam.k_theta
+      ~Beam.plot
+      ~Beam.save_tikz
+      ~Beam.to_tikz
    
    
 

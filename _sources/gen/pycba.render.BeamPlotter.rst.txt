@@ -1,0 +1,27 @@
+pycba.render.BeamPlotter
+========================
+
+.. currentmodule:: pycba.render
+
+.. autoclass:: BeamPlotter
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~BeamPlotter.render_mpl
+      ~BeamPlotter.render_tikz
+      ~BeamPlotter.save_tikz
+   
+   
+
+   
+   
+   

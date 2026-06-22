@@ -1,0 +1,34 @@
+pycba.render.DistLoad
+=====================
+
+.. currentmodule:: pycba.render
+
+.. autoclass:: DistLoad
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DistLoad.i_span
+      ~DistLoad.x0
+      ~DistLoad.x1
+      ~DistLoad.w0
+      ~DistLoad.w1
+   
+   

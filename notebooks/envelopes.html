@@ -157,7 +157,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -304,7 +304,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -514,6 +514,22 @@
 </pre></div>
 </div>
 </div>
+<p>We can also visualise the beam together with one of its load cases — here the permanent action <code class="docutils literal notranslate"><span class="pre">Gk</span></code> — by passing the case straight to <code class="docutils literal notranslate"><span class="pre">plot()</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Gk</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_envelopes_7_0.png" src="../_images/notebooks_envelopes_7_0.png" />
+</div>
+</div>
 <p>The collection now contains two named actions:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -652,7 +668,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_17_0.png" src="../_images/notebooks_envelopes_17_0.png" />
+<img alt="../_images/notebooks_envelopes_19_0.png" src="../_images/notebooks_envelopes_19_0.png" />
 </div>
 </div>
 <p>And let’s confirm that the results match the book (Section 2.3.6) to the second decimal place (<code class="docutils literal notranslate"><span class="pre">atol=1e-2</span></code>). To do this, we find the results from our analysis for key locations for moments and shears and confirm they match the book. First, the moments:</p>
@@ -804,7 +820,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_30_0.png" src="../_images/notebooks_envelopes_30_0.png" />
+<img alt="../_images/notebooks_envelopes_32_0.png" src="../_images/notebooks_envelopes_32_0.png" />
 </div>
 </div>
 </section>
@@ -901,7 +917,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_37_0.png" src="../_images/notebooks_envelopes_37_0.png" />
+<img alt="../_images/notebooks_envelopes_39_0.png" src="../_images/notebooks_envelopes_39_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -917,7 +933,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_38_0.png" src="../_images/notebooks_envelopes_38_0.png" />
+<img alt="../_images/notebooks_envelopes_40_0.png" src="../_images/notebooks_envelopes_40_0.png" />
 </div>
 </div>
 </section>
@@ -984,7 +1000,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_45_0.png" src="../_images/notebooks_envelopes_45_0.png" />
+<img alt="../_images/notebooks_envelopes_47_0.png" src="../_images/notebooks_envelopes_47_0.png" />
 </div>
 </div>
 <p>We can also choose to plot each bending moment and shear force diagram in the envelope:</p>
@@ -1000,7 +1016,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_47_0.png" src="../_images/notebooks_envelopes_47_0.png" />
+<img alt="../_images/notebooks_envelopes_49_0.png" src="../_images/notebooks_envelopes_49_0.png" />
 </div>
 </div>
 </section>
@@ -1064,7 +1080,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_52_0.png" src="../_images/notebooks_envelopes_52_0.png" />
+<img alt="../_images/notebooks_envelopes_54_0.png" src="../_images/notebooks_envelopes_54_0.png" />
 </div>
 </div>
 </section>
@@ -1087,7 +1103,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_54_0.png" src="../_images/notebooks_envelopes_54_0.png" />
+<img alt="../_images/notebooks_envelopes_56_0.png" src="../_images/notebooks_envelopes_56_0.png" />
 </div>
 </div>
 <p>Next, establish the envelope of envelopes, and augment both in, then plot:</p>
@@ -1106,7 +1122,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_56_0.png" src="../_images/notebooks_envelopes_56_0.png" />
+<img alt="../_images/notebooks_envelopes_58_0.png" src="../_images/notebooks_envelopes_58_0.png" />
 </div>
 </div>
 </section>

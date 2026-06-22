@@ -1,0 +1,34 @@
+pycba.render.Support
+====================
+
+.. currentmodule:: pycba.render
+
+.. autoclass:: Support
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Support.at_left_end
+      ~Support.at_right_end
+      ~Support.x
+      ~Support.kind
+      ~Support.node
+   
+   

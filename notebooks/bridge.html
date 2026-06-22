@@ -157,7 +157,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -304,7 +304,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -514,6 +514,22 @@
 </pre></div>
 </div>
 </div>
+<p>The two-span bridge structure can be visualised with <code class="docutils literal notranslate"><span class="pre">plot()</span></code> (the moving vehicle is applied separately, below):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bridge</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_bridge_9_0.png" src="../_images/notebooks_bridge_9_0.png" />
+</div>
+</div>
 <p>Examine the vehicle at a single position, when the front axle is at 30.0 m say:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -527,7 +543,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_9_0.png" src="../_images/notebooks_bridge_9_0.png" />
+<img alt="../_images/notebooks_bridge_11_0.png" src="../_images/notebooks_bridge_11_0.png" />
 </div>
 </div>
 <p>Now we run the vehicle over the bridge, returning the envelope of results. When run as a python script, the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> figure will animate each result when <code class="docutils literal notranslate"><span class="pre">plot_all=True</span></code>.</p>
@@ -543,7 +559,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_11_0.png" src="../_images/notebooks_bridge_11_0.png" />
+<img alt="../_images/notebooks_bridge_13_0.png" src="../_images/notebooks_bridge_13_0.png" />
 </div>
 </div>
 <p>Alternatively, using the <code class="docutils literal notranslate"><span class="pre">reverse()</span></code> method, we can do an analysis for the vehicle travelling in the reverse direction.</p>
@@ -569,7 +585,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_13_1.png" src="../_images/notebooks_bridge_13_1.png" />
+<img alt="../_images/notebooks_bridge_15_1.png" src="../_images/notebooks_bridge_15_1.png" />
 </div>
 </div>
 </section>
@@ -653,7 +669,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_18_0.png" src="../_images/notebooks_bridge_18_0.png" />
+<img alt="../_images/notebooks_bridge_20_0.png" src="../_images/notebooks_bridge_20_0.png" />
 </div>
 </div>
 <p>Now combine this patterned UDL envelope with the moving-vehicle envelope. This is an envelope operation: the moving vehicle creates one envelope, the patterned UDL target combination creates another, and <code class="docutils literal notranslate"><span class="pre">augment</span></code> keeps the governing values from both.</p>
@@ -681,7 +697,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_20_0.png" src="../_images/notebooks_bridge_20_0.png" />
+<img alt="../_images/notebooks_bridge_22_0.png" src="../_images/notebooks_bridge_22_0.png" />
 </div>
 </div>
 </section>
@@ -751,7 +767,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_29_0.png" src="../_images/notebooks_bridge_29_0.png" />
+<img alt="../_images/notebooks_bridge_31_0.png" src="../_images/notebooks_bridge_31_0.png" />
 </div>
 </div>
 <section id="Coincident-Load-Effects">
@@ -806,7 +822,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_33_0.png" src="../_images/notebooks_bridge_33_0.png" />
+<img alt="../_images/notebooks_bridge_35_0.png" src="../_images/notebooks_bridge_35_0.png" />
 </div>
 </div>
 </section>
@@ -868,7 +884,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_39_0.png" src="../_images/notebooks_bridge_39_0.png" />
+<img alt="../_images/notebooks_bridge_41_0.png" src="../_images/notebooks_bridge_41_0.png" />
 </div>
 </div>
 </section>
@@ -916,7 +932,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_45_0.png" src="../_images/notebooks_bridge_45_0.png" />
+<img alt="../_images/notebooks_bridge_47_0.png" src="../_images/notebooks_bridge_47_0.png" />
 </div>
 </div>
 <p>Now analyze the permit application vehicle; here just taking an example vehicle from the <code class="docutils literal notranslate"><span class="pre">VehicleLibrary</span></code>:</p>
@@ -934,7 +950,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_47_0.png" src="../_images/notebooks_bridge_47_0.png" />
+<img alt="../_images/notebooks_bridge_49_0.png" src="../_images/notebooks_bridge_49_0.png" />
 </div>
 </div>
 <p>And we can plot the ratios of trial to reference envelopes</p>
@@ -951,7 +967,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_49_0.png" src="../_images/notebooks_bridge_49_0.png" />
+<img alt="../_images/notebooks_bridge_51_0.png" src="../_images/notebooks_bridge_51_0.png" />
 </div>
 </div>
 <p>As can be seen in this case, the central support reaction is greater than 1.0, as is the hogging moment (by about 7%). This vehicle is unlikely to be granted a permit as a result.</p>
@@ -1023,7 +1039,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_60_0.png" src="../_images/notebooks_bridge_60_0.png" />
+<img alt="../_images/notebooks_bridge_62_0.png" src="../_images/notebooks_bridge_62_0.png" />
 </div>
 </div>
 <p>Note that this overall envelope can only show the extremes of reaction values, since the time histories of reactions are not compatible.</p>
@@ -1646,7 +1662,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_86_0.png" src="../_images/notebooks_bridge_86_0.png" />
+<img alt="../_images/notebooks_bridge_88_0.png" src="../_images/notebooks_bridge_88_0.png" />
 </div>
 </div>
 <p>It can be seen from the IL diagrams that:</p>
@@ -1813,7 +1829,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_100_0.png" src="../_images/notebooks_bridge_100_0.png" />
+<img alt="../_images/notebooks_bridge_102_0.png" src="../_images/notebooks_bridge_102_0.png" />
 </div>
 </div>
 </section>

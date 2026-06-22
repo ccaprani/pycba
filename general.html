@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Beam Configuration &#8212; PyCBA 0.8.0 documentation</title>
+    <title>Defining Beams &#8212; PyCBA 0.8.0 documentation</title>
   
   
   
@@ -156,7 +156,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -303,7 +303,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -434,7 +434,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Beam Configuration</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Defining Beams</span></li>
   </ul>
 </nav>
 </div>
@@ -451,8 +451,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="beam-configuration">
-<h1>Beam Configuration<a class="headerlink" href="#beam-configuration" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="defining-beams">
+<h1>Defining Beams<a class="headerlink" href="#defining-beams" title="Link to this heading">#</a></h1>
 <p>The beam configuration input data is to be in the following format:</p>
 <section id="member-lengths-l">
 <h2>Member Lengths (<code class="docutils literal notranslate"><span class="pre">L</span></code>)<a class="headerlink" href="#member-lengths-l" title="Link to this heading">#</a></h2>
@@ -696,6 +696,92 @@ Use <code class="docutils literal notranslate"><span class="pre">None</span></co
 <p><strong>Dimension</strong>: <code class="docutils literal notranslate"><span class="pre">N</span></code> x 1</p>
 <p><strong>Units</strong>: N/A</p>
 </section>
+<section id="visualising-the-beam-and-loads">
+<h2>Visualising the Beam and Loads<a class="headerlink" href="#visualising-the-beam-and-loads" title="Link to this heading">#</a></h2>
+<p>Once a beam is configured it can be drawn as a structural schematic — the beam,
+its supports, internal hinges and the applied loads — using either a native
+matplotlib backend or a TikZ/<a class="reference external" href="https://github.com/bsdomergue/stanli"><code class="docutils literal notranslate"><span class="pre">stanli</span></code></a>
+backend for publication-quality LaTeX figures. These draw the <em>model</em> (unlike
+<code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_results</span></code>, which draws the bending-moment, shear and deflection
+<em>results</em>), so the beam does not need to have been analysed.</p>
+<p>The supports are inferred from the restraint vector <code class="docutils literal notranslate"><span class="pre">R</span></code>: the first
+vertical-only support is drawn as a pin and the remainder as rollers, a
+fully-fixed node as an encastre wall, and a positive (spring) stiffness as a
+spring. Internal moment releases are read from <code class="docutils literal notranslate"><span class="pre">eleType</span></code> and drawn as hinges.</p>
+<section id="native-matplotlib">
+<h3>Native matplotlib<a class="headerlink" href="#native-matplotlib" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Beam.plot()</span></code> draws the schematic on labelled axes (distance along the beam) and
+returns the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> <code class="docutils literal notranslate"><span class="pre">Axes</span></code> for further customisation. The beam below
+exercises every support type — an encastré (<code class="docutils literal notranslate"><span class="pre">E</span></code>), rollers (<code class="docutils literal notranslate"><span class="pre">R</span></code>), an internal
+hinge (<code class="docutils literal notranslate"><span class="pre">H</span></code>) and a spring set directly on the restraint vector — together with a
+UDL, a point load, a partial UDL and a moment:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
+
+<span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">parse_beam_string</span><span class="p">(</span><span class="s2">&quot;E6R6H6R6R&quot;</span><span class="p">)</span>
+<span class="n">R</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2000.0</span>  <span class="c1"># node 3: vertical spring support (stiffness in kN/m)</span>
+<span class="n">beam</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Beam</span><span class="p">(</span>
+    <span class="n">L</span><span class="p">,</span>
+    <span class="n">EI</span><span class="p">,</span>
+    <span class="n">R</span><span class="p">,</span>
+    <span class="n">eletype</span><span class="o">=</span><span class="n">eType</span><span class="p">,</span>
+    <span class="n">LM</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>            <span class="c1"># UDL on span 1</span>
+        <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>       <span class="c1"># point load on span 2</span>
+        <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span>  <span class="c1"># partial UDL on span 3</span>
+        <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>       <span class="c1"># moment on span 4</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>            <span class="c1"># supports, loads, magnitudes and node labels</span>
+</pre></div>
+</div>
+<img alt="Matplotlib beam schematic" class="align-center" src="_images/beam_render_mpl.png" />
+<p>By default the matplotlib schematic relies on its x-axis for distance, so
+span-length dimensions are off; pass <code class="docutils literal notranslate"><span class="pre">dimensions=True</span></code> to add them. Each
+annotation is toggleable, and an existing <code class="docutils literal notranslate"><span class="pre">Axes</span></code> may be supplied:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">my_ax</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>            <span class="c1"># add span dimensions</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">load_values</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>      <span class="c1"># bare structure + loads</span>
+</pre></div>
+</div>
+</section>
+<section id="tikz-stanli">
+<h3>TikZ / stanli<a class="headerlink" href="#tikz-stanli" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Beam.to_tikz()</span></code> returns a standalone LaTeX document built on the <code class="docutils literal notranslate"><span class="pre">stanli</span></code>
+package, and <code class="docutils literal notranslate"><span class="pre">Beam.save_tikz()</span></code> writes it to a file. With <code class="docutils literal notranslate"><span class="pre">compile=True</span></code> it is
+rendered straight to PDF with <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> (which must be available, with the
+<code class="docutils literal notranslate"><span class="pre">stanli</span></code> package installed):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">to_tikz</span><span class="p">()</span>                     <span class="c1"># LaTeX source as a string</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="s2">&quot;beam.tex&quot;</span><span class="p">)</span>               <span class="c1"># write the .tex</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="s2">&quot;beam.tex&quot;</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># also produce beam.pdf</span>
+</pre></div>
+</div>
+<img alt="TikZ/stanli beam schematic" class="align-center" src="_images/beam_render_tikz.png" />
+<p>Pass <code class="docutils literal notranslate"><span class="pre">standalone=False</span></code> to emit just the <code class="docutils literal notranslate"><span class="pre">tikzpicture</span></code> environment for
+embedding in a larger document.</p>
+</section>
+<section id="choosing-what-loads-to-draw">
+<h3>Choosing what loads to draw<a class="headerlink" href="#choosing-what-loads-to-draw" title="Link to this heading">#</a></h3>
+<p>By default the beam’s own load matrix is drawn. The <code class="docutils literal notranslate"><span class="pre">loads</span></code> argument (accepted
+by <code class="docutils literal notranslate"><span class="pre">plot</span></code>, <code class="docutils literal notranslate"><span class="pre">to_tikz</span></code> and <code class="docutils literal notranslate"><span class="pre">save_tikz</span></code>) selects a different source, so the same
+beam structure can be drawn with any loading — or none:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>                 <span class="c1"># the beam&#39;s own load matrix (default)</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loads</span><span class="o">=</span><span class="p">[])</span>         <span class="c1"># the bare structure only</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loads</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>  <span class="c1"># an explicit load matrix</span>
+
+<span class="c1"># A high-level load case or factored combination</span>
+<span class="n">load_cases</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="s2">&quot;Q&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">))</span>
+
+<span class="n">combo</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCombination</span><span class="p">(</span><span class="s2">&quot;ULS&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.35</span><span class="p">,</span> <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">combo</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span>   <span class="c1"># draws the factored loads</span>
+</pre></div>
+</div>
+<p>The underlying <code class="docutils literal notranslate"><span class="pre">pycba.render.BeamPlotter</span></code> class is also available directly if
+you want to build the renderer once and call both backends.</p>
+</section>
+</section>
 </section>
 
 
@@ -752,6 +838,12 @@ Use <code class="docutils literal notranslate"><span class="pre">None</span></co
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-cases-and-response-combinations">Load Cases and Response Combinations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prescribed-displacements-d">Prescribed Displacements (<code class="docutils literal notranslate"><span class="pre">D</span></code>)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#element-types-eletype">Element Types (<code class="docutils literal notranslate"><span class="pre">eleType</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualising-the-beam-and-loads">Visualising the Beam and Loads</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#native-matplotlib">Native matplotlib</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tikz-stanli">TikZ / stanli</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-what-loads-to-draw">Choosing what loads to draw</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

@@ -157,7 +157,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -304,7 +304,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../general.html">
-    Beam Configuration
+    Defining Beams
   </a>
 </li>
 
@@ -532,6 +532,22 @@
 </pre></div>
 </div>
 </div>
+<p>Before running the analysis it is worth visualising the beam — its supports and the applied loads — as a schematic. The underlying <code class="docutils literal notranslate"><span class="pre">Beam</span></code> object is available as <code class="docutils literal notranslate"><span class="pre">beam_analysis.beam</span></code>, which provides a <code class="docutils literal notranslate"><span class="pre">plot()</span></code> method (the matplotlib x-axis gives the distance along the beam):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_11_0.png" src="../_images/notebooks_intro_11_0.png" />
+</div>
+</div>
 <p>Now that we have applied the loads, it is ready for analysis and we call the <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function and plot the results:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -546,7 +562,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_11_0.png" src="../_images/notebooks_intro_11_0.png" />
+<img alt="../_images/notebooks_intro_13_0.png" src="../_images/notebooks_intro_13_0.png" />
 </div>
 </div>
 <p>The numerical results can found from the <code class="docutils literal notranslate"><span class="pre">beam_results</span></code> member of <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object.</p>
@@ -609,7 +625,7 @@ np.float64(65.42525)
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_18_0.png" class="no-scaled-link" src="../_images/notebooks_intro_18_0.png" width="800" />
+<img alt="../_images/notebooks_intro_20_0.png" class="no-scaled-link" src="../_images/notebooks_intro_20_0.png" width="800" />
 </div>
 </div>
 <p>With two loads the <em>load matrix</em> (see <code class="docutils literal notranslate"><span class="pre">pycba.load</span></code>) is a list of two lists:</p>
@@ -629,6 +645,22 @@ np.float64(65.42525)
 </pre></div>
 </div>
 </div>
+<p>Visualising this beam shows the point load and the applied moment, and the fixed far support at <span class="math notranslate nohighlight">\(C\)</span> (drawn as an encastré wall):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_24_0.png" src="../_images/notebooks_intro_24_0.png" />
+</div>
+</div>
 <p>Along with <code class="docutils literal notranslate"><span class="pre">L</span></code>, <code class="docutils literal notranslate"><span class="pre">EI</span></code>, and <code class="docutils literal notranslate"><span class="pre">R</span></code>, the load matrix <code class="docutils literal notranslate"><span class="pre">LM</span></code> can be directly passed to the <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code> constructor resulting in an object ready for analysis. And to better evaluate the discontinuities for the moment and point loads, we can increase the number of evaluation points along each member to 500 when calling <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> as follows:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
@@ -644,7 +676,7 @@ np.float64(65.42525)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_22_0.png" src="../_images/notebooks_intro_22_0.png" />
+<img alt="../_images/notebooks_intro_26_0.png" src="../_images/notebooks_intro_26_0.png" />
 </div>
 </div>
 </section>
@@ -687,6 +719,22 @@ np.float64(65.42525)
 </pre></div>
 </div>
 </div>
+<p>The three-span subframe with its loaded spans:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_33_0.png" src="../_images/notebooks_intro_33_0.png" />
+</div>
+</div>
 <p>Now we can analyze and plot the results:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
@@ -701,7 +749,7 @@ np.float64(65.42525)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_29_0.png" src="../_images/notebooks_intro_29_0.png" />
+<img alt="../_images/notebooks_intro_35_0.png" src="../_images/notebooks_intro_35_0.png" />
 </div>
 </div>
 <p>The influence of the column rotational stiffness at the joints is clear, and the moments in the columns canbe found as the difference in the moments at the ends of the connecting spans.</p>
@@ -741,7 +789,7 @@ np.float64(65.42525)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_32_0.png" src="../_images/notebooks_intro_32_0.png" />
+<img alt="../_images/notebooks_intro_38_0.png" src="../_images/notebooks_intro_38_0.png" />
 </div>
 </div>
 </section>
@@ -807,7 +855,7 @@ np.float64(65.42525)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_38_0.png" src="../_images/notebooks_intro_38_0.png" />
+<img alt="../_images/notebooks_intro_44_0.png" src="../_images/notebooks_intro_44_0.png" />
 </div>
 </div>
 <p>The service load effects are then calculated by further superposition of the live loads onto the transfer loads. We reset the loads in the <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object and re-analyze:</p>
@@ -826,7 +874,7 @@ np.float64(65.42525)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_40_0.png" src="../_images/notebooks_intro_40_0.png" />
+<img alt="../_images/notebooks_intro_46_0.png" src="../_images/notebooks_intro_46_0.png" />
 </div>
 </div>
 </section>
@@ -904,7 +952,7 @@ Reactions (with differential settle): [ 77.752 139.3    72.948] kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_44_0.png" src="../_images/notebooks_intro_44_0.png" />
+<img alt="../_images/notebooks_intro_50_0.png" src="../_images/notebooks_intro_50_0.png" />
 </div>
 </div>
 </section>
@@ -932,7 +980,7 @@ Reactions (with differential settle): [ 77.752 139.3    72.948] kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_46_0.png" src="../_images/notebooks_intro_46_0.png" />
+<img alt="../_images/notebooks_intro_52_0.png" src="../_images/notebooks_intro_52_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
