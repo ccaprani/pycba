@@ -1,0 +1,6 @@
+pycba.load\_cases.plot\_response\_envelope
+==========================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: plot_response_envelope

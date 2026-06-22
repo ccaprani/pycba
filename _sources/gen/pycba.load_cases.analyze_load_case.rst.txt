@@ -1,0 +1,6 @@
+pycba.load\_cases.analyze\_load\_case
+=====================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: analyze_load_case

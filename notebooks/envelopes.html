@@ -808,8 +808,121 @@ True True
 </div>
 </div>
 </section>
-<section id="Example-3:-5-span-Beam">
-<h2>Example 3: 5-span Beam<a class="headerlink" href="#Example-3:-5-span-Beam" title="Link to this heading">#</a></h2>
+<section id="Example-3:-Patterned-UDL-Target-Combination">
+<h2>Example 3: Patterned UDL Target Combination<a class="headerlink" href="#Example-3:-Patterned-UDL-Target-Combination" title="Link to this heading">#</a></h2>
+<p>A bridge or floor load may be specified as a UDL that can occupy only the parts of the structure that make a particular effect worse. Instead of guessing that loaded length by hand, PyCBA can divide each span into short partial-UDL segments and analyse each segment as a basis <code class="docutils literal notranslate"><span class="pre">LoadCase</span></code> over the whole beam.</p>
+<p>For a selected target effect, such as hogging at the first internal support, the segment responses are then inspected at that target coordinate. Segments that contribute adversely are included in a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>; segments that relieve the effect are left out. The resulting combination is one load arrangement for that target effect, and it can be converted back to an ordinary PyCBA load matrix for checking.</p>
+<p>The number of basis cases is <code class="docutils literal notranslate"><span class="pre">n_spans</span> <span class="pre">*</span> <span class="pre">n_segments</span></code>. Increasing <code class="docutils literal notranslate"><span class="pre">n_segments</span></code> gives a finer approximation to the possible loaded length, while reducing it gives a quicker, coarser check.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_segments</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">udl_basis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">make_patterned_udl</span><span class="p">(</span><span class="n">mixed_beam</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="n">n_segments</span><span class="p">)</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">),</span> <span class="n">udl_basis</span><span class="o">.</span><span class="n">names</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">udl_basis</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(18,
+ (&#39;UDL span 1 segment 1&#39;, &#39;UDL span 1 segment 2&#39;, &#39;UDL span 1 segment 3&#39;),
+ &#39;UDL span 3 segment 6&#39;)
+</pre></div></div>
+</div>
+<p>Here the target is the bending moment at the first internal support. <code class="docutils literal notranslate"><span class="pre">sense=&quot;min&quot;</span></code> selects the segments with negative moment contribution at that coordinate. The result is a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>, not a new primitive load case.</p>
+<p>This is related to Kadane’s maximum-subarray algorithm. With independently selectable segments, the selected combination simply includes every segment with an adverse contribution. If a loading rule requires one contiguous loaded length, the same segment response vector can be searched with a Kadane-style contiguous subarray step before forming the <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_support_1</span> <span class="o">=</span> <span class="n">mixed_beam</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">hogging_support_1</span> <span class="o">=</span> <span class="n">udl_basis</span><span class="o">.</span><span class="n">target_combination</span><span class="p">(</span>
+    <span class="s2">&quot;Hogging at first internal support&quot;</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">x_support_1</span><span class="p">,</span>
+    <span class="n">sense</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span>
+    <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">n_selected</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hogging_support_1</span><span class="o">.</span><span class="n">factor_vector</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">hogging_support_1</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">n_selected</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;Hogging at first internal support&#39;, 12)
+</pre></div></div>
+</div>
+<p>The combination can be materialised as a PyCBA load matrix for checking or for a single ordinary analysis.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_LM</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+<span class="n">hogging_LM</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[1, 3, 10.0, 0.0, 1.3333333333333333],
+ [1, 3, 10.0, 1.3333333333333333, 1.3333333333333333],
+ [1, 3, 10.0, 2.6666666666666665, 1.3333333333333333],
+ [1, 3, 10.0, 4.0, 1.3333333333333333],
+ [1, 3, 10.0, 5.333333333333333, 1.3333333333333333]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_case</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">to_load_case</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">plot_load_patterns</span><span class="p">(</span><span class="n">mixed_beam</span><span class="p">,</span> <span class="p">[</span><span class="n">hogging_case</span><span class="p">],</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mixed_beam</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_envelopes_37_0.png" src="../_images/notebooks_envelopes_37_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_analysis</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+<span class="n">hogging_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">();</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_envelopes_38_0.png" src="../_images/notebooks_envelopes_38_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-4:-5-span-Beam">
+<h2>Example 4: 5-span Beam<a class="headerlink" href="#Example-4:-5-span-Beam" title="Link to this heading">#</a></h2>
 <p>In this example we use Eurocode load factors for which the load pattern is</p>
 <ul class="simple">
 <li><p>MAX = 1.35 Gk + 1.5Qk</p></li>
@@ -817,7 +930,7 @@ True True
 </ul>
 <p>Make the beam as before:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">8.3</span><span class="p">,</span><span class="mf">8.3</span><span class="p">,</span><span class="mf">8.3</span><span class="p">,</span><span class="mf">6.5</span><span class="p">]</span>
@@ -829,7 +942,7 @@ True True
 </div>
 <p>Define the named loads using the same high-level UDL builder:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cases</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">)</span>
@@ -843,7 +956,7 @@ True True
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">γg_max</span> <span class="o">=</span> <span class="mf">1.35</span>
@@ -856,7 +969,7 @@ True True
 </div>
 <p>Now pass those named cases to <code class="docutils literal notranslate"><span class="pre">LoadPattern</span></code>. Here <code class="docutils literal notranslate"><span class="pre">npts=200</span></code> asks PyCBA to calculate the envelope at 200 stations along each span.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadPattern</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">)</span>
@@ -871,12 +984,12 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_37_0.png" src="../_images/notebooks_envelopes_37_0.png" />
+<img alt="../_images/notebooks_envelopes_45_0.png" src="../_images/notebooks_envelopes_45_0.png" />
 </div>
 </div>
 <p>We can also choose to plot each bending moment and shear force diagram in the envelope:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">each</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">));</span>
@@ -887,19 +1000,19 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_39_0.png" src="../_images/notebooks_envelopes_39_0.png" />
+<img alt="../_images/notebooks_envelopes_47_0.png" src="../_images/notebooks_envelopes_47_0.png" />
 </div>
 </div>
 </section>
-<section id="Example-4:-4-Span-Beam">
-<h2>Example 4: 4-Span Beam<a class="headerlink" href="#Example-4:-4-Span-Beam" title="Link to this heading">#</a></h2>
+<section id="Example-5:-4-Span-Beam">
+<h2>Example 5: 4-Span Beam<a class="headerlink" href="#Example-5:-4-Span-Beam" title="Link to this heading">#</a></h2>
 <p>Here we consider a 4-span beam subject to nominal dead and live UDLs of <span class="math notranslate nohighlight">\(w_g = 20\)</span> kN/m and <span class="math notranslate nohighlight">\(w_q = 30\)</span> kN/m respectively. Here we use a modified load pattern from the old British Standards, conservatively allowing dead load to be less than the nominal estimate:</p>
 <ul class="simple">
 <li><p>MAX = 1.4 Gk + 1.6 Qk</p></li>
 <li><p>MIN = 0.9 Gk</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
@@ -910,7 +1023,7 @@ True True
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_cases</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">)</span>
@@ -924,7 +1037,7 @@ True True
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">γg_max</span> <span class="o">=</span> <span class="mf">1.4</span>
@@ -936,7 +1049,7 @@ True True
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadPattern</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">)</span>
@@ -951,16 +1064,16 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_44_0.png" src="../_images/notebooks_envelopes_44_0.png" />
+<img alt="../_images/notebooks_envelopes_52_0.png" src="../_images/notebooks_envelopes_52_0.png" />
 </div>
 </div>
 </section>
-<section id="Example-5:-Augmenting-Envelopes">
-<h2>Example 5: Augmenting Envelopes<a class="headerlink" href="#Example-5:-Augmenting-Envelopes" title="Link to this heading">#</a></h2>
+<section id="Example-6:-Augmenting-Envelopes">
+<h2>Example 6: Augmenting Envelopes<a class="headerlink" href="#Example-6:-Augmenting-Envelopes" title="Link to this heading">#</a></h2>
 <p>Here we augment an envelope due to a moving vehicle to the 4-span beam just considered, illustrating that mixed analyses are possible.</p>
 <p>The vehicle used is from the Australian bridge design standard, AS5100.2, M1600, with a 6.25~m axle spacing.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
@@ -974,12 +1087,12 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_46_0.png" src="../_images/notebooks_envelopes_46_0.png" />
+<img alt="../_images/notebooks_envelopes_54_0.png" src="../_images/notebooks_envelopes_54_0.png" />
 </div>
 </div>
 <p>Next, establish the envelope of envelopes, and augment both in, then plot:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envenv</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Envelopes</span><span class="o">.</span><span class="n">zero_like</span><span class="p">(</span><span class="n">env_udl</span><span class="p">)</span>
@@ -993,7 +1106,7 @@ True True
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_envelopes_48_0.png" src="../_images/notebooks_envelopes_48_0.png" />
+<img alt="../_images/notebooks_envelopes_56_0.png" src="../_images/notebooks_envelopes_56_0.png" />
 </div>
 </div>
 </section>
@@ -1051,9 +1164,10 @@ True True
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2:-Mixed-Load-Cases-and-Factor-Combinations">Example 2: Mixed Load Cases and Factor Combinations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3:-5-span-Beam">Example 3: 5-span Beam</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4:-4-Span-Beam">Example 4: 4-Span Beam</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5:-Augmenting-Envelopes">Example 5: Augmenting Envelopes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3:-Patterned-UDL-Target-Combination">Example 3: Patterned UDL Target Combination</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4:-5-span-Beam">Example 4: 5-span Beam</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5:-4-Span-Beam">Example 5: 4-Span Beam</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-6:-Augmenting-Envelopes">Example 6: Augmenting Envelopes</a></li>
 </ul>
   </nav></div>
 

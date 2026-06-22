@@ -1,0 +1,6 @@
+pycba.load\_cases.make\_patterned\_udl
+======================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: make_patterned_udl

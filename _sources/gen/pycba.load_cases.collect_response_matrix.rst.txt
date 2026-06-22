@@ -1,0 +1,6 @@
+pycba.load\_cases.collect\_response\_matrix
+===========================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: collect_response_matrix

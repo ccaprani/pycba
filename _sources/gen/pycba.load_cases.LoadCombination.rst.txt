@@ -1,0 +1,37 @@
+pycba.load\_cases.LoadCombination
+=================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autoclass:: LoadCombination
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~LoadCombination.analyze
+      ~LoadCombination.factor_vector
+      ~LoadCombination.response
+      ~LoadCombination.to_LM
+      ~LoadCombination.to_load_case
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LoadCombination.metadata
+      ~LoadCombination.name
+      ~LoadCombination.factors
+   
+   

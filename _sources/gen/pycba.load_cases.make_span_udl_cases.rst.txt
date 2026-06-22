@@ -1,0 +1,6 @@
+pycba.load\_cases.make\_span\_udl\_cases
+========================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: make_span_udl_cases

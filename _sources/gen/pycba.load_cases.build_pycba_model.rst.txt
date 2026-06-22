@@ -1,0 +1,6 @@
+pycba.load\_cases.build\_pycba\_model
+=====================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: build_pycba_model

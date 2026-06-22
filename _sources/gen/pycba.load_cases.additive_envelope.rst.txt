@@ -1,0 +1,6 @@
+pycba.load\_cases.additive\_envelope
+====================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: additive_envelope

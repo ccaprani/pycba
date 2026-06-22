@@ -1,0 +1,6 @@
+pycba.load\_cases.plot\_load\_patterns
+======================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: plot_load_patterns

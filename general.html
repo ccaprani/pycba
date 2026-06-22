@@ -591,13 +591,16 @@ time-dependent analysis).</p></li>
 <section id="load-cases-and-response-combinations">
 <h2>Load Cases and Response Combinations<a class="headerlink" href="#load-cases-and-response-combinations" title="Link to this heading">#</a></h2>
 <p>For independent analyses and arbitrary additive combinations, add named cases
-to a <code class="docutils literal notranslate"><span class="pre">LoadCases</span></code> collection and supply either a factor vector or a mapping from
-names to factors. This is the natural place to translate design-code action
-categories and combination equations into analysis input: for example, a code
-may define permanent (<code class="docutils literal notranslate"><span class="pre">G</span></code>) and variable (<code class="docutils literal notranslate"><span class="pre">Q</span></code>) actions with partial factors,
-combination factors, and arrangement rules. PyCBA does not implement a design
-code directly; it provides the load-case, factor and patterning machinery for
-applying the code you choose.</p>
+to a <code class="docutils literal notranslate"><span class="pre">LoadCases</span></code> collection. A <code class="docutils literal notranslate"><span class="pre">LoadCase</span></code> is one arrangement of loads that can
+be analysed directly. A <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> is a weighted superposition of those
+cases. Envelopes are then formed from the extrema of analysed cases or
+combinations.</p>
+<p>This is the natural place to translate design-code action categories and
+combination equations into analysis input: for example, a code may define
+permanent (<code class="docutils literal notranslate"><span class="pre">G</span></code>) and variable (<code class="docutils literal notranslate"><span class="pre">Q</span></code>) actions with partial factors, combination
+factors, and arrangement rules. PyCBA does not implement a design code directly;
+it provides the load-case, factor and patterning machinery for applying the code
+you choose.</p>
 <p>A load case can be built from a raw load matrix, or by using higher-level load
 helpers:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_cases</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
@@ -605,8 +608,16 @@ helpers:</p>
 <span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
 <span class="n">load_cases</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="s2">&quot;Q1&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
 <span class="n">load_cases</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="s2">&quot;Q2&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="c1"># A UDL over global beam coordinates is split at span boundaries.</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_segment_udl</span><span class="p">(</span><span class="s2">&quot;Q3&quot;</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">8.0</span><span class="p">)</span>
 
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combine</span><span class="p">({</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">},</span> <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Use a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> when a named factor set is useful:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">combo</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCombination</span><span class="p">(</span><span class="s2">&quot;1.2G + 1.5Q1&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">combo</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">load_cases</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+<span class="n">LM</span> <span class="o">=</span> <span class="n">combo</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To inspect or plot one factored combination as a normal beam analysis, use
@@ -615,6 +626,28 @@ helpers:</p>
 <span class="n">analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>For a UDL that may be placed on selected parts of the beam, <code class="docutils literal notranslate"><span class="pre">make_patterned_udl</span></code>
+creates one basis load case per span segment. A target combination then selects
+the segments that increase one selected load effect:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">udl_basis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">make_patterned_udl</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">hogging</span> <span class="o">=</span> <span class="n">udl_basis</span><span class="o">.</span><span class="n">target_combination</span><span class="p">(</span>
+    <span class="s2">&quot;Hogging at first internal support&quot;</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">beam</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">sense</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span>
+    <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">hogging</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+<span class="n">LM</span> <span class="o">=</span> <span class="n">hogging</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Changing <code class="docutils literal notranslate"><span class="pre">n_segments</span></code> changes the discretisation used by both the generated
+basis cases and any combinations selected from them.</p>
+<p>This segmented selection is related to Kadane’s maximum-subarray algorithm. If
+segments may be selected independently, the target combination is formed by
+including every segment with an adverse contribution at the target coordinate.
+If a future loading rule requires a single contiguous loaded length, the same
+segment response vector can instead be searched with a Kadane-style contiguous
+subarray step before forming the <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">LoadCases</span></code> is a lower-level response-matrix and linear-combination utility.
 <code class="docutils literal notranslate"><span class="pre">LoadPattern</span></code> is the high-level design-patterning workflow for dead and live
 load max/min factors. The combined load-cases and load-patterning tutorial

@@ -1,0 +1,42 @@
+pycba.load\_cases.LoadCase
+==========================
+
+.. currentmodule:: pycba.load_cases
+
+.. autoclass:: LoadCase
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~LoadCase.add_ic
+      ~LoadCase.add_load
+      ~LoadCase.add_ml
+      ~LoadCase.add_pl
+      ~LoadCase.add_pudl
+      ~LoadCase.add_segment_udl
+      ~LoadCase.add_trap
+      ~LoadCase.add_udl
+      ~LoadCase.to_LM
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LoadCase.loaded_spans
+      ~LoadCase.metadata
+      ~LoadCase.name
+      ~LoadCase.loads
+   
+   

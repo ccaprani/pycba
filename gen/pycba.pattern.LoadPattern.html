@@ -47,7 +47,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pycba.inf_lines" href="pycba.inf_lines.html" />
-    <link rel="prev" title="pycba.pattern.LoadCases" href="pycba.pattern.LoadCases.html" />
+    <link rel="prev" title="pycba.pattern" href="pycba.pattern.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.8.0" />
@@ -420,22 +420,28 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadUDL.html">pycba.load.LoadUDL</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.load_cases.html">pycba.load_cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.additive_envelope.html">pycba.load_cases.additive_envelope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.analyse_load_case.html">pycba.load_cases.analyse_load_case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.analyze_load_case.html">pycba.load_cases.analyze_load_case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.build_pycba_model.html">pycba.load_cases.build_pycba_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.collect_response_matrix.html">pycba.load_cases.collect_response_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.make_patterned_udl.html">pycba.load_cases.make_patterned_udl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.make_span_udl_cases.html">pycba.load_cases.make_span_udl_cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.plot_load_patterns.html">pycba.load_cases.plot_load_patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.plot_response_envelope.html">pycba.load_cases.plot_response_envelope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.sign_selective_envelope.html">pycba.load_cases.sign_selective_envelope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.LoadCase.html">pycba.load_cases.LoadCase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.LoadCases.html">pycba.load_cases.LoadCases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load_cases.LoadCombination.html">pycba.load_cases.LoadCombination</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.results.html">pycba.results</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.results.BeamResults.html">pycba.results.BeamResults</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.results.Envelopes.html">pycba.results.Envelopes</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.pattern.html">pycba.pattern</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.additive_envelope.html">pycba.pattern.additive_envelope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.analyse_load_case.html">pycba.pattern.analyse_load_case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.analyze_load_case.html">pycba.pattern.analyze_load_case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.build_pycba_model.html">pycba.pattern.build_pycba_model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.collect_response_matrix.html">pycba.pattern.collect_response_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.make_span_udl_cases.html">pycba.pattern.make_span_udl_cases</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.plot_load_patterns.html">pycba.pattern.plot_load_patterns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.plot_response_envelope.html">pycba.pattern.plot_response_envelope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.LoadCase.html">pycba.pattern.LoadCase</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.pattern.LoadCases.html">pycba.pattern.LoadCases</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.pattern.LoadPattern</a></li>
 </ul>
 </details></li>
@@ -571,7 +577,7 @@ minimum load factor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]], <a class="reference internal" href="pycba.pattern.LoadCase.html#pycba.pattern.LoadCase" title="pycba.pattern.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a>]</span>) – The load matrix, or a <a class="reference internal" href="pycba.pattern.LoadCase.html#pycba.pattern.LoadCase" title="pycba.pattern.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a> whose loads provide the
+<li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]], <a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a>]</span>) – The load matrix, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code> whose loads provide the
 matrix, for this load case.</p></li>
 <li><p><strong>gamma_max</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The maximum load factor.</p></li>
 <li><p><strong>gamma_min</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The minimum load factor.</p></li>
@@ -591,7 +597,7 @@ minimum load factor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]], <a class="reference internal" href="pycba.pattern.LoadCase.html#pycba.pattern.LoadCase" title="pycba.pattern.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a>]</span>) – The load matrix, or a <a class="reference internal" href="pycba.pattern.LoadCase.html#pycba.pattern.LoadCase" title="pycba.pattern.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a> whose loads provide the
+<li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]], <a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a>]</span>) – The load matrix, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code> whose loads provide the
 matrix, for this load case.</p></li>
 <li><p><strong>gamma_max</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The maximum load factor.</p></li>
 <li><p><strong>gamma_min</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The minimum load factor.</p></li>
@@ -630,7 +636,7 @@ matrix, for this load case.</p></li>
 design load pattern.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.pattern.LoadCases.html#pycba.pattern.LoadCases" title="pycba.pattern.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a></span></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -641,7 +647,7 @@ design load pattern.</p>
 <dd><p>Generate the factored load matrices used by <a class="reference internal" href="#pycba.pattern.LoadPattern.analyze" title="pycba.pattern.LoadPattern.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>.</p>
 <p>This is a debugging convenience for users who want to inspect the
 actual PyCBA load matrix for each generated load pattern without
-working through the intermediate <a class="reference internal" href="pycba.pattern.LoadCases.html#pycba.pattern.LoadCases" title="pycba.pattern.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a> object.</p>
+working through the intermediate <code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Mapping from generated load-pattern name to its factored load
@@ -668,12 +674,12 @@ matrix. The dictionary preserves the analysis order.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.pattern.LoadCases.html"
+       href="pycba.pattern.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.pattern.LoadCases</p>
+        <p class="prev-next-title">pycba.pattern</p>
       </div>
     </a>
     <a class="right-next"

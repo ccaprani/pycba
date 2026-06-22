@@ -548,6 +548,30 @@ f_{pq} = \int_0^L \frac{m_p\,m_q}{EI(x)}\,dx,\end{split}\]</div>
 <h2>Loads<a class="headerlink" href="#Loads" title="Link to this heading">#</a></h2>
 <p>Span loads are not applied at the nodes directly. Each load on a member is first converted to its <strong>consistent (equivalent) nodal forces</strong> — the fixed-end forces the load would produce with both member ends clamped. These assemble into the global force vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> of <span class="math notranslate nohighlight">\(\mathbf{K}\,\mathbf{d}=\mathbf{f}\)</span> (with sign reversed, as they oppose the reactions they generate).</p>
 <p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> supports point loads, uniformly distributed loads, partial UDLs, moment loads, trapezoidal loads and imposed curvatures. The load-matrix format and the complete list of load types are given in the <a class="reference internal" href="general.html"><span class="doc">input data reference</span></a>; the fixed-end forces for the standard load types are the textbook closed forms, while the imposed-curvature load (load type 6) is derived below.</p>
+</section>
+<section id="Segmented-Load-Patterning-and-Kadane-Style-Selection">
+<h2>Segmented Load Patterning and Kadane-Style Selection<a class="headerlink" href="#Segmented-Load-Patterning-and-Kadane-Style-Selection" title="Link to this heading">#</a></h2>
+<p>For patternable distributed loading, a continuous UDL can be discretised into short partial-UDL segments. Each segment is analysed as a basis <code class="docutils literal notranslate"><span class="pre">LoadCase</span></code> over the full beam. For a chosen target effect, such as bending moment at an internal support, the basis analyses give a response vector</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{r}(x_t) = [r_1(x_t), r_2(x_t), \dots, r_n(x_t)]\]</div>
+<p>where <span class="math notranslate nohighlight">\(r_i(x_t)\)</span> is the contribution from segment <span class="math notranslate nohighlight">\(i\)</span> to the selected response at target coordinate <span class="math notranslate nohighlight">\(x_t\)</span>. A selected loading arrangement is then represented as a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> with factors</p>
+<div class="math notranslate nohighlight">
+\[\alpha_i \in \{0, 1\}\]</div>
+<p>applied to the basis load cases. For independently selectable segments, the adverse combination is a sign selection:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\alpha_i =
+\begin{cases}
+1, &amp; r_i(x_t) &lt; 0 \quad \text{for a minimum effect} \\
+0, &amp; \text{otherwise}
+\end{cases}\end{split}\]</div>
+<p>with the inequality reversed for a maximum effect. This produces one physical loading arrangement for that target effect, for example one <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> for hogging over the first internal support.</p>
+<p>Kadane’s maximum-subarray algorithm becomes relevant when the loading rule requires one contiguous loaded length rather than independent segments. In that case the ordered segment responses are searched for the contiguous block with the largest sum. For a maximum effect, the recurrence is</p>
+<div class="math notranslate nohighlight">
+\[b_i = \max(r_i, b_{i-1} + r_i),
+\qquad
+B_i = \max(B_{i-1}, b_i)\]</div>
+<p>with equivalent sign reversal, or a minimum-subarray recurrence, for a minimum effect. The indices of the governing contiguous block then define the non-zero factors in the <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p>
+<p>This distinction is important. A target combination such as “hogging at support 1” is one load arrangement. A response envelope over many target stations may have different selected segments at different stations, so it is an envelope of combinations rather than a single load arrangement.</p>
 <section id="Imposed-curvature-(initial-strain)-loads">
 <h3>Imposed-curvature (initial-strain) loads<a class="headerlink" href="#Imposed-curvature-(initial-strain)-loads" title="Link to this heading">#</a></h3>
 <p>An <strong>imposed-curvature</strong> (or initial-strain) load applies a <em>free</em>, stress-free curvature field along a member,</p>
@@ -758,7 +782,8 @@ q &amp; \text{if } \gamma \geq 1
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Spring-Supports">Spring Supports</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Loads">Loads</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Loads">Loads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Segmented-Load-Patterning-and-Kadane-Style-Selection">Segmented Load Patterning and Kadane-Style Selection</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Imposed-curvature-(initial-strain)-loads">Imposed-curvature (initial-strain) loads</a></li>
 </ul>
 </li>

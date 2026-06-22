@@ -1,0 +1,1798 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pycba.load_cases &#8212; PyCBA 0.8.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=486e5634"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pycba/load_cases';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.8.0" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.8.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.8.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../general.html">
+    Beam Configuration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../theory.html">
+    Theoretical Basis
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ccaprani/pycba" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ccaprani" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.load_cases</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pycba.load_cases</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">PyCBA - Continuous Beam Analysis - Load Cases and Combinations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.beam</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">Envelopes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">factor_LM</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;LoadCase&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LoadCombination&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LoadCases&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;build_pycba_model&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;analyse_load_case&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;analyze_load_case&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;collect_response_matrix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;additive_envelope&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sign_selective_envelope&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;make_patterned_udl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;make_span_udl_cases&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plot_response_envelope&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plot_load_patterns&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="LoadCase">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoadCase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Neutral load-case definition for independent full-beam analyses.</span>
+
+<span class="sd">    ``loads`` are ordinary PyCBA load-matrix rows. Span numbers inside each</span>
+<span class="sd">    load row therefore remain 1-based, matching :class:`BeamAnalysis`.</span>
+<span class="sd">    ``loaded_spans`` is stored as 0-based indices for convenient Python use.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">loads</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">loaded_spans</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="LoadCase.add_load">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_load">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append one raw PyCBA load-matrix row.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">load</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.to_LM">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.to_LM">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a copy of this load case&#39;s PyCBA load matrix.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.add_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a full-span UDL to this load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.add_pl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_pl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a point load to this load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.add_pudl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_pudl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a partial UDL to this load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.add_segment_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_segment_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_segment_udl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a UDL covering a global beam segment from ``x0`` to ``x1``.&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">_make_segment_udl</span><span class="p">(</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.add_ml">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_ml">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a concentrated moment load to this load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.add_trap">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_trap">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trap</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">w1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">w2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a full-span or partial trapezoidal load to this load case.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If &#39;a&#39; is specified, &#39;c&#39; must also be provided&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="LoadCase.add_ic">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_ic">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_ic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an imposed-curvature load to this load case.&quot;&quot;&quot;</span>
+
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kappa</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_load</span><span class="p">([</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">coeffs</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LoadCombination">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoadCombination</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Named linear combination of load cases.</span>
+
+<span class="sd">    ``factors`` may be a numeric vector in load-case order, or a mapping keyed</span>
+<span class="sd">    by load-case name or zero-based load-case index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">factors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="LoadCombination.factor_vector">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.factor_vector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">factor_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return this combination&#39;s factors in ``load_cases`` order.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCombination.to_LM">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.to_LM">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the factored PyCBA load matrix for this combination.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combined_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCombination.to_load_case">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.to_load_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_load_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return this combination as one ordinary factored ``LoadCase``.&quot;&quot;&quot;</span>
+
+        <span class="n">loads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">LoadCase</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">loads</span><span class="o">=</span><span class="n">loads</span><span class="p">,</span>
+            <span class="n">loaded_spans</span><span class="o">=</span><span class="n">_load_case_loaded_spans</span><span class="p">(</span><span class="n">loads</span><span class="p">),</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCombination.response">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.response">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">response</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return this combination&#39;s response.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCombination.analyze">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.analyze">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamAnalysis</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyse this combination as one PyCBA beam analysis.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LoadCases">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoadCases</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collection of named load cases for one PyCBA beam model.</span>
+
+<span class="sd">    The collection is list-like for simple scripting, but also provides methods</span>
+<span class="sd">    to analyse every case, form response matrices, and combine cases with</span>
+<span class="sd">    arbitrary linear factors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span>
+        <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span> <span class="o">=</span> <span class="n">beam_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">load_cases</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;LoadCases(n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">, beam_model=</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cases</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load cases as an immutable tuple.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load-case names in collection order.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LoadCases.load_positions">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.load_positions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return integer identifiers for load-position tracking.</span>
+
+<span class="sd">        Cases generated by segmented-load helpers store a ``load_position`` in</span>
+<span class="sd">        their metadata. Other cases default to one bit per case in collection</span>
+<span class="sd">        order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">):</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">case</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;load_position&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">positions</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.to_LM">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.to_LM">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the load matrices keyed by load-case name.</span>
+
+<span class="sd">        The dictionary preserves the collection order and each load matrix is</span>
+<span class="sd">        copied so callers can inspect or mutate it without changing the</span>
+<span class="sd">        stored load cases.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="n">case</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">case</span><span class="o">.</span><span class="n">to_LM</span><span class="p">()</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.case">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">create</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a named load case, optionally creating it when missing.&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">case</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">case</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">create</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown load case name: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_case">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_case</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">loads</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadMatrix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">loaded_spans</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add and return a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">loads</span><span class="o">=</span><span class="p">[]</span> <span class="k">if</span> <span class="n">loads</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">loads</span><span class="p">,</span>
+            <span class="n">loaded_spans</span><span class="o">=</span><span class="n">loaded_spans</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">loads</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span>
+        <span class="n">loaded_spans</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a named load case to the collection.</span>
+
+<span class="sd">        ``loads`` is a normal PyCBA load matrix. It is copied on entry so later</span>
+<span class="sd">        caller-side mutation does not alter the stored case.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Load case already exists: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">case</span> <span class="o">=</span> <span class="n">LoadCase</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">loads</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">loads</span><span class="p">),</span>
+            <span class="n">loaded_spans</span><span class="o">=</span><span class="n">loaded_spans</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">case</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">case</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.set">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.set">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">loads</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span>
+        <span class="n">loaded_spans</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace or create a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">case</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">loaded_spans</span><span class="o">=</span><span class="n">loaded_spans</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+
+        <span class="k">case</span><span class="o">.</span><span class="n">loads</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">loads</span><span class="p">)</span>
+        <span class="k">case</span><span class="o">.</span><span class="n">loaded_spans</span> <span class="o">=</span> <span class="n">loaded_spans</span>
+        <span class="k">case</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">case</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.append">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.append">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="n">LoadCase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an existing ``LoadCase`` or load-case-like object.&quot;&quot;&quot;</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_load_case_name</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Load case already exists: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">case</span> <span class="o">=</span> <span class="n">LoadCase</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">loads</span><span class="o">=</span><span class="n">_load_case_loads</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+            <span class="n">loaded_spans</span><span class="o">=</span><span class="n">_load_case_loaded_spans</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">_get_value</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">case</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">case</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.extend">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.extend">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append several load cases.&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">load_case</span> <span class="ow">in</span> <span class="n">load_cases</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_span_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_span_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_span_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add one full-span UDL case per span.&quot;&quot;&quot;</span>
+
+        <span class="n">added</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">_beam_spans</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">)):</span>
+            <span class="n">added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;UDL on span </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">loads</span><span class="o">=</span><span class="p">[[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]],</span>
+                    <span class="n">loaded_spans</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,),</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;span_udl&quot;</span><span class="p">,</span> <span class="s2">&quot;span&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="n">w</span><span class="p">},</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">added</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_load">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_load">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">load</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append one raw load row to a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a full-span UDL to a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_pl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_pl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a point load to a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_pudl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_pudl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a partial UDL to a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_pudl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_segment_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_segment_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_segment_udl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append a UDL covering a global beam segment to a named load case.</span>
+
+<span class="sd">        The segment is split at span boundaries into full-span UDL and partial</span>
+<span class="sd">        UDL rows as required.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_segment_udl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_ml">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_ml">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a concentrated moment load to a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_ml</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_trap">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_trap">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trap</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">w1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">w2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a full-span or partial trapezoidal load to a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_trap</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.add_ic">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_ic">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_ic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an imposed-curvature load to a named load case.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_ic</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.response_matrix">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.response_matrix">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">response_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyse all cases and return the common station vector and matrix.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">collect_response_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.factors">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.factors">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">factors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">LoadCombination</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert sequence or mapping factors to a numeric vector.</span>
+
+<span class="sd">        A sequence must have one value per load case. A mapping can use either</span>
+<span class="sd">        load-case names or zero-based integer indices as keys; unspecified</span>
+<span class="sd">        cases receive a zero factor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">LoadCombination</span><span class="p">):</span>
+            <span class="n">factors</span> <span class="o">=</span> <span class="n">factors</span><span class="o">.</span><span class="n">factors</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">name_to_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">case</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">)}</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">factors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name_to_index</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown load case name: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="n">name_to_index</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Need </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">)</span><span class="si">}</span><span class="s2"> factors, got </span><span class="si">{</span><span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Need factor rows with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">)</span><span class="si">}</span><span class="s2"> entries, got </span><span class="si">{</span><span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">ndim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;factors must be a 1D or 2D array, or a mapping.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.target_combination">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">target_combination</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">sense</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+        <span class="n">selected_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">unselected_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCombination</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Select a linear combination by response sign at a target coordinate.</span>
+
+<span class="sd">        For ``sense=&quot;min&quot;``, cases with a negative effect at ``x`` receive</span>
+<span class="sd">        ``selected_factor``. For ``sense=&quot;max&quot;``, cases with a positive effect</span>
+<span class="sd">        receive ``selected_factor``. Other cases receive</span>
+<span class="sd">        ``unselected_factor``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">_make_target_combination</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">sense</span><span class="o">=</span><span class="n">sense</span><span class="p">,</span>
+            <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">,</span>
+            <span class="n">selected_factor</span><span class="o">=</span><span class="n">selected_factor</span><span class="p">,</span>
+            <span class="n">unselected_factor</span><span class="o">=</span><span class="n">unselected_factor</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.combine">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.combine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">combine</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">LoadCombination</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="p">],</span>
+        <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a linear response combination using arbitrary case factors.</span>
+
+<span class="sd">        A 1D factor vector returns one response vector. A 2D factor matrix</span>
+<span class="sd">        returns one response row per factor row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_matrix</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="p">(</span><span class="n">factors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span> <span class="o">@</span> <span class="n">B</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.combined_loads">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.combined_loads">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">combined_loads</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">LoadCombination</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return one load matrix formed from factored named load cases.</span>
+
+<span class="sd">        ``factors`` must define a single combination, either as a 1D sequence</span>
+<span class="sd">        with one factor per case, or as a mapping from case names or indices to</span>
+<span class="sd">        factors. Cases omitted from a mapping receive a zero factor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="p">(</span><span class="n">factors</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;combined_loads requires one factor set.&quot;</span><span class="p">)</span>
+
+        <span class="n">loads</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">factor</span><span class="p">,</span> <span class="n">load_case</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">factor</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">loads</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">factor_LM</span><span class="p">(</span><span class="n">load_case</span><span class="o">.</span><span class="n">loads</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">factor</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">loads</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.analyze_combination">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.analyze_combination">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_combination</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">LoadCombination</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="p">],</span>
+        <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamAnalysis</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyse one factored load-case combination and return the analysis.</span>
+
+<span class="sd">        This is useful when a combined case should be treated like an ordinary</span>
+<span class="sd">        :class:`BeamAnalysis`, for example to use</span>
+<span class="sd">        :meth:`BeamAnalysis.plot_results`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">load_case</span> <span class="o">=</span> <span class="n">LoadCase</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;combined&quot;</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_loads</span><span class="p">(</span><span class="n">factors</span><span class="p">))</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">build_pycba_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">load_case</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">npts</span> <span class="k">if</span> <span class="n">npts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_template_npts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">model</span></div>
+
+
+    <span class="n">analyse_combination</span> <span class="o">=</span> <span class="n">analyze_combination</span>
+
+<div class="viewcode-block" id="LoadCases.linear_combination">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.linear_combination">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">linear_combination</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">LoadCombination</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="p">],</span>
+        <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Alias for :meth:`combine`.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_value</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return ``name`` from either a dataclass-like object or a dictionary.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_template_beam</span><span class="p">(</span><span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Beam</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">beam_model</span><span class="o">.</span><span class="n">beam</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">Beam</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">beam_model</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;beam_model must be a pycba.BeamAnalysis or pycba.Beam object.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_template_npts</span><span class="p">(</span><span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">beam_model</span><span class="o">.</span><span class="n">npts</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_beam_spans</span><span class="p">(</span><span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_template_beam</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_case_name</span><span class="p">(</span><span class="n">load_case</span><span class="p">:</span> <span class="n">LoadCase</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;LC </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;LC&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">default</span>
+    <span class="k">return</span> <span class="n">_get_value</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_case_loads</span><span class="p">(</span><span class="n">load_case</span><span class="p">:</span> <span class="n">LoadCase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span>
+    <span class="n">loads</span> <span class="o">=</span> <span class="n">_get_value</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="s2">&quot;loads&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">loads</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_case_loaded_spans</span><span class="p">(</span><span class="n">load_case</span><span class="p">:</span> <span class="n">LoadCase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">loads</span> <span class="o">=</span> <span class="n">load_case</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loads</span> <span class="o">=</span> <span class="n">_get_value</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="s2">&quot;loads&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">spans</span> <span class="o">=</span> <span class="n">_get_value</span><span class="p">(</span><span class="n">load_case</span><span class="p">,</span> <span class="s2">&quot;loaded_spans&quot;</span><span class="p">,</span> <span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">spans</span><span class="p">)</span>
+
+    <span class="n">loaded</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">loads</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">loaded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">loaded</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_span_boundaries</span><span class="p">(</span><span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">([</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">+</span> <span class="n">_beam_spans</span><span class="p">(</span><span class="n">beam_model</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_case_loaded_regions</span><span class="p">(</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">load_case</span><span class="p">:</span> <span class="n">LoadCase</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="n">boundaries</span> <span class="o">=</span> <span class="n">_span_boundaries</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+    <span class="n">spans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span>
+    <span class="n">regions</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">_load_case_loads</span><span class="p">(</span><span class="n">load_case</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">span_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">span_idx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">span_idx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">load_type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">span_length</span> <span class="o">=</span> <span class="n">spans</span><span class="p">[</span><span class="n">span_idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">load_type</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">load_type</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">span_length</span>
+        <span class="k">elif</span> <span class="n">load_type</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">load_type</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">span_length</span><span class="p">))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">span_length</span> <span class="o">-</span> <span class="n">a</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">regions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">boundaries</span><span class="p">[</span><span class="n">span_idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">regions</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">regions</span>
+
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">spans</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_load_case_loaded_spans</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span>
+    <span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_factor_load_matrix</span><span class="p">(</span><span class="n">loads</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">factor_LM</span><span class="p">(</span><span class="n">loads</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_choose_max_by_span</span><span class="p">(</span><span class="n">wmin</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">wmax</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">spans</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="n">max_spans</span> <span class="o">=</span> <span class="p">{</span><span class="nb">int</span><span class="p">(</span><span class="n">span</span><span class="p">)</span> <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">spans</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">deepcopy</span><span class="p">(</span><span class="n">max_load</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_load</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">in</span> <span class="n">max_spans</span> <span class="k">else</span> <span class="n">min_load</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">min_load</span><span class="p">,</span> <span class="n">max_load</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">wmin</span><span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
+    <span class="p">]</span>
+
+
+<div class="viewcode-block" id="build_pycba_model">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.build_pycba_model.html#pycba.load_cases.build_pycba_model">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_pycba_model</span><span class="p">(</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">load_case</span><span class="p">:</span> <span class="n">LoadCase</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build a fresh :class:`pycba.analysis.BeamAnalysis` for one load case.</span>
+
+<span class="sd">    ``beam_model`` is an existing PyCBA beam definition, normally a</span>
+<span class="sd">    :class:`BeamAnalysis` with the required spans, stiffnesses, supports,</span>
+<span class="sd">    springs, releases, and prescribed displacements already defined. The</span>
+<span class="sd">    returned model is a new analysis object so independent load cases do not</span>
+<span class="sd">    mutate each other.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">beam</span> <span class="o">=</span> <span class="n">_template_beam</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BeamAnalysis</span><span class="p">(</span>
+        <span class="n">L</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">),</span>
+        <span class="n">EI</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">),</span>
+        <span class="n">R</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">restraints</span><span class="p">),</span>
+        <span class="n">LM</span><span class="o">=</span><span class="n">_load_case_loads</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+        <span class="n">eletype</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">),</span>
+        <span class="n">D</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">prescribed_displacements</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="analyse_load_case">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.analyse_load_case.html#pycba.load_cases.analyse_load_case">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">analyse_load_case</span><span class="p">(</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">load_case</span><span class="p">:</span> <span class="n">LoadCase</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyse one independent load case on the full beam.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beam_model : BeamAnalysis or Beam</span>
+<span class="sd">        Existing arbitrary PyCBA beam definition used as the analysis template.</span>
+<span class="sd">    load_case : LoadCase, dict, or LoadMatrix</span>
+<span class="sd">        Independent load case to analyse over the full beam.</span>
+<span class="sd">    response : str, optional</span>
+<span class="sd">        Station response to return. Supported values are ``&quot;M&quot;`` (moment),</span>
+<span class="sd">        ``&quot;V&quot;`` (shear), ``&quot;D&quot;`` or ``&quot;deflection&quot;``, and ``&quot;R&quot;`` or</span>
+<span class="sd">        ``&quot;rotation&quot;``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x, y : ndarray</span>
+<span class="sd">        Global station coordinates and the requested response at those stations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">attr</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MOMENT&quot;</span><span class="p">:</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SHEAR&quot;</span><span class="p">:</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;DEFLECTION&quot;</span><span class="p">:</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;DISPLACEMENT&quot;</span><span class="p">:</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ROTATION&quot;</span><span class="p">:</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span>
+    <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;response must be one of &#39;M&#39;, &#39;V&#39;, &#39;D&#39;/&#39;deflection&#39;, or &quot;</span>
+            <span class="s2">&quot;&#39;R&#39;/&#39;rotation&#39;.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">build_pycba_model</span><span class="p">(</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">load_case</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">_template_npts</span><span class="p">(</span><span class="n">beam_model</span><span class="p">))</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span></div>
+
+
+
+<span class="n">analyze_load_case</span> <span class="o">=</span> <span class="n">analyse_load_case</span>
+
+
+<div class="viewcode-block" id="collect_response_matrix">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.collect_response_matrix.html#pycba.load_cases.collect_response_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">collect_response_matrix</span><span class="p">(</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span>
+    <span class="n">load_cases</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">],</span>
+    <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyse all load cases and stack their full-beam responses into a matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        Common global station coordinates.</span>
+<span class="sd">    B : ndarray</span>
+<span class="sd">        Response matrix with shape ``(n_load_cases, n_stations)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">x_ref</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">load_case</span> <span class="ow">in</span> <span class="n">load_cases</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">analyse_load_case</span><span class="p">(</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">x_ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x_ref</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_ref</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Station coordinates differ between load cases.&quot;</span><span class="p">)</span>
+
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">x_ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one load case is required.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x_ref</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="additive_envelope">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.additive_envelope.html#pycba.load_cases.additive_envelope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">additive_envelope</span><span class="p">(</span>
+    <span class="n">B</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_combine</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute additive positive and negative pointwise envelopes.</span>
+
+<span class="sd">    The negative envelope sums the ``n_combine`` smallest values at each</span>
+<span class="sd">    station. The positive envelope sums the ``n_combine`` largest values at</span>
+<span class="sd">    each station. Governing load-case indices are returned for both envelopes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;B must be a 2D array with shape (n_load_cases, n_stations).&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_combine</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_combine must be at least 1.&quot;</span><span class="p">)</span>
+
+    <span class="n">n_load_cases</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">n_load_cases</span> <span class="o">&lt;</span> <span class="n">n_combine</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Need at least </span><span class="si">{</span><span class="n">n_combine</span><span class="si">}</span><span class="s2"> load cases, got </span><span class="si">{</span><span class="n">n_load_cases</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">idx_neg</span> <span class="o">=</span> <span class="n">order</span><span class="p">[:</span><span class="n">n_combine</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">idx_pos</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="o">-</span><span class="n">n_combine</span><span class="p">:,</span> <span class="p">:]</span>
+
+    <span class="n">env_neg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">take_along_axis</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">idx_neg</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">env_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">take_along_axis</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">idx_pos</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">env_neg</span><span class="p">,</span> <span class="n">env_pos</span><span class="p">,</span> <span class="n">idx_neg</span><span class="p">,</span> <span class="n">idx_pos</span></div>
+
+
+
+<div class="viewcode-block" id="sign_selective_envelope">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.sign_selective_envelope.html#pycba.load_cases.sign_selective_envelope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sign_selective_envelope</span><span class="p">(</span>
+    <span class="n">B</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">load_positions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum same-sign load-case contributions at each station.</span>
+
+<span class="sd">    The negative envelope is the sum of all negative contributors at each</span>
+<span class="sd">    station. The positive envelope is the sum of all positive contributors.</span>
+<span class="sd">    The returned position masks identify which load cases contributed to each</span>
+<span class="sd">    station envelope.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;B must be a 2D array with shape (n_load_cases, n_stations).&quot;</span><span class="p">)</span>
+
+    <span class="n">n_load_cases</span><span class="p">,</span> <span class="n">n_stations</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">load_positions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_load_cases</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">load_positions</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_load_cases</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Need </span><span class="si">{</span><span class="n">n_load_cases</span><span class="si">}</span><span class="s2"> load positions, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">load_positions</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">load_positions</span><span class="p">]</span>
+
+    <span class="n">env_neg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">B</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">env_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">B</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">mask_neg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_stations</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+    <span class="n">mask_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_stations</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_stations</span><span class="p">):</span>
+        <span class="n">neg</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">positions</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">neg</span> <span class="o">|=</span> <span class="n">position</span>
+            <span class="k">elif</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">|=</span> <span class="n">position</span>
+        <span class="n">mask_neg</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">neg</span>
+        <span class="n">mask_pos</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+
+    <span class="k">return</span> <span class="n">env_neg</span><span class="p">,</span> <span class="n">env_pos</span><span class="p">,</span> <span class="n">mask_neg</span><span class="p">,</span> <span class="n">mask_pos</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_response_at</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x_target</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">x_target</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x_target</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;x must be a 1D station array.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;B must have shape (n_load_cases, len(x)).&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x_target</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="ow">or</span> <span class="n">x_target</span> <span class="o">&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Target coordinate </span><span class="si">{</span><span class="n">x_target</span><span class="si">}</span><span class="s2"> lies outside the analysis range &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">].&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">unique_x</span><span class="p">,</span> <span class="n">unique_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">unique_B</span> <span class="o">=</span> <span class="n">B</span><span class="p">[:,</span> <span class="n">unique_index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x_target</span><span class="p">,</span> <span class="n">unique_x</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">unique_B</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_target_combination</span><span class="p">(</span>
+    <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">sense</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+    <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+    <span class="n">selected_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">unselected_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCombination</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select a linear combination by response sign at a target coordinate.</span>
+
+<span class="sd">    This is useful when a set of basis load cases represents independently</span>
+<span class="sd">    placeable load fragments. The returned combination selects the fragments</span>
+<span class="sd">    that drive one target load effect in the requested direction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sense_key</span> <span class="o">=</span> <span class="n">sense</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sense_key</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;minimum&quot;</span><span class="p">,</span> <span class="s2">&quot;neg&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">,</span> <span class="s2">&quot;hogging&quot;</span><span class="p">}:</span>
+        <span class="n">select_minimum</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">sense_key</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;maximum&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span><span class="p">,</span> <span class="s2">&quot;sagging&quot;</span><span class="p">}:</span>
+        <span class="n">select_minimum</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sense must be &#39;min&#39;/&#39;negative&#39; or &#39;max&#39;/&#39;positive&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="n">x_ref</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">response_matrix</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+    <span class="n">target_values</span> <span class="o">=</span> <span class="n">_response_at</span><span class="p">(</span><span class="n">x_ref</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">select_minimum</span><span class="p">:</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="n">target_values</span> <span class="o">&lt;</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="n">target_values</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+
+    <span class="n">factors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">load_cases</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">unselected_factor</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">factors</span><span class="p">[</span><span class="n">selected</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">selected_factor</span><span class="p">)</span>
+
+    <span class="n">selected_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;target_combination&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+        <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span>
+        <span class="s2">&quot;sense&quot;</span><span class="p">:</span> <span class="n">sense</span><span class="p">,</span>
+        <span class="s2">&quot;selected_indices&quot;</span><span class="p">:</span> <span class="n">selected_indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="s2">&quot;selected_names&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">load_cases</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">selected_indices</span><span class="p">],</span>
+        <span class="s2">&quot;target_values&quot;</span><span class="p">:</span> <span class="n">target_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">LoadCombination</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">factors</span><span class="o">=</span><span class="n">factors</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_segment_udl</span><span class="p">(</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create load-matrix rows for a UDL over a global beam segment.</span>
+
+<span class="sd">    The input coordinates ``x0`` and ``x1`` are measured from the left end of</span>
+<span class="sd">    the whole beam. The returned rows are ordinary PyCBA load-matrix rows split</span>
+<span class="sd">    at span boundaries, using full-span UDL rows where possible and partial UDL</span>
+<span class="sd">    rows otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">boundaries</span> <span class="o">=</span> <span class="n">_span_boundaries</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+    <span class="n">total_length</span> <span class="o">=</span> <span class="n">boundaries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-9</span>
+
+    <span class="k">if</span> <span class="n">x1</span> <span class="o">&lt;=</span> <span class="n">x0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;x1 must be greater than x0 for a segmented UDL.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x0</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">tol</span> <span class="ow">or</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">total_length</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Segment [</span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x1</span><span class="si">}</span><span class="s2">] must lie within the beam length &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[0, </span><span class="si">{</span><span class="n">total_length</span><span class="si">}</span><span class="s2">].&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">x0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x0</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_length</span><span class="p">)))</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_length</span><span class="p">)))</span>
+
+    <span class="n">loads</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">span_start</span><span class="p">,</span> <span class="n">span_end</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">:])):</span>
+        <span class="n">overlap_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">span_start</span><span class="p">)</span>
+        <span class="n">overlap_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">span_end</span><span class="p">)</span>
+        <span class="n">cover</span> <span class="o">=</span> <span class="n">overlap_end</span> <span class="o">-</span> <span class="n">overlap_start</span>
+        <span class="k">if</span> <span class="n">cover</span> <span class="o">&lt;=</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">span_length</span> <span class="o">=</span> <span class="n">span_end</span> <span class="o">-</span> <span class="n">span_start</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">overlap_start</span> <span class="o">-</span> <span class="n">span_start</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">cover</span><span class="p">,</span> <span class="n">span_length</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">):</span>
+            <span class="n">cover</span> <span class="o">=</span> <span class="n">span_length</span>
+
+        <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">cover</span> <span class="o">==</span> <span class="n">span_length</span><span class="p">:</span>
+            <span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">loads</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">cover</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">loads</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_n_segments</span><span class="p">(</span><span class="n">n_segments</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_segments</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_segments</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_segments must be a positive integer.&quot;</span><span class="p">)</span>
+    <span class="n">n_segments</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_segments</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_segments</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_segments must be a positive integer.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">n_segments</span>
+
+
+<div class="viewcode-block" id="make_patterned_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.make_patterned_udl.html#pycba.load_cases.make_patterned_udl">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_patterned_udl</span><span class="p">(</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n_segments</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCases</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create partial-UDL basis load cases for load patterning.</span>
+
+<span class="sd">    Each span is divided into ``n_segments`` equal local segments, and each</span>
+<span class="sd">    segment is stored as one ordinary :class:`LoadCase`. Use</span>
+<span class="sd">    :meth:`LoadCases.target_combination` on the returned collection to create a</span>
+<span class="sd">    :class:`LoadCombination` for a target effect such as support hogging.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_segments</span> <span class="o">=</span> <span class="n">_validate_n_segments</span><span class="p">(</span><span class="n">n_segments</span><span class="p">)</span>
+
+    <span class="n">load_cases</span> <span class="o">=</span> <span class="n">LoadCases</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+    <span class="n">boundaries</span> <span class="o">=</span> <span class="n">_span_boundaries</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+    <span class="n">spans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span>
+    <span class="n">case_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">span_length</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spans</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">segment_length</span> <span class="o">=</span> <span class="n">span_length</span> <span class="o">/</span> <span class="n">n_segments</span>
+        <span class="k">for</span> <span class="n">i_segment</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_segments</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">i_segment</span> <span class="o">*</span> <span class="n">segment_length</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">span_length</span> <span class="o">-</span> <span class="n">a</span> <span class="k">if</span> <span class="n">i_segment</span> <span class="o">==</span> <span class="n">n_segments</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">segment_length</span>
+            <span class="n">x0</span> <span class="o">=</span> <span class="n">boundaries</span><span class="p">[</span><span class="n">i_span</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">c</span>
+            <span class="n">load_cases</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;UDL span </span><span class="si">{</span><span class="n">i_span</span><span class="si">}</span><span class="s2"> segment </span><span class="si">{</span><span class="n">i_segment</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">loads</span><span class="o">=</span><span class="p">[[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">c</span><span class="p">)]],</span>
+                <span class="n">loaded_spans</span><span class="o">=</span><span class="p">(</span><span class="n">i_span</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,),</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;segmented_udl&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;span&quot;</span><span class="p">:</span> <span class="n">i_span</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="n">i_segment</span><span class="p">,</span>
+                    <span class="s2">&quot;n_segments&quot;</span><span class="p">:</span> <span class="n">n_segments</span><span class="p">,</span>
+                    <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="n">w</span><span class="p">,</span>
+                    <span class="s2">&quot;x0&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x0</span><span class="p">),</span>
+                    <span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span>
+                    <span class="s2">&quot;load_position&quot;</span><span class="p">:</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">case_index</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+            <span class="n">case_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">load_cases</span></div>
+
+
+
+<div class="viewcode-block" id="make_span_udl_cases">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.make_span_udl_cases.html#pycba.load_cases.make_span_udl_cases">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_span_udl_cases</span><span class="p">(</span><span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCases</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create one independent full-span UDL load case per beam span.</span>
+
+<span class="sd">    The returned load matrix rows use PyCBA&#39;s load convention:</span>
+<span class="sd">    ``[span, 1, w]`` with 1-based span numbers and positive ``w`` acting</span>
+<span class="sd">    downward. The returned object is a :class:`LoadCases` collection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">load_cases</span> <span class="o">=</span> <span class="n">LoadCases</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+    <span class="n">load_cases</span><span class="o">.</span><span class="n">add_span_udl</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">load_cases</span></div>
+
+
+
+<div class="viewcode-block" id="plot_response_envelope">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.plot_response_envelope.html#pycba.load_cases.plot_response_envelope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_response_envelope</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">B</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">env_neg</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">env_pos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot individual full-beam load-case responses and additive envelopes.</span>
+
+<span class="sd">    Returns the ``(fig, ax)`` pair so callers can further customise or test the</span>
+<span class="sd">    plot. ``show=False`` suppresses ``plt.show()``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">_load_case_name</span><span class="p">(</span><span class="n">load_cases</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">load_cases</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;LC </span><span class="si">{</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_neg</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Additive negative envelope&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_pos</span><span class="p">,</span> <span class="s2">&quot;k:&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Additive positive envelope&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.25&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">beam_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">boundaries</span> <span class="o">=</span> <span class="n">_span_boundaries</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">xb</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">:])):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">x1</span><span class="p">),</span>
+                <span class="mf">0.98</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;S</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis_transform</span><span class="p">(),</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.35&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Position along beam&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Response&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_load_patterns">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.plot_load_patterns.html#pycba.load_cases.plot_load_patterns">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_load_patterns</span><span class="p">(</span>
+    <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span>
+    <span class="n">load_cases</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">LoadCase</span><span class="p">],</span>
+    <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot arbitrary span UDL-style load patterns, one row per load case.</span>
+
+<span class="sd">    For generic load cases, loaded spans are taken from ``loaded_spans`` when</span>
+<span class="sd">    supplied, otherwise they are inferred from the span number in each load</span>
+<span class="sd">    matrix row.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">load_cases</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span>
+    <span class="n">boundaries</span> <span class="o">=</span> <span class="n">_span_boundaries</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span>
+    <span class="n">spans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span>
+
+    <span class="n">fig_height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">0.45</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">fig_height</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">load_case</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">load_cases</span><span class="p">):</span>
+        <span class="n">y0</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mf">0.3</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">broken_barh</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">boundaries</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">spans</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">))],</span>
+            <span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>
+            <span class="n">facecolors</span><span class="o">=</span><span class="s2">&quot;0.92&quot;</span><span class="p">,</span>
+            <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;0.75&quot;</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">bars</span> <span class="o">=</span> <span class="n">_load_case_loaded_regions</span><span class="p">(</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">load_case</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bars</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">broken_barh</span><span class="p">(</span>
+                <span class="n">bars</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span>
+                <span class="n">facecolors</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+                <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">xb</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">boundaries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Position along beam&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="n">_load_case_name</span><span class="p">(</span><span class="n">lc</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">lc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Colin Caprani.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -12,6 +12,7 @@
     pycba.beam
     pycba.section
     pycba.load
+    pycba.load_cases
     pycba.results
     pycba.pattern
     pycba.inf_lines

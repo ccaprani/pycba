@@ -1,0 +1,6 @@
+pycba.load\_cases.sign\_selective\_envelope
+===========================================
+
+.. currentmodule:: pycba.load_cases
+
+.. autofunction:: sign_selective_envelope
