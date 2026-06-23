@@ -279,6 +279,7 @@ class BeamPlotter:
         labels: bool = True,
         load_values: bool = True,
         color: str = "tab:red",
+        equal_aspect: bool = True,
     ):
         """
         Draw the beam schematic with matplotlib.
@@ -299,6 +300,12 @@ class BeamPlotter:
             distributed load).
         color : str
             Colour used for the load arrows/labels.
+        equal_aspect : bool
+            Keep an equal data aspect ratio (the default) so the support and
+            load glyphs are drawn true to shape.  Set ``False`` to let the
+            schematic stretch to fill its axes — used when embedding the
+            schematic as a strip above the result diagrams (see
+            :meth:`pycba.analysis.BeamAnalysis.plot_results`).
 
         Returns
         -------
@@ -384,7 +391,9 @@ class BeamPlotter:
 
         ax.set_xlim(-0.06 * L, 1.06 * L)
         ax.set_ylim(ymin, ymax)
-        ax.set_aspect("equal", adjustable="box")
+        ax.set_aspect("equal", adjustable="box" if equal_aspect else "datalim")
+        if not equal_aspect:
+            ax.set_aspect("auto")
         ax.set_yticks([])
         for spine in ("top", "right", "left"):
             ax.spines[spine].set_visible(False)

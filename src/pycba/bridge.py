@@ -449,48 +449,205 @@ class BridgeAnalysis:
 
     def plot_static(self, pos: float, axs: Optional[plt.Axes] = None):
         """
-        Plots for analysis of static vehicle
+        Draw the bridge with the vehicle at a given position, above the
+        instantaneous bending-moment and shear-force diagrams.
+
+        The top panel shows the structural schematic - the deck with its real
+        support symbols and any permanent loads - with the vehicle drawn as a
+        small truck on the deck at ``pos`` (a wheel at each axle and a
+        downward load arrow, labelled with its weight, for every axle that is
+        currently on the bridge).  The two panels below show the bending
+        moment and shear force for that single ("stationary") position; faint
+        vertical lines mark the axle positions so the load effects can be
+        related to the loads that cause them.
 
         Parameters
         ----------
         pos : float
             The position of the front axle of the vehicle in global bridge
             coordinates.
-        axs : Optional[plt.Axes], optional
-            The axes on which to plot; if None is supplied, one is created.
-            The default is None.
+        axs : array_like of matplotlib.axes.Axes, optional
+            Axes to draw into.  If ``None`` (default) a new three-panel figure
+            is created and the analysis for ``pos`` is run first.  When axes
+            are supplied the current results are used as-is: pass three axes
+            (schematic + moment + shear) or two (moment + shear only).
 
         Returns
         -------
-        None.
+        tuple(matplotlib.figure.Figure, numpy.ndarray) or None
+            The figure and its axes when a new figure is created, otherwise
+            ``None``.
         """
+        own_fig = axs is None
+        fig = None
+        if own_fig:
+            self._check_objects()
+            self._single_analysis(pos)
+            fig, axs = plt.subplots(
+                3,
+                1,
+                sharex=True,
+                figsize=(8, 8),
+                gridspec_kw={"height_ratios": [1.2, 1.0, 1.0]},
+            )
+
         res = self.ba.beam_results.results
         L = self.ba.beam.length
 
-        if axs is None:
-            fig, axs = plt.subplots(3, 1, sharex=True)
+        if len(axs) >= 3:  # schematic + load effects
+            self._draw_deck_and_vehicle(axs[0], pos)
+            m_ax, v_ax = axs[1], axs[2]
+        else:  # load effects only (e.g. the run_vehicle animation)
+            m_ax, v_ax = axs[0], axs[1]
 
-        ax0 = 1
-        if len(axs) == 2:  # load effect only
-            ax0 = 0
-        else:
-            ax = axs[0]
-            ax.bar(pos - self.veh.axle_coords, self.veh.axw, color="r")
-            ax.set_ylabel("Axle Weights (kN)")
-            ax.grid()
+        # Faint markers linking on-deck axle positions to the diagrams below
+        axle_x = pos - self.veh.axle_coords
+        on_deck = axle_x[(axle_x >= 0.0) & (axle_x <= L)]
 
-        ax = axs[ax0]
-        ax.plot([0, L], [0, 0], "k", lw=2)
-        ax.plot(res.x, -res.M, "r")
-        ax.grid()
-        ax.set_ylabel("Bending Moment (kNm)")
+        m_ax.plot([0, L], [0, 0], "k", lw=2)
+        m_ax.plot(res.x, -res.M, "r")
+        for x in on_deck:
+            m_ax.axvline(x, color="0.7", ls=":", lw=0.8, zorder=0)
+        m_ax.grid()
+        m_ax.set_ylabel("Bending Moment (kNm)")
 
-        ax = axs[ax0 + 1]
-        ax.plot([0, L], [0, 0], "k", lw=2)
-        ax.plot(res.x, res.V, "r")
-        ax.grid()
-        ax.set_ylabel("Shear Force (kN)")
-        ax.set_xlabel("Distance along beam (m)")
+        v_ax.plot([0, L], [0, 0], "k", lw=2)
+        v_ax.plot(res.x, res.V, "r")
+        for x in on_deck:
+            v_ax.axvline(x, color="0.7", ls=":", lw=0.8, zorder=0)
+        v_ax.grid()
+        v_ax.set_ylabel("Shear Force (kN)")
+        v_ax.set_xlabel("Distance along beam (m)")
+
+        if own_fig:
+            return fig, axs
+
+    def _draw_deck_and_vehicle(self, ax, pos: float):
+        """
+        Draw the deck schematic (supports + permanent loads) with the vehicle
+        rendered as a small truck at ``pos`` on the given axes.
+        """
+        from matplotlib.patches import Rectangle, Circle
+        from .render import BeamPlotter
+
+        L = self.ba.beam.length
+        u = 0.05 * L  # symbol unit, matching the schematic renderer
+
+        # Bare deck with real supports (and any permanent loads), stretched to
+        # fill the panel so it stays x-aligned with the diagrams below.
+        BeamPlotter(self.ba.beam, self.static_LM).render_mpl(
+            ax=ax,
+            dimensions=False,
+            labels=True,
+            load_values=bool(self.static_LM),
+            equal_aspect=False,
+        )
+        ax.set_xlabel("")
+
+        axle_x = pos - self.veh.axle_coords
+        w = self.veh.axw
+        x_lo, x_hi = float(np.min(axle_x)), float(np.max(axle_x))
+
+        rw = 0.30 * u  # wheel radius
+        body_y0 = 2.0 * rw
+        body_h = 1.1 * u
+        body_top = body_y0 + body_h
+        pad = 0.6 * u  # body overhang past the outer axles
+
+        # Vehicle body, with a small cab on the leading (travel +x) end
+        ax.add_patch(
+            Rectangle(
+                (x_lo - pad, body_y0),
+                (x_hi - x_lo) + 2 * pad,
+                body_h,
+                fc="0.82",
+                ec="0.35",
+                lw=1.2,
+                alpha=0.9,
+                zorder=6,
+            )
+        )
+        cab_w = 0.8 * u
+        ax.add_patch(
+            Rectangle(
+                (x_hi + pad - cab_w, body_top),
+                cab_w,
+                0.5 * u,
+                fc="0.82",
+                ec="0.35",
+                lw=1.2,
+                alpha=0.9,
+                zorder=6,
+            )
+        )
+        # Wheels at every axle (a hub highlight for a touch of polish)
+        for x in axle_x:
+            ax.add_patch(
+                Circle(
+                    (x, rw), rw, fc="0.15", ec="k", lw=1.0, zorder=7, gid="vehicle_wheel"
+                )
+            )
+            ax.add_patch(
+                Circle((x, rw), 0.32 * rw, fc="0.7", ec="k", lw=0.6, zorder=8)
+            )
+
+        # Downward load arrow for each on-deck axle (off-deck axles apply none)
+        arr_top = body_top + 1.0 * u
+        on_mask = (axle_x >= 0.0) & (axle_x <= L)
+        for x in axle_x[on_mask]:
+            ax.annotate(
+                "",
+                xy=(x, 0.03 * u),
+                xytext=(x, arr_top),
+                arrowprops=dict(arrowstyle="-|>", color="r", lw=1.6),
+                zorder=9,
+            )
+
+        # Travel-direction arrow ahead of the leading axle
+        ax.annotate(
+            "",
+            xy=(x_hi + pad + 1.6 * u, body_top + 0.25 * u),
+            xytext=(x_hi + pad + 0.4 * u, body_top + 0.25 * u),
+            arrowprops=dict(arrowstyle="-|>", color="0.4", lw=1.5),
+        )
+
+        # Fit the glyph and keep the deck aligned in x with the diagrams below
+        ax.set_ylim(-1.9 * u, arr_top + 1.5 * u)
+        ax.set_xlim(
+            min(-0.06 * L, x_lo - 0.8 * u),
+            max(1.06 * L, x_hi + pad + 2.4 * u),
+        )
+        ax.set_ylabel("")
+        ax.set_yticks([])
+
+        # Axle weights are summarised once in a caption (per-axle labels would
+        # collide for closely-spaced axle groups); the arrows show positions.
+        ax.text(
+            0.012,
+            0.98,
+            "Vehicle: " + self._vehicle_spec(),
+            transform=ax.transAxes,
+            ha="left",
+            va="top",
+            fontsize=8.5,
+            color="0.15",
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="0.7", alpha=0.9),
+            zorder=10,
+        )
+
+    def _vehicle_spec(self) -> str:
+        """A compact axle-group summary, e.g. ``3x150 + 2x120 + 40 kN``."""
+        w = self.veh.axw
+        parts = []
+        i = 0
+        while i < len(w):
+            j = i
+            while j + 1 < len(w) and np.isclose(w[j + 1], w[i]):
+                j += 1
+            n = j - i + 1
+            parts.append(f"{n}×{w[i]:g}" if n > 1 else f"{w[i]:g}")
+            i = j + 1
+        return " + ".join(parts) + f" kN  (ΣW = {self.veh.W:g} kN)"
 
     def plot_envelopes(self, env: Envelopes):
         """
