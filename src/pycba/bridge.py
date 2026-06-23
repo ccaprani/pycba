@@ -842,11 +842,16 @@ class BridgeAnalysis:
         )
         # Check if consistent envelope
         if len(self.pos) == env.Rmax.shape[1]:
-            axsRight = subfigs[1].subplots(nreactions, 1, sharex=True)
+            axsRight = np.atleast_1d(subfigs[1].subplots(nreactions, 1, sharex=True))
+            pos = np.asarray(self.pos)
             for i, ax in enumerate(axsRight):
                 ax.plot([0, L], [0, 0], "k", lw=2)
-                ax.plot(self.pos, env.Rmax[i, :], "r")
-                ax.plot(self.pos, env.Rmin[i, :], "b")
+                ax.plot(pos, env.Rmax[i, :], "r")
+                ax.plot(pos, env.Rmin[i, :], "b")
+                # Mark and label the governing (extreme) reaction values so the
+                # critical magnitude is readable directly off the plot.
+                self._mark_reaction_extreme(ax, pos, env.Rmax[i, :], "r", np.argmax)
+                self._mark_reaction_extreme(ax, pos, env.Rmin[i, :], "b", np.argmin)
                 ax.grid()
                 ax.set_ylabel(f"Reaction {i+1}{react_u}")
             axsRight[-1].set_xlabel(us.length_axis("Position of Front Axle"))
@@ -857,12 +862,42 @@ class BridgeAnalysis:
                 zip(axsRight, ["max", "min"], ["r", "b"])
             ):
                 r = eval(f"env.R{le}val")  # kinda yuk!
-                ax.bar(np.arange(env.nsup), r, color=col)
+                bars = ax.bar(np.arange(env.nsup), r, color=col)
+                # Label each bar with its governing reaction value.
+                ax.bar_label(bars, fmt="%.3g", fontsize=8, padding=2)
                 ax.set_xticks(np.arange(env.nsup))
                 ax.set_xticklabels([f"R{i+1}" for i in range(env.nsup)])
-                ax.set_ylabel(f"Reactions [{le}]")
+                ax.set_ylabel(f"Reactions [{le}]{react_u}")
                 ax.grid()
             axsRight[1].set_xlabel("Reaction ID")
+
+    @staticmethod
+    def _mark_reaction_extreme(ax, pos, series, color, arg_fn):
+        """
+        Mark and annotate the extreme of a reaction time-history on ``ax``.
+
+        ``arg_fn`` is :func:`numpy.argmax` (governing maximum, ``r`` line) or
+        :func:`numpy.argmin` (governing minimum, ``b`` line); a marker is drawn
+        at the extreme and labelled with its value.
+        """
+        series = np.asarray(series)
+        if series.size == 0:
+            return
+        idx = int(arg_fn(series))
+        xv, yv = pos[idx], series[idx]
+        ax.plot([xv], [yv], color=color, marker="o", ms=5, zorder=5)
+        above = arg_fn is np.argmax
+        ax.annotate(
+            f"{yv:.3g}",
+            (xv, yv),
+            textcoords="offset points",
+            xytext=(0, 5 if above else -5),
+            ha="center",
+            va="bottom" if above else "top",
+            fontsize=8,
+            color=color,
+            fontweight="bold",
+        )
 
     def plot_ratios(self, env_ratios: Dict[str, np.ndarray], units=None):
         """
