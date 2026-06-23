@@ -332,6 +332,19 @@ def test_plot_static_draws_whole_truck_when_partly_off_deck():
     plt.close(fig)
 
 
+def test_animate_returns_animation_and_saves_gif(tmp_path):
+    from matplotlib.animation import FuncAnimation
+
+    veh = cba.Vehicle([1.5, 1.5], [70, 70, 70])
+    ba = cba.BridgeAnalysis(_three_span_bridge(), veh)
+    out = tmp_path / "traverse.gif"
+    anim = ba.animate(step=20.0, save=out, fps=5)  # coarse step -> few frames
+    assert isinstance(anim, FuncAnimation)
+    assert len(ba.pos) >= 2  # one analysed position per frame
+    assert out.exists() and out.stat().st_size > 0
+    plt.close("all")
+
+
 def test_plot_static_into_supplied_two_axes_skips_schematic():
     # the legacy run_vehicle(plot_all=True) path supplies two axes and expects
     # only the load-effect diagrams (no schematic, no new figure).

@@ -649,6 +649,124 @@ class BridgeAnalysis:
             i = j + 1
         return " + ".join(parts) + f" kN  (ΣW = {self.veh.W:g} kN)"
 
+    def animate(
+        self,
+        step: float,
+        save: Optional[str] = None,
+        fps: int = 12,
+        pos_start: Optional[float] = None,
+        pos_end: Optional[float] = None,
+        dpi: int = 110,
+    ):
+        """
+        Animate the vehicle crossing the bridge.
+
+        Steps the vehicle across the bridge and animates three stacked,
+        x-aligned panels: the deck with the moving truck on top, then the
+        instantaneous bending-moment and shear-force diagrams.  As the vehicle
+        advances, the running envelope of each load effect is shaded behind the
+        instantaneous diagram and grows to the full traverse envelope - so the
+        envelope can be seen being *built up* position by position.
+
+        All positions are analysed up front (this is the slow part); playback
+        and saving then just redraw the stored results.
+
+        Parameters
+        ----------
+        step : float
+            Distance increment to move the vehicle between frames.
+        save : str, optional
+            If given, write the animation to this path.  A ``.gif`` is written
+            with Pillow; any other extension (e.g. ``.mp4``) uses ffmpeg.
+        fps : int
+            Frames per second for playback / the saved file.
+        pos_start, pos_end : float, optional
+            First and last front-axle positions (defaults: ``0`` to
+            ``beam length + vehicle length``, i.e. a full on-and-off crossing).
+        dpi : int
+            Resolution used when ``save`` is given.
+
+        Returns
+        -------
+        matplotlib.animation.FuncAnimation
+            The animation.  In a notebook, display it with
+            ``HTML(anim.to_jshtml())`` (or ``anim.to_html5_video()``); the
+            ``FuncAnimation`` must be kept referenced while it plays.
+        """
+        from matplotlib.animation import FuncAnimation
+
+        # Analyse every position once, then animate from the stored results.
+        self.run_vehicle(step, pos_start=pos_start, pos_end=pos_end)
+        positions = list(self.pos)
+        x = self.vResults[0].results.x
+        # Plot bending moment as -M (sagging below the axis), matching plot_static
+        bmd = np.array([-r.results.M for r in self.vResults])
+        sfd = np.array([r.results.V for r in self.vResults])
+
+        # Running (cumulative) envelope up to each frame
+        emax_b = np.maximum.accumulate(bmd, axis=0)
+        emin_b = np.minimum.accumulate(bmd, axis=0)
+        emax_s = np.maximum.accumulate(sfd, axis=0)
+        emin_s = np.minimum.accumulate(sfd, axis=0)
+
+        L = self.ba.beam.length
+
+        def _lims(lo_arr, hi_arr):
+            lo, hi = float(lo_arr.min()), float(hi_arr.max())
+            span = hi - lo if hi > lo else (abs(hi) + 1.0)
+            return lo - 0.08 * span, hi + 0.08 * span
+
+        bmd_lo, bmd_hi = _lims(emin_b[-1], emax_b[-1])
+        sfd_lo, sfd_hi = _lims(emin_s[-1], emax_s[-1])
+        deck_xlim = (-0.06 * L, 1.06 * L)
+
+        fig, axs = plt.subplots(
+            3,
+            1,
+            figsize=(8, 8),
+            gridspec_kw={"height_ratios": [1.2, 1.0, 1.0]},
+        )
+
+        def _draw_effect(ax, y, emin, emax, ylo, yhi, ylabel, xlabel=False):
+            ax.plot([0, L], [0, 0], "k", lw=2)
+            ax.fill_between(x, emin, emax, color="0.82", alpha=0.8, lw=0)
+            ax.plot(x, emax, color="0.55", lw=0.7)
+            ax.plot(x, emin, color="0.55", lw=0.7)
+            ax.plot(x, y, "r", lw=1.6)
+            ax.set_xlim(*deck_xlim)
+            ax.set_ylim(ylo, yhi)
+            ax.grid(True)
+            ax.set_ylabel(ylabel)
+            if xlabel:
+                ax.set_xlabel("Distance along beam (m)")
+
+        def update(i):
+            for ax in axs:
+                ax.cla()
+            # Deck + moving truck (fixed deck view; the truck clips in/out)
+            self._draw_deck_and_vehicle(axs[0], positions[i])
+            axs[0].set_xlim(*deck_xlim)
+            axs[0].set_title(f"Front axle at x = {positions[i]:.1f} m", fontsize=10)
+            _draw_effect(
+                axs[1], bmd[i], emin_b[i], emax_b[i], bmd_lo, bmd_hi,
+                "Bending Moment (kNm)",
+            )
+            _draw_effect(
+                axs[2], sfd[i], emin_s[i], emax_s[i], sfd_lo, sfd_hi,
+                "Shear Force (kN)", xlabel=True,
+            )
+            return axs
+
+        anim = FuncAnimation(
+            fig, update, frames=len(positions), interval=1000.0 / fps, blit=False
+        )
+
+        if save is not None:
+            writer = "pillow" if str(save).lower().endswith(".gif") else "ffmpeg"
+            anim.save(str(save), writer=writer, fps=fps, dpi=dpi)
+
+        return anim
+
     def plot_envelopes(self, env: Envelopes):
         """
         Plots the envelopes of load effects from a vehicle traverse analysis
