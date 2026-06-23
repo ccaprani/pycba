@@ -911,48 +911,326 @@
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_static">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_static</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Plots for analysis of static vehicle</span>
+<span class="sd">        Draw the bridge with the vehicle at a given position, above the</span>
+<span class="sd">        instantaneous bending-moment and shear-force diagrams.</span>
+
+<span class="sd">        The top panel shows the structural schematic - the deck with its real</span>
+<span class="sd">        support symbols and any permanent loads - with the vehicle drawn as a</span>
+<span class="sd">        small truck on the deck at ``pos`` (a wheel at each axle and a</span>
+<span class="sd">        downward load arrow, labelled with its weight, for every axle that is</span>
+<span class="sd">        currently on the bridge).  The two panels below show the bending</span>
+<span class="sd">        moment and shear force for that single (&quot;stationary&quot;) position; faint</span>
+<span class="sd">        vertical lines mark the axle positions so the load effects can be</span>
+<span class="sd">        related to the loads that cause them.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        pos : float</span>
 <span class="sd">            The position of the front axle of the vehicle in global bridge</span>
 <span class="sd">            coordinates.</span>
-<span class="sd">        axs : Optional[plt.Axes], optional</span>
-<span class="sd">            The axes on which to plot; if None is supplied, one is created.</span>
-<span class="sd">            The default is None.</span>
+<span class="sd">        axs : array_like of matplotlib.axes.Axes, optional</span>
+<span class="sd">            Axes to draw into.  If ``None`` (default) a new three-panel figure</span>
+<span class="sd">            is created and the analysis for ``pos`` is run first.  When axes</span>
+<span class="sd">            are supplied the current results are used as-is: pass three axes</span>
+<span class="sd">            (schematic + moment + shear) or two (moment + shear only).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        None.</span>
+<span class="sd">        tuple(matplotlib.figure.Figure, numpy.ndarray) or None</span>
+<span class="sd">            The figure and its axes when a new figure is created, otherwise</span>
+<span class="sd">            ``None``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">own_fig</span> <span class="o">=</span> <span class="n">axs</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">own_fig</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+                <span class="mi">3</span><span class="p">,</span>
+                <span class="mi">1</span><span class="p">,</span>
+                <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+                <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]},</span>
+            <span class="p">)</span>
+
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">length</span>
 
-        <span class="k">if</span> <span class="n">axs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">axs</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># schematic + load effects</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_draw_deck_and_vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="n">m_ax</span><span class="p">,</span> <span class="n">v_ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># load effects only (e.g. the run_vehicle animation)</span>
+            <span class="n">m_ax</span><span class="p">,</span> <span class="n">v_ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="n">ax0</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">axs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># load effect only</span>
-            <span class="n">ax0</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Axle Weights (kN)&quot;</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="c1"># Faint markers linking on-deck axle positions to the diagrams below</span>
+        <span class="n">axle_x</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span>
+        <span class="n">on_deck</span> <span class="o">=</span> <span class="n">axle_x</span><span class="p">[(</span><span class="n">axle_x</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">axle_x</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">)]</span>
 
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">ax0</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
+        <span class="n">m_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">m_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">on_deck</span><span class="p">:</span>
+            <span class="n">m_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">m_ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">m_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
 
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">ax0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Shear Force (kN)&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span></div>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">on_deck</span><span class="p">:</span>
+            <span class="n">v_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Shear Force (kN)&quot;</span><span class="p">)</span>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">own_fig</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_draw_deck_and_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw the deck schematic (supports + permanent loads) with the vehicle</span>
+<span class="sd">        rendered as a small truck at ``pos`` on the given axes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">Circle</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">length</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">L</span>  <span class="c1"># symbol unit, matching the schematic renderer</span>
+
+        <span class="c1"># Bare deck with real supports (and any permanent loads), stretched to</span>
+        <span class="c1"># fill the panel so it stays x-aligned with the diagrams below.</span>
+        <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span><span class="p">)</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">load_values</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span><span class="p">),</span>
+            <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">axle_x</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axw</span>
+        <span class="n">x_lo</span><span class="p">,</span> <span class="n">x_hi</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axle_x</span><span class="p">)),</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axle_x</span><span class="p">))</span>
+
+        <span class="n">rw</span> <span class="o">=</span> <span class="mf">0.30</span> <span class="o">*</span> <span class="n">u</span>  <span class="c1"># wheel radius</span>
+        <span class="n">body_y0</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">rw</span>
+        <span class="n">body_h</span> <span class="o">=</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">u</span>
+        <span class="n">body_top</span> <span class="o">=</span> <span class="n">body_y0</span> <span class="o">+</span> <span class="n">body_h</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">u</span>  <span class="c1"># body overhang past the outer axles</span>
+
+        <span class="c1"># Vehicle body, with a small cab on the leading (travel +x) end</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+            <span class="n">Rectangle</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x_lo</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">body_y0</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_hi</span> <span class="o">-</span> <span class="n">x_lo</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span><span class="p">,</span>
+                <span class="n">body_h</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.82&quot;</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.35&quot;</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">cab_w</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">u</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+            <span class="n">Rectangle</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">-</span> <span class="n">cab_w</span><span class="p">,</span> <span class="n">body_top</span><span class="p">),</span>
+                <span class="n">cab_w</span><span class="p">,</span>
+                <span class="mf">0.5</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.82&quot;</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.35&quot;</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Wheels at every axle (a hub highlight for a touch of polish)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axle_x</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                <span class="n">Circle</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rw</span><span class="p">),</span> <span class="n">rw</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.15&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">gid</span><span class="o">=</span><span class="s2">&quot;vehicle_wheel&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                <span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">rw</span><span class="p">),</span> <span class="mf">0.32</span> <span class="o">*</span> <span class="n">rw</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Downward load arrow for each on-deck axle (off-deck axles apply none)</span>
+        <span class="n">arr_top</span> <span class="o">=</span> <span class="n">body_top</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">u</span>
+        <span class="n">on_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">axle_x</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">axle_x</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axle_x</span><span class="p">[</span><span class="n">on_mask</span><span class="p">]:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.03</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
+                <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">arr_top</span><span class="p">),</span>
+                <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">),</span>
+                <span class="n">zorder</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Travel-direction arrow ahead of the leading axle</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">+</span> <span class="mf">1.6</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span> <span class="n">body_top</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span> <span class="n">body_top</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.4&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Fit the glyph and keep the deck aligned in x with the diagrams below</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.9</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span> <span class="n">arr_top</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">u</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span>
+            <span class="nb">min</span><span class="p">(</span><span class="o">-</span><span class="mf">0.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">x_lo</span> <span class="o">-</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
+            <span class="nb">max</span><span class="p">(</span><span class="mf">1.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">+</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+
+        <span class="c1"># Axle weights are summarised once in a caption (per-axle labels would</span>
+        <span class="c1"># collide for closely-spaced axle groups); the arrows show positions.</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="mf">0.012</span><span class="p">,</span>
+            <span class="mf">0.98</span><span class="p">,</span>
+            <span class="s2">&quot;Vehicle: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_spec</span><span class="p">(),</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="mf">8.5</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.15&quot;</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">&quot;round,pad=0.3&quot;</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">),</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_vehicle_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A compact axle-group summary, e.g. ``3x150 + 2x120 + 40 kN``.&quot;&quot;&quot;</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axw</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">while</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">×</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="s2">&quot; + &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; kN  (ΣW = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">W</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> kN)&quot;</span>
+
+<div class="viewcode-block" id="BridgeAnalysis.animate">
+<a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.animate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">animate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">save</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="n">pos_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pos_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Animate the vehicle crossing the bridge.</span>
+
+<span class="sd">        Steps the vehicle across the bridge and animates three stacked,</span>
+<span class="sd">        x-aligned panels: the deck with the moving truck on top, then the</span>
+<span class="sd">        instantaneous bending-moment and shear-force diagrams.  As the vehicle</span>
+<span class="sd">        advances, the running envelope of each load effect is shaded behind the</span>
+<span class="sd">        instantaneous diagram and grows to the full traverse envelope - so the</span>
+<span class="sd">        envelope can be seen being *built up* position by position.</span>
+
+<span class="sd">        All positions are analysed up front (this is the slow part); playback</span>
+<span class="sd">        and saving then just redraw the stored results.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        step : float</span>
+<span class="sd">            Distance increment to move the vehicle between frames.</span>
+<span class="sd">        save : str, optional</span>
+<span class="sd">            If given, write the animation to this path.  A ``.gif`` is written</span>
+<span class="sd">            with Pillow; any other extension (e.g. ``.mp4``) uses ffmpeg.</span>
+<span class="sd">        fps : int</span>
+<span class="sd">            Frames per second for playback / the saved file.</span>
+<span class="sd">        pos_start, pos_end : float, optional</span>
+<span class="sd">            First and last front-axle positions (defaults: ``0`` to</span>
+<span class="sd">            ``beam length + vehicle length``, i.e. a full on-and-off crossing).</span>
+<span class="sd">        dpi : int</span>
+<span class="sd">            Resolution used when ``save`` is given.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.animation.FuncAnimation</span>
+<span class="sd">            The animation.  In a notebook, display it with</span>
+<span class="sd">            ``HTML(anim.to_jshtml())`` (or ``anim.to_html5_video()``); the</span>
+<span class="sd">            ``FuncAnimation`` must be kept referenced while it plays.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.animation</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuncAnimation</span>
+
+        <span class="c1"># Analyse every position once, then animate from the stored results.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_vehicle</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">pos_start</span><span class="o">=</span><span class="n">pos_start</span><span class="p">,</span> <span class="n">pos_end</span><span class="o">=</span><span class="n">pos_end</span><span class="p">)</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">x</span>
+        <span class="c1"># Plot bending moment as -M (sagging below the axis), matching plot_static</span>
+        <span class="n">bmd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">r</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">])</span>
+        <span class="n">sfd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">])</span>
+
+        <span class="c1"># Running (cumulative) envelope up to each frame</span>
+        <span class="n">emax_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">bmd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">emin_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">bmd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">emax_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">sfd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">emin_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">sfd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">length</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_lims</span><span class="p">(</span><span class="n">lo_arr</span><span class="p">,</span> <span class="n">hi_arr</span><span class="p">):</span>
+            <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lo_arr</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> <span class="nb">float</span><span class="p">(</span><span class="n">hi_arr</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+            <span class="n">span</span> <span class="o">=</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span> <span class="k">if</span> <span class="n">hi</span> <span class="o">&gt;</span> <span class="n">lo</span> <span class="k">else</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">lo</span> <span class="o">-</span> <span class="mf">0.08</span> <span class="o">*</span> <span class="n">span</span><span class="p">,</span> <span class="n">hi</span> <span class="o">+</span> <span class="mf">0.08</span> <span class="o">*</span> <span class="n">span</span>
+
+        <span class="n">bmd_lo</span><span class="p">,</span> <span class="n">bmd_hi</span> <span class="o">=</span> <span class="n">_lims</span><span class="p">(</span><span class="n">emin_b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">emax_b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">sfd_lo</span><span class="p">,</span> <span class="n">sfd_hi</span> <span class="o">=</span> <span class="n">_lims</span><span class="p">(</span><span class="n">emin_s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">emax_s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">deck_xlim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mf">1.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+            <span class="mi">3</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]},</span>
+        <span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_draw_effect</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">ylo</span><span class="p">,</span> <span class="n">yhi</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.82&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.55&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.55&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">deck_xlim</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylo</span><span class="p">,</span> <span class="n">yhi</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">xlabel</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">cla</span><span class="p">()</span>
+            <span class="c1"># Deck + moving truck (fixed deck view; the truck clips in/out)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_draw_deck_and_vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">deck_xlim</span><span class="p">)</span>
+            <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Front axle at x = </span><span class="si">{</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">_draw_effect</span><span class="p">(</span>
+                <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bmd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">emin_b</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">emax_b</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bmd_lo</span><span class="p">,</span> <span class="n">bmd_hi</span><span class="p">,</span>
+                <span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">_draw_effect</span><span class="p">(</span>
+                <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sfd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">emin_s</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">emax_s</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sfd_lo</span><span class="p">,</span> <span class="n">sfd_hi</span><span class="p">,</span>
+                <span class="s2">&quot;Shear Force (kN)&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">axs</span>
+
+        <span class="n">anim</span> <span class="o">=</span> <span class="n">FuncAnimation</span><span class="p">(</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">),</span> <span class="n">interval</span><span class="o">=</span><span class="mf">1000.0</span> <span class="o">/</span> <span class="n">fps</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="s2">&quot;pillow&quot;</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.gif&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;ffmpeg&quot;</span>
+            <span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save</span><span class="p">),</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">anim</span></div>
 
 
 <div class="viewcode-block" id="BridgeAnalysis.plot_envelopes">

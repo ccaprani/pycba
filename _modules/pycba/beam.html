@@ -733,6 +733,25 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_n_supports</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of nodes carrying any restraint (fixed or spring).&quot;&quot;&quot;</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">n_sup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_supports</span><span class="p">()</span>
+        <span class="n">n_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Beam(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span><span class="si">}</span><span class="s2"> span</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;L=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_length</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_sup</span><span class="si">}</span><span class="s2"> support</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_sup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_loads</span><span class="si">}</span><span class="s2"> load</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_loads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -776,13 +795,25 @@
 
 <div class="viewcode-block" id="Beam.plot">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.plot">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">tikz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">save</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Draw a structural schematic of the beam with matplotlib.</span>
+<span class="sd">        Draw a structural schematic of the beam.</span>
 
-<span class="sd">        The beam structure (geometry, supports, internal hinges) is always</span>
-<span class="sd">        drawn; the loads layer is optional and its source is selected with</span>
-<span class="sd">        ``loads``:</span>
+<span class="sd">        By default this renders with matplotlib; saving to a ``.tex`` path (or</span>
+<span class="sd">        passing ``tikz=True``) produces publication-quality TikZ/``stanli``</span>
+<span class="sd">        output instead.  The beam structure (geometry, supports, internal</span>
+<span class="sd">        hinges) is always drawn; the loads layer is optional and its source is</span>
+<span class="sd">        selected with ``loads``:</span>
 
 <span class="sd">        * ``None`` (default) - the beam&#39;s own load matrix ``self.LM``.</span>
 <span class="sd">        * ``[]`` - draw the bare structure only.</span>
@@ -794,24 +825,70 @@
 <span class="sd">        ----------</span>
 <span class="sd">        loads : list | LoadCase | LoadCombination, optional</span>
 <span class="sd">            The load source to draw.</span>
+<span class="sd">        tikz : bool, optional</span>
+<span class="sd">            Backend selector.  ``None`` (default) infers it from ``save``: a</span>
+<span class="sd">            ``.tex`` target renders TikZ/``stanli``; anything else (or no</span>
+<span class="sd">            ``save``) renders with matplotlib.  Pass ``True``/``False`` to</span>
+<span class="sd">            force the backend - e.g. ``tikz=True`` to return the LaTeX source,</span>
+<span class="sd">            or to render an otherwise-ambiguous ``.pdf`` target via TikZ.</span>
 <span class="sd">        ax : matplotlib.axes.Axes, optional</span>
-<span class="sd">            Axes to draw into; a new figure is created if omitted.</span>
+<span class="sd">            Axes to draw into (matplotlib backend only); a new figure is</span>
+<span class="sd">            created if omitted.</span>
+<span class="sd">        save : str or pathlib.Path, optional</span>
+<span class="sd">            If given, also write the visualisation to this path; the file</span>
+<span class="sd">            extension selects the backend when ``tikz`` is ``None``.  A</span>
+<span class="sd">            ``.tex`` target writes the TikZ/``stanli`` source; any other</span>
+<span class="sd">            extension is saved by matplotlib (format inferred from the</span>
+<span class="sd">            extension, e.g. ``.png``/``.pdf``/``.svg``).  Under the TikZ</span>
+<span class="sd">            backend a ``.pdf`` target is compiled with ``pdflatex``.</span>
+<span class="sd">        compile : bool</span>
+<span class="sd">            Under the TikZ backend with ``save`` set, run ``pdflatex`` to also</span>
+<span class="sd">            produce a PDF (requires a LaTeX install with ``stanli``).  A</span>
+<span class="sd">            ``.pdf`` save target enables this automatically.  Ignored for the</span>
+<span class="sd">            matplotlib backend.</span>
 <span class="sd">        load_cases : pycba.load_cases.LoadCases, optional</span>
 <span class="sd">            Required only when ``loads`` is a ``LoadCombination``.</span>
 <span class="sd">        **kwargs</span>
-<span class="sd">            Forwarded to :meth:`pycba.render.BeamPlotter.render_mpl`</span>
-<span class="sd">            (``dimensions``, ``labels``, ``load_values``, ``color``).</span>
+<span class="sd">            Forwarded to the backend renderer:</span>
+<span class="sd">            :meth:`pycba.render.BeamPlotter.render_mpl`</span>
+<span class="sd">            (``dimensions``, ``labels``, ``load_values``, ``color``) or, when</span>
+<span class="sd">            ``tikz=True``, :meth:`pycba.render.BeamPlotter.render_tikz`</span>
+<span class="sd">            (``standalone``, ``scale``, ``dimensions``, ``labels``,</span>
+<span class="sd">            ``load_values``).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib.axes.Axes</span>
-<span class="sd">            The axes the schematic was drawn into.</span>
+<span class="sd">            The axes drawn into (matplotlib backend).</span>
+<span class="sd">        str</span>
+<span class="sd">            The LaTeX source, when the TikZ backend is selected and ``save`` is</span>
+<span class="sd">            not given.</span>
+<span class="sd">        pathlib.Path</span>
+<span class="sd">            The written file, when the TikZ backend is selected with ``save``</span>
+<span class="sd">            (the ``.tex`` path, or the ``.pdf`` when compiled).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
 
-        <span class="k">return</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span>
-            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span></div>
+        <span class="n">use_tikz</span> <span class="o">=</span> <span class="n">tikz</span>
+        <span class="k">if</span> <span class="n">use_tikz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Infer the backend from the output file: a ``.tex`` target means</span>
+            <span class="c1"># TikZ, anything else (or no ``save``) means matplotlib.</span>
+            <span class="n">use_tikz</span> <span class="o">=</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;.tex&quot;</span>
+
+        <span class="n">plotter</span> <span class="o">=</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">use_tikz</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># A .pdf target implies the compiled figure is wanted.</span>
+                <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;.pdf&quot;</span><span class="p">:</span>
+                    <span class="nb">compile</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">return</span> <span class="n">plotter</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">plotter</span><span class="o">.</span><span class="n">render_tikz</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span></div>
 
 
 <div class="viewcode-block" id="Beam.to_tikz">

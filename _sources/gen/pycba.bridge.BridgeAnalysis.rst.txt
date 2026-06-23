@@ -18,6 +18,7 @@ pycba.bridge.BridgeAnalysis
    
       ~BridgeAnalysis.add_bridge
       ~BridgeAnalysis.add_vehicle
+      ~BridgeAnalysis.animate
       ~BridgeAnalysis.critical_values
       ~BridgeAnalysis.envelopes_ratios
       ~BridgeAnalysis.plot_envelopes

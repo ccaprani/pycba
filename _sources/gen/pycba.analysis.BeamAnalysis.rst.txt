@@ -23,6 +23,7 @@ pycba.analysis.BeamAnalysis
       ~BeamAnalysis.add_trap
       ~BeamAnalysis.add_udl
       ~BeamAnalysis.analyze
+      ~BeamAnalysis.plot_beam
       ~BeamAnalysis.plot_results
       ~BeamAnalysis.set_loads
    

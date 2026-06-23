@@ -605,7 +605,7 @@ Use None for DOFs without prescribed displacement.</p></li>
 <td><p>2x2 moment-rotation stiffness of the (chord-relative) element ends.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.plot" title="pycba.beam.Beam.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
-<td><p>Draw a structural schematic of the beam with matplotlib.</p></td>
+<td><p>Draw a structural schematic of the beam.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.save_tikz" title="pycba.beam.Beam.save_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_tikz</span></code></a></p></td>
 <td><p>Write the TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> source to <code class="docutils literal notranslate"><span class="pre">path</span></code> (and optionally compile it).</p></td>
@@ -790,11 +790,13 @@ coordinates on the beam</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.beam.Beam.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.plot" title="Link to this definition">#</a></dt>
-<dd><p>Draw a structural schematic of the beam with matplotlib.</p>
-<p>The beam structure (geometry, supports, internal hinges) is always
-drawn; the loads layer is optional and its source is selected with
-<code class="docutils literal notranslate"><span class="pre">loads</span></code>:</p>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tikz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.plot" title="Link to this definition">#</a></dt>
+<dd><p>Draw a structural schematic of the beam.</p>
+<p>By default this renders with matplotlib; saving to a <code class="docutils literal notranslate"><span class="pre">.tex</span></code> path (or
+passing <code class="docutils literal notranslate"><span class="pre">tikz=True</span></code>) produces publication-quality TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code>
+output instead.  The beam structure (geometry, supports, internal
+hinges) is always drawn; the loads layer is optional and its source is
+selected with <code class="docutils literal notranslate"><span class="pre">loads</span></code>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default) - the beam’s own load matrix <code class="docutils literal notranslate"><span class="pre">self.LM</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">[]</span></code> - draw the bare structure only.</p></li>
@@ -806,17 +808,41 @@ drawn; the loads layer is optional and its source is selected with
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>loads</strong> (<em>list</em><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><em>LoadCase</em></a><em> | </em><a class="reference internal" href="pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination" title="pycba.load_cases.LoadCombination"><em>LoadCombination</em></a><em>, </em><em>optional</em>) – The load source to draw.</p></li>
-<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into; a new figure is created if omitted.</p></li>
+<li><p><strong>tikz</strong> (<em>bool</em><em>, </em><em>optional</em>) – Backend selector.  <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) infers it from <code class="docutils literal notranslate"><span class="pre">save</span></code>: a
+<code class="docutils literal notranslate"><span class="pre">.tex</span></code> target renders TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code>; anything else (or no
+<code class="docutils literal notranslate"><span class="pre">save</span></code>) renders with matplotlib.  Pass <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> to
+force the backend - e.g. <code class="docutils literal notranslate"><span class="pre">tikz=True</span></code> to return the LaTeX source,
+or to render an otherwise-ambiguous <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> target via TikZ.</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into (matplotlib backend only); a new figure is
+created if omitted.</p></li>
+<li><p><strong>save</strong> (<em>str</em><em> or </em><em>pathlib.Path</em><em>, </em><em>optional</em>) – If given, also write the visualisation to this path; the file
+extension selects the backend when <code class="docutils literal notranslate"><span class="pre">tikz</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>.  A
+<code class="docutils literal notranslate"><span class="pre">.tex</span></code> target writes the TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> source; any other
+extension is saved by matplotlib (format inferred from the
+extension, e.g. <code class="docutils literal notranslate"><span class="pre">.png</span></code>/<code class="docutils literal notranslate"><span class="pre">.pdf</span></code>/<code class="docutils literal notranslate"><span class="pre">.svg</span></code>).  Under the TikZ
+backend a <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> target is compiled with <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code>.</p></li>
+<li><p><strong>compile</strong> (<em>bool</em>) – Under the TikZ backend with <code class="docutils literal notranslate"><span class="pre">save</span></code> set, run <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> to also
+produce a PDF (requires a LaTeX install with <code class="docutils literal notranslate"><span class="pre">stanli</span></code>).  A
+<code class="docutils literal notranslate"><span class="pre">.pdf</span></code> save target enables this automatically.  Ignored for the
+matplotlib backend.</p></li>
 <li><p><strong>load_cases</strong> (<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><em>pycba.load_cases.LoadCases</em></a><em>, </em><em>optional</em>) – Required only when <code class="docutils literal notranslate"><span class="pre">loads</span></code> is a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – Forwarded to <a class="reference internal" href="pycba.render.BeamPlotter.html#pycba.render.BeamPlotter.render_mpl" title="pycba.render.BeamPlotter.render_mpl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.render.BeamPlotter.render_mpl()</span></code></a>
-(<code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">load_values</span></code>, <code class="docutils literal notranslate"><span class="pre">color</span></code>).</p></li>
+<li><p><strong>**kwargs</strong> – Forwarded to the backend renderer:
+<a class="reference internal" href="pycba.render.BeamPlotter.html#pycba.render.BeamPlotter.render_mpl" title="pycba.render.BeamPlotter.render_mpl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.render.BeamPlotter.render_mpl()</span></code></a>
+(<code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">load_values</span></code>, <code class="docutils literal notranslate"><span class="pre">color</span></code>) or, when
+<code class="docutils literal notranslate"><span class="pre">tikz=True</span></code>, <a class="reference internal" href="pycba.render.BeamPlotter.html#pycba.render.BeamPlotter.render_tikz" title="pycba.render.BeamPlotter.render_tikz"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.render.BeamPlotter.render_tikz()</span></code></a>
+(<code class="docutils literal notranslate"><span class="pre">standalone</span></code>, <code class="docutils literal notranslate"><span class="pre">scale</span></code>, <code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>,
+<code class="docutils literal notranslate"><span class="pre">load_values</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The axes the schematic was drawn into.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>matplotlib.axes.Axes</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>matplotlib.axes.Axes</em> – The axes drawn into (matplotlib backend).</p></li>
+<li><p><em>str</em> – The LaTeX source, when the TikZ backend is selected and <code class="docutils literal notranslate"><span class="pre">save</span></code> is
+not given.</p></li>
+<li><p><em>pathlib.Path</em> – The written file, when the TikZ backend is selected with <code class="docutils literal notranslate"><span class="pre">save</span></code>
+(the <code class="docutils literal notranslate"><span class="pre">.tex</span></code> path, or the <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> when compiled).</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>

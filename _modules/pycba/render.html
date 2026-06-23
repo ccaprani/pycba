@@ -732,6 +732,7 @@
         <span class="n">labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">load_values</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tab:red&quot;</span><span class="p">,</span>
+        <span class="n">equal_aspect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draw the beam schematic with matplotlib.</span>
@@ -752,6 +753,12 @@
 <span class="sd">            distributed load).</span>
 <span class="sd">        color : str</span>
 <span class="sd">            Colour used for the load arrows/labels.</span>
+<span class="sd">        equal_aspect : bool</span>
+<span class="sd">            Keep an equal data aspect ratio (the default) so the support and</span>
+<span class="sd">            load glyphs are drawn true to shape.  Set ``False`` to let the</span>
+<span class="sd">            schematic stretch to fill its axes — used when embedding the</span>
+<span class="sd">            schematic as a strip above the result diagrams (see</span>
+<span class="sd">            :meth:`pycba.analysis.BeamAnalysis.plot_results`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -837,7 +844,9 @@
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mf">1.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span> <span class="k">if</span> <span class="n">equal_aspect</span> <span class="k">else</span> <span class="s2">&quot;datalim&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">equal_aspect</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
         <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">):</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">spine</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>

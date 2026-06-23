@@ -519,7 +519,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bridge</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bridge</span><span class="o">.</span><span class="n">plot_beam</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -530,7 +530,7 @@
 <img alt="../_images/notebooks_bridge_9_0.png" src="../_images/notebooks_bridge_9_0.png" />
 </div>
 </div>
-<p>Examine the vehicle at a single position, when the front axle is at 30.0 m say:</p>
+<p>Examine the vehicle at a single position — the front axle at 30.0 m, say. The deck is drawn with the vehicle as a truck on it, above the instantaneous bending moment and shear force diagrams:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -562,6 +562,20 @@
 <img alt="../_images/notebooks_bridge_13_0.png" src="../_images/notebooks_bridge_13_0.png" />
 </div>
 </div>
+<section id="Animating-the-crossing">
+<h3>Animating the crossing<a class="headerlink" href="#Animating-the-crossing" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">animate()</span></code> steps the vehicle across the deck and draws the bending moment and shear force at each position, with the running envelope shaded behind them so it can be seen growing to the full traverse envelope. It can be saved as an animated GIF (or MP4):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">anim</span> <span class="o">=</span> <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="s2">&quot;images/bridge_traverse.gif&quot;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># the GIF is embedded below; don&#39;t show a static frame</span>
+</pre></div>
+</div>
+</div>
+<img alt="Vehicle traverse across the two-span bridge" src="../_images/bridge_traverse.gif" />
+<p>In a notebook you can also display it inline with <code class="docutils literal notranslate"><span class="pre">HTML(anim.to_jshtml())</span></code>.</p>
 <p>Alternatively, using the <code class="docutils literal notranslate"><span class="pre">reverse()</span></code> method, we can do an analysis for the vehicle travelling in the reverse direction.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -585,9 +599,10 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_15_1.png" src="../_images/notebooks_bridge_15_1.png" />
+<img alt="../_images/notebooks_bridge_18_1.png" src="../_images/notebooks_bridge_18_1.png" />
 </div>
 </div>
+</section>
 </section>
 <section id="Example-2---Patterned-UDL-and-Moving-Vehicle-Envelope">
 <h2>Example 2 - Patterned UDL and Moving Vehicle Envelope<a class="headerlink" href="#Example-2---Patterned-UDL-and-Moving-Vehicle-Envelope" title="Link to this heading">#</a></h2>
@@ -669,7 +684,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_20_0.png" src="../_images/notebooks_bridge_20_0.png" />
+<img alt="../_images/notebooks_bridge_23_0.png" src="../_images/notebooks_bridge_23_0.png" />
 </div>
 </div>
 <p>Now combine this patterned UDL envelope with the moving-vehicle envelope. This is an envelope operation: the moving vehicle creates one envelope, the patterned UDL target combination creates another, and <code class="docutils literal notranslate"><span class="pre">augment</span></code> keeps the governing values from both.</p>
@@ -697,7 +712,7 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_22_0.png" src="../_images/notebooks_bridge_22_0.png" />
+<img alt="../_images/notebooks_bridge_25_0.png" src="../_images/notebooks_bridge_25_0.png" />
 </div>
 </div>
 </section>
@@ -767,7 +782,7 @@ Max moment is 7809.3 kNm at 20.35 m when front axle position is 29.1 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_31_0.png" src="../_images/notebooks_bridge_31_0.png" />
+<img alt="../_images/notebooks_bridge_34_0.png" src="../_images/notebooks_bridge_34_0.png" />
 </div>
 </div>
 <section id="Coincident-Load-Effects">
@@ -822,7 +837,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_35_0.png" src="../_images/notebooks_bridge_35_0.png" />
+<img alt="../_images/notebooks_bridge_38_0.png" src="../_images/notebooks_bridge_38_0.png" />
 </div>
 </div>
 </section>
@@ -884,7 +899,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_41_0.png" src="../_images/notebooks_bridge_41_0.png" />
+<img alt="../_images/notebooks_bridge_44_0.png" src="../_images/notebooks_bridge_44_0.png" />
 </div>
 </div>
 </section>
@@ -932,7 +947,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_47_0.png" src="../_images/notebooks_bridge_47_0.png" />
+<img alt="../_images/notebooks_bridge_50_0.png" src="../_images/notebooks_bridge_50_0.png" />
 </div>
 </div>
 <p>Now analyze the permit application vehicle; here just taking an example vehicle from the <code class="docutils literal notranslate"><span class="pre">VehicleLibrary</span></code>:</p>
@@ -950,7 +965,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_49_0.png" src="../_images/notebooks_bridge_49_0.png" />
+<img alt="../_images/notebooks_bridge_52_0.png" src="../_images/notebooks_bridge_52_0.png" />
 </div>
 </div>
 <p>And we can plot the ratios of trial to reference envelopes</p>
@@ -967,7 +982,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_51_0.png" src="../_images/notebooks_bridge_51_0.png" />
+<img alt="../_images/notebooks_bridge_54_0.png" src="../_images/notebooks_bridge_54_0.png" />
 </div>
 </div>
 <p>As can be seen in this case, the central support reaction is greater than 1.0, as is the hogging moment (by about 7%). This vehicle is unlikely to be granted a permit as a result.</p>
@@ -1039,7 +1054,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_62_0.png" src="../_images/notebooks_bridge_62_0.png" />
+<img alt="../_images/notebooks_bridge_65_0.png" src="../_images/notebooks_bridge_65_0.png" />
 </div>
 </div>
 <p>Note that this overall envelope can only show the extremes of reaction values, since the time histories of reactions are not compatible.</p>
@@ -1662,7 +1677,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_88_0.png" src="../_images/notebooks_bridge_88_0.png" />
+<img alt="../_images/notebooks_bridge_91_0.png" src="../_images/notebooks_bridge_91_0.png" />
 </div>
 </div>
 <p>It can be seen from the IL diagrams that:</p>
@@ -1829,7 +1844,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_bridge_102_0.png" src="../_images/notebooks_bridge_102_0.png" />
+<img alt="../_images/notebooks_bridge_105_0.png" src="../_images/notebooks_bridge_105_0.png" />
 </div>
 </div>
 </section>
@@ -1883,7 +1898,10 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1---Moving-Load-Envelope">Example 1 - Moving Load Envelope</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1---Moving-Load-Envelope">Example 1 - Moving Load Envelope</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Animating-the-crossing">Animating the crossing</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2---Patterned-UDL-and-Moving-Vehicle-Envelope">Example 2 - Patterned UDL and Moving Vehicle Envelope</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3---Critical-Values-and-Positions">Example 3 - Critical Values and Positions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Coincident-Load-Effects">Coincident Load Effects</a></li>

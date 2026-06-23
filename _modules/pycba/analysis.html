@@ -1048,16 +1048,94 @@
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="k">return</span> <span class="n">x</span>
 
+<div class="viewcode-block" id="BeamAnalysis.plot_beam">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_beam">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_beam</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">tikz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">save</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw a structural schematic of the beam.</span>
+
+<span class="sd">        Convenience wrapper around :meth:`pycba.beam.Beam.plot` so the model</span>
+<span class="sd">        can be drawn directly from the analysis object (mirroring</span>
+<span class="sd">        :meth:`plot_results`) without reaching through :attr:`beam`.  Renders</span>
+<span class="sd">        with matplotlib by default; saving to a ``.tex`` path (or passing</span>
+<span class="sd">        ``tikz=True``) produces TikZ/``stanli`` output instead.</span>
+
+<span class="sd">        The beam structure (geometry, supports, internal hinges) is always</span>
+<span class="sd">        drawn; the loads layer is optional and its source is selected with</span>
+<span class="sd">        ``loads``:</span>
+
+<span class="sd">        * ``None`` (default) - the beam&#39;s own load matrix.</span>
+<span class="sd">        * ``[]`` - draw the bare structure only.</span>
+<span class="sd">        * a PyCBA load matrix, a :class:`~pycba.load_cases.LoadCase`, or a</span>
+<span class="sd">          :class:`~pycba.load_cases.LoadCombination` (supply its</span>
+<span class="sd">          :class:`~pycba.load_cases.LoadCases` via ``load_cases``).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        loads : list | LoadCase | LoadCombination, optional</span>
+<span class="sd">            The load source to draw.</span>
+<span class="sd">        tikz : bool, optional</span>
+<span class="sd">            Backend selector.  ``None`` (default) infers it from ``save`` (a</span>
+<span class="sd">            ``.tex`` target renders TikZ, anything else uses matplotlib); pass</span>
+<span class="sd">            ``True``/``False`` to force the backend.</span>
+<span class="sd">        ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">            Axes to draw into (matplotlib backend only); a new figure is</span>
+<span class="sd">            created if omitted.</span>
+<span class="sd">        save : str or pathlib.Path, optional</span>
+<span class="sd">            If given, also write the visualisation to this path.  A ``.tex``</span>
+<span class="sd">            target writes the TikZ source (and selects the TikZ backend); any</span>
+<span class="sd">            other extension is saved by matplotlib.</span>
+<span class="sd">        compile : bool</span>
+<span class="sd">            Under the TikZ backend with ``save`` set, also run ``pdflatex`` to</span>
+<span class="sd">            produce a PDF (a ``.pdf`` save target enables this automatically).</span>
+<span class="sd">        load_cases : pycba.load_cases.LoadCases, optional</span>
+<span class="sd">            Required only when ``loads`` is a ``LoadCombination``.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Forwarded to the backend renderer (``dimensions``, ``labels``,</span>
+<span class="sd">            ``load_values``, ``color`` for matplotlib; ``standalone``,</span>
+<span class="sd">            ``scale``, ``dimensions``, ``labels``, ``load_values`` for TikZ).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes</span>
+<span class="sd">            The axes drawn into (default matplotlib backend).</span>
+<span class="sd">        str</span>
+<span class="sd">            The LaTeX source, when ``tikz=True`` and ``save`` is not given.</span>
+<span class="sd">        pathlib.Path</span>
+<span class="sd">            The written file, when ``tikz=True`` and ``save`` is given.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">loads</span><span class="p">,</span>
+            <span class="n">tikz</span><span class="o">=</span><span class="n">tikz</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">,</span>
+            <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span><span class="p">,</span>
+            <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="BeamAnalysis.plot_results">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_results">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_beam</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plot bending moment, shear force, and deflection diagrams.</span>
 
-<span class="sd">        Produces a three-panel figure of bending moment, shear force, and</span>
-<span class="sd">        deflection along the beam.  Bending moment is plotted with the</span>
-<span class="sd">        sagging-positive convention (y-axis inverted so sagging appears below</span>
-<span class="sd">        the beam line).</span>
+<span class="sd">        Produces a figure of bending moment, shear force, and deflection along</span>
+<span class="sd">        the beam.  Bending moment is plotted with the sagging-positive</span>
+<span class="sd">        convention (y-axis inverted so sagging appears below the beam line).</span>
+<span class="sd">        By default the loaded-beam schematic is drawn as a top panel sharing</span>
+<span class="sd">        the x-axis, so the model and its load effects can be read together.</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            The axis labels (&quot;kNm&quot;, &quot;kN&quot;, &quot;mm&quot;) and the deflection scaling</span>
@@ -1065,39 +1143,87 @@
 <span class="sd">            unit system is used the plots will still be correct in shape but</span>
 <span class="sd">            the labels and deflection axis values will need interpretation.</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        show_beam : bool</span>
+<span class="sd">            Draw the beam/loading schematic as a top panel above the result</span>
+<span class="sd">            diagrams (default ``True``).  Set ``False`` for the bare</span>
+<span class="sd">            three-panel moment/shear/deflection figure.</span>
+<span class="sd">        show : bool</span>
+<span class="sd">            Call ``matplotlib.pyplot.show()`` before returning (default</span>
+<span class="sd">            ``True``).  Set ``False`` to obtain the figure handles without</span>
+<span class="sd">            displaying — e.g. to ``savefig`` or restyle the figure first.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.figure.Figure</span>
+<span class="sd">            The figure, or ``None`` if :meth:`analyze` has not been called.</span>
+<span class="sd">        numpy.ndarray of matplotlib.axes.Axes</span>
+<span class="sd">            The panel axes (length 4 when ``show_beam`` is ``True``, else 3).</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
 <span class="sd">        Has no effect and prints a warning if :meth:`analyze` has not been</span>
 <span class="sd">        called yet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">results</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">length</span>
 
-        <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">show_beam</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+                <span class="mi">4</span><span class="p">,</span>
+                <span class="mi">1</span><span class="p">,</span>
+                <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+                <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]},</span>
+            <span class="p">)</span>
+            <span class="c1"># The schematic stretches to fill its panel (equal_aspect=False) so</span>
+            <span class="c1"># it stays aligned in x with the diagrams below.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">diag</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">diag</span> <span class="o">=</span> <span class="n">axs</span>
 
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
 
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Shear Force (kN)&quot;</span><span class="p">)</span>
 
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Deflection (mm)&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
 
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
-</div>
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span>
+        <span class="n">n_sup</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">_n_supports</span><span class="p">()</span>
+        <span class="n">n_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;analysed&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;not analysed&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;BeamAnalysis(</span><span class="si">{</span><span class="n">b</span><span class="o">.</span><span class="n">no_spans</span><span class="si">}</span><span class="s2"> span</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">b</span><span class="o">.</span><span class="n">no_spans</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_sup</span><span class="si">}</span><span class="s2"> support</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_sup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_loads</span><span class="si">}</span><span class="s2"> load</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_loads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span></div>
 
 </pre></div>
 
