@@ -239,16 +239,39 @@ Use `None` for DOFs where the displacement is unknown (the default), and a float
 
 ## Element Types (`eleType`)
 
-Each member can be one of several element types, depending on the presence of hinges in the beam.
+Each member can be one of several element types, depending on the presence of
+hinges in the beam. The two letters read left end then right end (`F` =
+fixed/continuous, `P` = pinned/released):
+
+1. `FF` — fixed-fixed (the default)
+2. `FP` — fixed-pinned (moment released at the right end)
+3. `PF` — pinned-fixed (moment released at the left end)
+4. `PP` — pinned-pinned (released at both ends)
 
 **Note that at a hinge, only one of the members meeting at that node should have a pinned end.**
 
-The element types are given by an index:
+An element type can be given as the integer index, as a `MemberType` enum
+member, or as its case-insensitive name string — the three forms are
+equivalent:
 
-1. fixed-fixed
-2. fixed-pinned
-3. pinned-fixed
-4. pinned-pinned
+```python
+import pycba as cba
+from pycba import MemberType
+
+# a two-span beam with a fixed-pinned then a pinned-fixed member
+cba.BeamAnalysis(L, EI, R, eletype=[2, 3])
+cba.BeamAnalysis(L, EI, R, eletype=[MemberType.FP, MemberType.PF])
+cba.BeamAnalysis(L, EI, R, eletype=["FP", "PF"])
+```
+
+When assembling a beam member by member, `Beam.add_member` names the type
+directly:
+
+```python
+beam = cba.Beam()
+beam.add_member(5.0, EI, "FP")          # or MemberType.FP, or 2
+beam.add_member(6.0, EI, MemberType.PF)
+```
 
 **Dimension**: `N` x 1
 
