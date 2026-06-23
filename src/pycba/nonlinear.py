@@ -109,7 +109,7 @@ class NonlinearResult:
     lambda_history: list[float] = field(default_factory=list)
     moment_history: list[np.ndarray] = field(default_factory=list)
 
-    def plot_moments(self, Mp=None, ax=None):
+    def plot_moments(self, Mp=None, ax=None, units=None):
         """Plot the bending moment distribution at collapse.
 
         If moment history snapshots were recorded (via ``record_every``),
@@ -122,11 +122,16 @@ class NonlinearResult:
             are drawn at +/- *Mp*.
         ax : matplotlib Axes, optional
             Axes to plot on.  If ``None``, a new figure is created.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
 
         Returns
         -------
         ax : matplotlib Axes
         """
+        from .units import resolve
+
+        us = resolve(units)
         if ax is None:
             _, ax = plt.subplots(figsize=(10, 4))
 
@@ -149,8 +154,8 @@ class NonlinearResult:
 
         ax.invert_yaxis()
         ax.grid()
-        ax.set_ylabel("Bending Moment (kNm)")
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_ylabel(us.moment_axis)
+        ax.set_xlabel(us.distance_axis)
         ax.legend()
 
         return ax
@@ -177,7 +182,7 @@ class NonlinearResult:
             )
             ax.add_patch(tri)
 
-    def plot_hinge_history(self, moving=False, ax=None):
+    def plot_hinge_history(self, moving=False, ax=None, units=None):
         """Plot the hinge formation sequence along the beam.
 
         Each event is shown as a marker at ``(x, stage)`` where *x* is the
@@ -197,11 +202,16 @@ class NonlinearResult:
             Default ``False`` (load factor).
         ax : matplotlib Axes, optional
             Axes to plot on.  If ``None``, a new figure is created.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
 
         Returns
         -------
         ax : matplotlib Axes
         """
+        from .units import resolve
+
+        us = resolve(units)
         if ax is None:
             _, ax = plt.subplots(figsize=(10, 4))
 
@@ -223,15 +233,15 @@ class NonlinearResult:
             ax.plot([0, L], [1.0, 1.0], "k-", lw=2, zorder=2)
             ax.set_ylabel("Load factor $\\lambda$")
         else:
-            ax.set_ylabel("Front axle position (m)")
+            ax.set_ylabel(us.length_axis("Front axle position"))
 
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_xlabel(us.distance_axis)
         ax.legend()
         ax.grid(True, alpha=0.3)
 
         return ax
 
-    def plot_beam_state(self, vehicle=None, ax=None):
+    def plot_beam_state(self, vehicle=None, ax=None, units=None):
         """Plot the beam with hinge locations and optional vehicle position.
 
         Draws the beam, supports, and marks yield/hinge locations along
@@ -245,11 +255,16 @@ class NonlinearResult:
             position (``collapse_lambda``).
         ax : matplotlib Axes, optional
             Axes to plot on.  If ``None``, a new figure is created.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
 
         Returns
         -------
         ax : matplotlib Axes
         """
+        from .units import resolve
+
+        us = resolve(units)
         if ax is None:
             _, ax = plt.subplots(figsize=(10, 2.5))
 
@@ -303,9 +318,10 @@ class NonlinearResult:
                     )
 
             status = "collapse" if self.collapsed else "final"
-            ax.set_title(f"Vehicle at {status}: front axle x = {front:.1f} m")
+            lu = f" {us.length}" if us.length else ""
+            ax.set_title(f"Vehicle at {status}: front axle x = {front:.1f}{lu}")
 
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_xlabel(us.distance_axis)
         ax.set_xlim(-1, L + 1)
         ax.set_ylim(-1.5, 2.5)
         ax.set_aspect("equal")

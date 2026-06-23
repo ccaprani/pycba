@@ -404,10 +404,12 @@ class Beam:
         **kwargs
             Forwarded to the backend renderer:
             :meth:`pycba.render.BeamPlotter.render_mpl`
-            (``dimensions``, ``labels``, ``load_values``, ``color``) or, when
-            ``tikz=True``, :meth:`pycba.render.BeamPlotter.render_tikz`
-            (``standalone``, ``scale``, ``dimensions``, ``labels``,
-            ``load_values``).
+            (``dimensions``, ``labels``, ``load_values``, ``color``,
+            ``units``) or, when ``tikz=True``,
+            :meth:`pycba.render.BeamPlotter.render_tikz` (``standalone``,
+            ``scale``, ``dimensions``, ``labels``, ``load_values``,
+            ``units``).  ``units`` selects the display unit system (see
+            :func:`pycba.set_units`).
 
         Returns
         -------
