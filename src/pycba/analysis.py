@@ -9,9 +9,12 @@ recovers reactions and member load effects.
 
 **PyCBA is unit-agnostic.** No conversions are performed; any internally
 consistent set of units (e.g. kN/m/kNm, or N/mm/Nmm) may be used as long as
-all inputs share the same system.  The only exception is :meth:`BeamAnalysis.plot_results`,
-which scales deflections by 1×10³ and labels the axis "mm" — that label is
-only correct when the length unit is metres.
+all inputs share the same system.  Units appear only when results are
+*plotted* — in the axis labels and the deflection display scale — governed by
+a display unit system (see :mod:`pycba.units` and :func:`pycba.set_units`).
+The default is SI with kN and m; pass ``units=`` to any plotting method, or
+call :func:`pycba.set_units`, to label a different system (the analysis itself
+is unaffected).
 
 Sign conventions
 ----------------
