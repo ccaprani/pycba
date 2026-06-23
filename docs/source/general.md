@@ -72,6 +72,21 @@ Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of
 
 **Units**: kN/m or kNm/rad or None
 
+If the restraints leave the structure under-supported, it is a *mechanism* —
+the stiffness matrix is singular and the solution is meaningless. Before
+solving, `analyze()` checks the free-DOF stiffness for this condition and
+raises a clear `ValueError` rather than returning enormous, spurious
+displacements:
+
+```python
+ba = cba.BeamAnalysis([10.0], 30e4, R=[-1, 0, 0, 0])  # pin one end, free the other
+ba.analyze()      # ValueError: Structure is geometrically unstable ... mechanism
+```
+
+This catches both insufficient supports and over-released internal hinges. For
+an unusual but intentionally near-singular model you can skip the check with
+`ba.analyze(check_stability=False)`.
+
 ## Load Matrix (`LM`)
 
 A `List` of `Lists` representing the applied loads.

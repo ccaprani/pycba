@@ -314,7 +314,7 @@ class BeamAnalysis:
             load = [i_span, 5, w1, w2]
         self._beam.add_load(load)
 
-    def analyze(self, npts: Optional[int] = None) -> int:
+    def analyze(self, npts: Optional[int] = None, check_stability: bool = True) -> int:
         """
         Execute the direct-stiffness analysis.
 
@@ -330,6 +330,11 @@ class BeamAnalysis:
             Number of evaluation points along each member for computing
             distributed load effects (bending moment, shear, deflection).
             Must be greater than 3; defaults to 100 if omitted or ``≤ 3``.
+        check_stability : bool, optional
+            If ``True`` (default), check the assembled stiffness for a
+            mechanism before solving and raise a clear error (see
+            :meth:`_check_stability`).  Set ``False`` to skip the check for an
+            unusual but intentionally near-singular model.
 
         Returns
         -------
@@ -340,7 +345,8 @@ class BeamAnalysis:
         ------
         ValueError
             If the model is invalid (see :meth:`_validate`) or if the
-            structure is geometrically unstable (see :meth:`_solver`).
+            structure is geometrically unstable (see :meth:`_check_stability`
+            and :meth:`_solver`).
         """
         if npts and npts > 3:
             self.npts = npts
@@ -353,6 +359,8 @@ class BeamAnalysis:
 
         f = np.copy(fU)
         ksysU = self._assemble()
+        if check_stability:
+            self._check_stability(ksysU, restraints, d_presc)
         ksys = np.copy(ksysU)
         ksys, f = self._apply_bc(ksys, f)
         d = self._solver(ksys, f)
@@ -360,6 +368,66 @@ class BeamAnalysis:
 
         self._beam_results = BeamResults(self._beam, d, r, self.npts, rs)
         return 0
+
+    # Reciprocal-condition-number floor for the free-DOF stiffness partition.
+    # True mechanisms sit near machine epsilon (~1e-16); legitimately flexible
+    # structures stay well above this, so 1e-12 separates them with margin.
+    _STABILITY_RCOND = 1e-12
+
+    def _check_stability(
+        self, ksysU: np.ndarray, restraints: list, d_presc: list
+    ) -> None:
+        """
+        Detect a mechanism (near-singular structure) before solving.
+
+        Direct elimination puts ``1.0`` on the diagonal of constrained DOFs,
+        which pollutes the condition number of the reduced system, so this
+        works instead on the **free-DOF partition** of the *unrestricted*
+        stiffness matrix - the block that actually governs the unknown
+        displacements.  Excluded DOFs are those that are fully fixed
+        (``restraints < 0``) or carry a prescribed displacement; spring DOFs
+        remain free and contribute their stiffness.
+
+        For a stable linear-elastic structure this partition is symmetric
+        positive-definite.  A mechanism (insufficient restraint, or an
+        over-released internal hinge) makes it singular: its smallest
+        eigenvalue collapses to zero relative to the largest.  The reciprocal
+        condition number ``min|λ| / max|λ|`` is therefore compared against
+        :attr:`_STABILITY_RCOND`; a value below it indicates a mechanism.
+
+        Parameters
+        ----------
+        ksysU : np.ndarray, shape (nDOF, nDOF)
+            Unrestricted global stiffness matrix (including spring terms).
+        restraints : list
+            Beam restraint vector (same as ``R``).
+        d_presc : list
+            Prescribed-displacement vector (``None`` entries = free DOFs).
+
+        Raises
+        ------
+        ValueError
+            If the free-DOF stiffness partition is singular to within
+            :attr:`_STABILITY_RCOND`, i.e. the structure is a mechanism.
+        """
+        free = [
+            i
+            for i in range(self._nDOF)
+            if not (restraints[i] < 0 or d_presc[i] is not None)
+        ]
+        if not free:
+            return  # fully constrained: nothing to solve, trivially stable
+
+        kff = ksysU[np.ix_(free, free)]
+        ev = np.abs(np.linalg.eigvalsh(kff))
+        ev_max = ev.max()
+        if ev_max == 0.0 or (ev.min() / ev_max) < self._STABILITY_RCOND:
+            raise ValueError(
+                "Structure is geometrically unstable: the free-DOF stiffness "
+                "is singular, indicating a mechanism (e.g. insufficient support "
+                "restraints or an over-released internal hinge). Add restraint, "
+                "or pass analyze(check_stability=False) to override this check."
+            )
 
     def _forces(self) -> np.ndarray:
         """

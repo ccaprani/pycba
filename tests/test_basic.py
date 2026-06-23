@@ -995,3 +995,53 @@ def test_unstable_structure_error():
     ba = cba.BeamAnalysis(L, EI, R, LM)
     with pytest.raises(ValueError, match="geometrically unstable"):
         ba.analyze()
+
+
+def test_mechanism_pin_free_raises():
+    """
+    A pin-free span (rotates about the pin) is a mechanism. The stiffness
+    matrix is only *near*-singular, so the solve would otherwise return
+    meaningless ~1e17 displacements; the stability check must catch it
+    before solving (issue #134).
+    """
+    L, EI, R, eType = cba.parse_beam_string("P10F")
+    ba = cba.BeamAnalysis(L, EI, R, [[1, 2, 10, 10]], eType)
+    with pytest.raises(ValueError, match="geometrically unstable"):
+        ba.analyze()
+
+
+def test_stable_lookalikes_not_flagged():
+    """
+    Structures that resemble a mechanism but are restrained must NOT be
+    flagged: an encastre-free cantilever, a propped cantilever, and a beam
+    with a single (legitimate) internal hinge all analyse normally.
+    """
+    for beam_str, lm in [
+        ("E10F", [[1, 2, 10, 10]]),  # cantilever
+        ("E10R", [[1, 1, 10]]),  # propped cantilever
+        ("E20H20R", [[1, 1, 10], [2, 1, 10]]),  # one internal hinge
+    ]:
+        L, EI, R, eType = cba.parse_beam_string(beam_str)
+        ba = cba.BeamAnalysis(L, EI, R, lm, eType)
+        assert ba.analyze() == 0
+        assert np.all(np.isfinite(ba.beam_results.D))
+
+
+def test_check_stability_can_be_disabled():
+    """
+    A very soft spring (1e-8) with a stiff member is solvable but trips the
+    relative-conditioning threshold; ``check_stability=False`` overrides the
+    check and returns the (finite) result.
+    """
+    L = [10.0]
+    EI = 1e8
+    R = [1e-8, 0, -1, 0]  # near-singular but not a true mechanism
+    LM = [[1, 1, 10]]
+
+    ba = cba.BeamAnalysis(L, EI, R, LM)
+    with pytest.raises(ValueError, match="geometrically unstable"):
+        ba.analyze()  # check on by default
+
+    ba2 = cba.BeamAnalysis(L, EI, R, LM)
+    assert ba2.analyze(check_stability=False) == 0
+    assert np.all(np.isfinite(ba2.beam_results.D))
