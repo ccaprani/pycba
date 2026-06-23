@@ -58,6 +58,10 @@ class Beam:
         self._loads = []
         self.LM = []
         self._terminal_coords = [0.0]
+        # Bumped on any change to the *structure* (geometry, rigidity,
+        # restraints, prescribed displacements) so a cached stability check can
+        # be invalidated.  Load changes deliberately do not bump it.
+        self._structure_version = 0
 
         if L is not None and eletype is not None:
             # A single rigidity (scalar EI, or one SectionEI) applies to all
@@ -114,6 +118,7 @@ class Beam:
         self._no_spans = len(self.mbr_lengths)
         self._length += L
         self._terminal_coords.append(self._terminal_coords[-1] + L)
+        self._structure_version += 1
 
     @property
     def loads(self) -> LoadMatrix:
@@ -213,7 +218,18 @@ class Beam:
 
         """
         self._restraints = r
-        pass
+        self._structure_version += 1
+
+    @property
+    def structure_version(self) -> int:
+        """
+        int : A counter that increments whenever the beam *structure* changes.
+
+        Bumped by changes to geometry, rigidity, restraints or prescribed
+        displacements (but not loads).  Used to invalidate a cached stability
+        check (see :meth:`pycba.analysis.BeamAnalysis.is_stable`).
+        """
+        return self._structure_version
 
     @property
     def prescribed_displacements(self) -> list:
@@ -248,6 +264,7 @@ class Beam:
                 f"D must have same length as R ({len(self._restraints)}), got {len(d)}"
             )
         self._prescribed_displacements = d
+        self._structure_version += 1
 
     def _set_element_type(self, i_span):
         """

@@ -83,8 +83,12 @@ ba = cba.BeamAnalysis([10.0], 30e4, R=[-1, 0, 0, 0])  # pin one end, free the ot
 ba.analyze()      # ValueError: Structure is geometrically unstable ... mechanism
 ```
 
-This catches both insufficient supports and over-released internal hinges. For
-an unusual but intentionally near-singular model you can skip the check with
+This catches both insufficient supports and over-released internal hinges. You
+can also test a model up front, without solving, via `ba.is_stable()` (which
+returns a `bool` instead of raising). The result is cached per structure, so
+looped analyses that vary only the loads (e.g. a moving-load run) incur the
+check only once; it is re-evaluated only if the beam structure changes. For an
+unusual but intentionally near-singular model you can skip it entirely with
 `ba.analyze(check_stability=False)`.
 
 ## Load Matrix (`LM`)

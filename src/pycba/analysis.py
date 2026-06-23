@@ -148,6 +148,10 @@ class BeamAnalysis:
         self._n = self._beam.no_spans
         self._no_nodes = self._n + 1
         self._nDOF = 2 * self._no_nodes
+        # Beam structure_version at the last successful stability check, so the
+        # check is not repeated across looped analyses (e.g. a moving load)
+        # unless the structure itself changes.  ``None`` = never checked.
+        self._checked_version = None
 
     @property
     def beam_results(self) -> BeamResults:
@@ -333,8 +337,12 @@ class BeamAnalysis:
         check_stability : bool, optional
             If ``True`` (default), check the assembled stiffness for a
             mechanism before solving and raise a clear error (see
-            :meth:`_check_stability`).  Set ``False`` to skip the check for an
-            unusual but intentionally near-singular model.
+            :meth:`is_stable` / :meth:`_check_stability`).  Set ``False`` to
+            skip the check for an unusual but intentionally near-singular
+            model.  The check runs at most once per structure: its result is
+            cached and only re-evaluated if the beam structure changes, so it
+            adds no cost to looped analyses (e.g. a moving load) that vary
+            only the loads.
 
         Returns
         -------
@@ -359,8 +367,9 @@ class BeamAnalysis:
 
         f = np.copy(fU)
         ksysU = self._assemble()
-        if check_stability:
+        if check_stability and self._checked_version != self._beam.structure_version:
             self._check_stability(ksysU, restraints, d_presc)
+            self._checked_version = self._beam.structure_version
         ksys = np.copy(ksysU)
         ksys, f = self._apply_bc(ksys, f)
         d = self._solver(ksys, f)
@@ -428,6 +437,31 @@ class BeamAnalysis:
                 "restraints or an over-released internal hinge). Add restraint, "
                 "or pass analyze(check_stability=False) to override this check."
             )
+
+    def is_stable(self) -> bool:
+        """
+        Return whether the structure is stable (not a mechanism).
+
+        Runs the same free-DOF stability check as :meth:`analyze` but returns a
+        boolean instead of raising, so the model can be validated up front
+        without solving.  A ``True`` result is cached (keyed on the beam's
+        :attr:`~pycba.beam.Beam.structure_version`), so a subsequent
+        ``analyze()`` does not repeat the check unless the structure changes.
+
+        Returns
+        -------
+        bool
+            ``True`` if the free-DOF stiffness partition is non-singular to
+            within :attr:`_STABILITY_RCOND`, otherwise ``False``.
+        """
+        restraints = self._beam.restraints
+        d_presc = self._beam.prescribed_displacements
+        try:
+            self._check_stability(self._assemble(), restraints, d_presc)
+        except ValueError:
+            return False
+        self._checked_version = self._beam.structure_version
+        return True
 
     def _forces(self) -> np.ndarray:
         """
