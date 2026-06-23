@@ -148,6 +148,10 @@ class BeamAnalysis:
         self._n = self._beam.no_spans
         self._no_nodes = self._n + 1
         self._nDOF = 2 * self._no_nodes
+        # Beam structure_version at the last successful stability check, so the
+        # check is not repeated across looped analyses (e.g. a moving load)
+        # unless the structure itself changes.  ``None`` = never checked.
+        self._checked_version = None
 
     @property
     def beam_results(self) -> BeamResults:
@@ -314,7 +318,7 @@ class BeamAnalysis:
             load = [i_span, 5, w1, w2]
         self._beam.add_load(load)
 
-    def analyze(self, npts: Optional[int] = None) -> int:
+    def analyze(self, npts: Optional[int] = None, check_stability: bool = True) -> int:
         """
         Execute the direct-stiffness analysis.
 
@@ -330,6 +334,15 @@ class BeamAnalysis:
             Number of evaluation points along each member for computing
             distributed load effects (bending moment, shear, deflection).
             Must be greater than 3; defaults to 100 if omitted or ``≤ 3``.
+        check_stability : bool, optional
+            If ``True`` (default), check the assembled stiffness for a
+            mechanism before solving and raise a clear error (see
+            :meth:`is_stable` / :meth:`_check_stability`).  Set ``False`` to
+            skip the check for an unusual but intentionally near-singular
+            model.  The check runs at most once per structure: its result is
+            cached and only re-evaluated if the beam structure changes, so it
+            adds no cost to looped analyses (e.g. a moving load) that vary
+            only the loads.
 
         Returns
         -------
@@ -340,7 +353,8 @@ class BeamAnalysis:
         ------
         ValueError
             If the model is invalid (see :meth:`_validate`) or if the
-            structure is geometrically unstable (see :meth:`_solver`).
+            structure is geometrically unstable (see :meth:`_check_stability`
+            and :meth:`_solver`).
         """
         if npts and npts > 3:
             self.npts = npts
@@ -353,6 +367,9 @@ class BeamAnalysis:
 
         f = np.copy(fU)
         ksysU = self._assemble()
+        if check_stability and self._checked_version != self._beam.structure_version:
+            self._check_stability(ksysU, restraints, d_presc)
+            self._checked_version = self._beam.structure_version
         ksys = np.copy(ksysU)
         ksys, f = self._apply_bc(ksys, f)
         d = self._solver(ksys, f)
@@ -360,6 +377,91 @@ class BeamAnalysis:
 
         self._beam_results = BeamResults(self._beam, d, r, self.npts, rs)
         return 0
+
+    # Reciprocal-condition-number floor for the free-DOF stiffness partition.
+    # True mechanisms sit near machine epsilon (~1e-16); legitimately flexible
+    # structures stay well above this, so 1e-12 separates them with margin.
+    _STABILITY_RCOND = 1e-12
+
+    def _check_stability(
+        self, ksysU: np.ndarray, restraints: list, d_presc: list
+    ) -> None:
+        """
+        Detect a mechanism (near-singular structure) before solving.
+
+        Direct elimination puts ``1.0`` on the diagonal of constrained DOFs,
+        which pollutes the condition number of the reduced system, so this
+        works instead on the **free-DOF partition** of the *unrestricted*
+        stiffness matrix - the block that actually governs the unknown
+        displacements.  Excluded DOFs are those that are fully fixed
+        (``restraints < 0``) or carry a prescribed displacement; spring DOFs
+        remain free and contribute their stiffness.
+
+        For a stable linear-elastic structure this partition is symmetric
+        positive-definite.  A mechanism (insufficient restraint, or an
+        over-released internal hinge) makes it singular: its smallest
+        eigenvalue collapses to zero relative to the largest.  The reciprocal
+        condition number ``min|λ| / max|λ|`` is therefore compared against
+        :attr:`_STABILITY_RCOND`; a value below it indicates a mechanism.
+
+        Parameters
+        ----------
+        ksysU : np.ndarray, shape (nDOF, nDOF)
+            Unrestricted global stiffness matrix (including spring terms).
+        restraints : list
+            Beam restraint vector (same as ``R``).
+        d_presc : list
+            Prescribed-displacement vector (``None`` entries = free DOFs).
+
+        Raises
+        ------
+        ValueError
+            If the free-DOF stiffness partition is singular to within
+            :attr:`_STABILITY_RCOND`, i.e. the structure is a mechanism.
+        """
+        free = [
+            i
+            for i in range(self._nDOF)
+            if not (restraints[i] < 0 or d_presc[i] is not None)
+        ]
+        if not free:
+            return  # fully constrained: nothing to solve, trivially stable
+
+        kff = ksysU[np.ix_(free, free)]
+        ev = np.abs(np.linalg.eigvalsh(kff))
+        ev_max = ev.max()
+        if ev_max == 0.0 or (ev.min() / ev_max) < self._STABILITY_RCOND:
+            raise ValueError(
+                "Structure is geometrically unstable: the free-DOF stiffness "
+                "is singular, indicating a mechanism (e.g. insufficient support "
+                "restraints or an over-released internal hinge). Add restraint, "
+                "or pass analyze(check_stability=False) to override this check."
+            )
+
+    def is_stable(self) -> bool:
+        """
+        Return whether the structure is stable (not a mechanism).
+
+        Runs the same free-DOF stability check as :meth:`analyze` but returns a
+        boolean instead of raising, so the model can be validated up front
+        without solving.  A ``True`` result is cached (keyed on the beam's
+        :attr:`~pycba.beam.Beam.structure_version`), so a subsequent
+        ``analyze()`` does not repeat the check unless the structure changes.
+
+        Returns
+        -------
+        bool
+            ``True`` if the free-DOF stiffness partition is non-singular to
+            within :attr:`_STABILITY_RCOND`, otherwise ``False``.
+        """
+        restraints = self._beam.restraints
+        d_presc = self._beam.prescribed_displacements
+        try:
+            self._check_stability(self._assemble(), restraints, d_presc)
+        except ValueError:
+            return False
+        self._checked_version = self._beam.structure_version
+        return True
 
     def _forces(self) -> np.ndarray:
         """
