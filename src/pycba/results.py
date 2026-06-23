@@ -508,7 +508,7 @@ class Envelopes:
             self.Rmax = np.zeros((self.nsup, self.nres))
             self.Rmin = np.zeros((self.nsup, self.nres))
 
-    def plot(self, each=False, **kwargs):
+    def plot(self, each=False, units=None, **kwargs):
         """
         Plots the envelopes of bending and shear.
 
@@ -516,6 +516,8 @@ class Envelopes:
         ----------
         each : Boolean
             Wether or not to show each BMD and SFD in the enveloping. The default is False
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
         **kwargs : Dict
             Matplotlib keyword arguments for plotting.
 
@@ -524,7 +526,9 @@ class Envelopes:
         None.
 
         """
+        from .units import resolve
 
+        us = resolve(units)
         if self.nres < 1:
             raise ValueError("No results to display")
 
@@ -538,15 +542,15 @@ class Envelopes:
         ax.plot(self.x, self.Mmin, "b")
         ax.grid()
         ax.invert_yaxis()
-        ax.set_ylabel("Bending Moment (kNm)")
+        ax.set_ylabel(us.moment_axis)
 
         ax = axs[1]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(self.x, self.Vmax, "r")
         ax.plot(self.x, self.Vmin, "b")
         ax.grid()
-        ax.set_ylabel("Shear Force (kN)")
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_ylabel(us.shear_axis)
+        ax.set_xlabel(us.distance_axis)
 
         if each:
             for res in self.vResults:

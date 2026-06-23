@@ -9,9 +9,12 @@ recovers reactions and member load effects.
 
 **PyCBA is unit-agnostic.** No conversions are performed; any internally
 consistent set of units (e.g. kN/m/kNm, or N/mm/Nmm) may be used as long as
-all inputs share the same system.  The only exception is :meth:`BeamAnalysis.plot_results`,
-which scales deflections by 1×10³ and labels the axis "mm" — that label is
-only correct when the length unit is metres.
+all inputs share the same system.  Units appear only when results are
+*plotted* — in the axis labels and the deflection display scale — governed by
+a display unit system (see :mod:`pycba.units` and :func:`pycba.set_units`).
+The default is SI with kN and m; pass ``units=`` to any plotting method, or
+call :func:`pycba.set_units`, to label a different system (the analysis itself
+is unaffected).
 
 Sign conventions
 ----------------
@@ -642,6 +645,8 @@ class BeamAnalysis:
             Forwarded to the backend renderer (``dimensions``, ``labels``,
             ``load_values``, ``color`` for matplotlib; ``standalone``,
             ``scale``, ``dimensions``, ``labels``, ``load_values`` for TikZ).
+            ``units`` selects the display unit system (see
+            :func:`pycba.set_units`).
 
         Returns
         -------
@@ -662,7 +667,7 @@ class BeamAnalysis:
             **kwargs,
         )
 
-    def plot_results(self, show_beam: bool = True, show: bool = True):
+    def plot_results(self, show_beam: bool = True, show: bool = True, units=None):
         """
         Plot bending moment, shear force, and deflection diagrams.
 
@@ -671,12 +676,6 @@ class BeamAnalysis:
         convention (y-axis inverted so sagging appears below the beam line).
         By default the loaded-beam schematic is drawn as a top panel sharing
         the x-axis, so the model and its load effects can be read together.
-
-        .. note::
-            The axis labels ("kNm", "kN", "mm") and the deflection scaling
-            (×1000) assume a kN / m unit system.  If a different consistent
-            unit system is used the plots will still be correct in shape but
-            the labels and deflection axis values will need interpretation.
 
         Parameters
         ----------
@@ -688,6 +687,11 @@ class BeamAnalysis:
             Call ``matplotlib.pyplot.show()`` before returning (default
             ``True``).  Set ``False`` to obtain the figure handles without
             displaying — e.g. to ``savefig`` or restyle the figure first.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the axis labels and the deflection scale
+            (e.g. ``"SI"``, ``"US-ft"``, ``"N-mm"``, ``"none"``).  Defaults to
+            the global default (see :func:`pycba.set_units`); the analysis
+            itself is unit-agnostic and unaffected.
 
         Returns
         -------
@@ -701,9 +705,12 @@ class BeamAnalysis:
         Has no effect and prints a warning if :meth:`analyze` has not been
         called yet.
         """
+        from .units import resolve
+
         if self._beam_results is None:
             print("Nothing to plot - run analysis first")
             return None
+        us = resolve(units)
         res = self._beam_results.results
         L = self._beam.length
 
@@ -717,7 +724,7 @@ class BeamAnalysis:
             )
             # The schematic stretches to fill its panel (equal_aspect=False) so
             # it stays aligned in x with the diagrams below.
-            self._beam.plot(ax=axs[0], dimensions=False, equal_aspect=False)
+            self._beam.plot(ax=axs[0], dimensions=False, equal_aspect=False, units=us)
             axs[0].set_xlabel("")
             diag = axs[1:]
         else:
@@ -729,20 +736,20 @@ class BeamAnalysis:
         ax.plot(res.x, res.M, "r")
         ax.invert_yaxis()
         ax.grid()
-        ax.set_ylabel("Bending Moment (kNm)")
+        ax.set_ylabel(us.moment_axis)
 
         ax = diag[1]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(res.x, res.V, "r")
         ax.grid()
-        ax.set_ylabel("Shear Force (kN)")
+        ax.set_ylabel(us.shear_axis)
 
         ax = diag[2]
         ax.plot([0, L], [0, 0], "k", lw=2)
-        ax.plot(res.x, res.D * 1e3, "r")
+        ax.plot(res.x, res.D * us.disp_scale, "r")
         ax.grid()
-        ax.set_ylabel("Deflection (mm)")
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_ylabel(us.deflection_axis)
+        ax.set_xlabel(us.distance_axis)
 
         if show:
             plt.show()

@@ -193,7 +193,9 @@ class InfluenceLines:
 
         return (np.array(self.pos), eta)
 
-    def plot_il(self, poi: float, load_effect: str, ax: Optional[plt.Axes] = None):
+    def plot_il(
+        self, poi: float, load_effect: str, ax: Optional[plt.Axes] = None, units=None
+    ):
         """
         Retrieves and plots the IL on either a supplied or new axes.
 
@@ -215,8 +217,12 @@ class InfluenceLines:
         ax : Optional[plt.Axes]
             A user-supplied matplotlib Axes object; when None (default), one is
             created for the plot.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the distance axis (see :func:`pycba.set_units`).
         """
+        from .units import resolve
 
+        us = resolve(units)
         (x, y) = self.get_il(poi, load_effect)
 
         if ax is None:
@@ -226,6 +232,6 @@ class InfluenceLines:
         ax.plot(x, y, "r")
         ax.grid()
         ax.set_ylabel("Influence Ordinate")
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_xlabel(us.distance_axis)
         ax.set_title(f"IL for {load_effect} at {poi}")
         plt.tight_layout()

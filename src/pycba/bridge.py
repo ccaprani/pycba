@@ -447,7 +447,7 @@ class BridgeAnalysis:
 
         return env_ratios
 
-    def plot_static(self, pos: float, axs: Optional[plt.Axes] = None):
+    def plot_static(self, pos: float, axs: Optional[plt.Axes] = None, units=None):
         """
         Draw the bridge with the vehicle at a given position, above the
         instantaneous bending-moment and shear-force diagrams.
@@ -471,6 +471,8 @@ class BridgeAnalysis:
             is created and the analysis for ``pos`` is run first.  When axes
             are supplied the current results are used as-is: pass three axes
             (schematic + moment + shear) or two (moment + shear only).
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
 
         Returns
         -------
@@ -478,6 +480,9 @@ class BridgeAnalysis:
             The figure and its axes when a new figure is created, otherwise
             ``None``.
         """
+        from .units import resolve
+
+        us = resolve(units)
         own_fig = axs is None
         fig = None
         if own_fig:
@@ -495,7 +500,7 @@ class BridgeAnalysis:
         L = self.ba.beam.length
 
         if len(axs) >= 3:  # schematic + load effects
-            self._draw_deck_and_vehicle(axs[0], pos)
+            self._draw_deck_and_vehicle(axs[0], pos, us)
             m_ax, v_ax = axs[1], axs[2]
         else:  # load effects only (e.g. the run_vehicle animation)
             m_ax, v_ax = axs[0], axs[1]
@@ -509,27 +514,29 @@ class BridgeAnalysis:
         for x in on_deck:
             m_ax.axvline(x, color="0.7", ls=":", lw=0.8, zorder=0)
         m_ax.grid()
-        m_ax.set_ylabel("Bending Moment (kNm)")
+        m_ax.set_ylabel(us.moment_axis)
 
         v_ax.plot([0, L], [0, 0], "k", lw=2)
         v_ax.plot(res.x, res.V, "r")
         for x in on_deck:
             v_ax.axvline(x, color="0.7", ls=":", lw=0.8, zorder=0)
         v_ax.grid()
-        v_ax.set_ylabel("Shear Force (kN)")
-        v_ax.set_xlabel("Distance along beam (m)")
+        v_ax.set_ylabel(us.shear_axis)
+        v_ax.set_xlabel(us.distance_axis)
 
         if own_fig:
             return fig, axs
 
-    def _draw_deck_and_vehicle(self, ax, pos: float):
+    def _draw_deck_and_vehicle(self, ax, pos: float, us=None):
         """
         Draw the deck schematic (supports + permanent loads) with the vehicle
         rendered as a small truck at ``pos`` on the given axes.
         """
         from matplotlib.patches import Rectangle, Circle
         from .render import BeamPlotter
+        from .units import resolve
 
+        us = resolve(us)
         L = self.ba.beam.length
         u = 0.05 * L  # symbol unit, matching the schematic renderer
 
@@ -541,6 +548,7 @@ class BridgeAnalysis:
             labels=True,
             load_values=bool(self.static_LM),
             equal_aspect=False,
+            units=us,
         )
         ax.set_xlabel("")
 
@@ -625,7 +633,7 @@ class BridgeAnalysis:
         ax.text(
             0.012,
             0.98,
-            "Vehicle: " + self._vehicle_spec(),
+            "Vehicle: " + self._vehicle_spec(us),
             transform=ax.transAxes,
             ha="left",
             va="top",
@@ -635,8 +643,11 @@ class BridgeAnalysis:
             zorder=10,
         )
 
-    def _vehicle_spec(self) -> str:
+    def _vehicle_spec(self, us=None) -> str:
         """A compact axle-group summary, e.g. ``3x150 + 2x120 + 40 kN``."""
+        from .units import resolve
+
+        us = resolve(us)
         w = self.veh.axw
         parts = []
         i = 0
@@ -647,7 +658,8 @@ class BridgeAnalysis:
             n = j - i + 1
             parts.append(f"{n}×{w[i]:g}" if n > 1 else f"{w[i]:g}")
             i = j + 1
-        return " + ".join(parts) + f" kN  (ΣW = {self.veh.W:g} kN)"
+        fu = f" {us.force}" if us.force else ""
+        return " + ".join(parts) + f"{fu}  (ΣW = {self.veh.W:g}{fu})"
 
     def animate(
         self,
@@ -657,6 +669,7 @@ class BridgeAnalysis:
         pos_start: Optional[float] = None,
         pos_end: Optional[float] = None,
         dpi: int = 110,
+        units=None,
     ):
         """
         Animate the vehicle crossing the bridge.
@@ -685,6 +698,8 @@ class BridgeAnalysis:
             ``beam length + vehicle length``, i.e. a full on-and-off crossing).
         dpi : int
             Resolution used when ``save`` is given.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
 
         Returns
         -------
@@ -694,7 +709,9 @@ class BridgeAnalysis:
             ``FuncAnimation`` must be kept referenced while it plays.
         """
         from matplotlib.animation import FuncAnimation
+        from .units import resolve
 
+        us = resolve(units)
         # Analyse every position once, then animate from the stored results.
         self.run_vehicle(step, pos_start=pos_start, pos_end=pos_end)
         positions = list(self.pos)
@@ -738,22 +755,25 @@ class BridgeAnalysis:
             ax.grid(True)
             ax.set_ylabel(ylabel)
             if xlabel:
-                ax.set_xlabel("Distance along beam (m)")
+                ax.set_xlabel(us.distance_axis)
 
         def update(i):
             for ax in axs:
                 ax.cla()
             # Deck + moving truck (fixed deck view; the truck clips in/out)
-            self._draw_deck_and_vehicle(axs[0], positions[i])
+            self._draw_deck_and_vehicle(axs[0], positions[i], us)
             axs[0].set_xlim(*deck_xlim)
-            axs[0].set_title(f"Front axle at x = {positions[i]:.1f} m", fontsize=10)
+            lu = f" {us.length}" if us.length else ""
+            axs[0].set_title(
+                f"Front axle at x = {positions[i]:.1f}{lu}", fontsize=10
+            )
             _draw_effect(
                 axs[1], bmd[i], emin_b[i], emax_b[i], bmd_lo, bmd_hi,
-                "Bending Moment (kNm)",
+                us.moment_axis,
             )
             _draw_effect(
                 axs[2], sfd[i], emin_s[i], emax_s[i], sfd_lo, sfd_hi,
-                "Shear Force (kN)", xlabel=True,
+                us.shear_axis, xlabel=True,
             )
             return axs
 
@@ -767,7 +787,7 @@ class BridgeAnalysis:
 
         return anim
 
-    def plot_envelopes(self, env: Envelopes):
+    def plot_envelopes(self, env: Envelopes, units=None):
         """
         Plots the envelopes of load effects from a vehicle traverse analysis
 
@@ -776,12 +796,16 @@ class BridgeAnalysis:
         env : Envelopes
             An `pycba.Envelopes` object containing the results of a moving load
             analysis.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
 
         Returns
         -------
         None
         """
+        from .units import resolve
 
+        us = resolve(units)
         L = self.ba.beam.length
         x = env.x
         nreactions = env.nsup
@@ -799,19 +823,23 @@ class BridgeAnalysis:
         ax.plot(x, env.Mmin, "b")
         ax.invert_yaxis()
         ax.grid()
-        ax.set_ylabel("Bending Moment (kNm)")
+        ax.set_ylabel(us.moment_axis)
 
         ax = axsLeft[1]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(x, env.Vmax, "r")
         ax.plot(x, env.Vmin, "b")
         ax.grid()
-        ax.set_ylabel("Shear Force (kN)")
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_ylabel(us.shear_axis)
+        ax.set_xlabel(us.distance_axis)
 
         # Reactions in right panel
         subfigs[1].suptitle("Support Reactions")
 
+        # Reactions may be force or moment; show both unit labels.
+        react_u = (
+            f" ({us.force}/{us.moment})" if us.force and us.moment else ""
+        )
         # Check if consistent envelope
         if len(self.pos) == env.Rmax.shape[1]:
             axsRight = subfigs[1].subplots(nreactions, 1, sharex=True)
@@ -820,8 +848,8 @@ class BridgeAnalysis:
                 ax.plot(self.pos, env.Rmax[i, :], "r")
                 ax.plot(self.pos, env.Rmin[i, :], "b")
                 ax.grid()
-                ax.set_ylabel(f"Reaction {i+1} (kN/kNm)")
-            axsRight[-1].set_xlabel("Position of Front Axle (m)")
+                ax.set_ylabel(f"Reaction {i+1}{react_u}")
+            axsRight[-1].set_xlabel(us.length_axis("Position of Front Axle"))
 
         else:  # Otherwise envelope of envelopes
             axsRight = subfigs[1].subplots(2, 1, sharex=True)
@@ -836,7 +864,7 @@ class BridgeAnalysis:
                 ax.grid()
             axsRight[1].set_xlabel("Reaction ID")
 
-    def plot_ratios(self, env_ratios: Dict[str, np.ndarray]):
+    def plot_ratios(self, env_ratios: Dict[str, np.ndarray], units=None):
         """
         Plots the output of :meth:`pycba.bridge.BridgeAnalysis.envelopes_ratios`.
 
@@ -844,6 +872,9 @@ class BridgeAnalysis:
         ----------
         env_ratios : Dict[str,np.ndarray]
             The dictionary of envelopes ratios.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the distance axis (the ratios themselves
+            are dimensionless).  See :func:`pycba.set_units`.
 
         Raises
         ------
@@ -854,7 +885,9 @@ class BridgeAnalysis:
         -------
         None.
         """
+        from .units import resolve
 
+        us = resolve(units)
         # Set of keys we want to confirm are present
         check_keys = set(
             ["x", "Mmax", "Mmin", "Vmax", "Vmin", "nsup", "Rmax0", "Rmin0"]
@@ -888,7 +921,7 @@ class BridgeAnalysis:
         ax.plot(x, env_ratios["Vmin"], "b")
         ax.grid()
         ax.set_ylabel("Shear Force Ratio")
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_xlabel(us.distance_axis)
 
         # Reactions in right panel
         subfigs[1].suptitle("Support Reactions")

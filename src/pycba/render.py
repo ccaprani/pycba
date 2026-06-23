@@ -280,6 +280,7 @@ class BeamPlotter:
         load_values: bool = True,
         color: str = "tab:red",
         equal_aspect: bool = True,
+        units=None,
     ):
         """
         Draw the beam schematic with matplotlib.
@@ -313,7 +314,9 @@ class BeamPlotter:
             The axes the schematic was drawn into.
         """
         import matplotlib.pyplot as plt
+        from .units import resolve
 
+        self._us = resolve(units)
         L = self.L
         if L <= 0:
             raise ValueError("Cannot render a beam of zero length")
@@ -397,7 +400,7 @@ class BeamPlotter:
         ax.set_yticks([])
         for spine in ("top", "right", "left"):
             ax.spines[spine].set_visible(False)
-        ax.set_xlabel("Distance along beam (m)")
+        ax.set_xlabel(self._us.distance_axis)
         ax.grid(True, axis="x", ls=":", alpha=0.4)
         return ax
 
@@ -545,7 +548,7 @@ class BeamPlotter:
             ax.text(
                 x,
                 tail_y + (0.3 * sh if p.P >= 0 else -0.3 * sh),
-                f"{abs(p.P):g} kN",
+                self._us.fmt_force(abs(p.P)),
                 ha="center",
                 va="bottom" if p.P >= 0 else "top",
                 color=color,
@@ -593,9 +596,9 @@ class BeamPlotter:
         if show_val:
             same = abs(d.w0 - d.w1) < 1e-9
             lbl = (
-                f"{abs(d.w0):g} kN/m"
+                self._us.fmt_distributed(abs(d.w0))
                 if same
-                else f"{abs(d.w0):g}→{abs(d.w1):g} kN/m"
+                else self._us.fmt_distributed(abs(d.w0), abs(d.w1))
             )
             ax.text(
                 0.5 * (x0 + x1),
@@ -650,7 +653,7 @@ class BeamPlotter:
             ax.text(
                 x,
                 r + 0.5 * sh,
-                f"{abs(m.M):g} kNm",
+                self._us.fmt_moment(abs(m.M)),
                 ha="center",
                 va="bottom",
                 color=color,
@@ -718,6 +721,7 @@ class BeamPlotter:
         dimensions: bool = True,
         labels: bool = True,
         load_values: bool = True,
+        units=None,
     ) -> str:
         """
         Generate a TikZ/``stanli`` representation of the beam.
@@ -731,12 +735,18 @@ class BeamPlotter:
             Emit a ``stanli`` ``\\scaling`` factor.
         dimensions, labels, load_values : bool
             Toggle span dimensions, node labels and load-magnitude annotations.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the load and dimension labels.  Defaults to
+            the global default (see :func:`pycba.set_units`).
 
         Returns
         -------
         str
             The LaTeX source.
         """
+        from .units import resolve
+
+        self._us = resolve(units)
         nodes = [self._node_name(i) for i in range(len(self.node_x))]
         lines: List[str] = []
         lines.append(
@@ -773,9 +783,10 @@ class BeamPlotter:
             dist = -max(1.0, 0.09 * self.L)
             for i in range(self.beam.no_spans):
                 span = self.node_x[i + 1] - self.node_x[i]
+                length_u = f"~{self._us.length}" if self._us.length else ""
                 lines.append(
                     f"\t\\dimensioning{{1}}{{{nodes[i]}}}{{{nodes[i + 1]}}}"
-                    f"{{{dist:g}}}[${span:g}$~m];"
+                    f"{{{dist:g}}}[${span:g}${length_u}];"
                 )
 
         if labels:
@@ -926,11 +937,13 @@ class BeamPlotter:
             out.append("\\end{scope}")
             if show_val:
                 pdist = -max(0.6, 0.055 * self.L)
+                du = f" {self._us.distributed}" if self._us.distributed else ""
+                lu = f"~{self._us.length}" if self._us.length else ""
                 for k, d in enumerate(self.dist_loads):
                     if abs(d.w0 - d.w1) < 1e-9:
-                        lbl = f"${abs(d.w0):g}$ kN/m"
+                        lbl = f"${abs(d.w0):g}${du}"
                     else:
-                        lbl = f"${abs(d.w0):g}\\rightarrow{abs(d.w1):g}$ kN/m"
+                        lbl = f"${abs(d.w0):g}\\rightarrow{abs(d.w1):g}${du}"
                     out.append(
                         f"\\notation{{5}}{{dl{k}a}}{{dl{k}b}}[{lbl}][0.5][above=8mm];"
                     )
@@ -940,7 +953,7 @@ class BeamPlotter:
                     if self._is_partial_dist(d):
                         out.append(
                             f"\\dimensioning{{1}}{{dl{k}a}}{{dl{k}b}}"
-                            f"{{{pdist:g}}}[${d.x1 - d.x0:g}$~m];"
+                            f"{{{pdist:g}}}[${d.x1 - d.x0:g}${lu}];"
                         )
 
         for k, p in enumerate(self.point_loads):
@@ -953,8 +966,9 @@ class BeamPlotter:
                 f"\\begin{{scope}}[color=red]\\load{{1}}{{pl{k}}}[{ang}][18mm]\\end{{scope}}"
             )
             if show_val:
+                fu = f" {self._us.force}" if self._us.force else ""
                 out.append(
-                    f"\\notation{{1}}{{pl{k}}}{{${abs(p.P):g}$ kN}}[above=20mm];"
+                    f"\\notation{{1}}{{pl{k}}}{{${abs(p.P):g}${fu}}}[above=20mm];"
                 )
 
         for k, m in enumerate(self.moment_loads):
@@ -969,8 +983,9 @@ class BeamPlotter:
                 f"\\begin{{scope}}[color=red]\\load{{{mtype}}}{{ml{k}}}\\end{{scope}}"
             )
             if show_val:
+                mu = f" {self._us.moment}" if self._us.moment else ""
                 out.append(
-                    f"\\notation{{2}}{{ml{k}}}{{${abs(m.M):g}$ kNm}}[above=5mm];"
+                    f"\\notation{{2}}{{ml{k}}}{{${abs(m.M):g}${mu}}}[above=5mm];"
                 )
         return out
 
