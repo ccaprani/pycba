@@ -1055,7 +1055,10 @@ def test_stability_check_cached_across_load_changes():
     ba = cba.BeamAnalysis([7.5, 7.0], 30 * 600e7 * 1e-6, [-1, 0, -1, 0, -1, 0])
     calls = {"n": 0}
     orig = ba._check_stability
-    ba._check_stability = lambda *a, **k: (calls.__setitem__("n", calls["n"] + 1), orig(*a, **k))[1]
+    ba._check_stability = lambda *a, **k: (
+        calls.__setitem__("n", calls["n"] + 1),
+        orig(*a, **k),
+    )[1]
 
     for w in (10, 20, 30, 40):
         ba.set_loads([[1, 1, w], [2, 1, w]])

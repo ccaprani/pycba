@@ -174,9 +174,7 @@ class BeamPlotter:
         n_nodes = len(self.node_x)
         # A fully-fixed (encastre) node provides horizontal restraint, so when one
         # exists no separate pin is needed - every vertical-only support is a roller.
-        has_fixed = any(
-            R[2 * i] == -1 and R[2 * i + 1] == -1 for i in range(n_nodes)
-        )
+        has_fixed = any(R[2 * i] == -1 and R[2 * i + 1] == -1 for i in range(n_nodes))
         pin_assigned = has_fixed
 
         supports: List[Support] = []
@@ -326,9 +324,7 @@ class BeamPlotter:
         sh = 0.05 * L  # support symbol unit height
 
         # The beam itself
-        ax.plot(
-            [0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round"
-        )
+        ax.plot([0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round")
 
         for s in self.supports:
             self._draw_support_mpl(ax, s, sh)
@@ -337,9 +333,7 @@ class BeamPlotter:
             self._draw_hinge_mpl(ax, h, sh)
 
         # Loads (scaled within each family so the figure stays balanced)
-        wmax = max(
-            (max(abs(d.w0), abs(d.w1)) for d in self.dist_loads), default=0.0
-        )
+        wmax = max((max(abs(d.w0), abs(d.w1)) for d in self.dist_loads), default=0.0)
         pmax = max((abs(p.P) for p in self.point_loads), default=0.0)
         for d in self.dist_loads:
             self._draw_dist_mpl(ax, d, wmax, color, load_values)
@@ -495,9 +489,7 @@ class BeamPlotter:
 
         r = 0.17 * sh
         if end:
-            ax.add_patch(
-                Circle((x, 0), r, fc="white", ec="k", lw=1.1, zorder=7)
-            )
+            ax.add_patch(Circle((x, 0), r, fc="white", ec="k", lw=1.1, zorder=7))
         else:
             ax.add_patch(
                 Wedge((x, 0), r, 180, 360, fc="white", ec="k", lw=1.1, zorder=7)
@@ -505,9 +497,7 @@ class BeamPlotter:
 
     def _ground_mpl(self, ax, xc: float, ytop: float, width: float, n: int = 6):
         """A hatched ground line centred at ``xc`` with its top at ``ytop``."""
-        ax.plot(
-            [xc - width / 2, xc + width / 2], [ytop, ytop], "k-", lw=1.0, zorder=3
-        )
+        ax.plot([xc - width / 2, xc + width / 2], [ytop, ytop], "k-", lw=1.0, zorder=3)
         hs = width * 0.16
         for xi in np.linspace(xc - width / 2, xc + width / 2 - width / n, n):
             ax.plot([xi, xi + hs], [ytop, ytop - hs], "k-", lw=0.7, zorder=3)
@@ -528,9 +518,7 @@ class BeamPlotter:
     def _draw_hinge_mpl(self, ax, h: Hinge, sh: float):
         from matplotlib.patches import Circle
 
-        ax.add_patch(
-            Circle((h.x, 0), 0.18 * sh, fc="white", ec="k", lw=1.2, zorder=6)
-        )
+        ax.add_patch(Circle((h.x, 0), 0.18 * sh, fc="white", ec="k", lw=1.2, zorder=6))
 
     # --- matplotlib load glyphs ---------------------------------------- #
     def _draw_point_mpl(self, ax, p: PointLoad, pmax: float, sh, color, show_val):
@@ -646,9 +634,7 @@ class BeamPlotter:
             tip[0] + size * np.cos(back - np.radians(22)),
             tip[1] + size * np.sin(back - np.radians(22)),
         )
-        ax.add_patch(
-            Polygon([tip, p2, p3], closed=True, fc=color, ec=color, zorder=6)
-        )
+        ax.add_patch(Polygon([tip, p2, p3], closed=True, fc=color, ec=color, zorder=6))
         if show_val:
             ax.text(
                 x,
@@ -672,9 +658,7 @@ class BeamPlotter:
                 arrowprops=dict(arrowstyle="<->", color="0.35", lw=1),
             )
             for xb in (x0, x1):
-                ax.plot(
-                    [xb, xb], [yd + 0.3 * sh, yd - 0.3 * sh], color="0.35", lw=0.6
-                )
+                ax.plot([xb, xb], [yd + 0.3 * sh, yd - 0.3 * sh], color="0.35", lw=0.6)
             ax.text(
                 0.5 * (x0 + x1),
                 yd - 0.15 * sh,
@@ -697,9 +681,7 @@ class BeamPlotter:
             arrowprops=dict(arrowstyle="<->", color="0.45", lw=0.8),
         )
         for xb in (x0, x1):
-            ax.plot(
-                [xb, xb], [yd + 0.22 * sh, yd - 0.22 * sh], color="0.45", lw=0.6
-            )
+            ax.plot([xb, xb], [yd + 0.22 * sh, yd - 0.22 * sh], color="0.45", lw=0.6)
         ax.text(
             0.5 * (x0 + x1),
             yd - 0.12 * sh,
@@ -931,9 +913,7 @@ class BeamPlotter:
                 out.append(f"\\node (dl{k}b) at ($({ni})!{f1:g}!({nj})$){{}};")
                 h0 = 0.3 + 0.4 * abs(d.w0) / wmax
                 h1 = 0.3 + 0.4 * abs(d.w1) / wmax
-                out.append(
-                    f"\\lineload{{1}}{{dl{k}a}}{{dl{k}b}}[{h0:g}][{h1:g}];"
-                )
+                out.append(f"\\lineload{{1}}{{dl{k}a}}{{dl{k}b}}[{h0:g}][{h1:g}];")
             out.append("\\end{scope}")
             if show_val:
                 pdist = -max(0.6, 0.055 * self.L)

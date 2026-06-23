@@ -60,7 +60,9 @@ class MemberType(enum.IntEnum):
         # eletype is np.ones((N, 1)), so each entry arrives as a length-1 row).
         arr = np.asarray(value)
         if arr.size != 1:
-            raise ValueError(f"A single member type is required, got {arr.size} values.")
+            raise ValueError(
+                f"A single member type is required, got {arr.size} values."
+            )
         iv = int(arr.reshape(-1)[0])
         if iv not in (1, 2, 3, 4):
             raise ValueError(f"eletype must be 1-4 (or a MemberType/name), got {iv}.")

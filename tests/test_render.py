@@ -372,9 +372,7 @@ def test_save_tikz_writes_file(tmp_path):
     assert r"\begin{tikzpicture}" in out.read_text()
 
 
-@pytest.mark.skipif(
-    shutil.which("pdflatex") is None, reason="pdflatex not installed"
-)
+@pytest.mark.skipif(shutil.which("pdflatex") is None, reason="pdflatex not installed")
 def test_save_tikz_compiles(tmp_path):
     beam = make_beam("P7.5R7.0R", LM=[[1, 1, 20], [2, 1, 20]])
     pdf = beam.save_tikz(tmp_path / "beam.tex", compile=True)

@@ -42,9 +42,7 @@ def test_target_combination_binds_basis_for_no_arg_calls():
 
     # No-arg calls equal the explicit-arg calls for all five methods.
     assert np.allclose(hogging.response()[1], hogging.response(udl_basis)[1])
-    assert np.allclose(
-        hogging.factor_vector(), hogging.factor_vector(udl_basis)
-    )
+    assert np.allclose(hogging.factor_vector(), hogging.factor_vector(udl_basis))
     assert hogging.to_LM() == hogging.to_LM(udl_basis)
     assert hogging.to_load_case().loads == hogging.to_load_case(udl_basis).loads
     assert hogging.analyze().beam_results is not None

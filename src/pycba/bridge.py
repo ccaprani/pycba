@@ -592,12 +592,16 @@ class BridgeAnalysis:
         for x in axle_x:
             ax.add_patch(
                 Circle(
-                    (x, rw), rw, fc="0.15", ec="k", lw=1.0, zorder=7, gid="vehicle_wheel"
+                    (x, rw),
+                    rw,
+                    fc="0.15",
+                    ec="k",
+                    lw=1.0,
+                    zorder=7,
+                    gid="vehicle_wheel",
                 )
             )
-            ax.add_patch(
-                Circle((x, rw), 0.32 * rw, fc="0.7", ec="k", lw=0.6, zorder=8)
-            )
+            ax.add_patch(Circle((x, rw), 0.32 * rw, fc="0.7", ec="k", lw=0.6, zorder=8))
 
         # Downward load arrow for each on-deck axle (off-deck axles apply none)
         arr_top = body_top + 1.0 * u
@@ -764,16 +768,25 @@ class BridgeAnalysis:
             self._draw_deck_and_vehicle(axs[0], positions[i], us)
             axs[0].set_xlim(*deck_xlim)
             lu = f" {us.length}" if us.length else ""
-            axs[0].set_title(
-                f"Front axle at x = {positions[i]:.1f}{lu}", fontsize=10
-            )
+            axs[0].set_title(f"Front axle at x = {positions[i]:.1f}{lu}", fontsize=10)
             _draw_effect(
-                axs[1], bmd[i], emin_b[i], emax_b[i], bmd_lo, bmd_hi,
+                axs[1],
+                bmd[i],
+                emin_b[i],
+                emax_b[i],
+                bmd_lo,
+                bmd_hi,
                 us.moment_axis,
             )
             _draw_effect(
-                axs[2], sfd[i], emin_s[i], emax_s[i], sfd_lo, sfd_hi,
-                us.shear_axis, xlabel=True,
+                axs[2],
+                sfd[i],
+                emin_s[i],
+                emax_s[i],
+                sfd_lo,
+                sfd_hi,
+                us.shear_axis,
+                xlabel=True,
             )
             return axs
 
@@ -837,9 +850,7 @@ class BridgeAnalysis:
         subfigs[1].suptitle("Support Reactions")
 
         # Reactions may be force or moment; show both unit labels.
-        react_u = (
-            f" ({us.force}/{us.moment})" if us.force and us.moment else ""
-        )
+        react_u = f" ({us.force}/{us.moment})" if us.force and us.moment else ""
         # Check if consistent envelope
         if len(self.pos) == env.Rmax.shape[1]:
             axsRight = np.atleast_1d(subfigs[1].subplots(nreactions, 1, sharex=True))
