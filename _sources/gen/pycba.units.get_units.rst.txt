@@ -1,0 +1,6 @@
+pycba.units.get\_units
+======================
+
+.. currentmodule:: pycba.units
+
+.. autofunction:: get_units

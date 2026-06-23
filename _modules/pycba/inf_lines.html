@@ -637,7 +637,9 @@
 
 <div class="viewcode-block" id="InfluenceLines.plot_il">
 <a class="viewcode-back" href="../../gen/pycba.inf_lines.InfluenceLines.html#pycba.inf_lines.InfluenceLines.plot_il">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_il</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">load_effect</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_il</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">poi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">load_effect</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves and plots the IL on either a supplied or new axes.</span>
 
@@ -659,8 +661,12 @@
 <span class="sd">        ax : Optional[plt.Axes]</span>
 <span class="sd">            A user-supplied matplotlib Axes object; when None (default), one is</span>
 <span class="sd">            created for the plot.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system for the distance axis (see :func:`pycba.set_units`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_il</span><span class="p">(</span><span class="n">poi</span><span class="p">,</span> <span class="n">load_effect</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -670,7 +676,7 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Influence Ordinate&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IL for </span><span class="si">{</span><span class="n">load_effect</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">poi</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
 </div>

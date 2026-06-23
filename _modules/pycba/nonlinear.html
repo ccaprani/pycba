@@ -550,7 +550,7 @@
 
 <div class="viewcode-block" id="NonlinearResult.plot_moments">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_moments">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the bending moment distribution at collapse.</span>
 
 <span class="sd">        If moment history snapshots were recorded (via ``record_every``),</span>
@@ -563,11 +563,16 @@
 <span class="sd">            are drawn at +/- *Mp*.</span>
 <span class="sd">        ax : matplotlib Axes, optional</span>
 <span class="sd">            Axes to plot on.  If ``None``, a new figure is created.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system for the labels (see :func:`pycba.set_units`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ax : matplotlib Axes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
+
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
@@ -590,8 +595,8 @@
 
         <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">ax</span></div>
@@ -621,7 +626,7 @@
 
 <div class="viewcode-block" id="NonlinearResult.plot_hinge_history">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_hinge_history">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_hinge_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moving</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_hinge_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moving</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the hinge formation sequence along the beam.</span>
 
 <span class="sd">        Each event is shown as a marker at ``(x, stage)`` where *x* is the</span>
@@ -641,11 +646,16 @@
 <span class="sd">            Default ``False`` (load factor).</span>
 <span class="sd">        ax : matplotlib Axes, optional</span>
 <span class="sd">            Axes to plot on.  If ``None``, a new figure is created.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system for the labels (see :func:`pycba.set_units`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ax : matplotlib Axes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
+
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
@@ -667,9 +677,9 @@
             <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Load factor $</span><span class="se">\\</span><span class="s2">lambda$&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Front axle position (m)&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">length_axis</span><span class="p">(</span><span class="s2">&quot;Front axle position&quot;</span><span class="p">))</span>
 
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 
@@ -678,7 +688,7 @@
 
 <div class="viewcode-block" id="NonlinearResult.plot_beam_state">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_beam_state">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_beam_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_beam_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the beam with hinge locations and optional vehicle position.</span>
 
 <span class="sd">        Draws the beam, supports, and marks yield/hinge locations along</span>
@@ -692,11 +702,16 @@
 <span class="sd">            position (``collapse_lambda``).</span>
 <span class="sd">        ax : matplotlib Axes, optional</span>
 <span class="sd">            Axes to plot on.  If ``None``, a new figure is created.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system for the labels (see :func:`pycba.set_units`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ax : matplotlib Axes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
+
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
 
@@ -750,9 +765,10 @@
                     <span class="p">)</span>
 
             <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;collapse&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="s2">&quot;final&quot;</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vehicle at </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">: front axle x = </span><span class="si">{</span><span class="n">front</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+            <span class="n">lu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vehicle at </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">: front axle x = </span><span class="si">{</span><span class="n">front</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}{</span><span class="n">lu</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>

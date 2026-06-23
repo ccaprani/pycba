@@ -1,0 +1,6 @@
+pycba.units.resolve
+===================
+
+.. currentmodule:: pycba.units
+
+.. autofunction:: resolve

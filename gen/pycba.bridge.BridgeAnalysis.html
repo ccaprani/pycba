@@ -454,6 +454,13 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.render.Support.html">pycba.render.Support</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.units.html">pycba.units</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.get_units.html">pycba.units.get_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.resolve.html">pycba.units.resolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.set_units.html">pycba.units.set_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.UnitSystem.html">pycba.units.UnitSystem</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.inf_lines.InfluenceLines.html">pycba.inf_lines.InfluenceLines</a></li>
 </ul>
@@ -797,7 +804,7 @@ maximum and minimum of each load effect.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.plot_static">
-<span class="sig-name descname"><span class="pre">plot_static</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.plot_static"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.plot_static" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_static</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.plot_static"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.plot_static" title="Link to this definition">#</a></dt>
 <dd><p>Draw the bridge with the vehicle at a given position, above the
 instantaneous bending-moment and shear-force diagrams.</p>
 <p>The top panel shows the structural schematic - the deck with its real
@@ -817,6 +824,7 @@ coordinates.</p></li>
 is created and the analysis for <code class="docutils literal notranslate"><span class="pre">pos</span></code> is run first.  When axes
 are supplied the current results are used as-is: pass three axes
 (schematic + moment + shear) or two (moment + shear only).</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -831,7 +839,7 @@ are supplied the current results are used as-is: pass three axes
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.animate">
-<span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">110</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.animate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.animate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">110</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.animate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.animate" title="Link to this definition">#</a></dt>
 <dd><p>Animate the vehicle crossing the bridge.</p>
 <p>Steps the vehicle across the bridge and animates three stacked,
 x-aligned panels: the deck with the moving truck on top, then the
@@ -853,6 +861,7 @@ with Pillow; any other extension (e.g. <code class="docutils literal notranslate
 <li><p><strong>pos_end</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – First and last front-axle positions (defaults: <code class="docutils literal notranslate"><span class="pre">0</span></code> to
 <code class="docutils literal notranslate"><span class="pre">beam</span> <span class="pre">length</span> <span class="pre">+</span> <span class="pre">vehicle</span> <span class="pre">length</span></code>, i.e. a full on-and-off crossing).</p></li>
 <li><p><strong>dpi</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Resolution used when <code class="docutils literal notranslate"><span class="pre">save</span></code> is given.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -868,12 +877,15 @@ with Pillow; any other extension (e.g. <code class="docutils literal notranslate
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.plot_envelopes">
-<span class="sig-name descname"><span class="pre">plot_envelopes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.plot_envelopes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.plot_envelopes" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_envelopes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.plot_envelopes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.plot_envelopes" title="Link to this definition">#</a></dt>
 <dd><p>Plots the envelopes of load effects from a vehicle traverse analysis</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>env</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span>) – An <cite>pycba.Envelopes</cite> object containing the results of a moving load
-analysis.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span>) – An <cite>pycba.Envelopes</cite> object containing the results of a moving load
+analysis.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -883,11 +895,15 @@ analysis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.plot_ratios">
-<span class="sig-name descname"><span class="pre">plot_ratios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ratios</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.plot_ratios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.plot_ratios" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_ratios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ratios</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.plot_ratios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.plot_ratios" title="Link to this definition">#</a></dt>
 <dd><p>Plots the output of <a class="reference internal" href="#pycba.bridge.BridgeAnalysis.envelopes_ratios" title="pycba.bridge.BridgeAnalysis.envelopes_ratios"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.bridge.BridgeAnalysis.envelopes_ratios()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>env_ratios</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – The dictionary of envelopes ratios.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_ratios</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – The dictionary of envelopes ratios.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the distance axis (the ratios themselves
+are dimensionless).  See <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – Inconsistency in the dictionary entries.</p>

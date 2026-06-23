@@ -336,3 +336,58 @@ beam.plot(combo, load_cases=load_cases)   # draws the factored loads
 
 The underlying `pycba.render.BeamPlotter` class is also available directly if
 you want to build the renderer once and call both backends.
+
+## Units
+
+`PyCBA` is **unit-agnostic**: the solver performs no unit conversions, so any
+internally consistent set of units may be used (e.g. kN, m, kNm — or N, mm,
+N·mm) as long as every input shares the same system. Units surface only when a
+result is *plotted* — in the axis labels and the deflection display scale —
+and these are governed by a **display unit system**.
+
+The default is SI with kN and m, matching `PyCBA`'s historical labels, so
+nothing changes unless you ask for it. Choose a different system globally with
+`set_units`:
+
+```python
+cba.set_units("US-ft")   # kip, ft, kip·ft; deflection shown in inches
+```
+
+or override it for a single figure with the `units=` argument accepted by every
+plotting method (`plot_results`, `Beam.plot`, `BridgeAnalysis.plot_static`,
+`animate`, …):
+
+```python
+beam_analysis.plot_results(units="N-mm")
+beam.plot(units="US-in")
+bridge_analysis.plot_static(30.0, units="US-ft")
+```
+
+The built-in presets are:
+
+| Name | Force | Length | Moment | Deflection |
+| --- | --- | --- | --- | --- |
+| `"SI"` (default; also `"EU"`, `"AUS"`) | kN | m | kNm | mm |
+| `"SI-N-mm"` (`"N-mm"`) | N | mm | N·mm | mm |
+| `"US-ft"` (`"US"`) | kip | ft | kip·ft | in |
+| `"US-in"` | kip | in | kip·in | in |
+| `"none"` | — | — | — | — |
+
+`"none"` drops the unit labels entirely for a dimensionless presentation. For
+anything else, build a `pycba.units.UnitSystem` directly and pass it wherever a
+preset name is accepted:
+
+```python
+from pycba.units import UnitSystem
+
+mn_m = UnitSystem(
+    name="MN, m", force="MN", length="m", moment="MN·m",
+    distributed="MN/m", disp_label="mm", disp_scale=1000.0,
+)
+cba.set_units(mn_m)
+```
+
+Because this is a *display* layer only, the system you choose must match the
+units of your inputs — `PyCBA` does not convert the numbers for you. The
+deflection axis is the one place a number is rescaled for display
+(`disp_scale`, e.g. ×1000 to show metres as millimetres).

@@ -851,10 +851,12 @@
 <span class="sd">        **kwargs</span>
 <span class="sd">            Forwarded to the backend renderer:</span>
 <span class="sd">            :meth:`pycba.render.BeamPlotter.render_mpl`</span>
-<span class="sd">            (``dimensions``, ``labels``, ``load_values``, ``color``) or, when</span>
-<span class="sd">            ``tikz=True``, :meth:`pycba.render.BeamPlotter.render_tikz`</span>
-<span class="sd">            (``standalone``, ``scale``, ``dimensions``, ``labels``,</span>
-<span class="sd">            ``load_values``).</span>
+<span class="sd">            (``dimensions``, ``labels``, ``load_values``, ``color``,</span>
+<span class="sd">            ``units``) or, when ``tikz=True``,</span>
+<span class="sd">            :meth:`pycba.render.BeamPlotter.render_tikz` (``standalone``,</span>
+<span class="sd">            ``scale``, ``dimensions``, ``labels``, ``load_values``,</span>
+<span class="sd">            ``units``).  ``units`` selects the display unit system (see</span>
+<span class="sd">            :func:`pycba.set_units`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>

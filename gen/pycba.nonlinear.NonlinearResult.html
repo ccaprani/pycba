@@ -454,6 +454,13 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.render.Support.html">pycba.render.Support</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.units.html">pycba.units</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.get_units.html">pycba.units.get_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.resolve.html">pycba.units.resolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.set_units.html">pycba.units.set_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.UnitSystem.html">pycba.units.UnitSystem</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.inf_lines.InfluenceLines.html">pycba.inf_lines.InfluenceLines</a></li>
 </ul>
@@ -700,7 +707,7 @@ final value reached.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.nonlinear.NonlinearResult.plot_moments">
-<span class="sig-name descname"><span class="pre">plot_moments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Mp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult.plot_moments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult.plot_moments" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_moments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Mp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult.plot_moments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult.plot_moments" title="Link to this definition">#</a></dt>
 <dd><p>Plot the bending moment distribution at collapse.</p>
 <p>If moment history snapshots were recorded (via <code class="docutils literal notranslate"><span class="pre">record_every</span></code>),
 they are shown as light traces behind the final distribution.</p>
@@ -710,6 +717,7 @@ they are shown as light traces behind the final distribution.</p>
 <li><p><strong>Mp</strong> (<em>float</em><em>, </em><em>optional</em>) – Plastic moment capacity.  If given, horizontal dashed lines
 are drawn at +/- <em>Mp</em>.</p></li>
 <li><p><strong>ax</strong> (<em>matplotlib Axes</em><em>, </em><em>optional</em>) – Axes to plot on.  If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a new figure is created.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -723,7 +731,7 @@ are drawn at +/- <em>Mp</em>.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.nonlinear.NonlinearResult.plot_hinge_history">
-<span class="sig-name descname"><span class="pre">plot_hinge_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moving</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult.plot_hinge_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult.plot_hinge_history" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_hinge_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moving</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult.plot_hinge_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult.plot_hinge_history" title="Link to this definition">#</a></dt>
 <dd><p>Plot the hinge formation sequence along the beam.</p>
 <p>Each event is shown as a marker at <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">stage)</span></code> where <em>x</em> is the
 hinge location on the beam.</p>
@@ -738,6 +746,7 @@ load was when each hinge formed.</p>
 <li><p><strong>moving</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, label the y-axis as front-axle position.
 Default <code class="docutils literal notranslate"><span class="pre">False</span></code> (load factor).</p></li>
 <li><p><strong>ax</strong> (<em>matplotlib Axes</em><em>, </em><em>optional</em>) – Axes to plot on.  If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a new figure is created.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -751,7 +760,7 @@ Default <code class="docutils literal notranslate"><span class="pre">False</span
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.nonlinear.NonlinearResult.plot_beam_state">
-<span class="sig-name descname"><span class="pre">plot_beam_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult.plot_beam_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult.plot_beam_state" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_beam_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult.plot_beam_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult.plot_beam_state" title="Link to this definition">#</a></dt>
 <dd><p>Plot the beam with hinge locations and optional vehicle position.</p>
 <p>Draws the beam, supports, and marks yield/hinge locations along
 the beam line.  If <em>vehicle</em> is given and the analysis collapsed,
@@ -762,6 +771,7 @@ axle positions at collapse are shown above the beam.</p>
 <li><p><strong>vehicle</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.Vehicle</span></code>, optional) – Vehicle object.  Axle positions are drawn at the collapse
 position (<code class="docutils literal notranslate"><span class="pre">collapse_lambda</span></code>).</p></li>
 <li><p><strong>ax</strong> (<em>matplotlib Axes</em><em>, </em><em>optional</em>) – Axes to plot on.  If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a new figure is created.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

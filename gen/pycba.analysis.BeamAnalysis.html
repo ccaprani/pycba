@@ -454,6 +454,13 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.render.Support.html">pycba.render.Support</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.units.html">pycba.units</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.get_units.html">pycba.units.get_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.resolve.html">pycba.units.resolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.set_units.html">pycba.units.set_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.UnitSystem.html">pycba.units.UnitSystem</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.inf_lines.InfluenceLines.html">pycba.inf_lines.InfluenceLines</a></li>
 </ul>
@@ -878,7 +885,9 @@ produce a PDF (a <code class="docutils literal notranslate"><span class="pre">.p
 <li><p><strong>load_cases</strong> (<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><em>pycba.load_cases.LoadCases</em></a><em>, </em><em>optional</em>) – Required only when <code class="docutils literal notranslate"><span class="pre">loads</span></code> is a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p></li>
 <li><p><strong>**kwargs</strong> – Forwarded to the backend renderer (<code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>,
 <code class="docutils literal notranslate"><span class="pre">load_values</span></code>, <code class="docutils literal notranslate"><span class="pre">color</span></code> for matplotlib; <code class="docutils literal notranslate"><span class="pre">standalone</span></code>,
-<code class="docutils literal notranslate"><span class="pre">scale</span></code>, <code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">load_values</span></code> for TikZ).</p></li>
+<code class="docutils literal notranslate"><span class="pre">scale</span></code>, <code class="docutils literal notranslate"><span class="pre">dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">load_values</span></code> for TikZ).
+<code class="docutils literal notranslate"><span class="pre">units</span></code> selects the display unit system (see
+<code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -894,20 +903,13 @@ produce a PDF (a <code class="docutils literal notranslate"><span class="pre">.p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_results">
-<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
 <dd><p>Plot bending moment, shear force, and deflection diagrams.</p>
 <p>Produces a figure of bending moment, shear force, and deflection along
 the beam.  Bending moment is plotted with the sagging-positive
 convention (y-axis inverted so sagging appears below the beam line).
 By default the loaded-beam schematic is drawn as a top panel sharing
 the x-axis, so the model and its load effects can be read together.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The axis labels (“kNm”, “kN”, “mm”) and the deflection scaling
-(×1000) assume a kN / m unit system.  If a different consistent
-unit system is used the plots will still be correct in shape but
-the labels and deflection axis values will need interpretation.</p>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -917,6 +919,10 @@ three-panel moment/shear/deflection figure.</p></li>
 <li><p><strong>show</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Call <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.show()</span></code> before returning (default
 <code class="docutils literal notranslate"><span class="pre">True</span></code>).  Set <code class="docutils literal notranslate"><span class="pre">False</span></code> to obtain the figure handles without
 displaying — e.g. to <code class="docutils literal notranslate"><span class="pre">savefig</span></code> or restyle the figure first.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the axis labels and the deflection scale
+(e.g. <code class="docutils literal notranslate"><span class="pre">&quot;SI&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;US-ft&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;N-mm&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>).  Defaults to
+the global default (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>); the analysis
+itself is unit-agnostic and unaffected.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

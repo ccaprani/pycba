@@ -454,6 +454,13 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.render.Support.html">pycba.render.Support</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.units.html">pycba.units</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.get_units.html">pycba.units.get_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.resolve.html">pycba.units.resolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.set_units.html">pycba.units.set_units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.units.UnitSystem.html">pycba.units.UnitSystem</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.inf_lines.InfluenceLines.html">pycba.inf_lines.InfluenceLines</a></li>
 </ul>
@@ -548,9 +555,12 @@ displacements / support settlements), solves for nodal displacements, and
 recovers reactions and member load effects.</p>
 <p><strong>PyCBA is unit-agnostic.</strong> No conversions are performed; any internally
 consistent set of units (e.g. kN/m/kNm, or N/mm/Nmm) may be used as long as
-all inputs share the same system.  The only exception is <a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BeamAnalysis.plot_results()</span></code></a>,
-which scales deflections by 1×10³ and labels the axis “mm” — that label is
-only correct when the length unit is metres.</p>
+all inputs share the same system.  Units appear only when results are
+<em>plotted</em> — in the axis labels and the deflection display scale — governed by
+a display unit system (see <a class="reference internal" href="pycba.units.html#module-pycba.units" title="pycba.units"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycba.units</span></code></a> and <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).
+The default is SI with kN and m; pass <code class="docutils literal notranslate"><span class="pre">units=</span></code> to any plotting method, or
+call <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>, to label a different system (the analysis itself
+is unaffected).</p>
 <section id="sign-conventions">
 <h2>Sign conventions<a class="headerlink" href="#sign-conventions" title="Link to this heading">#</a></h2>
 <ul class="simple">

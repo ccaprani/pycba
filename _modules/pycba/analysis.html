@@ -443,9 +443,12 @@
 
 <span class="sd">**PyCBA is unit-agnostic.** No conversions are performed; any internally</span>
 <span class="sd">consistent set of units (e.g. kN/m/kNm, or N/mm/Nmm) may be used as long as</span>
-<span class="sd">all inputs share the same system.  The only exception is :meth:`BeamAnalysis.plot_results`,</span>
-<span class="sd">which scales deflections by 1×10³ and labels the axis &quot;mm&quot; — that label is</span>
-<span class="sd">only correct when the length unit is metres.</span>
+<span class="sd">all inputs share the same system.  Units appear only when results are</span>
+<span class="sd">*plotted* — in the axis labels and the deflection display scale — governed by</span>
+<span class="sd">a display unit system (see :mod:`pycba.units` and :func:`pycba.set_units`).</span>
+<span class="sd">The default is SI with kN and m; pass ``units=`` to any plotting method, or</span>
+<span class="sd">call :func:`pycba.set_units`, to label a different system (the analysis itself</span>
+<span class="sd">is unaffected).</span>
 
 <span class="sd">Sign conventions</span>
 <span class="sd">----------------</span>
@@ -1104,6 +1107,8 @@
 <span class="sd">            Forwarded to the backend renderer (``dimensions``, ``labels``,</span>
 <span class="sd">            ``load_values``, ``color`` for matplotlib; ``standalone``,</span>
 <span class="sd">            ``scale``, ``dimensions``, ``labels``, ``load_values`` for TikZ).</span>
+<span class="sd">            ``units`` selects the display unit system (see</span>
+<span class="sd">            :func:`pycba.set_units`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1127,7 +1132,7 @@
 
 <div class="viewcode-block" id="BeamAnalysis.plot_results">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_results">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_beam</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_beam</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plot bending moment, shear force, and deflection diagrams.</span>
 
@@ -1136,12 +1141,6 @@
 <span class="sd">        convention (y-axis inverted so sagging appears below the beam line).</span>
 <span class="sd">        By default the loaded-beam schematic is drawn as a top panel sharing</span>
 <span class="sd">        the x-axis, so the model and its load effects can be read together.</span>
-
-<span class="sd">        .. note::</span>
-<span class="sd">            The axis labels (&quot;kNm&quot;, &quot;kN&quot;, &quot;mm&quot;) and the deflection scaling</span>
-<span class="sd">            (×1000) assume a kN / m unit system.  If a different consistent</span>
-<span class="sd">            unit system is used the plots will still be correct in shape but</span>
-<span class="sd">            the labels and deflection axis values will need interpretation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1153,6 +1152,11 @@
 <span class="sd">            Call ``matplotlib.pyplot.show()`` before returning (default</span>
 <span class="sd">            ``True``).  Set ``False`` to obtain the figure handles without</span>
 <span class="sd">            displaying — e.g. to ``savefig`` or restyle the figure first.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system for the axis labels and the deflection scale</span>
+<span class="sd">            (e.g. ``&quot;SI&quot;``, ``&quot;US-ft&quot;``, ``&quot;N-mm&quot;``, ``&quot;none&quot;``).  Defaults to</span>
+<span class="sd">            the global default (see :func:`pycba.set_units`); the analysis</span>
+<span class="sd">            itself is unit-agnostic and unaffected.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1166,9 +1170,12 @@
 <span class="sd">        Has no effect and prints a warning if :meth:`analyze` has not been</span>
 <span class="sd">        called yet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">results</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">length</span>
 
@@ -1182,7 +1189,7 @@
             <span class="p">)</span>
             <span class="c1"># The schematic stretches to fill its panel (equal_aspect=False) so</span>
             <span class="c1"># it stays aligned in x with the diagrams below.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span><span class="p">)</span>
             <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
             <span class="n">diag</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1194,20 +1201,20 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment (kNm)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Shear Force (kN)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Deflection (mm)&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">deflection_axis</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>

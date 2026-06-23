@@ -1,0 +1,44 @@
+pycba.units.UnitSystem
+======================
+
+.. currentmodule:: pycba.units
+
+.. autoclass:: UnitSystem
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~UnitSystem.fmt_distributed
+      ~UnitSystem.fmt_force
+      ~UnitSystem.fmt_moment
+      ~UnitSystem.length_axis
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UnitSystem.deflection_axis
+      ~UnitSystem.disp_label
+      ~UnitSystem.disp_scale
+      ~UnitSystem.distance_axis
+      ~UnitSystem.distributed
+      ~UnitSystem.force
+      ~UnitSystem.length
+      ~UnitSystem.moment
+      ~UnitSystem.moment_axis
+      ~UnitSystem.shear_axis
+      ~UnitSystem.name
+   
+   
