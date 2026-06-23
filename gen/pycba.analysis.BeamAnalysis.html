@@ -603,12 +603,14 @@ curvature field is <code class="docutils literal notranslate"><span class="pre">
 shrinkage or thermal curvature).</p></li>
 </ol>
 </p></li>
-<li><p><strong>eletype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – <p>Element type for each span, controlling which end(s) carry moment:</p>
+<li><p><strong>eletype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – <p>Element type for each span, controlling which end(s) carry moment.
+Each entry may be an integer code, a <code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>,
+or its name string (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;FP&quot;</span></code>):</p>
 <ol class="arabic simple">
-<li><p>Fixed–fixed (default).</p></li>
-<li><p>Fixed–pinned (moment release at right end).</p></li>
-<li><p>Pinned–fixed (moment release at left end).</p></li>
-<li><p>Pinned–pinned (moment releases at both ends).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FF</span></code> Fixed–fixed (default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FP</span></code> Fixed–pinned (moment release at right end).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PF</span></code> Pinned–fixed (moment release at left end).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PP</span></code> Pinned–pinned (moment releases at both ends).</p></li>
 </ol>
 <p>At an internal hinge, only one of the two members meeting at that
 node should have a pinned end.</p>

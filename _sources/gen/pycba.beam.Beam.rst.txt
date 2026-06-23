@@ -17,6 +17,7 @@ pycba.beam.Beam
       :nosignatures:
    
       ~Beam.add_load
+      ~Beam.add_member
       ~Beam.add_span
       ~Beam.get_local_span_coords
       ~Beam.get_ref

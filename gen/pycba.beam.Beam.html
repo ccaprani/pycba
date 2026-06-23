@@ -566,7 +566,9 @@
 <li><p><strong>R</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector describing the support conditions at each member end.</p></li>
 <li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]]</span>) – The load matrix: a list of loads on the beam; each load with several
 parameters.</p></li>
-<li><p><strong>eletype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector of the member types. Defaults to a fixed-fixed element.</p></li>
+<li><p><strong>eletype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector of the member types, each an integer code <code class="docutils literal notranslate"><span class="pre">1-4</span></code>, a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>, or a name string (<code class="docutils literal notranslate"><span class="pre">&quot;FF&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;FP&quot;</span></code>/
+<code class="docutils literal notranslate"><span class="pre">&quot;PF&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;PP&quot;</span></code>). Defaults to a fixed-fixed element.</p></li>
 <li><p><strong>D</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector of prescribed displacements. Must have same length as R.
 Use None for DOFs without prescribed displacement.</p></li>
 </ul>
@@ -581,43 +583,46 @@ Use None for DOFs without prescribed displacement.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_load" title="pycba.beam.Beam.add_load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_load</span></code></a></p></td>
 <td><p>Adds a new load to the beam's load matrix</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_span</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_member" title="pycba.beam.Beam.add_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_member</span></code></a></p></td>
+<td><p>Add a member (span) to the beam, naming its type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_span</span></code></a></p></td>
 <td><p>Add a span to the continuous beam</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_local_span_coords" title="pycba.beam.Beam.get_local_span_coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_span_coords</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_local_span_coords" title="pycba.beam.Beam.get_local_span_coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_span_coords</span></code></a></p></td>
 <td><p>Returns the span index and position in span for a position given in global coordinates on the beam</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_ref" title="pycba.beam.Beam.get_ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ref</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_ref" title="pycba.beam.Beam.get_ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ref</span></code></a></p></td>
 <td><p>Returns Released End Forces for the member; that is, the Consistent Nodal Loads modified for the element type (i.e. releases).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_span_k" title="pycba.beam.Beam.get_span_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_span_k</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.get_span_k" title="pycba.beam.Beam.get_span_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_span_k</span></code></a></p></td>
 <td><p>Returns the stiffness matrix for the ith span</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FF" title="pycba.beam.Beam.k_FF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FF</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FF" title="pycba.beam.Beam.k_FF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FF</span></code></a></p></td>
 <td><p>Stiffness matrix for a fixed-fixed element</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FP" title="pycba.beam.Beam.k_FP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FP</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_FP" title="pycba.beam.Beam.k_FP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_FP</span></code></a></p></td>
 <td><p>Stiffness matrix for a fixed-pinned element</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PF" title="pycba.beam.Beam.k_PF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PF</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PF" title="pycba.beam.Beam.k_PF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PF</span></code></a></p></td>
 <td><p>Stiffness matrix for a pinned-fixed element</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PP" title="pycba.beam.Beam.k_PP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PP</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_PP" title="pycba.beam.Beam.k_PP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_PP</span></code></a></p></td>
 <td><p>Stiffness matrix for a pinned-pinned element</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_nonprismatic" title="pycba.beam.Beam.k_nonprismatic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_nonprismatic</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_nonprismatic" title="pycba.beam.Beam.k_nonprismatic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_nonprismatic</span></code></a></p></td>
 <td><p>4x4 stiffness matrix of a non-prismatic (variable-EI) element.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_theta" title="pycba.beam.Beam.k_theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_theta</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.k_theta" title="pycba.beam.Beam.k_theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">k_theta</span></code></a></p></td>
 <td><p>2x2 moment-rotation stiffness of the (chord-relative) element ends.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.plot" title="pycba.beam.Beam.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.plot" title="pycba.beam.Beam.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
 <td><p>Draw a structural schematic of the beam.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.save_tikz" title="pycba.beam.Beam.save_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_tikz</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.save_tikz" title="pycba.beam.Beam.save_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_tikz</span></code></a></p></td>
 <td><p>Write the TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> source to <code class="docutils literal notranslate"><span class="pre">path</span></code> (and optionally compile it).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.to_tikz" title="pycba.beam.Beam.to_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_tikz</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.to_tikz" title="pycba.beam.Beam.to_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_tikz</span></code></a></p></td>
 <td><p>Generate a TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> representation of the beam.</p></td>
 </tr>
 </tbody>
@@ -655,18 +660,38 @@ Use None for DOFs without prescribed displacement.</p></li>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.beam.Beam.add_span">
-<span class="sig-name descname"><span class="pre">add_span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_span"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_span" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_span"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_span" title="Link to this definition">#</a></dt>
 <dd><p>Add a span to the continuous beam</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>L</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The length of the member.</p></li>
 <li><p><strong>EI</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The flexural rigidity of the member.</p></li>
-<li><p><strong>eletype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The element type for the member</p></li>
+<li><p><strong>eletype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>]</span>) – The element type for the member, as the integer code <code class="docutils literal notranslate"><span class="pre">1-4</span></code>, a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">MemberType.FP</span></code>), or its
+case-insensitive name (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;FP&quot;</span></code>).  See <code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.beam.Beam.add_member">
+<span class="sig-name descname"><span class="pre">add_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mbr_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MemberType.FF</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_member" title="Link to this definition">#</a></dt>
+<dd><p>Add a member (span) to the beam, naming its type.</p>
+<p>A friendlier alias of <a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_span()</span></code></a> whose <code class="docutils literal notranslate"><span class="pre">mbr_type</span></code> accepts a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>, a name string (<code class="docutils literal notranslate"><span class="pre">&quot;FF&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;FP&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;PF&quot;</span></code>/
+<code class="docutils literal notranslate"><span class="pre">&quot;PP&quot;</span></code>), or the integer code <code class="docutils literal notranslate"><span class="pre">1-4</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>L</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The length of the member.</p></li>
+<li><p><strong>EI</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The flexural rigidity of the member.</p></li>
+<li><p><strong>mbr_type</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>]</span>) – The member type / moment-release pattern (default <code class="docutils literal notranslate"><span class="pre">FF</span></code>).</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -1157,6 +1182,7 @@ precision.</p>
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam"><code class="docutils literal notranslate"><span class="pre">Beam</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.add_span"><code class="docutils literal notranslate"><span class="pre">Beam.add_span()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.add_member"><code class="docutils literal notranslate"><span class="pre">Beam.add_member()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.loads"><code class="docutils literal notranslate"><span class="pre">Beam.loads</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.add_load"><code class="docutils literal notranslate"><span class="pre">Beam.add_load()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.restraints"><code class="docutils literal notranslate"><span class="pre">Beam.restraints</span></code></a></li>

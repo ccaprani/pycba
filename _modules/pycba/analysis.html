@@ -547,13 +547,15 @@
 <span class="sd">               curvature field is ``κ(x) = k0 + k1·x + …`` (e.g. creep,</span>
 <span class="sd">               shrinkage or thermal curvature).</span>
 
-<span class="sd">        eletype : array_like of int, optional</span>
-<span class="sd">            Element type for each span, controlling which end(s) carry moment:</span>
+<span class="sd">        eletype : array_like, optional</span>
+<span class="sd">            Element type for each span, controlling which end(s) carry moment.</span>
+<span class="sd">            Each entry may be an integer code, a :class:`~pycba.MemberType`,</span>
+<span class="sd">            or its name string (e.g. ``&quot;FP&quot;``):</span>
 
-<span class="sd">            1. Fixed–fixed (default).</span>
-<span class="sd">            2. Fixed–pinned (moment release at right end).</span>
-<span class="sd">            3. Pinned–fixed (moment release at left end).</span>
-<span class="sd">            4. Pinned–pinned (moment releases at both ends).</span>
+<span class="sd">            1. ``FF`` Fixed–fixed (default).</span>
+<span class="sd">            2. ``FP`` Fixed–pinned (moment release at right end).</span>
+<span class="sd">            3. ``PF`` Pinned–fixed (moment release at left end).</span>
+<span class="sd">            4. ``PP`` Pinned–pinned (moment releases at both ends).</span>
 
 <span class="sd">            At an internal hinge, only one of the two members meeting at that</span>
 <span class="sd">            node should have a pinned end.</span>
