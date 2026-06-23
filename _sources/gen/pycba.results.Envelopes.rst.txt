@@ -16,7 +16,11 @@ pycba.results.Envelopes
    .. autosummary::
       :nosignatures:
    
+      ~Envelopes.at
       ~Envelopes.augment
+      ~Envelopes.combine
+      ~Envelopes.from_beam_analysis
+      ~Envelopes.per_span
       ~Envelopes.plot
       ~Envelopes.sum
       ~Envelopes.zero_like

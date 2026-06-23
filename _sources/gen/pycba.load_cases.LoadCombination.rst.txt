@@ -16,7 +16,9 @@ pycba.load\_cases.LoadCombination
    .. autosummary::
       :nosignatures:
    
+      ~LoadCombination.analyse
       ~LoadCombination.analyze
+      ~LoadCombination.envelope
       ~LoadCombination.factor_vector
       ~LoadCombination.response
       ~LoadCombination.to_LM

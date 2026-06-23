@@ -508,9 +508,8 @@
 <span class="n">Gk</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;Gk&quot;</span><span class="p">)</span>
 <span class="n">Qk</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;Qk&quot;</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i_span</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">no_spans</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">Gk</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
-    <span class="n">Qk</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">Gk</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">Qk</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -865,7 +864,7 @@ True True
     <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">n_selected</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hogging_support_1</span><span class="o">.</span><span class="n">factor_vector</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">n_selected</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hogging_support_1</span><span class="o">.</span><span class="n">factor_vector</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">n_selected</span>
 <br/></pre></div>
 </div>
@@ -884,7 +883,7 @@ True True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_LM</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_LM</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">to_LM</span><span class="p">()</span>
 <span class="n">hogging_LM</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 <br/></pre></div>
 </div>
@@ -906,7 +905,7 @@ True True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_case</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">to_load_case</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_case</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">to_load_case</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">plot_load_patterns</span><span class="p">(</span><span class="n">mixed_beam</span><span class="p">,</span> <span class="p">[</span><span class="n">hogging_case</span><span class="p">],</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mixed_beam</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -924,7 +923,7 @@ True True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_analysis</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hogging_analysis</span> <span class="o">=</span> <span class="n">hogging_support_1</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
 <span class="n">hogging_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">();</span>
 <br/></pre></div>
 </div>
@@ -965,9 +964,8 @@ True True
 <span class="n">Gk</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;Gk&quot;</span><span class="p">)</span>
 <span class="n">Qk</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;Qk&quot;</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i_span</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">no_spans</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">Gk</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="mf">10.3</span><span class="p">)</span>
-    <span class="n">Qk</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">)</span>
+<span class="n">Gk</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">,</span> <span class="mf">10.3</span><span class="p">)</span>
+<span class="n">Qk</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1046,9 +1044,8 @@ True True
 <span class="n">Gk</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;Gk&quot;</span><span class="p">)</span>
 <span class="n">Qk</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;Qk&quot;</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i_span</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">no_spans</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">Gk</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-    <span class="n">Qk</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">Gk</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">Qk</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1111,9 +1108,7 @@ True True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envenv</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Envelopes</span><span class="o">.</span><span class="n">zero_like</span><span class="p">(</span><span class="n">env_udl</span><span class="p">)</span>
-<span class="n">envenv</span><span class="o">.</span><span class="n">augment</span><span class="p">(</span><span class="n">env_udl</span><span class="p">)</span>
-<span class="n">envenv</span><span class="o">.</span><span class="n">augment</span><span class="p">(</span><span class="n">env_veh</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envenv</span> <span class="o">=</span> <span class="n">env_udl</span> <span class="o">|</span> <span class="n">env_veh</span>
 <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">plot_envelopes</span><span class="p">(</span><span class="n">envenv</span><span class="p">)</span>
 </pre></div>
 </div>

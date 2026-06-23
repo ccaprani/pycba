@@ -437,7 +437,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
@@ -846,6 +846,101 @@
         <span class="k">return</span> <span class="n">zero_env</span></div>
 
 
+<div class="viewcode-block" id="Envelopes.combine">
+<a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.combine">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">combine</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">envs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Envelopes</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;envelope&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merge several compatible envelopes into a new :class:`Envelopes`.</span>
+
+<span class="sd">        This is a one-call replacement for the</span>
+<span class="sd">        ``zero_like`` + repeated :meth:`augment`/:meth:`sum` ritual. The input</span>
+<span class="sd">        envelopes are left unmutated; a fresh :class:`Envelopes` is returned.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        envs : Sequence[Envelopes]</span>
+<span class="sd">            One or more compatible :class:`pycba.results.Envelopes` objects (same</span>
+<span class="sd">            ``npts`` and ``nsup``). All must come from the same beam geometry.</span>
+<span class="sd">        mode : str, optional</span>
+<span class="sd">            ``&quot;envelope&quot;`` (default) takes the governing maxima/minima of moment</span>
+<span class="sd">            and shear (plus coincident effects and reaction extremes) by calling</span>
+<span class="sd">            :meth:`augment` for each input. ``&quot;sum&quot;`` superimposes the envelopes</span>
+<span class="sd">            element-wise by calling :meth:`sum` for each input.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Envelopes</span>
+<span class="sd">            A new merged :class:`pycba.results.Envelopes` object.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``envs`` is empty or ``mode`` is not ``&quot;envelope&quot;`` or ``&quot;sum&quot;``.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        When the merged envelopes come from analyses with differing numbers of</span>
+<span class="sd">        results (``nres``), only the reaction extremes (``Rmaxval``/``Rminval``)</span>
+<span class="sd">        are retained; the per-analysis reaction history is zeroed. This is the</span>
+<span class="sd">        pre-existing behaviour of :meth:`augment`/:meth:`sum`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">envs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">envs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">envs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;combine requires at least one envelope.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;envelope&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;mode must be &#39;envelope&#39; or &#39;sum&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">zero_like</span><span class="p">(</span><span class="n">envs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">env</span> <span class="ow">in</span> <span class="n">envs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;envelope&quot;</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">augment</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="Envelopes.from_beam_analysis">
+<a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.from_beam_analysis">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_beam_analysis</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ba</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a single-result :class:`Envelopes` from one analysed beam.</span>
+
+<span class="sd">        This is the discoverable adapter that lifts an ordinary</span>
+<span class="sd">        :class:`pycba.analysis.BeamAnalysis` result (for example the result of a</span>
+<span class="sd">        :meth:`pycba.load_cases.LoadCombination.analyze` call) into a first-class</span>
+<span class="sd">        :class:`pycba.results.Envelopes`, so it can be merged with</span>
+<span class="sd">        :meth:`combine` or the ``|``/``+`` operators and plotted.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ba : BeamAnalysis</span>
+<span class="sd">            An analysed beam whose ``beam_results`` are available.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Envelopes</span>
+<span class="sd">            A one-result :class:`pycba.results.Envelopes`.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``ba`` has not been analysed (``ba.beam_results`` is ``None``).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">beam_results</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span> <span class="s2">&quot;beam_results&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;BeamAnalysis has no results; call analyze() before &quot;</span>
+                <span class="s2">&quot;Envelopes.from_beam_analysis().&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">([</span><span class="n">beam_results</span><span class="p">])</span></div>
+
+
 <div class="viewcode-block" id="Envelopes.augment">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.augment">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
@@ -954,6 +1049,138 @@
             <span class="c1"># Ensure no misleading results returned</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enclosing envelope of ``self`` and ``other`` (non-mutating).</span>
+
+<span class="sd">        ``a | b`` is sugar for ``Envelopes.combine([a, b], mode=&quot;envelope&quot;)`` and</span>
+<span class="sd">        returns a new :class:`Envelopes` taking the governing maxima/minima of the</span>
+<span class="sd">        two operands. Neither operand is mutated.</span>
+
+<span class="sd">        Note that this differs from :meth:`augment`, which mutates in place and</span>
+<span class="sd">        returns ``None``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Envelopes</span><span class="o">.</span><span class="n">combine</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;envelope&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Envelopes.__add__">
+<a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.__add__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Superposition of ``self`` and ``other`` (non-mutating).</span>
+
+<span class="sd">        ``a + b`` is sugar for ``Envelopes.combine([a, b], mode=&quot;sum&quot;)`` and</span>
+<span class="sd">        returns a new :class:`Envelopes` with the two operands summed</span>
+<span class="sd">        element-wise. Neither operand is mutated.</span>
+
+<span class="sd">        Note that this differs from :meth:`sum`, which mutates in place and</span>
+<span class="sd">        returns ``None``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Envelopes</span><span class="o">.</span><span class="n">combine</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_unique_x</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the de-duplicated station coordinates and their indices.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Envelopes.at">
+<a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.at">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Mmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Mmin&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmin&quot;</span><span class="p">),</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return envelope values at a global coordinate by interpolation.</span>
+
+<span class="sd">        The station array ``self.x`` repeats span-boundary coordinates (each span</span>
+<span class="sd">        contributes its own start and end), so this method de-duplicates the</span>
+<span class="sd">        stations with :func:`numpy.unique` before interpolating. It replaces the</span>
+<span class="sd">        manual ``idx = (np.abs(env.x - x)).argmin()`` lookup.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : float</span>
+<span class="sd">            Global coordinate measured from the left end of the beam.</span>
+<span class="sd">        attrs : tuple of str, optional</span>
+<span class="sd">            Envelope attribute names to evaluate. The default returns the moment</span>
+<span class="sd">            and shear extremes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Mapping from each requested attribute name to its interpolated value</span>
+<span class="sd">            at ``x``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">unique_x</span><span class="p">,</span> <span class="n">unique_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_x</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">unique_x</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="n">unique_index</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="Envelopes.per_span">
+<a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.per_span">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">per_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Mmax&quot;</span><span class="p">,</span> <span class="n">reduce</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split a station-indexed envelope array into per-span values.</span>
+
+<span class="sd">        The station array concatenates each member&#39;s stations, so this method</span>
+<span class="sd">        chunks the requested attribute using the per-member station counts read</span>
+<span class="sd">        from ``self.vResults[0].vRes`` (each member&#39;s ``x`` length, i.e.</span>
+<span class="sd">        ``npts + 3``) rather than a hard-coded constant. It replaces the manual</span>
+<span class="sd">        ``env.Vmax[i * (n + 3):(i + 1) * (n + 3)]`` slicing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        attr : str, optional</span>
+<span class="sd">            Envelope attribute name to split (default ``&quot;Mmax&quot;``).</span>
+<span class="sd">        reduce : str, optional</span>
+<span class="sd">            How to reduce each per-span chunk. ``&quot;auto&quot;`` (default) takes the</span>
+<span class="sd">            maximum for ``*max`` attributes and the minimum for ``*min``</span>
+<span class="sd">            attributes; ``&quot;max&quot;``/``&quot;min&quot;`` force the reduction; ``&quot;none&quot;``</span>
+<span class="sd">            returns the list of raw chunks.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray or list of numpy.ndarray</span>
+<span class="sd">            One reduced value per span, or the list of raw chunks when</span>
+<span class="sd">            ``reduce=&quot;none&quot;``.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``reduce`` is not one of ``&quot;auto&quot;``, ``&quot;max&quot;``, ``&quot;min&quot;``,</span>
+<span class="sd">            ``&quot;none&quot;``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">reduce</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;reduce must be &#39;auto&#39;, &#39;max&#39;, &#39;min&#39;, or &#39;none&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">vRes</span><span class="p">]</span>
+
+        <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+            <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">count</span><span class="p">])</span>
+            <span class="n">start</span> <span class="o">+=</span> <span class="n">count</span>
+
+        <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">chunks</span>
+
+        <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span> <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">op</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="Envelopes.plot">

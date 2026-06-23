@@ -16,6 +16,7 @@ pycba.load\_cases.LoadCase
    .. autosummary::
       :nosignatures:
    
+      ~LoadCase.add_all_spans_udl
       ~LoadCase.add_ic
       ~LoadCase.add_load
       ~LoadCase.add_ml

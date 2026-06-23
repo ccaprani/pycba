@@ -561,31 +561,34 @@ load row therefore remain 1-based, matching <code class="xref py py-class docuti
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_ic" title="pycba.load_cases.LoadCase.add_ic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_ic</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_all_spans_udl" title="pycba.load_cases.LoadCase.add_all_spans_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_all_spans_udl</span></code></a></p></td>
+<td><p>Append a full-span UDL of intensity <code class="docutils literal notranslate"><span class="pre">w</span></code> to every span.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_ic" title="pycba.load_cases.LoadCase.add_ic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_ic</span></code></a></p></td>
 <td><p>Append an imposed-curvature load to this load case.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_load" title="pycba.load_cases.LoadCase.add_load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_load</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_load" title="pycba.load_cases.LoadCase.add_load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_load</span></code></a></p></td>
 <td><p>Append one raw PyCBA load-matrix row.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_ml" title="pycba.load_cases.LoadCase.add_ml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_ml</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_ml" title="pycba.load_cases.LoadCase.add_ml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_ml</span></code></a></p></td>
 <td><p>Append a concentrated moment load to this load case.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_pl" title="pycba.load_cases.LoadCase.add_pl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_pl</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_pl" title="pycba.load_cases.LoadCase.add_pl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_pl</span></code></a></p></td>
 <td><p>Append a point load to this load case.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_pudl" title="pycba.load_cases.LoadCase.add_pudl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_pudl</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_pudl" title="pycba.load_cases.LoadCase.add_pudl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_pudl</span></code></a></p></td>
 <td><p>Append a partial UDL to this load case.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_segment_udl" title="pycba.load_cases.LoadCase.add_segment_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_segment_udl</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_segment_udl" title="pycba.load_cases.LoadCase.add_segment_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_segment_udl</span></code></a></p></td>
 <td><p>Append a UDL covering a global beam segment from <code class="docutils literal notranslate"><span class="pre">x0</span></code> to <code class="docutils literal notranslate"><span class="pre">x1</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_trap" title="pycba.load_cases.LoadCase.add_trap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_trap</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_trap" title="pycba.load_cases.LoadCase.add_trap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_trap</span></code></a></p></td>
 <td><p>Append a full-span or partial trapezoidal load to this load case.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_udl" title="pycba.load_cases.LoadCase.add_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_udl</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.add_udl" title="pycba.load_cases.LoadCase.add_udl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_udl</span></code></a></p></td>
 <td><p>Append a full-span UDL to this load case.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.to_LM" title="pycba.load_cases.LoadCase.to_LM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_LM</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCase.to_LM" title="pycba.load_cases.LoadCase.to_LM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_LM</span></code></a></p></td>
 <td><p>Return a copy of this load case's PyCBA load matrix.</p></td>
 </tr>
 </tbody>
@@ -673,6 +676,33 @@ load row therefore remain 1-based, matching <code class="xref py py-class docuti
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a></span></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load_cases.LoadCase.add_all_spans_udl">
+<span class="sig-name descname"><span class="pre">add_all_spans_udl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beam_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCase.add_all_spans_udl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCase.add_all_spans_udl" title="Link to this definition">#</a></dt>
+<dd><p>Append a full-span UDL of intensity <code class="docutils literal notranslate"><span class="pre">w</span></code> to every span.</p>
+<p>This replaces the hand-written
+<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(1,</span> <span class="pre">no_spans</span> <span class="pre">+</span> <span class="pre">1):</span> <span class="pre">case.add_udl(i,</span> <span class="pre">w)</span></code> loop. The span
+count is read from <code class="docutils literal notranslate"><span class="pre">beam_model</span></code>, which is required here (mirroring
+<a class="reference internal" href="#pycba.load_cases.LoadCase.add_segment_udl" title="pycba.load_cases.LoadCase.add_segment_udl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_segment_udl()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beam_model</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">BeamAnalysis</span></code></a>, <a class="reference internal" href="pycba.beam.Beam.html#pycba.beam.Beam" title="pycba.beam.Beam"><code class="xref py py-class docutils literal notranslate"><span class="pre">Beam</span></code></a>]</span>) – The beam definition used to count spans.</p></li>
+<li><p><strong>w</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – UDL intensity applied to every span.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">self</span></code>, for fluent chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a></span></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This adds all spans into the one (this) load case, unlike
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_span_udl" title="pycba.load_cases.LoadCases.add_span_udl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.add_span_udl()</span></code></a>, which creates one separate case per span.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -766,6 +796,7 @@ load row therefore remain 1-based, matching <code class="xref py py-class docuti
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCase.add_pl"><code class="docutils literal notranslate"><span class="pre">LoadCase.add_pl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCase.add_pudl"><code class="docutils literal notranslate"><span class="pre">LoadCase.add_pudl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCase.add_segment_udl"><code class="docutils literal notranslate"><span class="pre">LoadCase.add_segment_udl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCase.add_all_spans_udl"><code class="docutils literal notranslate"><span class="pre">LoadCase.add_all_spans_udl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCase.add_ml"><code class="docutils literal notranslate"><span class="pre">LoadCase.add_ml()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCase.add_trap"><code class="docutils literal notranslate"><span class="pre">LoadCase.add_trap()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCase.add_ic"><code class="docutils literal notranslate"><span class="pre">LoadCase.add_ic()</span></code></a></li>

@@ -17,6 +17,7 @@ pycba.load\_cases.LoadCases
       :nosignatures:
    
       ~LoadCases.add
+      ~LoadCases.add_all_spans_udl
       ~LoadCases.add_case
       ~LoadCases.add_ic
       ~LoadCases.add_load
@@ -33,6 +34,7 @@ pycba.load\_cases.LoadCases
       ~LoadCases.case
       ~LoadCases.combine
       ~LoadCases.combined_loads
+      ~LoadCases.envelope
       ~LoadCases.extend
       ~LoadCases.factors
       ~LoadCases.linear_combination

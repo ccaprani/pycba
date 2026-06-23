@@ -535,6 +535,43 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 
+<div class="viewcode-block" id="LoadCase.add_all_spans_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_all_spans_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_all_spans_udl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">beam_model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">,</span> <span class="n">Beam</span><span class="p">],</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append a full-span UDL of intensity ``w`` to every span.</span>
+
+<span class="sd">        This replaces the hand-written</span>
+<span class="sd">        ``for i in range(1, no_spans + 1): case.add_udl(i, w)`` loop. The span</span>
+<span class="sd">        count is read from ``beam_model``, which is required here (mirroring</span>
+<span class="sd">        :meth:`add_segment_udl`).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        beam_model : BeamAnalysis or Beam</span>
+<span class="sd">            The beam definition used to count spans.</span>
+<span class="sd">        w : float</span>
+<span class="sd">            UDL intensity applied to every span.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LoadCase</span>
+<span class="sd">            ``self``, for fluent chaining.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This adds all spans into the one (this) load case, unlike</span>
+<span class="sd">        :meth:`LoadCases.add_span_udl`, which creates one separate case per span.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">no_spans</span> <span class="o">=</span> <span class="n">_template_beam</span><span class="p">(</span><span class="n">beam_model</span><span class="p">)</span><span class="o">.</span><span class="n">no_spans</span>
+        <span class="k">for</span> <span class="n">i_span</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">no_spans</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
 <div class="viewcode-block" id="LoadCase.add_ml">
 <a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase.add_ml">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
@@ -588,26 +625,68 @@
     <span class="n">factors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_load_cases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadCases</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">LoadCases</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an explicit or bound :class:`LoadCases` basis.</span>
+
+<span class="sd">        ``load_cases`` takes precedence when supplied. Otherwise the basis bound</span>
+<span class="sd">        by :meth:`LoadCases.target_combination` (stored as ``_bound``) is used.</span>
+<span class="sd">        Combinations constructed directly have no bound basis and must be passed</span>
+<span class="sd">        ``load_cases`` explicitly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">lc</span> <span class="o">=</span> <span class="n">load_cases</span> <span class="k">if</span> <span class="n">load_cases</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_bound&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;No LoadCases bound to this combination; pass load_cases=... or &quot;</span>
+                <span class="s2">&quot;create it via LoadCases.target_combination().&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">lc</span>
+
 <div class="viewcode-block" id="LoadCombination.factor_vector">
 <a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.factor_vector">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">factor_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return this combination&#39;s factors in ``load_cases`` order.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">factor_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadCases</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return this combination&#39;s factors in load-case order.</span>
 
-        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load_cases : LoadCases, optional</span>
+<span class="sd">            The basis collection. When omitted, the basis bound by</span>
+<span class="sd">            :meth:`LoadCases.target_combination` is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_load_cases</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LoadCombination.to_LM">
 <a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.to_LM">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the factored PyCBA load matrix for this combination.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadCases</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the factored PyCBA load matrix for this combination.</span>
 
-        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combined_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load_cases : LoadCases, optional</span>
+<span class="sd">            The basis collection. When omitted, the basis bound by</span>
+<span class="sd">            :meth:`LoadCases.target_combination` is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_load_cases</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">combined_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LoadCombination.to_load_case">
 <a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.to_load_case">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_load_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return this combination as one ordinary factored ``LoadCase``.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_load_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadCases</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return this combination as one ordinary factored ``LoadCase``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load_cases : LoadCases, optional</span>
+<span class="sd">            The basis collection. When omitted, the basis bound by</span>
+<span class="sd">            :meth:`LoadCases.target_combination` is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">loads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">LoadCase</span><span class="p">(</span>
@@ -621,19 +700,75 @@
 <div class="viewcode-block" id="LoadCombination.response">
 <a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.response">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">response</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadCases</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return this combination&#39;s response.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return this combination&#39;s response.</span>
 
-        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load_cases : LoadCases, optional</span>
+<span class="sd">            The basis collection. When omitted, the basis bound by</span>
+<span class="sd">            :meth:`LoadCases.target_combination` is used.</span>
+<span class="sd">        response : str, optional</span>
+<span class="sd">            Station response to return (default ``&quot;M&quot;``).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_load_cases</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LoadCombination.analyze">
 <a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.analyze">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamAnalysis</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyse this combination as one PyCBA beam analysis.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadCases</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamAnalysis</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyse this combination as one PyCBA beam analysis.</span>
 
-        <span class="k">return</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load_cases : LoadCases, optional</span>
+<span class="sd">            The basis collection. When omitted, the basis bound by</span>
+<span class="sd">            :meth:`LoadCases.target_combination` is used.</span>
+<span class="sd">        npts : int, optional</span>
+<span class="sd">            Number of evaluation points along a member.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_load_cases</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="o">=</span><span class="n">npts</span>
+        <span class="p">)</span></div>
+
+
+    <span class="n">analyse</span> <span class="o">=</span> <span class="n">analyze</span>
+
+<div class="viewcode-block" id="LoadCombination.envelope">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.envelope">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">envelope</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">load_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadCases</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyse this combination and return a plottable :class:`Envelopes`.</span>
+
+<span class="sd">        This lands a target or explicit combination directly on a first-class</span>
+<span class="sd">        :class:`pycba.results.Envelopes`, which can be merged with</span>
+<span class="sd">        :meth:`Envelopes.combine` (or the ``|``/``+`` operators) and plotted.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load_cases : LoadCases, optional</span>
+<span class="sd">            The basis collection. When omitted, the basis bound by</span>
+<span class="sd">            :meth:`LoadCases.target_combination` is used.</span>
+<span class="sd">        npts : int, optional</span>
+<span class="sd">            Number of evaluation points along a member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Envelopes</span>
+<span class="sd">            A single-result :class:`pycba.results.Envelopes` for this combination.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">load_cases</span><span class="p">,</span> <span class="n">npts</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Envelopes</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">beam_results</span><span class="p">])</span></div>
 </div>
 
 
@@ -891,6 +1026,37 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_segment_udl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="LoadCases.add_all_spans_udl">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_all_spans_udl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_all_spans_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append a full-span UDL of intensity ``w`` to every span of a named case.</span>
+
+<span class="sd">        The beam is supplied implicitly from this collection (consistent with</span>
+<span class="sd">        :meth:`add_segment_udl`). The named case is created when it does not yet</span>
+<span class="sd">        exist.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load_case : str</span>
+<span class="sd">            Name of the load case to add the UDLs to.</span>
+<span class="sd">        w : float</span>
+<span class="sd">            UDL intensity applied to every span.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LoadCase</span>
+<span class="sd">            The (created or existing) load case with the UDLs appended.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This adds all spans into the one named case, which is distinct from</span>
+<span class="sd">        :meth:`add_span_udl` (one separate case per span).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">load_case</span><span class="p">)</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="LoadCases.add_ml">
 <a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.add_ml">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCase</span><span class="p">:</span>
@@ -929,6 +1095,47 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyse all cases and return the common station vector and matrix.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">collect_response_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.envelope">
+<a class="viewcode-back" href="../../gen/pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.envelope">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">envelope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyse every load case independently and return their envelope.</span>
+
+<span class="sd">        Each case is analysed on its own (no combination) and the per-station</span>
+<span class="sd">        pointwise extremes of moment and shear (plus coincident effects and</span>
+<span class="sd">        reaction extremes) are enveloped into a first-class</span>
+<span class="sd">        :class:`pycba.results.Envelopes`. This gives a one-call path to a full,</span>
+<span class="sd">        plottable envelope from helpers such as :func:`make_span_udl_cases` and</span>
+<span class="sd">        :func:`make_patterned_udl`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        npts : int, optional</span>
+<span class="sd">            Number of evaluation points along a member. Defaults to the template</span>
+<span class="sd">            beam&#39;s ``npts`` when available.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Envelopes</span>
+<span class="sd">            The pointwise envelope over the analysed load cases.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This is the pointwise extreme of each case analysed alone, which is a</span>
+<span class="sd">        genuinely different result from :func:`additive_envelope` (a same-station</span>
+<span class="sd">        superposition of the ``n_combine`` governing cases).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">load_case</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cases</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">build_pycba_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">,</span> <span class="n">load_case</span><span class="p">)</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span>
+                <span class="n">npts</span> <span class="k">if</span> <span class="n">npts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_template_npts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beam_model</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">beam_results</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Envelopes</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LoadCases.factors">
@@ -1478,7 +1685,12 @@
         <span class="s2">&quot;selected_names&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">load_cases</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">selected_indices</span><span class="p">],</span>
         <span class="s2">&quot;target_values&quot;</span><span class="p">:</span> <span class="n">target_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">LoadCombination</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">factors</span><span class="o">=</span><span class="n">factors</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="n">combination</span> <span class="o">=</span> <span class="n">LoadCombination</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">factors</span><span class="o">=</span><span class="n">factors</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="c1"># Bind the originating basis as a convenience back-reference so the analysis</span>
+    <span class="c1"># methods can be called with no arguments. Set as a plain attribute (not a</span>
+    <span class="c1"># dataclass field) to leave __init__/__eq__/__repr__ untouched.</span>
+    <span class="n">combination</span><span class="o">.</span><span class="n">_bound</span> <span class="o">=</span> <span class="n">load_cases</span>
+    <span class="k">return</span> <span class="n">combination</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_make_segment_udl</span><span class="p">(</span>

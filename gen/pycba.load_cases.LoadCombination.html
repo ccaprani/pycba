@@ -560,11 +560,17 @@ by load-case name or zero-based load-case index.</p>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCombination.analyze" title="pycba.load_cases.LoadCombination.analyze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCombination.analyse" title="pycba.load_cases.LoadCombination.analyse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyse</span></code></a></p></td>
 <td><p>Analyse this combination as one PyCBA beam analysis.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCombination.analyze" title="pycba.load_cases.LoadCombination.analyze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze</span></code></a></p></td>
+<td><p>Analyse this combination as one PyCBA beam analysis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCombination.envelope" title="pycba.load_cases.LoadCombination.envelope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">envelope</span></code></a></p></td>
+<td><p>Analyse this combination and return a plottable <code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code>.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCombination.factor_vector" title="pycba.load_cases.LoadCombination.factor_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">factor_vector</span></code></a></p></td>
-<td><p>Return this combination's factors in <code class="docutils literal notranslate"><span class="pre">load_cases</span></code> order.</p></td>
+<td><p>Return this combination's factors in load-case order.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.load_cases.LoadCombination.response" title="pycba.load_cases.LoadCombination.response"><code class="xref py py-obj docutils literal notranslate"><span class="pre">response</span></code></a></p></td>
 <td><p>Return this combination's response.</p></td>
@@ -595,55 +601,123 @@ by load-case name or zero-based load-case index.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.load_cases.LoadCombination.factor_vector">
-<span class="sig-name descname"><span class="pre">factor_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.factor_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.factor_vector" title="Link to this definition">#</a></dt>
-<dd><p>Return this combination’s factors in <code class="docutils literal notranslate"><span class="pre">load_cases</span></code> order.</p>
+<span class="sig-name descname"><span class="pre">factor_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.factor_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.factor_vector" title="Link to this definition">#</a></dt>
+<dd><p>Return this combination’s factors in load-case order.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>load_cases</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a>]</span>) – The basis collection. When omitted, the basis bound by
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination" title="pycba.load_cases.LoadCases.target_combination"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.target_combination()</span></code></a> is used.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.load_cases.LoadCombination.to_LM">
-<span class="sig-name descname"><span class="pre">to_LM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.to_LM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.to_LM" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_LM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.to_LM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.to_LM" title="Link to this definition">#</a></dt>
 <dd><p>Return the factored PyCBA load matrix for this combination.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</span></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>load_cases</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a>]</span>) – The basis collection. When omitted, the basis bound by
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination" title="pycba.load_cases.LoadCases.target_combination"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.target_combination()</span></code></a> is used.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.load_cases.LoadCombination.to_load_case">
-<span class="sig-name descname"><span class="pre">to_load_case</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.to_load_case"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.to_load_case" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">to_load_case</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.to_load_case"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.to_load_case" title="Link to this definition">#</a></dt>
 <dd><p>Return this combination as one ordinary factored <code class="docutils literal notranslate"><span class="pre">LoadCase</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a></span></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>load_cases</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a>]</span>) – The basis collection. When omitted, the basis bound by
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination" title="pycba.load_cases.LoadCases.target_combination"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.target_combination()</span></code></a> is used.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.load_cases.LoadCase.html#pycba.load_cases.LoadCase" title="pycba.load_cases.LoadCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCase</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.load_cases.LoadCombination.response">
-<span class="sig-name descname"><span class="pre">response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'M'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.response" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'M'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.response" title="Link to this definition">#</a></dt>
 <dd><p>Return this combination’s response.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>load_cases</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a>]</span>) – The basis collection. When omitted, the basis bound by
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination" title="pycba.load_cases.LoadCases.target_combination"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.target_combination()</span></code></a> is used.</p></li>
+<li><p><strong>response</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Station response to return (default <code class="docutils literal notranslate"><span class="pre">&quot;M&quot;</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.load_cases.LoadCombination.analyze">
-<span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.analyze" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.analyze" title="Link to this definition">#</a></dt>
 <dd><p>Analyse this combination as one PyCBA beam analysis.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>load_cases</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a>]</span>) – The basis collection. When omitted, the basis bound by
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination" title="pycba.load_cases.LoadCases.target_combination"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.target_combination()</span></code></a> is used.</p></li>
+<li><p><strong>npts</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – Number of evaluation points along a member.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">BeamAnalysis</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load_cases.LoadCombination.analyse">
+<span class="sig-name descname"><span class="pre">analyse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycba.load_cases.LoadCombination.analyse" title="Link to this definition">#</a></dt>
+<dd><p>Analyse this combination as one PyCBA beam analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>load_cases</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a>]</span>) – The basis collection. When omitted, the basis bound by
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination" title="pycba.load_cases.LoadCases.target_combination"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.target_combination()</span></code></a> is used.</p></li>
+<li><p><strong>npts</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – Number of evaluation points along a member.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">BeamAnalysis</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.load_cases.LoadCombination.envelope">
+<span class="sig-name descname"><span class="pre">envelope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_cases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load_cases.html#LoadCombination.envelope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load_cases.LoadCombination.envelope" title="Link to this definition">#</a></dt>
+<dd><p>Analyse this combination and return a plottable <code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code>.</p>
+<p>This lands a target or explicit combination directly on a first-class
+<a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a>, which can be merged with
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Envelopes.combine()</span></code> (or the <code class="docutils literal notranslate"><span class="pre">|</span></code>/<code class="docutils literal notranslate"><span class="pre">+</span></code> operators) and plotted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>load_cases</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases" title="pycba.load_cases.LoadCases"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadCases</span></code></a>]</span>) – The basis collection. When omitted, the basis bound by
+<a class="reference internal" href="pycba.load_cases.LoadCases.html#pycba.load_cases.LoadCases.target_combination" title="pycba.load_cases.LoadCases.target_combination"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LoadCases.target_combination()</span></code></a> is used.</p></li>
+<li><p><strong>npts</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – Number of evaluation points along a member.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single-result <a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a> for this combination.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">BeamAnalysis</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -705,6 +779,8 @@ by load-case name or zero-based load-case index.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCombination.to_load_case"><code class="docutils literal notranslate"><span class="pre">LoadCombination.to_load_case()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCombination.response"><code class="docutils literal notranslate"><span class="pre">LoadCombination.response()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCombination.analyze"><code class="docutils literal notranslate"><span class="pre">LoadCombination.analyze()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCombination.analyse"><code class="docutils literal notranslate"><span class="pre">LoadCombination.analyse()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load_cases.LoadCombination.envelope"><code class="docutils literal notranslate"><span class="pre">LoadCombination.envelope()</span></code></a></li>
 </ul>
 </li>
 </ul>

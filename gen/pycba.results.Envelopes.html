@@ -668,8 +668,20 @@ the other effect (V or M) at the analysis that caused each envelope extreme.</p>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.augment" title="pycba.results.Envelopes.augment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">augment</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.at" title="pycba.results.Envelopes.at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">at</span></code></a></p></td>
+<td><p>Return envelope values at a global coordinate by interpolation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.augment" title="pycba.results.Envelopes.augment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">augment</span></code></a></p></td>
 <td><p>Augments this set of envelopes with another compatible set, making this the envelopes of the two sets of envelopes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.combine" title="pycba.results.Envelopes.combine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">combine</span></code></a></p></td>
+<td><p>Merge several compatible envelopes into a new <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.from_beam_analysis" title="pycba.results.Envelopes.from_beam_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_beam_analysis</span></code></a></p></td>
+<td><p>Build a single-result <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a> from one analysed beam.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.per_span" title="pycba.results.Envelopes.per_span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">per_span</span></code></a></p></td>
+<td><p>Split a station-indexed envelope array into per-span values.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.plot" title="pycba.results.Envelopes.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
 <td><p>Plots the envelopes of bending and shear.</p></td>
@@ -700,6 +712,66 @@ envelope of envelopes.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.combine">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">combine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'envelope'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.combine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.combine" title="Link to this definition">#</a></dt>
+<dd><p>Merge several compatible envelopes into a new <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a>.</p>
+<p>This is a one-call replacement for the
+<code class="docutils literal notranslate"><span class="pre">zero_like</span></code> + repeated <a class="reference internal" href="#pycba.results.Envelopes.augment" title="pycba.results.Envelopes.augment"><code class="xref py py-meth docutils literal notranslate"><span class="pre">augment()</span></code></a>/<a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sum()</span></code></a> ritual. The input
+envelopes are left unmutated; a fresh <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a> is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>envs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a>]</span>) – One or more compatible <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a> objects (same
+<code class="docutils literal notranslate"><span class="pre">npts</span></code> and <code class="docutils literal notranslate"><span class="pre">nsup</span></code>). All must come from the same beam geometry.</p></li>
+<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – <code class="docutils literal notranslate"><span class="pre">&quot;envelope&quot;</span></code> (default) takes the governing maxima/minima of moment
+and shear (plus coincident effects and reaction extremes) by calling
+<a class="reference internal" href="#pycba.results.Envelopes.augment" title="pycba.results.Envelopes.augment"><code class="xref py py-meth docutils literal notranslate"><span class="pre">augment()</span></code></a> for each input. <code class="docutils literal notranslate"><span class="pre">&quot;sum&quot;</span></code> superimposes the envelopes
+element-wise by calling <a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sum()</span></code></a> for each input.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new merged <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a> object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">envs</span></code> is empty or <code class="docutils literal notranslate"><span class="pre">mode</span></code> is not <code class="docutils literal notranslate"><span class="pre">&quot;envelope&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;sum&quot;</span></code>.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>When the merged envelopes come from analyses with differing numbers of
+results (<code class="docutils literal notranslate"><span class="pre">nres</span></code>), only the reaction extremes (<code class="docutils literal notranslate"><span class="pre">Rmaxval</span></code>/<code class="docutils literal notranslate"><span class="pre">Rminval</span></code>)
+are retained; the per-analysis reaction history is zeroed. This is the
+pre-existing behaviour of <a class="reference internal" href="#pycba.results.Envelopes.augment" title="pycba.results.Envelopes.augment"><code class="xref py py-meth docutils literal notranslate"><span class="pre">augment()</span></code></a>/<a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sum()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.from_beam_analysis">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_beam_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ba</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.from_beam_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.from_beam_analysis" title="Link to this definition">#</a></dt>
+<dd><p>Build a single-result <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a> from one analysed beam.</p>
+<p>This is the discoverable adapter that lifts an ordinary
+<a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis</span></code></a> result (for example the result of a
+<a class="reference internal" href="pycba.load_cases.LoadCombination.html#pycba.load_cases.LoadCombination.analyze" title="pycba.load_cases.LoadCombination.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.load_cases.LoadCombination.analyze()</span></code></a> call) into a first-class
+<a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a>, so it can be merged with
+<a class="reference internal" href="#pycba.results.Envelopes.combine" title="pycba.results.Envelopes.combine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">combine()</span></code></a> or the <code class="docutils literal notranslate"><span class="pre">|</span></code>/<code class="docutils literal notranslate"><span class="pre">+</span></code> operators and plotted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ba</strong> (<a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><em>BeamAnalysis</em></a>) – An analysed beam whose <code class="docutils literal notranslate"><span class="pre">beam_results</span></code> are available.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A one-result <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">ba</span></code> has not been analysed (<code class="docutils literal notranslate"><span class="pre">ba.beam_results</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -746,6 +818,81 @@ the entire reaction history.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.__add__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.__add__" title="Link to this definition">#</a></dt>
+<dd><p>Superposition of <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">other</span></code> (non-mutating).</p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code> is sugar for <code class="docutils literal notranslate"><span class="pre">Envelopes.combine([a,</span> <span class="pre">b],</span> <span class="pre">mode=&quot;sum&quot;)</span></code> and
+returns a new <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a> with the two operands summed
+element-wise. Neither operand is mutated.</p>
+<p>Note that this differs from <a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sum()</span></code></a>, which mutates in place and
+returns <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.at">
+<span class="sig-name descname"><span class="pre">at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Mmax',</span> <span class="pre">'Mmin',</span> <span class="pre">'Vmax',</span> <span class="pre">'Vmin')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.at" title="Link to this definition">#</a></dt>
+<dd><p>Return envelope values at a global coordinate by interpolation.</p>
+<p>The station array <code class="docutils literal notranslate"><span class="pre">self.x</span></code> repeats span-boundary coordinates (each span
+contributes its own start and end), so this method de-duplicates the
+stations with <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.unique()</span></code> before interpolating. It replaces the
+manual <code class="docutils literal notranslate"><span class="pre">idx</span> <span class="pre">=</span> <span class="pre">(np.abs(env.x</span> <span class="pre">-</span> <span class="pre">x)).argmin()</span></code> lookup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Global coordinate measured from the left end of the beam.</p></li>
+<li><p><strong>attrs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code>]</span>) – Envelope attribute names to evaluate. The default returns the moment
+and shear extremes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mapping from each requested attribute name to its interpolated value
+at <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.per_span">
+<span class="sig-name descname"><span class="pre">per_span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Mmax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.per_span"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.per_span" title="Link to this definition">#</a></dt>
+<dd><p>Split a station-indexed envelope array into per-span values.</p>
+<p>The station array concatenates each member’s stations, so this method
+chunks the requested attribute using the per-member station counts read
+from <code class="docutils literal notranslate"><span class="pre">self.vResults[0].vRes</span></code> (each member’s <code class="docutils literal notranslate"><span class="pre">x</span></code> length, i.e.
+<code class="docutils literal notranslate"><span class="pre">npts</span> <span class="pre">+</span> <span class="pre">3</span></code>) rather than a hard-coded constant. It replaces the manual
+<code class="docutils literal notranslate"><span class="pre">env.Vmax[i</span> <span class="pre">*</span> <span class="pre">(n</span> <span class="pre">+</span> <span class="pre">3):(i</span> <span class="pre">+</span> <span class="pre">1)</span> <span class="pre">*</span> <span class="pre">(n</span> <span class="pre">+</span> <span class="pre">3)]</span></code> slicing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Envelope attribute name to split (default <code class="docutils literal notranslate"><span class="pre">&quot;Mmax&quot;</span></code>).</p></li>
+<li><p><strong>reduce</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – How to reduce each per-span chunk. <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (default) takes the
+maximum for <code class="docutils literal notranslate"><span class="pre">*max</span></code> attributes and the minimum for <code class="docutils literal notranslate"><span class="pre">*min</span></code>
+attributes; <code class="docutils literal notranslate"><span class="pre">&quot;max&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;min&quot;</span></code> force the reduction; <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>
+returns the list of raw chunks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>One reduced value per span, or the list of raw chunks when
+<code class="docutils literal notranslate"><span class="pre">reduce=&quot;none&quot;</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">reduce</span></code> is not one of <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;max&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;min&quot;</span></code>,
+    <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -826,8 +973,13 @@ the entire reaction history.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.Mco_Vmax"><code class="docutils literal notranslate"><span class="pre">Envelopes.Mco_Vmax</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.Mco_Vmin"><code class="docutils literal notranslate"><span class="pre">Envelopes.Mco_Vmin</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.zero_like"><code class="docutils literal notranslate"><span class="pre">Envelopes.zero_like()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.combine"><code class="docutils literal notranslate"><span class="pre">Envelopes.combine()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.from_beam_analysis"><code class="docutils literal notranslate"><span class="pre">Envelopes.from_beam_analysis()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.augment"><code class="docutils literal notranslate"><span class="pre">Envelopes.augment()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.sum"><code class="docutils literal notranslate"><span class="pre">Envelopes.sum()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.__add__"><code class="docutils literal notranslate"><span class="pre">Envelopes.__add__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.at"><code class="docutils literal notranslate"><span class="pre">Envelopes.at()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.per_span"><code class="docutils literal notranslate"><span class="pre">Envelopes.per_span()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.plot"><code class="docutils literal notranslate"><span class="pre">Envelopes.plot()</span></code></a></li>
 </ul>
 </li>
