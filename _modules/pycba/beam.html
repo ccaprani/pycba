@@ -494,6 +494,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+        <span class="c1"># Bumped on any change to the *structure* (geometry, rigidity,</span>
+        <span class="c1"># restraints, prescribed displacements) so a cached stability check can</span>
+        <span class="c1"># be invalidated.  Load changes deliberately do not bump it.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># A single rigidity (scalar EI, or one SectionEI) applies to all</span>
@@ -551,7 +555,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eletype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">+=</span> <span class="n">L</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">L</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">L</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 
     <span class="nd">@property</span>
@@ -655,7 +660,18 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="n">r</span>
-        <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">structure_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        int : A counter that increments whenever the beam *structure* changes.</span>
+
+<span class="sd">        Bumped by changes to geometry, rigidity, restraints or prescribed</span>
+<span class="sd">        displacements (but not loads).  Used to invalidate a cached stability</span>
+<span class="sd">        check (see :meth:`pycba.analysis.BeamAnalysis.is_stable`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">prescribed_displacements</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
@@ -690,6 +706,7 @@
                 <span class="sa">f</span><span class="s2">&quot;D must have same length as R (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span><span class="si">}</span><span class="s2">), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prescribed_displacements</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_element_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

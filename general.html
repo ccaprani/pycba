@@ -513,6 +513,22 @@ Unrestrained degrees of freedom are indicated by a “0” value.
 Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of the stiffness, <code class="docutils literal notranslate"><span class="pre">k</span></code>: i.e. “+k”</p>
 <p><strong>Dimension</strong>: 2<code class="docutils literal notranslate"><span class="pre">N</span></code> x 1</p>
 <p><strong>Units</strong>: kN/m or kNm/rad or None</p>
+<p>If the restraints leave the structure under-supported, it is a <em>mechanism</em> —
+the stiffness matrix is singular and the solution is meaningless. Before
+solving, <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> checks the free-DOF stiffness for this condition and
+raises a clear <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> rather than returning enormous, spurious
+displacements:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">([</span><span class="mf">10.0</span><span class="p">],</span> <span class="mf">30e4</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># pin one end, free the other</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>      <span class="c1"># ValueError: Structure is geometrically unstable ... mechanism</span>
+</pre></div>
+</div>
+<p>This catches both insufficient supports and over-released internal hinges. You
+can also test a model up front, without solving, via <code class="docutils literal notranslate"><span class="pre">ba.is_stable()</span></code> (which
+returns a <code class="docutils literal notranslate"><span class="pre">bool</span></code> instead of raising). The result is cached per structure, so
+looped analyses that vary only the loads (e.g. a moving-load run) incur the
+check only once; it is re-evaluated only if the beam structure changes. For an
+unusual but intentionally near-singular model you can skip it entirely with
+<code class="docutils literal notranslate"><span class="pre">ba.analyze(check_stability=False)</span></code>.</p>
 </section>
 <section id="load-matrix-lm">
 <h2>Load Matrix (<code class="docutils literal notranslate"><span class="pre">LM</span></code>)<a class="headerlink" href="#load-matrix-lm" title="Link to this heading">#</a></h2>

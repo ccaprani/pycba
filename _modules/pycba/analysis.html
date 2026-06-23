@@ -584,6 +584,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">no_spans</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span>
+        <span class="c1"># Beam structure_version at the last successful stability check, so the</span>
+        <span class="c1"># check is not repeated across looped analyses (e.g. a moving load)</span>
+        <span class="c1"># unless the structure itself changes.  ``None`` = never checked.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_checked_version</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">beam_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
@@ -773,7 +777,7 @@
 
 <div class="viewcode-block" id="BeamAnalysis.analyze">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">check_stability</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the direct-stiffness analysis.</span>
 
@@ -789,6 +793,15 @@
 <span class="sd">            Number of evaluation points along each member for computing</span>
 <span class="sd">            distributed load effects (bending moment, shear, deflection).</span>
 <span class="sd">            Must be greater than 3; defaults to 100 if omitted or ``≤ 3``.</span>
+<span class="sd">        check_stability : bool, optional</span>
+<span class="sd">            If ``True`` (default), check the assembled stiffness for a</span>
+<span class="sd">            mechanism before solving and raise a clear error (see</span>
+<span class="sd">            :meth:`is_stable` / :meth:`_check_stability`).  Set ``False`` to</span>
+<span class="sd">            skip the check for an unusual but intentionally near-singular</span>
+<span class="sd">            model.  The check runs at most once per structure: its result is</span>
+<span class="sd">            cached and only re-evaluated if the beam structure changes, so it</span>
+<span class="sd">            adds no cost to looped analyses (e.g. a moving load) that vary</span>
+<span class="sd">            only the loads.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -799,7 +812,8 @@
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the model is invalid (see :meth:`_validate`) or if the</span>
-<span class="sd">            structure is geometrically unstable (see :meth:`_solver`).</span>
+<span class="sd">            structure is geometrically unstable (see :meth:`_check_stability`</span>
+<span class="sd">            and :meth:`_solver`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">npts</span> <span class="ow">and</span> <span class="n">npts</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="n">npts</span>
@@ -812,6 +826,9 @@
 
         <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fU</span><span class="p">)</span>
         <span class="n">ksysU</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">check_stability</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checked_version</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">structure_version</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_stability</span><span class="p">(</span><span class="n">ksysU</span><span class="p">,</span> <span class="n">restraints</span><span class="p">,</span> <span class="n">d_presc</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_checked_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">structure_version</span>
         <span class="n">ksys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ksysU</span><span class="p">)</span>
         <span class="n">ksys</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_bc</span><span class="p">(</span><span class="n">ksys</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
         <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="p">(</span><span class="n">ksys</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -819,6 +836,94 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="n">BeamResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">0</span></div>
+
+
+    <span class="c1"># Reciprocal-condition-number floor for the free-DOF stiffness partition.</span>
+    <span class="c1"># True mechanisms sit near machine epsilon (~1e-16); legitimately flexible</span>
+    <span class="c1"># structures stay well above this, so 1e-12 separates them with margin.</span>
+    <span class="n">_STABILITY_RCOND</span> <span class="o">=</span> <span class="mf">1e-12</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_stability</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ksysU</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">restraints</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">d_presc</span><span class="p">:</span> <span class="nb">list</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Detect a mechanism (near-singular structure) before solving.</span>
+
+<span class="sd">        Direct elimination puts ``1.0`` on the diagonal of constrained DOFs,</span>
+<span class="sd">        which pollutes the condition number of the reduced system, so this</span>
+<span class="sd">        works instead on the **free-DOF partition** of the *unrestricted*</span>
+<span class="sd">        stiffness matrix - the block that actually governs the unknown</span>
+<span class="sd">        displacements.  Excluded DOFs are those that are fully fixed</span>
+<span class="sd">        (``restraints &lt; 0``) or carry a prescribed displacement; spring DOFs</span>
+<span class="sd">        remain free and contribute their stiffness.</span>
+
+<span class="sd">        For a stable linear-elastic structure this partition is symmetric</span>
+<span class="sd">        positive-definite.  A mechanism (insufficient restraint, or an</span>
+<span class="sd">        over-released internal hinge) makes it singular: its smallest</span>
+<span class="sd">        eigenvalue collapses to zero relative to the largest.  The reciprocal</span>
+<span class="sd">        condition number ``min|λ| / max|λ|`` is therefore compared against</span>
+<span class="sd">        :attr:`_STABILITY_RCOND`; a value below it indicates a mechanism.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ksysU : np.ndarray, shape (nDOF, nDOF)</span>
+<span class="sd">            Unrestricted global stiffness matrix (including spring terms).</span>
+<span class="sd">        restraints : list</span>
+<span class="sd">            Beam restraint vector (same as ``R``).</span>
+<span class="sd">        d_presc : list</span>
+<span class="sd">            Prescribed-displacement vector (``None`` entries = free DOFs).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the free-DOF stiffness partition is singular to within</span>
+<span class="sd">            :attr:`_STABILITY_RCOND`, i.e. the structure is a mechanism.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">free</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">i</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">d_presc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">free</span><span class="p">:</span>
+            <span class="k">return</span>  <span class="c1"># fully constrained: nothing to solve, trivially stable</span>
+
+        <span class="n">kff</span> <span class="o">=</span> <span class="n">ksysU</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">free</span><span class="p">,</span> <span class="n">free</span><span class="p">)]</span>
+        <span class="n">ev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">kff</span><span class="p">))</span>
+        <span class="n">ev_max</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ev_max</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ev</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">/</span> <span class="n">ev_max</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_STABILITY_RCOND</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Structure is geometrically unstable: the free-DOF stiffness &quot;</span>
+                <span class="s2">&quot;is singular, indicating a mechanism (e.g. insufficient support &quot;</span>
+                <span class="s2">&quot;restraints or an over-released internal hinge). Add restraint, &quot;</span>
+                <span class="s2">&quot;or pass analyze(check_stability=False) to override this check.&quot;</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="BeamAnalysis.is_stable">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.is_stable">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_stable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return whether the structure is stable (not a mechanism).</span>
+
+<span class="sd">        Runs the same free-DOF stability check as :meth:`analyze` but returns a</span>
+<span class="sd">        boolean instead of raising, so the model can be validated up front</span>
+<span class="sd">        without solving.  A ``True`` result is cached (keyed on the beam&#39;s</span>
+<span class="sd">        :attr:`~pycba.beam.Beam.structure_version`), so a subsequent</span>
+<span class="sd">        ``analyze()`` does not repeat the check unless the structure changes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            ``True`` if the free-DOF stiffness partition is non-singular to</span>
+<span class="sd">            within :attr:`_STABILITY_RCOND`, otherwise ``False``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">restraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
+        <span class="n">d_presc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">prescribed_displacements</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_stability</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_assemble</span><span class="p">(),</span> <span class="n">restraints</span><span class="p">,</span> <span class="n">d_presc</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_checked_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">structure_version</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>

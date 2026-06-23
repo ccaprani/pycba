@@ -647,6 +647,9 @@ Use None for DOFs without prescribed displacement.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.restraints" title="pycba.beam.Beam.restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restraints</span></code></a></p></td>
 <td><p>Returns the restraints vector for the beam</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.structure_version" title="pycba.beam.Beam.structure_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">structure_version</span></code></a></p></td>
+<td><p>A counter that increments whenever the beam <em>structure</em> changes.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -706,6 +709,20 @@ Use None for DOFs without prescribed displacement.</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycba.beam.Beam.structure_version">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">structure_version</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycba.beam.Beam.structure_version" title="Link to this definition">#</a></dt>
+<dd><p>A counter that increments whenever the beam <em>structure</em> changes.</p>
+<p>Bumped by changes to geometry, rigidity, restraints or prescribed
+displacements (but not loads).  Used to invalidate a cached stability
+check (see <a class="reference internal" href="pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.is_stable" title="pycba.analysis.BeamAnalysis.is_stable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis.is_stable()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1143,6 +1160,7 @@ precision.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.loads"><code class="docutils literal notranslate"><span class="pre">Beam.loads</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.add_load"><code class="docutils literal notranslate"><span class="pre">Beam.add_load()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.restraints"><code class="docutils literal notranslate"><span class="pre">Beam.restraints</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.structure_version"><code class="docutils literal notranslate"><span class="pre">Beam.structure_version</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.prescribed_displacements"><code class="docutils literal notranslate"><span class="pre">Beam.prescribed_displacements</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_spans"><code class="docutils literal notranslate"><span class="pre">Beam.no_spans</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_restraints</span></code></a></li>
