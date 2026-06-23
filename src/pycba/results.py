@@ -3,7 +3,7 @@ PyCBA - Beam Results module
 """
 
 from __future__ import annotations  # https://bit.ly/3KYiL2o
-from typing import List, Tuple
+from typing import Dict, List, Sequence, Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
@@ -404,6 +404,95 @@ class Envelopes:
         zero_env.Rminval = np.zeros(env.nsup)
         return zero_env
 
+    @classmethod
+    def combine(
+        cls, envs: Sequence[Envelopes], mode: str = "envelope"
+    ) -> Envelopes:
+        """
+        Merge several compatible envelopes into a new :class:`Envelopes`.
+
+        This is a one-call replacement for the
+        ``zero_like`` + repeated :meth:`augment`/:meth:`sum` ritual. The input
+        envelopes are left unmutated; a fresh :class:`Envelopes` is returned.
+
+        Parameters
+        ----------
+        envs : Sequence[Envelopes]
+            One or more compatible :class:`pycba.results.Envelopes` objects (same
+            ``npts`` and ``nsup``). All must come from the same beam geometry.
+        mode : str, optional
+            ``"envelope"`` (default) takes the governing maxima/minima of moment
+            and shear (plus coincident effects and reaction extremes) by calling
+            :meth:`augment` for each input. ``"sum"`` superimposes the envelopes
+            element-wise by calling :meth:`sum` for each input.
+
+        Returns
+        -------
+        Envelopes
+            A new merged :class:`pycba.results.Envelopes` object.
+
+        Raises
+        ------
+        ValueError
+            If ``envs`` is empty or ``mode`` is not ``"envelope"`` or ``"sum"``.
+
+        Notes
+        -----
+        When the merged envelopes come from analyses with differing numbers of
+        results (``nres``), only the reaction extremes (``Rmaxval``/``Rminval``)
+        are retained; the per-analysis reaction history is zeroed. This is the
+        pre-existing behaviour of :meth:`augment`/:meth:`sum`.
+        """
+
+        envs = list(envs)
+        if len(envs) == 0:
+            raise ValueError("combine requires at least one envelope.")
+        if mode not in ("envelope", "sum"):
+            raise ValueError("mode must be 'envelope' or 'sum'.")
+
+        out = cls.zero_like(envs[0])
+        for env in envs:
+            if mode == "envelope":
+                out.augment(env)
+            else:
+                out.sum(env)
+        return out
+
+    @classmethod
+    def from_beam_analysis(cls, ba) -> Envelopes:
+        """
+        Build a single-result :class:`Envelopes` from one analysed beam.
+
+        This is the discoverable adapter that lifts an ordinary
+        :class:`pycba.analysis.BeamAnalysis` result (for example the result of a
+        :meth:`pycba.load_cases.LoadCombination.analyze` call) into a first-class
+        :class:`pycba.results.Envelopes`, so it can be merged with
+        :meth:`combine` or the ``|``/``+`` operators and plotted.
+
+        Parameters
+        ----------
+        ba : BeamAnalysis
+            An analysed beam whose ``beam_results`` are available.
+
+        Returns
+        -------
+        Envelopes
+            A one-result :class:`pycba.results.Envelopes`.
+
+        Raises
+        ------
+        ValueError
+            If ``ba`` has not been analysed (``ba.beam_results`` is ``None``).
+        """
+
+        beam_results = getattr(ba, "beam_results", None)
+        if beam_results is None:
+            raise ValueError(
+                "BeamAnalysis has no results; call analyze() before "
+                "Envelopes.from_beam_analysis()."
+            )
+        return cls([beam_results])
+
     def augment(self, env: Envelopes):
         """
         Augments this set of envelopes with another compatible set, making this the
@@ -507,6 +596,129 @@ class Envelopes:
             # Ensure no misleading results returned
             self.Rmax = np.zeros((self.nsup, self.nres))
             self.Rmin = np.zeros((self.nsup, self.nres))
+
+    def __or__(self, other: Envelopes) -> Envelopes:
+        """
+        Enclosing envelope of ``self`` and ``other`` (non-mutating).
+
+        ``a | b`` is sugar for ``Envelopes.combine([a, b], mode="envelope")`` and
+        returns a new :class:`Envelopes` taking the governing maxima/minima of the
+        two operands. Neither operand is mutated.
+
+        Note that this differs from :meth:`augment`, which mutates in place and
+        returns ``None``.
+        """
+
+        return Envelopes.combine([self, other], mode="envelope")
+
+    def __add__(self, other: Envelopes) -> Envelopes:
+        """
+        Superposition of ``self`` and ``other`` (non-mutating).
+
+        ``a + b`` is sugar for ``Envelopes.combine([a, b], mode="sum")`` and
+        returns a new :class:`Envelopes` with the two operands summed
+        element-wise. Neither operand is mutated.
+
+        Note that this differs from :meth:`sum`, which mutates in place and
+        returns ``None``.
+        """
+
+        return Envelopes.combine([self, other], mode="sum")
+
+    def _unique_x(self) -> Tuple[np.ndarray, np.ndarray]:
+        """Return the de-duplicated station coordinates and their indices."""
+
+        return np.unique(self.x, return_index=True)
+
+    def at(
+        self,
+        x: float,
+        attrs: Tuple[str, ...] = ("Mmax", "Mmin", "Vmax", "Vmin"),
+    ) -> Dict[str, float]:
+        """
+        Return envelope values at a global coordinate by interpolation.
+
+        The station array ``self.x`` repeats span-boundary coordinates (each span
+        contributes its own start and end), so this method de-duplicates the
+        stations with :func:`numpy.unique` before interpolating. It replaces the
+        manual ``idx = (np.abs(env.x - x)).argmin()`` lookup.
+
+        Parameters
+        ----------
+        x : float
+            Global coordinate measured from the left end of the beam.
+        attrs : tuple of str, optional
+            Envelope attribute names to evaluate. The default returns the moment
+            and shear extremes.
+
+        Returns
+        -------
+        dict
+            Mapping from each requested attribute name to its interpolated value
+            at ``x``.
+        """
+
+        unique_x, unique_index = self._unique_x()
+        out: Dict[str, float] = {}
+        for attr in attrs:
+            values = np.asarray(getattr(self, attr))
+            out[attr] = float(np.interp(float(x), unique_x, values[unique_index]))
+        return out
+
+    def per_span(self, attr: str = "Mmax", reduce: str = "auto") -> np.ndarray:
+        """
+        Split a station-indexed envelope array into per-span values.
+
+        The station array concatenates each member's stations, so this method
+        chunks the requested attribute using the per-member station counts read
+        from ``self.vResults[0].vRes`` (each member's ``x`` length, i.e.
+        ``npts + 3``) rather than a hard-coded constant. It replaces the manual
+        ``env.Vmax[i * (n + 3):(i + 1) * (n + 3)]`` slicing.
+
+        Parameters
+        ----------
+        attr : str, optional
+            Envelope attribute name to split (default ``"Mmax"``).
+        reduce : str, optional
+            How to reduce each per-span chunk. ``"auto"`` (default) takes the
+            maximum for ``*max`` attributes and the minimum for ``*min``
+            attributes; ``"max"``/``"min"`` force the reduction; ``"none"``
+            returns the list of raw chunks.
+
+        Returns
+        -------
+        numpy.ndarray or list of numpy.ndarray
+            One reduced value per span, or the list of raw chunks when
+            ``reduce="none"``.
+
+        Raises
+        ------
+        ValueError
+            If ``reduce`` is not one of ``"auto"``, ``"max"``, ``"min"``,
+            ``"none"``.
+        """
+
+        if reduce not in ("auto", "max", "min", "none"):
+            raise ValueError("reduce must be 'auto', 'max', 'min', or 'none'.")
+
+        values = np.asarray(getattr(self, attr))
+        counts = [len(member.x) for member in self.vResults[0].vRes]
+
+        chunks = []
+        start = 0
+        for count in counts:
+            chunks.append(values[start : start + count])
+            start += count
+
+        if reduce == "none":
+            return chunks
+
+        if reduce == "auto":
+            op = np.min if attr.endswith("min") else np.max
+        else:
+            op = np.max if reduce == "max" else np.min
+
+        return np.array([op(chunk) for chunk in chunks])
 
     def plot(self, each=False, units=None, **kwargs):
         """
