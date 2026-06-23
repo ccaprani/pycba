@@ -5,6 +5,7 @@ from typing import Optional, Union
 import numpy as np
 from scipy import integrate
 from .load import parse_LM, LoadType, LoadMatrix, LoadCNL, LoadIC
+from .types import MemberType
 from .section import SectionEI
 
 
@@ -37,7 +38,9 @@ class Beam:
             The load matrix: a list of loads on the beam; each load with several
             parameters.
         eletype : Optional[np.ndarray]
-            A vector of the member types. Defaults to a fixed-fixed element.
+            A vector of the member types, each an integer code ``1-4``, a
+            :class:`~pycba.MemberType`, or a name string (``"FF"``/``"FP"``/
+            ``"PF"``/``"PP"``). Defaults to a fixed-fixed element.
         D : Optional[np.ndarray]
             A vector of prescribed displacements. Must have same length as R.
             Use None for DOFs without prescribed displacement.
@@ -90,7 +93,7 @@ class Beam:
         if LM is not None:
             self.LM = LM
 
-    def add_span(self, L: float, EI: float, eletype: int):
+    def add_span(self, L: float, EI: float, eletype: Union[int, str, MemberType] = 1):
         """
         Add a span to the continuous beam
 
@@ -100,8 +103,10 @@ class Beam:
             The length of the member.
         EI : np.ndarray
             The flexural rigidity of the member.
-        eletype : int
-            The element type for the member
+        eletype : int, str, or pycba.MemberType
+            The element type for the member, as the integer code ``1-4``, a
+            :class:`~pycba.MemberType` (e.g. ``MemberType.FP``), or its
+            case-insensitive name (e.g. ``"FP"``).  See :class:`~pycba.MemberType`.
 
         Returns
         -------
@@ -114,11 +119,32 @@ class Beam:
             EI.validate_length(L)
         self.mbr_lengths.append(L)
         self.mbr_EIs.append(EI)
-        self.mbr_eletype.append(eletype)
+        self.mbr_eletype.append(MemberType.coerce(eletype))
         self._no_spans = len(self.mbr_lengths)
         self._length += L
         self._terminal_coords.append(self._terminal_coords[-1] + L)
         self._structure_version += 1
+
+    def add_member(
+        self, L: float, EI: float, mbr_type: Union[int, str, MemberType] = MemberType.FF
+    ):
+        """
+        Add a member (span) to the beam, naming its type.
+
+        A friendlier alias of :meth:`add_span` whose ``mbr_type`` accepts a
+        :class:`~pycba.MemberType`, a name string (``"FF"``/``"FP"``/``"PF"``/
+        ``"PP"``), or the integer code ``1-4``.
+
+        Parameters
+        ----------
+        L : float
+            The length of the member.
+        EI : float or pycba.section.SectionEI
+            The flexural rigidity of the member.
+        mbr_type : pycba.MemberType, str, or int
+            The member type / moment-release pattern (default ``FF``).
+        """
+        self.add_span(L, EI, mbr_type)
 
     @property
     def loads(self) -> LoadMatrix:

@@ -111,13 +111,15 @@ class BeamAnalysis:
                curvature field is ``κ(x) = k0 + k1·x + …`` (e.g. creep,
                shrinkage or thermal curvature).
 
-        eletype : array_like of int, optional
-            Element type for each span, controlling which end(s) carry moment:
+        eletype : array_like, optional
+            Element type for each span, controlling which end(s) carry moment.
+            Each entry may be an integer code, a :class:`~pycba.MemberType`,
+            or its name string (e.g. ``"FP"``):
 
-            1. Fixed–fixed (default).
-            2. Fixed–pinned (moment release at right end).
-            3. Pinned–fixed (moment release at left end).
-            4. Pinned–pinned (moment releases at both ends).
+            1. ``FF`` Fixed–fixed (default).
+            2. ``FP`` Fixed–pinned (moment release at right end).
+            3. ``PF`` Pinned–fixed (moment release at left end).
+            4. ``PP`` Pinned–pinned (moment releases at both ends).
 
             At an internal hinge, only one of the two members meeting at that
             node should have a pinned end.

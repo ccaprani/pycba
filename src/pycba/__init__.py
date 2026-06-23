@@ -7,6 +7,7 @@ __version__ = "0.8.0"
 from .analysis import BeamAnalysis
 from .beam import Beam
 from .section import SectionEI
+from .types import MemberType
 from .load import (
     LoadCNL,
     MemberResults,
