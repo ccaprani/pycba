@@ -451,274 +451,839 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="Theoretical-Basis">
-<h1>Theoretical Basis<a class="headerlink" href="#Theoretical-Basis" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> analyses continuous beams by the <strong>matrix (direct) stiffness method</strong>. This page follows the steps of that method:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="theoretical-basis">
+<span id="theory"></span><h1>Theoretical Basis<a class="headerlink" href="#theoretical-basis" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> analyses continuous beams by the <strong>matrix (direct) stiffness
+method</strong> — the standard displacement-based formulation of linear structural
+analysis
+(<a class="reference internal" href="references.html#ref-mcguire-2000"><span class="std std-ref">McGuire, Gallagher &amp; Ziemian, 2000</span></a>;
+<a class="reference internal" href="references.html#ref-przemieniecki-1968"><span class="std std-ref">Przemieniecki, 1968</span></a>;
+<a class="reference internal" href="references.html#ref-weaver-gere-1990"><span class="std std-ref">Weaver &amp; Gere, 1990</span></a>).
+The structure is idealised as an assembly of two-node Euler–Bernoulli beam
+elements; the element stiffness relations are assembled into a global system,
+the supports are imposed, the system is solved for the nodal displacements, and
+the support reactions and member load effects are recovered. This page derives
+each step, in the order the implementation performs it, so that every equation
+corresponds directly to the code in
+<a class="reference internal" href="gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis" title="pycba.analysis.BeamAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">BeamAnalysis</span></code></a>, <a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam" title="pycba.beam.Beam"><code class="xref py py-class docutils literal notranslate"><span class="pre">Beam</span></code></a>,
+<a class="reference internal" href="gen/pycba.load.html#module-pycba.load" title="pycba.load"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycba.load</span></code></a> and <a class="reference internal" href="gen/pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a>.</p>
+<p>The overall procedure is:</p>
 <ol class="arabic simple">
-<li><p><strong>Elements</strong> — each span is a two-node Euler–Bernoulli beam element whose <span class="math notranslate nohighlight">\(4\times4\)</span> stiffness matrix depends on its end releases and, for a non-prismatic member, on the variation of <span class="math notranslate nohighlight">\(EI\)</span> along its length.</p></li>
-<li><p><strong>Global stiffness matrix</strong> — the element matrices are assembled by the direct stiffness method into the global matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>.</p></li>
-<li><p><strong>Loads</strong> — span loads are converted to consistent (equivalent) nodal forces that assemble into the force vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span>.</p></li>
-<li><p><strong>Boundary conditions</strong> — supports, settlements and spring supports are imposed.</p></li>
+<li><p><strong>Elements</strong> — each span is a two-node Euler–Bernoulli beam element whose
+<span class="math notranslate nohighlight">\(4\times4\)</span> stiffness matrix depends on its end releases and, for a
+non-prismatic member, on the variation of <span class="math notranslate nohighlight">\(EI\)</span> along its length.</p></li>
+<li><p><strong>Global stiffness matrix</strong> — the element matrices are assembled by the
+direct stiffness method into the global matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>, with elastic
+spring supports added on the diagonal.</p></li>
+<li><p><strong>Loads</strong> — span loads are converted to consistent (equivalent) nodal forces
+that assemble into the force vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span>.</p></li>
+<li><p><strong>Stability check</strong> — the free-DOF partition of <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is tested for a
+mechanism before the system is solved.</p></li>
+<li><p><strong>Boundary conditions</strong> — fixed supports, prescribed settlements and spring
+supports are imposed.</p></li>
+<li><p><strong>Solution and recovery</strong> — the system <span class="math notranslate nohighlight">\(\mathbf{K}\,\mathbf{d}=\mathbf{f}\)</span> is
+solved for the nodal displacements <span class="math notranslate nohighlight">\(\mathbf{d}\)</span>, from which the <strong>reactions</strong>
+and the <strong>member results</strong> (bending moment, shear, rotation and deflection
+along each span) are recovered.</p></li>
 </ol>
-<p>The system <span class="math notranslate nohighlight">\(\mathbf{K}\,\mathbf{d}=\mathbf{f}\)</span> is then solved for the nodal displacements <span class="math notranslate nohighlight">\(\mathbf{d}\)</span>, from which the support <strong>reactions</strong> and the <strong>member results</strong> (bending moment, shear, rotation and deflection along each span) are recovered.</p>
-<p><strong>Notation and conventions.</strong> <span class="math notranslate nohighlight">\(EI\)</span> is the flexural rigidity, <span class="math notranslate nohighlight">\(L\)</span> a member length, and <span class="math notranslate nohighlight">\(M\)</span> a bending moment. Each node has two degrees of freedom — a vertical displacement <span class="math notranslate nohighlight">\(v\)</span> and a rotation <span class="math notranslate nohighlight">\(\theta\)</span> — collected in the global DOF vector <span class="math notranslate nohighlight">\(\mathbf{d}\)</span>. Bending moments follow the sagging-positive convention, and upward forces and displacements are positive.</p>
-<p>For background on the matrix stiffness method see the lecture notes <a class="reference external" href="http://www.colincaprani.com/structural-engineering/courses/structural-analysis-iv">here</a>; worked examples are in the <a class="reference internal" href="tutorials.html"><span class="doc">tutorials</span></a>, and the source texts for the element and load formulations are listed on the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
-<p>Beyond linear elastic analysis, <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> also provides an incremental <strong>nonlinear (elasto-plastic)</strong> analysis that tracks plastic-hinge formation to collapse; this is described in the final section.</p>
-<section id="Elements">
-<h2>Elements<a class="headerlink" href="#Elements" title="Link to this heading">#</a></h2>
-<p>The stiffness matrices for the elements used in <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> are given below.</p>
-<p>Note that the releases relate only to internal hinges within the elements themselves, and not to the supports conditions. Note also, that in modelling joints, there must always be one element with a ‘fixed’ end at a joint; otherwise the resulting global stiffness matrix will be singular.</p>
-<section id="Type-1:-Fixed-Fixed">
-<h3>Type 1: Fixed-Fixed<a class="headerlink" href="#Type-1:-Fixed-Fixed" title="Link to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> uses <strong>Euler–Bernoulli</strong> (engineer’s) beam theory: plane sections remain
+plane and normal to the neutral axis, so <strong>shear deformation is neglected</strong>. It
+is <em>not</em> a Timoshenko formulation. Axial deformation is also omitted — the
+elements carry transverse (bending) action only, which is the appropriate
+idealisation for a continuous beam.</p>
+</div>
+<section id="sign-conventions-and-degrees-of-freedom">
+<h2>Sign conventions and degrees of freedom<a class="headerlink" href="#sign-conventions-and-degrees-of-freedom" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is <strong>unit-agnostic</strong>: the solver performs no unit conversions, and any
+internally consistent set of units may be used (see the <a class="reference internal" href="general.html"><span class="doc">Defining Beams</span></a> page).
+The sign conventions used throughout are:</p>
+<ul class="simple">
+<li><p>Vertical displacements <span class="math notranslate nohighlight">\(v\)</span> and vertical forces (reactions) are <strong>positive
+upward</strong>.</p></li>
+<li><p>Rotations <span class="math notranslate nohighlight">\(\theta\)</span> and moments are <strong>positive counter-clockwise</strong>.</p></li>
+<li><p>A <strong>downward</strong> applied load (UDL <span class="math notranslate nohighlight">\(w\)</span>, point load <span class="math notranslate nohighlight">\(P\)</span>) is entered with a
+<strong>positive</strong> magnitude; a positive applied moment is counter-clockwise.</p></li>
+<li><p>A support <strong>settlement</strong> is a prescribed (negative = downward) displacement.</p></li>
+</ul>
+<p>Each node carries two degrees of freedom (DOF) — a transverse displacement <span class="math notranslate nohighlight">\(v\)</span>
+and a rotation <span class="math notranslate nohighlight">\(\theta\)</span> — so a single element with end nodes <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> has the
+four local DOF, ordered</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\bf{K} = \frac{EI}{L^3}
+\[
+\mathbf{d}^{(e)} =
+\begin{bmatrix} v_i &amp; \theta_i &amp; v_j &amp; \theta_j \end{bmatrix}^{\mathsf T},
+\]</div>
+<p>and a conjugate force vector <span class="math notranslate nohighlight">\(\mathbf{f}^{(e)} = [\,V_i,\;M_i,\;V_j,\;M_j\,]^{\mathsf T}\)</span>
+of end shears and moments. This is the classical Hermitian beam element of the
+matrix stiffness method
+(<a class="reference internal" href="references.html#ref-mcguire-2000"><span class="std std-ref">McGuire, Gallagher &amp; Ziemian, 2000</span></a>;
+<a class="reference internal" href="references.html#ref-weaver-gere-1990"><span class="std std-ref">Weaver &amp; Gere, 1990</span></a>).</p>
+</section>
+<section id="elements">
+<h2>Elements<a class="headerlink" href="#elements" title="Link to this heading">#</a></h2>
+<section id="the-prismatic-eulerbernoulli-beam-element">
+<h3>The prismatic Euler–Bernoulli beam element<a class="headerlink" href="#the-prismatic-eulerbernoulli-beam-element" title="Link to this heading">#</a></h3>
+<p>For a prismatic member of constant flexural rigidity <span class="math notranslate nohighlight">\(EI\)</span> and length <span class="math notranslate nohighlight">\(L\)</span>,
+Euler–Bernoulli theory relates the transverse displacement <span class="math notranslate nohighlight">\(v(x)\)</span> to the bending
+moment by <span class="math notranslate nohighlight">\(EI\,v''(x) = M(x)\)</span>, with no distributed load on the element interior
+giving <span class="math notranslate nohighlight">\(v(x)\)</span> as a cubic. Using the cubic Hermite shape functions
+<span class="math notranslate nohighlight">\(\mathbf{N}(x)\)</span> that interpolate the four end DOF, the element stiffness matrix
+follows from the strain-energy (virtual-work) integral</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{k}^{(e)} = \int_0^L EI\,\mathbf{B}(x)^{\mathsf T}\mathbf{B}(x)\,dx,
+\qquad
+\mathbf{B}(x) = \mathbf{N}''(x),
+\]</div>
+<p>which, for constant <span class="math notranslate nohighlight">\(EI\)</span>, evaluates to the well-known <span class="math notranslate nohighlight">\(4\times4\)</span> matrix
+(<a class="reference internal" href="references.html#ref-przemieniecki-1968"><span class="std std-ref">Przemieniecki, 1968</span></a>;
+<a class="reference internal" href="references.html#ref-cook-2001"><span class="std std-ref">Cook et al., 2001</span></a>). In <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>’s DOF order and
+sign convention (implemented in <a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF" title="pycba.beam.Beam.k_FF"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam.k_FF()</span></code></a>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{k}_{\text{FF}} = \frac{EI}{L^3}
 \begin{bmatrix}
 12 &amp; 6L &amp; -12 &amp; 6L \\
 6L &amp; 4L^2 &amp; -6L &amp; 2L^2 \\
 -12 &amp; -6L &amp; 12 &amp; -6L \\
 6L &amp; 2L^2 &amp; -6L &amp; 4L^2
-\end{bmatrix}\end{split}\]</div>
+\end{bmatrix}.
+\end{split}\]</div>
+<p>This is the <strong>fixed–fixed</strong> (Type 1, the default) element: both ends transmit
+moment. The matrix is symmetric and positive semi-definite — it has a
+two-dimensional null space corresponding to the rigid-body translation and
+rotation of the unconstrained element, which is removed once the element is
+assembled and supports are applied.</p>
 </section>
-<section id="Type-2:-Fixed-Pinned">
-<h3>Type 2: Fixed-Pinned<a class="headerlink" href="#Type-2:-Fixed-Pinned" title="Link to this heading">#</a></h3>
+<section id="element-types-and-moment-releases">
+<h3>Element types and moment releases<a class="headerlink" href="#element-types-and-moment-releases" title="Link to this heading">#</a></h3>
+<p>A continuous beam may contain internal <strong>hinges</strong> (moment releases). <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>
+encodes this per span through the <code class="docutils literal notranslate"><span class="pre">eletype</span></code> index, which controls which end(s)
+of the element carry moment:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">eletype</span></code></p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Released end(s)</p></th>
+<th class="head"><p>Method</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Fixed–Fixed (FF)</p></td>
+<td><p>none (default)</p></td>
+<td><p><a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF" title="pycba.beam.Beam.k_FF"><code class="xref py py-meth docutils literal notranslate"><span class="pre">k_FF()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Fixed–Pinned (FP)</p></td>
+<td><p>right end (<span class="math notranslate nohighlight">\(j\)</span>)</p></td>
+<td><p><a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FP" title="pycba.beam.Beam.k_FP"><code class="xref py py-meth docutils literal notranslate"><span class="pre">k_FP()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Pinned–Fixed (PF)</p></td>
+<td><p>left end (<span class="math notranslate nohighlight">\(i\)</span>)</p></td>
+<td><p><a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PF" title="pycba.beam.Beam.k_PF"><code class="xref py py-meth docutils literal notranslate"><span class="pre">k_PF()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Pinned–Pinned (PP)</p></td>
+<td><p>both ends</p></td>
+<td><p><a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PP" title="pycba.beam.Beam.k_PP"><code class="xref py py-meth docutils literal notranslate"><span class="pre">k_PP()</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A moment release is a known <strong>zero internal moment</strong> at that end. The
+corresponding rotational DOF is therefore not connected to the element stiffness
+and is <strong>statically condensed</strong> out: setting the released end moment to zero and
+eliminating its rotation gives the reduced element stiffness. For the prismatic
+element these condensations have the closed forms below (with the released
+rotational rows and columns zeroed).</p>
+<p><strong>Type 2 — Fixed–Pinned</strong> (pin at the <span class="math notranslate nohighlight">\(j\)</span>-end), <a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FP" title="pycba.beam.Beam.k_FP"><code class="xref py py-meth docutils literal notranslate"><span class="pre">k_FP()</span></code></a>:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\bf{K} = \frac{3EI}{L^3}
+\[\begin{split}
+\mathbf{k}_{\text{FP}} = \frac{3EI}{L^3}
 \begin{bmatrix}
 1 &amp; L &amp; -1 &amp; 0 \\
 L &amp; L^2 &amp; -L &amp; 0 \\
 -1 &amp; -L &amp; 1 &amp; 0 \\
 0 &amp; 0 &amp; 0 &amp; 0
-\end{bmatrix}\end{split}\]</div>
-</section>
-<section id="Type-3:-Pinned-Fixed">
-<h3>Type 3: Pinned-Fixed<a class="headerlink" href="#Type-3:-Pinned-Fixed" title="Link to this heading">#</a></h3>
+\end{bmatrix}.
+\end{split}\]</div>
+<p><strong>Type 3 — Pinned–Fixed</strong> (pin at the <span class="math notranslate nohighlight">\(i\)</span>-end), <a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PF" title="pycba.beam.Beam.k_PF"><code class="xref py py-meth docutils literal notranslate"><span class="pre">k_PF()</span></code></a>:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\bf{K} = \frac{3EI}{L^3}
+\[\begin{split}
+\mathbf{k}_{\text{PF}} = \frac{3EI}{L^3}
 \begin{bmatrix}
 1 &amp; 0 &amp; -1 &amp; L \\
 0 &amp; 0 &amp; 0 &amp; 0 \\
 -1 &amp; 0 &amp; 1 &amp; -L \\
 L &amp; 0 &amp; -L &amp; L^2
-\end{bmatrix}\end{split}\]</div>
-</section>
-<section id="Type-4:-Pinned-Pinned">
-<h3>Type 4: Pinned-Pinned<a class="headerlink" href="#Type-4:-Pinned-Pinned" title="Link to this heading">#</a></h3>
+\end{bmatrix}.
+\end{split}\]</div>
+<p><strong>Type 4 — Pinned–Pinned</strong> (pin at both ends), <a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PP" title="pycba.beam.Beam.k_PP"><code class="xref py py-meth docutils literal notranslate"><span class="pre">k_PP()</span></code></a>:
+with no moment transmitted at either end the element has no transverse bending
+stiffness, so</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\bf{K} =
+\[
+\mathbf{k}_{\text{PP}} = \mathbf{0}_{4\times4}.
+\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A moment release models an internal hinge <em>within</em> the elements, not a support
+condition. At any joint where a hinge is required, <strong>exactly one</strong> of the two
+members meeting there should carry the pin; if both adjacent ends are released
+the rotation at that node is unrestrained by either element and the assembled
+stiffness becomes singular — a mechanism. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> detects this before solving
+(see <a class="reference internal" href="#theory-stability"><span class="std std-ref">Stability check</span></a>).</p>
+</div>
+</section>
+<section id="non-prismatic-variable-ei-elements">
+<h3>Non-prismatic (variable-<span class="math notranslate nohighlight">\(EI\)</span>) elements<a class="headerlink" href="#non-prismatic-variable-ei-elements" title="Link to this heading">#</a></h3>
+<p>A <em>non-prismatic</em> member has a flexural rigidity <span class="math notranslate nohighlight">\(EI(x)\)</span> that varies along its
+length (a haunch, a taper, or a stepped section). <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> represents the
+variation with a <a class="reference internal" href="gen/pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a> object built from contiguous
+<strong>segments</strong> (<code class="docutils literal notranslate"><span class="pre">const</span></code>, <code class="docutils literal notranslate"><span class="pre">linear</span></code>, <code class="docutils literal notranslate"><span class="pre">pwl</span></code>, <code class="docutils literal notranslate"><span class="pre">poly</span></code>) describing <span class="math notranslate nohighlight">\(EI(x)\)</span> in the
+span-local coordinate <span class="math notranslate nohighlight">\(x\)</span>, and analyses the member with a flexibility-integrated
+element (<a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_nonprismatic" title="pycba.beam.Beam.k_nonprismatic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam.k_nonprismatic()</span></code></a>). This follows the classical
+<strong>force (flexibility) method</strong> for variable-rigidity members
+(<a class="reference internal" href="references.html#ref-ghali-2002"><span class="std std-ref">Ghali, Favre &amp; Elbadry, 2002, Ch. 13</span></a>;
+<a class="reference internal" href="references.html#ref-hulse-mosley-1986"><span class="std std-ref">Hulse &amp; Mosley, 1986, §2.6</span></a>; and the
+idiom tabulated in the PCA
+<a class="reference internal" href="references.html#ref-pca-frame-constants"><span class="std std-ref"><em>Handbook of Frame Constants</em></span></a>).</p>
+<p>Release the span to a simply-supported beam and apply unit moments at each end.
+The resulting (linear) unit-moment diagrams are</p>
+<div class="math notranslate nohighlight">
+\[
+m_i(x) = 1 - \frac{x}{L}, \qquad m_j(x) = -\frac{x}{L},
+\]</div>
+<p>where the sign of <span class="math notranslate nohighlight">\(m_j\)</span> carries the counter-clockwise-positive nodal-moment
+convention used throughout (so that the formulation reproduces
+<span class="math notranslate nohighlight">\(\mathbf{k}_{\text{FF}}\)</span> exactly in the constant-<span class="math notranslate nohighlight">\(EI\)</span> limit). By the unit-load
+theorem the <span class="math notranslate nohighlight">\(2\times2\)</span> end-rotation <strong>flexibility</strong> about the two end DOF is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{F} =
+\begin{bmatrix} f_{ii} &amp; f_{ij} \\ f_{ij} &amp; f_{jj} \end{bmatrix},
+\qquad
+f_{pq} = \int_0^L \frac{m_p(x)\,m_q(x)}{EI(x)}\,dx,
+\end{split}\]</div>
+<p>and the end <strong>moment–rotation stiffness</strong> is its inverse,</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{K}_\theta = \mathbf{F}^{-1}
+\]</div>
+<p>(implemented in <a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_theta" title="pycba.beam.Beam.k_theta"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam.k_theta()</span></code></a>). The diagonal terms of
+<span class="math notranslate nohighlight">\(\mathbf{K}_\theta\)</span> are the rotational <em>stiffness factors</em> (end moment per unit
+rotation, far end fixed), and the off-diagonal term yields the <em>carry-over
+factors</em> — exactly the quantities tabulated for haunched members in the PCA
+handbook.</p>
+<p>The full <span class="math notranslate nohighlight">\(4\times4\)</span> element stiffness is recovered by expanding the two end
+rotations to the four nodal DOF, removing the rigid-body chord rotation
+<span class="math notranslate nohighlight">\(\psi = (v_j - v_i)/L\)</span>. With the kinematic transformation
+<span class="math notranslate nohighlight">\([\theta_i,\;\theta_j]^{\mathsf T} = \mathbf{T}\,\mathbf{d}^{(e)}\)</span> where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{T} =
 \begin{bmatrix}
-0 &amp; 0 &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; 0 &amp; 0
-\end{bmatrix}\end{split}\]</div>
-</section>
-<section id="Non-prismatic-(variable-EI)-elements">
-<h3>Non-prismatic (variable-EI) elements<a class="headerlink" href="#Non-prismatic-(variable-EI)-elements" title="Link to this heading">#</a></h3>
-<p>A <em>non-prismatic</em> member has a flexural rigidity <span class="math notranslate nohighlight">\(EI(x)\)</span> that varies along its length (a haunch, a taper, or a stepped section). <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> represents the variation with a <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> object built from contiguous <strong>segments</strong> (<code class="docutils literal notranslate"><span class="pre">const</span></code>, <code class="docutils literal notranslate"><span class="pre">linear</span></code>, <code class="docutils literal notranslate"><span class="pre">pwl</span></code>, <code class="docutils literal notranslate"><span class="pre">poly</span></code>) that describe <span class="math notranslate nohighlight">\(EI(x)\)</span> in the span-local coordinate <span class="math notranslate nohighlight">\(x\)</span>, and analyses the member with a flexibility-integrated element (<code class="docutils literal notranslate"><span class="pre">Beam.k_nonprismatic</span></code>).</p>
-<p>The element is formed by the <strong>force (flexibility) method</strong>. Releasing the span to a simply-supported beam and applying unit end moments gives the unit-moment diagrams <span class="math notranslate nohighlight">\(m_i = 1 - x/L\)</span> and <span class="math notranslate nohighlight">\(m_j = -x/L\)</span>. The end-rotation flexibility is</p>
+1/L &amp; 1 &amp; -1/L &amp; 0 \\
+1/L &amp; 0 &amp; -1/L &amp; 1
+\end{bmatrix},
+\end{split}\]</div>
+<p>the element stiffness is</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}F = \begin{bmatrix} f_{ii} &amp; f_{ij} \\ f_{ij} &amp; f_{jj} \end{bmatrix},
+\[
+\mathbf{k}^{(e)} = \mathbf{T}^{\mathsf T}\,\mathbf{K}_\theta\,\mathbf{T}.
+\]</div>
+<p>The end shears emerge automatically as <span class="math notranslate nohighlight">\((M_i + M_j)/L\)</span> from this transformation,
+matching <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>’s DOF order and sign convention. Moment releases (types 2–4)
+are then imposed by the <strong>same static condensation</strong> of the released rotational
+DOF used for the prismatic element (the Schur complement
+<span class="math notranslate nohighlight">\(\mathbf{k}_{kk} - \mathbf{k}_{kr}\,\mathbf{k}_{rr}^{-1}\,\mathbf{k}_{rk}\)</span> over
+the released rows/columns; <code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam._condense()</span></code>).</p>
+<p>The flexibility integrals are evaluated by <strong>breakpoint-aware Gauss–Legendre
+quadrature</strong> (<a class="reference internal" href="references.html#ref-stroud-secrest-1966"><span class="std std-ref">Stroud &amp; Secrest, 1966</span></a>;
+<code class="docutils literal notranslate"><span class="pre">numpy.polynomial.legendre.leggauss</span></code>,
+<a class="reference internal" href="references.html#ref-harris-numpy-2020"><span class="std std-ref">Harris et al., 2020</span></a>), summed
+piece-by-piece <em>between consecutive breakpoints</em> (segment joins and <code class="docutils literal notranslate"><span class="pre">pwl</span></code>
+kinks). Splitting at the breakpoints makes a slope change (haunch → flat) or a
+step (a discontinuous <span class="math notranslate nohighlight">\(EI\)</span>) <strong>exact</strong> rather than smeared by a single global
+quadrature. On a constant piece the integrand <span class="math notranslate nohighlight">\(m_p m_q / EI\)</span> is a pure quadratic
+polynomial and a 2-point Gauss rule is exact, so a single <code class="docutils literal notranslate"><span class="pre">const</span></code> segment (the
+prismatic limit) reproduces the closed-form <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{FF}}\)</span>,
+<span class="math notranslate nohighlight">\(\mathbf{k}_{\text{FP}}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{PF}}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{PP}}\)</span>
+above to machine precision. Scalar (prismatic) and <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> (non-prismatic)
+members may be freely mixed in one beam.</p>
+</section>
+</section>
+<section id="global-stiffness-matrix">
+<h2>Global stiffness matrix<a class="headerlink" href="#global-stiffness-matrix" title="Link to this heading">#</a></h2>
+<p>For an <span class="math notranslate nohighlight">\(N\)</span>-span beam there are <span class="math notranslate nohighlight">\(N+1\)</span> nodes and hence <span class="math notranslate nohighlight">\(2(N+1)\)</span> degrees of
+freedom. The global DOF vector is ordered node by node:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{d} =
+\begin{bmatrix}
+v_0 &amp; \theta_0 &amp; v_1 &amp; \theta_1 &amp; \cdots &amp; v_N &amp; \theta_N
+\end{bmatrix}^{\mathsf T}.
+\]</div>
+<p>The unrestricted global stiffness matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>, of size
+<span class="math notranslate nohighlight">\(2(N+1)\times2(N+1)\)</span>, is assembled by the <strong>direct stiffness method</strong>
+(<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis._assemble()</span></code>). For span <span class="math notranslate nohighlight">\(m\)</span> (zero-indexed),
+the left node is global node <span class="math notranslate nohighlight">\(m\)</span> and the right node is global node <span class="math notranslate nohighlight">\(m+1\)</span>, so the
+element DOF map to the global indices <span class="math notranslate nohighlight">\([\,2m,\;2m+1,\;2m+2,\;2m+3\,]\)</span>. The
+<span class="math notranslate nohighlight">\(4\times4\)</span> element stiffness <span class="math notranslate nohighlight">\(\mathbf{k}^{(e)}\)</span> is overlapped (scatter-added)
+into <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{K}_{[2m:2m+4],\,[2m:2m+4]}
+\;\mathrel{+}=\;
+\mathbf{k}^{(e)}.
+\]</div>
+<p>Because adjacent spans share a node, the <span class="math notranslate nohighlight">\(2\times2\)</span> blocks of neighbouring
+elements overlap on the shared DOF; this overlap is precisely what enforces
+<strong>displacement compatibility</strong> (a single <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(\theta\)</span> per node) and <strong>nodal
+equilibrium</strong> between the spans. The assembled <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is symmetric, banded
+and — before supports are applied — positive <em>semi</em>-definite (it retains the
+global rigid-body modes).</p>
+<section id="spring-supports">
+<h3>Spring supports<a class="headerlink" href="#spring-supports" title="Link to this heading">#</a></h3>
+<p>An elastic support at DOF <span class="math notranslate nohighlight">\(i\)</span> with stiffness <span class="math notranslate nohighlight">\(k_s &gt; 0\)</span> (a vertical translational
+spring on a <span class="math notranslate nohighlight">\(v\)</span>-DOF, or a rotational spring on a <span class="math notranslate nohighlight">\(\theta\)</span>-DOF) contributes a
+restoring force <span class="math notranslate nohighlight">\(k_s u_i\)</span> at that DOF. It is added directly to the diagonal of
+the assembled matrix, <em>before</em> boundary conditions:</p>
+<div class="math notranslate nohighlight">
+\[
+K_{ii} \;\leftarrow\; K_{ii} + k_s.
+\]</div>
+<p>A spring DOF then remains a <strong>free unknown</strong> in the linear system — no row or
+column elimination is performed for it, unlike a rigid support. Adding the
+spring to the unrestricted matrix here is what later allows the spring force to
+be recovered correctly during reaction recovery. This makes <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> usable as a
+sub-frame analysis tool, where springs model the rotational/translational
+restraint offered by members not explicitly modelled.</p>
+</section>
+</section>
+<section id="loads">
+<h2>Loads<a class="headerlink" href="#loads" title="Link to this heading">#</a></h2>
+<p>Span loads are not applied at the nodes directly. Each load on a member is first
+converted to its <strong>consistent (equivalent) nodal forces</strong> — the fixed-end forces
+the load would produce with both member ends clamped — which then assemble into
+the global force vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span>. This is the work-equivalent load lumping of
+the displacement method
+(<a class="reference internal" href="references.html#ref-przemieniecki-1968"><span class="std std-ref">Przemieniecki, 1968</span></a>;
+<a class="reference internal" href="references.html#ref-cook-2001"><span class="std std-ref">Cook et al., 2001</span></a>;
+<a class="reference internal" href="references.html#ref-felippa-iffem"><span class="std std-ref">Felippa, 2004</span></a>).</p>
+<section id="consistent-nodal-fixed-end-forces">
+<h3>Consistent nodal (fixed-end) forces<a class="headerlink" href="#consistent-nodal-fixed-end-forces" title="Link to this heading">#</a></h3>
+<p>For a load on a fixed–fixed span, the consistent nodal load vector is the set of
+end shears <span class="math notranslate nohighlight">\(V_a, V_b\)</span> and end moments <span class="math notranslate nohighlight">\(M_a, M_b\)</span> that hold both ends clamped.
+For a transverse distributed load <span class="math notranslate nohighlight">\(w(x)\)</span> these follow from the fixed-end
+influence integrals</p>
+<div class="math notranslate nohighlight">
+\[
+M_a = \frac{1}{L^2}\int_0^L w(x)\,x\,(L-x)^2\,dx,
 \qquad
-f_{pq} = \int_0^L \frac{m_p\,m_q}{EI(x)}\,dx,\end{split}\]</div>
-<p>and the end moment–rotation stiffness is its inverse, <span class="math notranslate nohighlight">\(K_\theta = F^{-1}\)</span>. The diagonal terms are the rotational <strong>stiffness factors</strong> (end moment per unit rotation, far end fixed) and the off-diagonal term gives the <strong>carry-over factors</strong>. The full <span class="math notranslate nohighlight">\(4\times4\)</span> element stiffness follows from the complete flexibility, <span class="math notranslate nohighlight">\([S^{*}] = [f^{*}]^{-1}\)</span>.</p>
-<p>The flexibility integrals are evaluated <strong>piece-by-piece between consecutive breakpoints</strong> (segment joins and <code class="docutils literal notranslate"><span class="pre">pwl</span></code> kinks), so slope changes (haunch → flat) and steps are captured exactly rather than smeared by a single global quadrature. When the section is a single constant segment the integrals collapse to the closed form and the element reproduces the prismatic Type 1 matrix above to machine precision.</p>
-<p>This is the formulation of Ghali, Favre &amp; Elbadry (2002, Ch. 13) and Hulse &amp; Mosley (1986, §2.6), and the idiom tabulated in the PCA <em>Handbook of Frame Constants</em> — see the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
+M_b = -\frac{1}{L^2}\int_0^L w(x)\,x^2\,(L-x)\,dx,
+\]</div>
+<p>with the end shears following from vertical and moment equilibrium of the
+clamped span. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> implements the closed-form results of these integrals (and
+their point-load and applied-moment analogues) for each supported load type in
+<a class="reference internal" href="gen/pycba.load.html#module-pycba.load" title="pycba.load"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycba.load</span></code></a> — the standard fixed-end actions tabulated in, e.g.,
+<a class="reference internal" href="references.html#ref-roark-2020"><span class="std std-ref">Roark’s Formulas</span></a> and the
+<a class="reference internal" href="references.html#ref-aisc-manual"><span class="std std-ref">AISC beam diagrams</span></a>. The supported types and the
+fixed-end actions on a fixed–fixed span are:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Load</p></th>
+<th class="head"><p>Class</p></th>
+<th class="head"><p>Fixed-end actions (<span class="math notranslate nohighlight">\(M_a\)</span>, <span class="math notranslate nohighlight">\(M_b\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>UDL <span class="math notranslate nohighlight">\(w\)</span></p></td>
+<td><p><a class="reference internal" href="gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL" title="pycba.load.LoadUDL"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadUDL</span></code></a></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_a = \dfrac{wL^2}{12}\)</span>, <span class="math notranslate nohighlight">\(\;M_b = -\dfrac{wL^2}{12}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Point load <span class="math notranslate nohighlight">\(P\)</span> at <span class="math notranslate nohighlight">\(a\)</span> (with <span class="math notranslate nohighlight">\(b=L-a\)</span>)</p></td>
+<td><p><a class="reference internal" href="gen/pycba.load.LoadPL.html#pycba.load.LoadPL" title="pycba.load.LoadPL"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadPL</span></code></a></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_a = \dfrac{P a b^2}{L^2}\)</span>, <span class="math notranslate nohighlight">\(\;M_b = -\dfrac{P a^2 b}{L^2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Partial UDL <span class="math notranslate nohighlight">\(w\)</span> over <span class="math notranslate nohighlight">\([a, a+c]\)</span></p></td>
+<td><p><a class="reference internal" href="gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL" title="pycba.load.LoadPUDL"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadPUDL</span></code></a></p></td>
+<td><p>influence integrals over the loaded length</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Moment <span class="math notranslate nohighlight">\(M\)</span> at <span class="math notranslate nohighlight">\(a\)</span> (with <span class="math notranslate nohighlight">\(b=L-a\)</span>)</p></td>
+<td><p><a class="reference internal" href="gen/pycba.load.LoadML.html#pycba.load.LoadML" title="pycba.load.LoadML"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadML</span></code></a></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_a = \dfrac{Mb}{L^2}(2a - b)\)</span>, <span class="math notranslate nohighlight">\(\;M_b = \dfrac{Ma}{L^2}(2b - a)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Trapezoidal <span class="math notranslate nohighlight">\(w_1 \to w_2\)</span> over <span class="math notranslate nohighlight">\([a, a+c]\)</span></p></td>
+<td><p><a class="reference internal" href="gen/pycba.load.LoadTrapez.html#pycba.load.LoadTrapez" title="pycba.load.LoadTrapez"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadTrapez</span></code></a></p></td>
+<td><p>analytic evaluation of the influence integrals</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Imposed curvature <span class="math notranslate nohighlight">\(\kappa(x)\)</span></p></td>
+<td><p><a class="reference internal" href="gen/pycba.load.LoadIC.html#pycba.load.LoadIC" title="pycba.load.LoadIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoadIC</span></code></a></p></td>
+<td><p>derived below</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The partial-UDL and trapezoidal loads are clipped to the span: any portion that
+extends beyond the member end is silently ignored. The full load-matrix format
+and column conventions are given on the <a class="reference internal" href="general.html"><span class="doc">Defining Beams</span></a> page.</p>
 </section>
+<section id="released-end-forces-member-releases">
+<h3>Released end forces (member releases)<a class="headerlink" href="#released-end-forces-member-releases" title="Link to this heading">#</a></h3>
+<p>When the member is <em>not</em> fixed–fixed, the consistent nodal forces above must be
+adjusted so that the moment at any <strong>released</strong> end is zero — otherwise the
+clamped-end moment would be applied to a hinge. These adjusted forces are the
+<strong>released end forces</strong> (<code class="docutils literal notranslate"><span class="pre">get_ref</span></code>). They are obtained by superimposing onto the
+fixed–fixed consistent nodal loads a correction that exactly cancels the moment
+at the released DOF, distributing its effect to the retained DOF — the
+load-vector counterpart of the static condensation applied to the element
+stiffness (<a class="reference internal" href="gen/pycba.load.Load.html#pycba.load.Load.get_ref" title="pycba.load.Load.get_ref"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.load.Load.get_ref()</span></code></a>; for a non-prismatic member the
+equivalent flexibility-based reduction is
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam._ref_nonprismatic()</span></code>). For example, releasing the <span class="math notranslate nohighlight">\(j\)</span>-end
+(Type 2) carries the clamped moment <span class="math notranslate nohighlight">\(M_b\)</span> back to the <span class="math notranslate nohighlight">\(i\)</span>-end and into the end
+shears via the <span class="math notranslate nohighlight">\(3EI/L\)</span> stiffness of the released element, giving the
+simply-supported-equivalent fixed-end actions.</p>
 </section>
-<section id="Global-Stiffness-Matrix">
-<h2>Global Stiffness Matrix<a class="headerlink" href="#Global-Stiffness-Matrix" title="Link to this heading">#</a></h2>
-<p>For an <span class="math notranslate nohighlight">\(N\)</span>-span beam there are <span class="math notranslate nohighlight">\(N+1\)</span> nodes. Each node has two degrees of freedom (DOFs): a vertical displacement <span class="math notranslate nohighlight">\(v\)</span> and a rotation <span class="math notranslate nohighlight">\(\theta\)</span>. The global DOF vector is of length <span class="math notranslate nohighlight">\(2(N+1)\)</span>, ordered node by node:</p>
+<section id="assembly-of-the-load-vector">
+<h3>Assembly of the load vector<a class="headerlink" href="#assembly-of-the-load-vector" title="Link to this heading">#</a></h3>
+<p>The released end forces of every span are accumulated into the global force
+vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis._forces()</span></code>). The span
+contribution is <strong>subtracted</strong>:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{d} = \begin{bmatrix} v_0 &amp; \theta_0 &amp; v_1 &amp; \theta_1 &amp; \cdots &amp; v_N &amp; \theta_N \end{bmatrix}^T\]</div>
-<p>The unrestricted global stiffness matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> of size <span class="math notranslate nohighlight">\(2(N+1) \times 2(N+1)\)</span> is assembled by the direct stiffness method. For span <span class="math notranslate nohighlight">\(m\)</span> (zero-indexed), the left node is global node <span class="math notranslate nohighlight">\(m\)</span> and the right node is global node <span class="math notranslate nohighlight">\(m+1\)</span>, mapping to global DOF indices <span class="math notranslate nohighlight">\([2m,\; 2m+1,\; 2m+2,\; 2m+3]\)</span>. The <span class="math notranslate nohighlight">\(4\times 4\)</span> element stiffness matrix <span class="math notranslate nohighlight">\(\mathbf{k}^{(e)}\)</span> (one of the four types above) is overlapped into <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[K_{[2m:2m+4],\,[2m:2m+4]} \mathrel{+}= \mathbf{k}^{(e)}\]</div>
-<p>The overlap at interior nodes automatically enforces displacement compatibility between adjacent spans. The result is the banded, symmetric, positive semi-definite matrix characteristic of beam structures.</p>
-<section id="Spring-Supports">
-<h3>Spring Supports<a class="headerlink" href="#Spring-Supports" title="Link to this heading">#</a></h3>
-<p>A spring support at DOF <span class="math notranslate nohighlight">\(i\)</span> with stiffness <span class="math notranslate nohighlight">\(k_s &gt; 0\)</span> contributes a restoring force <span class="math notranslate nohighlight">\(k_s u_i\)</span> at that DOF. This is incorporated directly into the global stiffness matrix before applying boundary conditions:</p>
-<div class="math notranslate nohighlight">
-\[K_{ii} \leftarrow K_{ii} + k_s\]</div>
-<p>A spring DOF remains as a free unknown in the linear system — no row or column elimination is performed. The spring force is recovered after solving as:</p>
-<div class="math notranslate nohighlight">
-\[F_s^{(i)} = k_s \, u_i\]</div>
+\[
+\mathbf{f}_{[2m:2m+4]} \;\mathrel{-}=\; \mathbf{f}^{(e)}_{\text{ref}},
+\]</div>
+<p>because the equivalent nodal loads applied to the structure are equal and
+opposite to the fixed-end <em>reactions</em> the clamped member exerts on the nodes.
+The resulting <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> is the right-hand side of <span class="math notranslate nohighlight">\(\mathbf{K}\,\mathbf{d} =
+\mathbf{f}\)</span>.</p>
 </section>
-</section>
-<section id="Loads">
-<h2>Loads<a class="headerlink" href="#Loads" title="Link to this heading">#</a></h2>
-<p>Span loads are not applied at the nodes directly. Each load on a member is first converted to its <strong>consistent (equivalent) nodal forces</strong> — the fixed-end forces the load would produce with both member ends clamped. These assemble into the global force vector <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> of <span class="math notranslate nohighlight">\(\mathbf{K}\,\mathbf{d}=\mathbf{f}\)</span> (with sign reversed, as they oppose the reactions they generate).</p>
-<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> supports point loads, uniformly distributed loads, partial UDLs, moment loads, trapezoidal loads and imposed curvatures. The load-matrix format and the complete list of load types are given in the <a class="reference internal" href="general.html"><span class="doc">input data reference</span></a>; the fixed-end forces for the standard load types are the textbook closed forms, while the imposed-curvature load (load type 6) is derived below.</p>
-</section>
-<section id="Segmented-Load-Patterning-and-Kadane-Style-Selection">
-<h2>Segmented Load Patterning and Kadane-Style Selection<a class="headerlink" href="#Segmented-Load-Patterning-and-Kadane-Style-Selection" title="Link to this heading">#</a></h2>
-<p>For patternable distributed loading, a continuous UDL can be discretised into short partial-UDL segments. Each segment is analysed as a basis <code class="docutils literal notranslate"><span class="pre">LoadCase</span></code> over the full beam. For a chosen target effect, such as bending moment at an internal support, the basis analyses give a response vector</p>
+<section id="imposed-curvature-initial-strain-loads">
+<h3>Imposed-curvature (initial-strain) loads<a class="headerlink" href="#imposed-curvature-initial-strain-loads" title="Link to this heading">#</a></h3>
+<p>An <strong>imposed-curvature</strong> (or initial-strain) load applies a <em>free</em>, stress-free
+curvature field along a member,</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{r}(x_t) = [r_1(x_t), r_2(x_t), \dots, r_n(x_t)]\]</div>
-<p>where <span class="math notranslate nohighlight">\(r_i(x_t)\)</span> is the contribution from segment <span class="math notranslate nohighlight">\(i\)</span> to the selected response at target coordinate <span class="math notranslate nohighlight">\(x_t\)</span>. A selected loading arrangement is then represented as a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> with factors</p>
+\[
+\kappa_{\text{imp}}(x) = \kappa_0 + \kappa_1 x + \kappa_2 x^2 + \dots,
+\]</div>
+<p>specified by its polynomial coefficients (load Type 6, added with
+<a class="reference internal" href="gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ic" title="pycba.analysis.BeamAnalysis.add_ic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis.add_ic()</span></code></a>). It is the mechanism by which
+<code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> (and downstream time-dependent tools) apply <strong>creep, shrinkage and
+thermal</strong> curvatures to a continuous beam
+(<a class="reference internal" href="references.html#ref-ghali-2002"><span class="std std-ref">Ghali, Favre &amp; Elbadry, 2002, §13.7</span></a>;
+<a class="reference internal" href="references.html#ref-elbadry-ghali-1989"><span class="std std-ref">Elbadry &amp; Ghali, 1989</span></a>). The
+implementation is <a class="reference internal" href="gen/pycba.load.LoadIC.html#pycba.load.LoadIC" title="pycba.load.LoadIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.load.LoadIC</span></code></a>.</p>
+<p>On a statically-determinate (simply-supported) span an imposed curvature induces
+<strong>no internal forces</strong> — only a free deflected shape (the curvature is taken up
+freely, e.g. a midspan deflection <span class="math notranslate nohighlight">\(\kappa L^2/8\)</span> for a uniform <span class="math notranslate nohighlight">\(\kappa\)</span>). On a
+restrained or continuous structure, however, the restraint of the free curvature
+generates <strong>real bending moments and reactions</strong>, exactly as for a temperature
+gradient or differential settlement.</p>
+<p>The fixed-end forces use the same flexibility integration as the non-prismatic
+element. The primary (simply-supported) end rotations produced by the free
+curvature are</p>
 <div class="math notranslate nohighlight">
-\[\alpha_i \in \{0, 1\}\]</div>
-<p>applied to the basis load cases. For independently selectable segments, the adverse combination is a sign selection:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\alpha_i =
-\begin{cases}
-1, &amp; r_i(x_t) &lt; 0 \quad \text{for a minimum effect} \\
-0, &amp; \text{otherwise}
-\end{cases}\end{split}\]</div>
-<p>with the inequality reversed for a maximum effect. This produces one physical loading arrangement for that target effect, for example one <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> for hogging over the first internal support.</p>
-<p>Kadane’s maximum-subarray algorithm becomes relevant when the loading rule requires one contiguous loaded length rather than independent segments. In that case the ordered segment responses are searched for the contiguous block with the largest sum. For a maximum effect, the recurrence is</p>
-<div class="math notranslate nohighlight">
-\[b_i = \max(r_i, b_{i-1} + r_i),
+\[\begin{split}
+\boldsymbol{\theta}_0 =
+\begin{bmatrix}
+\displaystyle\int_0^L m_i(x)\,\kappa_{\text{imp}}(x)\,dx \\[2mm]
+\displaystyle\int_0^L m_j(x)\,\kappa_{\text{imp}}(x)\,dx
+\end{bmatrix},
 \qquad
-B_i = \max(B_{i-1}, b_i)\]</div>
-<p>with equivalent sign reversal, or a minimum-subarray recurrence, for a minimum effect. The indices of the governing contiguous block then define the non-zero factors in the <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>.</p>
-<p>This distinction is important. A target combination such as “hogging at support 1” is one load arrangement. A response envelope over many target stations may have different selected segments at different stations, so it is an envelope of combinations rather than a single load arrangement.</p>
-<section id="Imposed-curvature-(initial-strain)-loads">
-<h3>Imposed-curvature (initial-strain) loads<a class="headerlink" href="#Imposed-curvature-(initial-strain)-loads" title="Link to this heading">#</a></h3>
-<p>An <strong>imposed-curvature</strong> (or initial-strain) load applies a <em>free</em>, stress-free curvature field along a member,</p>
+m_i = 1 - \frac{x}{L}, \;\; m_j = -\frac{x}{L},
+\end{split}\]</div>
+<p>(the unit-moment diagrams), and the fixed-end moments follow from the
+moment–rotation stiffness,</p>
 <div class="math notranslate nohighlight">
-\[\kappa_\text{imp}(x) = \kappa_0 + \kappa_1 x + \kappa_2 x^2 + \dots,\]</div>
-<p>specified by its polynomial coefficients (load type 6, applied with <code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_ic</span></code>). It is the mechanism for <strong>creep, shrinkage and thermal</strong> curvatures in time-dependent analysis.</p>
-<p>On a statically-determinate (simply-supported) span an imposed curvature induces <strong>no internal forces</strong> — only a free deflected shape (e.g. a midspan deflection <span class="math notranslate nohighlight">\(\kappa L^2/8\)</span> for a uniform <span class="math notranslate nohighlight">\(\kappa\)</span>). On a restrained or continuous structure the restraint of the free curvature generates <strong>real bending moments and reactions</strong>, exactly as for differential settlement or a temperature gradient.</p>
-<p>The fixed-end forces use the same flexibility integration as the non-prismatic element. The primary (simply-supported) end rotations are</p>
-<div class="math notranslate nohighlight">
-\[\theta_0 = \Big[\int_0^L m_i(x)\,\kappa_\text{imp}(x)\,dx,\;
-                \int_0^L m_j(x)\,\kappa_\text{imp}(x)\,dx\Big],
-\qquad m_i = 1 - \tfrac{x}{L},\;\; m_j = -\tfrac{x}{L},\]</div>
-<p>and the fixed-end moments are <span class="math notranslate nohighlight">\([M_a, M_b] = K_\theta\,\theta_0\)</span>, with the end shears following from equilibrium of the resulting couple. For a <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> member the integrals are split at the section breakpoints, so an imposed curvature on a non-prismatic member honours every <span class="math notranslate nohighlight">\(EI\)</span> kink exactly.</p>
-<p>Two reference cases fix ideas: a uniform curvature on a prismatic <strong>fixed–fixed</strong> member gives a constant restraint moment <span class="math notranslate nohighlight">\(M = EI\kappa\)</span>; two equal continuous spans give an interior-support (pier) moment <span class="math notranslate nohighlight">\(-1.5\,EI\kappa\)</span>, fully self-equilibrating (zero net reaction). This is Ghali, Favre &amp; Elbadry (2002, §13.7); see the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
+\[\begin{split}
+\begin{bmatrix} M_a \\ M_b \end{bmatrix}
+= \mathbf{K}_\theta\,\boldsymbol{\theta}_0 ,
+\end{split}\]</div>
+<p>with the balancing end shears <span class="math notranslate nohighlight">\(V_a = (M_a + M_b)/L = -V_b\)</span> from equilibrium of
+the resulting couple (no transverse load is present). For a scalar <span class="math notranslate nohighlight">\(EI\)</span> the
+closed-form <span class="math notranslate nohighlight">\(\mathbf{K}_\theta = \dfrac{2EI}{L}\begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 2
+\end{bmatrix}\)</span> is used; for a <a class="reference internal" href="gen/pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a> member the
+flexibility-integrated <span class="math notranslate nohighlight">\(\mathbf{K}_\theta\)</span> is used and the rotation integrals are
+split at the section breakpoints, so an imposed curvature on a non-prismatic
+member honours every <span class="math notranslate nohighlight">\(EI\)</span> kink/step exactly.</p>
+<p>Two reference cases fix ideas (both reproduced by <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> to machine precision):</p>
+<ul class="simple">
+<li><p>a <strong>uniform</strong> curvature <span class="math notranslate nohighlight">\(\kappa\)</span> on a prismatic <strong>fixed–fixed</strong> member gives a
+constant restraint moment <span class="math notranslate nohighlight">\(M = EI\kappa\)</span> throughout;</p></li>
+<li><p>two equal continuous spans, each with uniform <span class="math notranslate nohighlight">\(\kappa\)</span>, give an
+interior-support moment <span class="math notranslate nohighlight">\(-1.5\,EI\kappa\)</span>, fully self-equilibrating (zero net
+reaction).</p></li>
+</ul>
+<p>These are the classic imposed-deformation restraint results of
+<a class="reference internal" href="references.html#ref-ghali-2002"><span class="std std-ref">Ghali, Favre &amp; Elbadry (2002, §13.7)</span></a>.</p>
 </section>
 </section>
-<section id="Boundary-Conditions">
-<h2>Boundary Conditions<a class="headerlink" href="#Boundary-Conditions" title="Link to this heading">#</a></h2>
-<p>The governing system of equations is:</p>
+<section id="stability-mechanism-detection">
+<span id="theory-stability"></span><h2>Stability / mechanism detection<a class="headerlink" href="#stability-mechanism-detection" title="Link to this heading">#</a></h2>
+<p>If the restraints leave the structure under-supported, or an internal hinge is
+over-released, the structure is a <strong>mechanism</strong>: the stiffness matrix is singular
+and the solution is meaningless (enormous, spurious displacements). Before
+solving, <a class="reference internal" href="gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis.analyze()</span></code></a> performs a stability check
+(<code class="xref py py-meth docutils literal notranslate"><span class="pre">_check_stability()</span></code>) and raises a clear
+<code class="docutils literal notranslate"><span class="pre">ValueError</span></code> rather than returning nonsense.</p>
+<p>The check operates on the <strong>free-DOF partition</strong> of the <em>unrestricted</em> global
+stiffness matrix (including any spring terms). Let <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> be the set of
+DOF that are neither fully fixed (<span class="math notranslate nohighlight">\(R_i &lt; 0\)</span>) nor carry a prescribed displacement;
+spring DOF remain free and contribute their stiffness. The partition
+<span class="math notranslate nohighlight">\(\mathbf{K}_{\mathcal{F}\mathcal{F}}\)</span> governs the unknown displacements. (The
+free partition of the <em>unrestricted</em> matrix is used deliberately: direct
+elimination places <span class="math notranslate nohighlight">\(1.0\)</span> on the diagonal of constrained DOF, which would pollute
+the condition number of the reduced system.)</p>
+<p>For a <strong>stable</strong> linear-elastic structure <span class="math notranslate nohighlight">\(\mathbf{K}_{\mathcal{F}\mathcal{F}}\)</span>
+is symmetric positive-definite
+(<a class="reference internal" href="references.html#ref-bathe-2014"><span class="std std-ref">Bathe, 2014</span></a>); a mechanism makes it singular —
+its smallest eigenvalue collapses to zero relative to the largest. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>
+forms the symmetric eigenvalues <span class="math notranslate nohighlight">\(\lambda\)</span> of
+<span class="math notranslate nohighlight">\(\mathbf{K}_{\mathcal{F}\mathcal{F}}\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.eigvalsh</span></code>) and compares the
+<strong>reciprocal condition number</strong></p>
 <div class="math notranslate nohighlight">
-\[\mathbf{K}\,\mathbf{d} = \mathbf{f}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> is the equivalent nodal force vector assembled from the consistent nodal loads of each span (negated, as loads oppose the reactions they generate).</p>
-<p>Boundary conditions are applied by the <strong>direct elimination method</strong>. A DOF <span class="math notranslate nohighlight">\(i\)</span> is eliminated whenever its displacement is known: either because an explicit value <span class="math notranslate nohighlight">\(\bar{d}_i\)</span> has been prescribed in the displacement vector <span class="math notranslate nohighlight">\(\mathbf{D}\)</span>, or because the DOF is fully fixed (<span class="math notranslate nohighlight">\(R_i = -1\)</span>) and no override is given, in which case <span class="math notranslate nohighlight">\(\bar{d}_i = 0\)</span>. For each such DOF the procedure is:</p>
+\[
+\frac{\min_k |\lambda_k|}{\max_k |\lambda_k|}
+\]</div>
+<p>against a floor of <span class="math notranslate nohighlight">\(10^{-12}\)</span>
+(<a class="reference internal" href="references.html#ref-golub-vanloan-2013"><span class="std std-ref">Golub &amp; Van Loan, 2013</span></a>). A value below
+the floor (or a zero maximum eigenvalue) signals a mechanism. The floor is
+chosen so that a genuine mechanism — whose null eigenvalue sits near machine
+epsilon (<span class="math notranslate nohighlight">\(\sim 10^{-16}\)</span>) — is separated with margin from a legitimately flexible
+but stable structure.</p>
+<p>The check runs <strong>at most once per structure</strong>: its result is cached against the
+beam’s <code class="docutils literal notranslate"><span class="pre">structure_version</span></code> and re-evaluated only if the geometry, rigidity,
+restraints or prescribed displacements change. It therefore adds no cost to
+looped analyses that vary only the loads (e.g. a moving-load run). The same logic
+is exposed without solving via <a class="reference internal" href="gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.is_stable" title="pycba.analysis.BeamAnalysis.is_stable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis.is_stable()</span></code></a>
+(returns a <code class="docutils literal notranslate"><span class="pre">bool</span></code>), and can be skipped with <code class="docutils literal notranslate"><span class="pre">analyze(check_stability=False)</span></code> for
+an intentionally near-singular model. As a final safeguard, the linear solve
+itself (<code class="xref py py-meth docutils literal notranslate"><span class="pre">_solver()</span></code>) traps a singular matrix and
+raises the same instability error.</p>
+</section>
+<section id="boundary-conditions">
+<h2>Boundary conditions<a class="headerlink" href="#boundary-conditions" title="Link to this heading">#</a></h2>
+<p>With <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> assembled, the governing system is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{K}\,\mathbf{d} = \mathbf{f}.
+\]</div>
+<p>Boundary conditions are imposed by the <strong>direct elimination method</strong>
+(<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis._apply_bc()</span></code>;
+<a class="reference internal" href="references.html#ref-cook-2001"><span class="std std-ref">Cook et al., 2001</span></a>). A DOF <span class="math notranslate nohighlight">\(i\)</span> is eliminated
+whenever its displacement is known — either because an explicit value
+<span class="math notranslate nohighlight">\(\bar{d}_i\)</span> has been prescribed in the displacement vector <span class="math notranslate nohighlight">\(\mathbf{D}\)</span>, or
+because the DOF is fully fixed (<span class="math notranslate nohighlight">\(R_i = -1\)</span>) with no override, in which case
+<span class="math notranslate nohighlight">\(\bar{d}_i = 0\)</span>. For each such DOF:</p>
 <ol class="arabic">
-<li><p>Transfer the constraint’s contribution to all other DOFs:</p>
+<li><p>Transfer the constraint’s contribution to the right-hand side of every other
+equation, by subtracting the full <span class="math notranslate nohighlight">\(i\)</span>-th column scaled by <span class="math notranslate nohighlight">\(\bar{d}_i\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[f_j \leftarrow f_j - K_{ji}\,\bar{d}_i \quad \forall\, j\]</div>
+\[
+   f_j \;\leftarrow\; f_j - K_{ji}\,\bar{d}_i \qquad \forall\, j.
+   \]</div>
 </li>
 <li><p>Zero the <span class="math notranslate nohighlight">\(i\)</span>-th row and column:</p>
 <div class="math notranslate nohighlight">
-\[K_{ij} = K_{ji} = 0 \quad \forall\, j\]</div>
+\[
+   K_{ij} = K_{ji} = 0 \qquad \forall\, j.
+   \]</div>
 </li>
 <li><p>Set the diagonal to unity and the right-hand side to the prescribed value:</p>
 <div class="math notranslate nohighlight">
-\[K_{ii} = 1, \qquad f_i = \bar{d}_i\]</div>
+\[
+   K_{ii} = 1, \qquad f_i = \bar{d}_i.
+   \]</div>
 </li>
 </ol>
-<p>This preserves symmetry and reproduces the prescribed displacement exactly in the solution. A support settlement is therefore modelled simply by providing a non-zero <span class="math notranslate nohighlight">\(\bar{d}_i\)</span> at a fixed DOF; a negative value corresponds to a downward settlement. Prescribed displacements may also be applied to free DOFs. Spring DOFs (<span class="math notranslate nohighlight">\(R_i &gt; 0\)</span>) without a prescribed displacement are <em>not</em> eliminated; their stiffness is already on the diagonal and they remain as free unknowns.</p>
-</section>
-<section id="Reaction-Recovery">
-<h2>Reaction Recovery<a class="headerlink" href="#Reaction-Recovery" title="Link to this heading">#</a></h2>
-<p>After solving the restricted system for the nodal displacements <span class="math notranslate nohighlight">\(\mathbf{d}\)</span>, support reactions are recovered using the <strong>unrestricted</strong> stiffness matrix <span class="math notranslate nohighlight">\(\mathbf{K}_U\)</span> (assembled before boundary conditions were applied) and the original nodal force vector <span class="math notranslate nohighlight">\(\mathbf{f}_U\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{r}^* = \mathbf{K}_U\,\mathbf{d} - \mathbf{f}_U\]</div>
-<p>The reaction at a fully-fixed DOF <span class="math notranslate nohighlight">\(i\)</span> (<span class="math notranslate nohighlight">\(R_i = -1\)</span>) is:</p>
-<div class="math notranslate nohighlight">
-\[R_i = r^*_i\]</div>
-<p>For spring DOFs the spring force is reported separately as <span class="math notranslate nohighlight">\(F_s^{(i)} = -k_s\,u_i\)</span> (upward positive), because the residual <span class="math notranslate nohighlight">\(r^*_i\)</span> at a spring DOF contains structural coupling contributions from neighbouring DOFs in addition to the spring force itself.</p>
-</section>
-<section id="Member-Displacements">
-<h2>Member Displacements<a class="headerlink" href="#Member-Displacements" title="Link to this heading">#</a></h2>
-<p>Displacement along an element are found using cumulative trapezoidal integration to approximate the integral. It is not accurate to use the beam element shape functions due to the presence of inter-nodal loading. Thus, the rotations along an element are found by integrating the curvatures:</p>
-<div class="math notranslate nohighlight">
-\[\theta(x) = \theta_0 + \int_{x=0}^{x=L} \frac{M(x)}{EI} dx,\]</div>
-<p>and similarly the displacements then found by integrating the rotations:</p>
-<div class="math notranslate nohighlight">
-\[\delta(x) = \delta_0 + \int_{x=0}^{x=L} \theta(x) dx.\]</div>
-<p>In both cases we approximate the integral with:</p>
-<div class="math notranslate nohighlight">
-\[\int_0^L y(x) dx \approx \sum_{i=1}^{i=n} \frac{y_{i-1}+y_i}{2} \Delta x.\]</div>
-<p>which is implemented using <code class="docutils literal notranslate"><span class="pre">SciPy</span></code>’s <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.cumulative_trapezoid.html#scipy.integrate.cumulative_trapezoid">cumulative trapezoidal</a> integration along the <span class="math notranslate nohighlight">\(n\)</span> integration points along the member.</p>
-<p>Note that <span class="math notranslate nohighlight">\(\theta_0\)</span> and <span class="math notranslate nohighlight">\(\delta_0\)</span> are required: the rotation and translation at the <span class="math notranslate nohighlight">\(i\)</span>-node of the element. This is typically the output of the global system of equations; i.e., the nodal displacements. However, for elements with releases (types 2, 3, 4 above), we need to determine the starting rotation, <span class="math notranslate nohighlight">\(\theta_0\)</span>. From the slope deflection equations we can find this starting rotation at the <span class="math notranslate nohighlight">\(i\)</span>-node:</p>
-<div class="math notranslate nohighlight">
-\[\theta_i = \frac{\delta_j - \delta_i}{L} - \frac{L}{3EI}\left(-FEM_i + 0.5FEM_j + M_i - 0.5 M_j\right)\]</div>
-<p>in which the <span class="math notranslate nohighlight">\(FEM\)</span> are the consistent nodal loading moments due to the inter-nodal loads, and the <span class="math notranslate nohighlight">\(M\)</span> moments are solved from the global stiffness equation.</p>
-</section>
-<section id="Nonlinear-Analysis-—-Generalized-Clough-Model">
-<h2>Nonlinear Analysis — Generalized Clough Model<a class="headerlink" href="#Nonlinear-Analysis-—-Generalized-Clough-Model" title="Link to this heading">#</a></h2>
-<p>PyCBA extends the linear elastic framework with an incremental nonlinear analysis that tracks plastic hinge formation and moment redistribution up to collapse. The approach is based on <em>concentrated plasticity</em>: nonlinear behaviour is localised at element ends (potential hinge locations), while the element interior remains elastic.</p>
-<section id="Concentrated-Plasticity-via-Stiffness-Degradation">
-<h3>Concentrated Plasticity via Stiffness Degradation<a class="headerlink" href="#Concentrated-Plasticity-via-Stiffness-Degradation" title="Link to this heading">#</a></h3>
-<p>The Generalized Clough model (Clough &amp; Johnston, 1966) introduces a stiffness-reduction parameter <span class="math notranslate nohighlight">\(R\)</span> at each element end. The parameter varies between:</p>
+<p>This preserves symmetry and reproduces the prescribed displacement exactly in the
+solution (<span class="math notranslate nohighlight">\(d_i = \bar{d}_i\)</span>), while correctly transferring the constraint
+reaction into the remaining free equations.</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(R = 1\)</span>: fully elastic (no yielding)</p></li>
-<li><p><span class="math notranslate nohighlight">\(R = q\)</span>: fully plastic hinge (<span class="math notranslate nohighlight">\(q\)</span> is the strain-hardening ratio; <span class="math notranslate nohighlight">\(q = 0\)</span> for elastic-perfectly-plastic)</p></li>
+<li><p>A <strong>fixed support</strong> is the special case <span class="math notranslate nohighlight">\(\bar{d}_i = 0\)</span>.</p></li>
+<li><p>A <strong>support settlement</strong> is modelled simply by providing a non-zero
+<span class="math notranslate nohighlight">\(\bar{d}_i\)</span> at the support DOF (negative = downward). Prescribed displacements
+may also be applied to otherwise-free DOF.</p></li>
+<li><p><strong>Spring DOF</strong> (<span class="math notranslate nohighlight">\(R_i &gt; 0\)</span>) without a prescribed displacement are <em>not</em>
+eliminated — their stiffness is already on the diagonal and they remain free
+unknowns.</p></li>
 </ul>
-<p>The transition is governed by the normalised moment ratio <span class="math notranslate nohighlight">\(\gamma = |M| / M_p\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}R = \begin{cases}
-1 &amp; \text{if } \gamma \leq \gamma_y \\[4pt]
-1 - \dfrac{\gamma - \gamma_y}{1 - \gamma_y}(1 - q) &amp; \text{if } \gamma_y &lt; \gamma &lt; 1 \\[4pt]
-q &amp; \text{if } \gamma \geq 1
-\end{cases}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\gamma_y = M_y / M_p\)</span> is the normalised yield moment. This produces a bilinear moment–rotation response at the section level. On unloading (<span class="math notranslate nohighlight">\(\gamma\)</span> decreasing below the historical peak), <span class="math notranslate nohighlight">\(R\)</span> resets to 1 — the Clough “origin-oriented” unloading rule.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A DOF cannot simultaneously carry a spring (<span class="math notranslate nohighlight">\(R_i &gt; 0\)</span>), a prescribed displacement
+<em>and</em> a non-zero consistent nodal load: the elimination would set
+<span class="math notranslate nohighlight">\(f_i = \bar{d}_i\)</span> and silently discard the load. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> validates against this
+inconsistent combination up front (<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis._validate()</span></code>)
+and raises a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
+</div>
 </section>
-<section id="Element-Stiffness-with-Degradation">
-<h3>Element Stiffness with Degradation<a class="headerlink" href="#Element-Stiffness-with-Degradation" title="Link to this heading">#</a></h3>
-<p>For an element with left-end parameter <span class="math notranslate nohighlight">\(R_1\)</span> and right-end parameter <span class="math notranslate nohighlight">\(R_2\)</span>, the element stiffness matrix is interpolated between the standard fixed-fixed (<span class="math notranslate nohighlight">\(\mathbf{k}_e\)</span>), pinned-fixed (<span class="math notranslate nohighlight">\(\mathbf{k}_1\)</span>), and fixed-pinned (<span class="math notranslate nohighlight">\(\mathbf{k}_2\)</span>) matrices. Following Li &amp; Li (2007, Chapter 4), if <span class="math notranslate nohighlight">\(R_1 \geq R_2\)</span>:</p>
+<section id="solution-and-reaction-recovery">
+<h2>Solution and reaction recovery<a class="headerlink" href="#solution-and-reaction-recovery" title="Link to this heading">#</a></h2>
+<p>The restricted system is solved for the nodal displacements with a direct dense
+solver, <span class="math notranslate nohighlight">\(\mathbf{d} = \mathbf{K}^{-1}\mathbf{f}\)</span> (<code class="docutils literal notranslate"><span class="pre">numpy.linalg.solve</span></code>,
+<a class="reference internal" href="references.html#ref-harris-numpy-2020"><span class="std std-ref">Harris et al., 2020</span></a>).</p>
+<p>Support reactions are recovered using the <strong>unrestricted</strong> stiffness matrix
+<span class="math notranslate nohighlight">\(\mathbf{K}_U\)</span> (assembled before boundary conditions, including spring terms) and
+the original force vector <span class="math notranslate nohighlight">\(\mathbf{f}_U\)</span>
+(<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.analysis.BeamAnalysis._reactions()</span></code>). The nodal residual is</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{k} = R_2\,\mathbf{k}_e + (R_1 - R_2)\,\mathbf{k}_2\]</div>
-<p>and if <span class="math notranslate nohighlight">\(R_1 &lt; R_2\)</span>:</p>
+\[
+\mathbf{r}^{*} = \mathbf{K}_U\,\mathbf{d} - \mathbf{f}_U.
+\]</div>
+<p>At a <strong>fully-fixed</strong> DOF <span class="math notranslate nohighlight">\(i\)</span> (<span class="math notranslate nohighlight">\(R_i = -1\)</span>) the displacement is zero (or the
+prescribed settlement) and the residual equals the support reaction directly:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{k} = R_1\,\mathbf{k}_e + (R_2 - R_1)\,\mathbf{k}_1\]</div>
-<p>This interpolation ensures that the element stiffness degrades smoothly as either end yields, and reduces to the standard elastic matrix when <span class="math notranslate nohighlight">\(R_1 = R_2 = 1\)</span>.</p>
+\[
+R_i = r^{*}_i,
+\]</div>
+<p>returned in <code class="docutils literal notranslate"><span class="pre">beam_results.R</span></code>, with the upward-positive sign convention.</p>
+<p>For a <strong>spring</strong> DOF the residual contains structural coupling from neighbouring
+DOF and any applied nodal load, so it is <em>not</em> the spring force alone. The spring
+force is therefore computed explicitly from the spring displacement and reported
+separately in <code class="docutils literal notranslate"><span class="pre">beam_results.Rs</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[
+F_s^{(i)} = -k_s\,u_i,
+\]</div>
+<p>with the sign chosen so that an upward spring reaction is positive when the
+displacement is downward (negative).</p>
 </section>
-<section id="Hinge-Ownership">
-<h3>Hinge Ownership<a class="headerlink" href="#Hinge-Ownership" title="Link to this heading">#</a></h3>
-<p>At a shared node between two elements, each plastic hinge is <em>owned</em> by a single element end — the element whose end reached plasticity first. The adjacent element retains <span class="math notranslate nohighlight">\(R = 1\)</span> at that shared node. This is essential: if both element ends at a node were simultaneously degraded, the global stiffness matrix would become singular prematurely, terminating the analysis before the true collapse mechanism forms.</p>
-<p>The owning element is chosen as follows: for an interior node <span class="math notranslate nohighlight">\(j\)</span>, the hinge is assigned to element <span class="math notranslate nohighlight">\(j-1\)</span> (right end). This convention keeps the global stiffness matrix non-singular during the progressive formation of hinges.</p>
+<section id="member-results-moment-shear-rotation-and-deflection">
+<h2>Member results: moment, shear, rotation and deflection<a class="headerlink" href="#member-results-moment-shear-rotation-and-deflection" title="Link to this heading">#</a></h2>
+<p>Once the nodal displacements are known, the load effects are recovered along each
+member at <span class="math notranslate nohighlight">\(n_{\text{pts}}\)</span> stations (default 100;
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.results.BeamResults._member_values()</span></code>). The <strong>bending moment</strong> and
+<strong>shear</strong> distributions are obtained from <em>exact</em> analytical expressions:
+superposing the member-end-moment effect (from the solved nodal moments) with the
+simply-supported member results of each applied load (the closed-form <code class="docutils literal notranslate"><span class="pre">get_mbr_results</span></code>
+of each load class in <a class="reference internal" href="gen/pycba.load.html#module-pycba.load" title="pycba.load"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycba.load</span></code></a>). These are exact because the
+inter-nodal load distributions are known in closed form.</p>
+<p>The <strong>rotation</strong> and <strong>deflection</strong> are then obtained by integrating the
+curvature, because the cubic Hermite shape functions are <em>not</em> valid in the
+presence of inter-nodal loading. The total curvature is the flexural curvature
+plus any free (imposed) curvature:</p>
+<div class="math notranslate nohighlight">
+\[
+\kappa(x) = \frac{M(x)}{EI(x)} + \kappa_{\text{imp}}(x),
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(EI(x)\)</span> evaluated point-wise for a non-prismatic member (constant for the
+prismatic path). The rotation and deflection follow from successive integration:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta(x) = \theta_0 + \int_0^x \kappa(s)\,ds,
+\qquad
+\delta(x) = \delta_0 + \int_0^x \theta(s)\,ds,
+\]</div>
+<p>evaluated numerically by the cumulative trapezoidal rule</p>
+<div class="math notranslate nohighlight">
+\[
+\int_0^x y(s)\,ds \;\approx\; \sum_{k=1}^{n} \frac{y_{k-1} + y_k}{2}\,\Delta x,
+\]</div>
+<p>using <code class="docutils literal notranslate"><span class="pre">scipy.integrate.cumulative_trapezoid</span></code>
+(<a class="reference internal" href="references.html#ref-scipy-2020"><span class="std std-ref">Virtanen et al., 2020</span></a>) over the member stations.</p>
+<p>The integration constants <span class="math notranslate nohighlight">\(\theta_0\)</span> and <span class="math notranslate nohighlight">\(\delta_0\)</span> are the rotation and
+deflection at the <span class="math notranslate nohighlight">\(i\)</span>-node. The deflection constant is the nodal DOF,
+<span class="math notranslate nohighlight">\(\delta_0 = v_i\)</span>. For a <strong>fixed–fixed</strong> element the start rotation is also the
+nodal DOF, <span class="math notranslate nohighlight">\(\theta_0 = \theta_i\)</span>. For an element with a <strong>release</strong> (types 2–4)
+the rotation at a pinned <span class="math notranslate nohighlight">\(i\)</span>-end is not a primary unknown and must be recovered.
+In the prismatic case <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> uses the slope-deflection relation</p>
+<div class="math notranslate nohighlight">
+\[
+\theta_i = \frac{\delta_j - \delta_i}{L}
+- \frac{L}{3EI}\Big(-\,\mathrm{FEM}_i + \tfrac{1}{2}\,\mathrm{FEM}_j
++ M_i - \tfrac{1}{2}\,M_j\Big),
+\]</div>
+<p>where the <span class="math notranslate nohighlight">\(\mathrm{FEM}\)</span> are the consistent nodal-load moments due to the
+inter-nodal loads and the <span class="math notranslate nohighlight">\(M_i, M_j\)</span> are the solved member-end moments. For a
+non-prismatic member, or whenever an imposed curvature is present, <span class="math notranslate nohighlight">\(\theta_0\)</span> is
+instead recovered from the kinematic boundary condition <span class="math notranslate nohighlight">\(\delta(L) = v_j\)</span>, which
+is valid for any <span class="math notranslate nohighlight">\(EI(x)\)</span> and curvature field.</p>
 </section>
-<section id="Incremental-Analysis-(Static)">
-<h3>Incremental Analysis (Static)<a class="headerlink" href="#Incremental-Analysis-(Static)" title="Link to this heading">#</a></h3>
+<section id="linear-superposition-load-cases-and-patterning">
+<h2>Linear superposition, load cases and patterning<a class="headerlink" href="#linear-superposition-load-cases-and-patterning" title="Link to this heading">#</a></h2>
+<p>Because the analysis is <strong>linear elastic</strong>, responses to different load
+arrangements superpose. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> exposes this directly: load matrices can be added
+and factored (<a class="reference internal" href="gen/pycba.load.add_LM.html#pycba.load.add_LM" title="pycba.load.add_LM"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.load.add_LM()</span></code></a>, <a class="reference internal" href="gen/pycba.load.factor_LM.html#pycba.load.factor_LM" title="pycba.load.factor_LM"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.load.factor_LM()</span></code></a>), and the
+higher-level <code class="docutils literal notranslate"><span class="pre">LoadCases</span></code> / <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> workflow assembles a response matrix
+of basis cases and forms arbitrary weighted combinations and envelopes (see the
+<a class="reference internal" href="general.html"><span class="doc">Defining Beams</span></a> page).</p>
+<section id="segmented-load-patterning">
+<h3>Segmented load patterning<a class="headerlink" href="#segmented-load-patterning" title="Link to this heading">#</a></h3>
+<p>For a distributed live load that may act on selected parts of the beam, a
+continuous UDL is discretised into short partial-UDL <strong>segments</strong>, each analysed
+as a basis <code class="docutils literal notranslate"><span class="pre">LoadCase</span></code> over the whole beam. For a chosen target effect (e.g.
+bending moment at an internal support, at target coordinate <span class="math notranslate nohighlight">\(x_t\)</span>) the basis
+analyses give a response vector</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{r}(x_t) = \big[\,r_1(x_t),\; r_2(x_t),\; \dots,\; r_n(x_t)\,\big],
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(r_i(x_t)\)</span> is the contribution of segment <span class="math notranslate nohighlight">\(i\)</span>. A loading arrangement is a
+<code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> with <span class="math notranslate nohighlight">\(\{0,1\}\)</span> factors <span class="math notranslate nohighlight">\(\alpha_i\)</span> on the basis cases. When the
+segments may be selected <strong>independently</strong>, the adverse arrangement is a simple
+sign selection — include every segment whose contribution worsens the target
+effect:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\alpha_i =
+\begin{cases}
+1, &amp; r_i(x_t) &lt; 0 \quad \text{(for a minimum / hogging effect)} \\
+0, &amp; \text{otherwise,}
+\end{cases}
+\end{split}\]</div>
+<p>with the inequality reversed for a maximum effect. This produces one physical
+loading arrangement for that target.</p>
+<p>If a loading rule instead requires a single <strong>contiguous</strong> loaded length, the
+ordered segment responses are searched for the contiguous block with the largest
+adverse sum — a Kadane maximum-subarray step, with recurrence</p>
+<div class="math notranslate nohighlight">
+\[
+b_i = \max(r_i,\; b_{i-1} + r_i),
+\qquad
+B_i = \max(B_{i-1},\; b_i)
+\]</div>
+<p>(sign-reversed for a minimum effect). The indices of the governing block define
+the non-zero factors of the <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code>. A target combination such as
+“hogging at support 1” is therefore <em>one</em> arrangement, whereas a response
+envelope over many target stations is an envelope of (possibly different)
+arrangements.</p>
+</section>
+</section>
+<section id="nonlinear-analysis-generalized-clough-model">
+<span id="theory-nonlinear"></span><h2>Nonlinear analysis — Generalized Clough model<a class="headerlink" href="#nonlinear-analysis-generalized-clough-model" title="Link to this heading">#</a></h2>
+<p>Beyond linear elastic analysis, <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> provides an incremental <strong>nonlinear
+(elasto-plastic)</strong> analysis that tracks plastic-hinge formation and moment
+redistribution up to collapse. It uses <strong>concentrated plasticity</strong>: nonlinear
+behaviour is localised at element ends (potential hinge locations), while the
+element interior remains elastic
+(<a class="reference internal" href="references.html#ref-clough-johnston-1966"><span class="std std-ref">Clough &amp; Johnston, 1966</span></a>;
+<a class="reference internal" href="references.html#ref-li-li-2007"><span class="std std-ref">Li &amp; Li, 2007, Ch. 4</span></a>;
+<a class="reference internal" href="references.html#ref-neal-1977"><span class="std std-ref">Neal, 1977</span></a>).</p>
+<section id="concentrated-plasticity-via-stiffness-degradation">
+<h3>Concentrated plasticity via stiffness degradation<a class="headerlink" href="#concentrated-plasticity-via-stiffness-degradation" title="Link to this heading">#</a></h3>
+<p>The Generalized Clough model
+(<a class="reference internal" href="references.html#ref-clough-johnston-1966"><span class="std std-ref">Clough &amp; Johnston, 1966</span></a>) introduces a
+stiffness-reduction parameter <span class="math notranslate nohighlight">\(R\)</span> at each element end, varying between <span class="math notranslate nohighlight">\(R = 1\)</span>
+(fully elastic) and <span class="math notranslate nohighlight">\(R = q\)</span> (fully plastic hinge), where <span class="math notranslate nohighlight">\(q\)</span> is the
+strain-hardening ratio (<span class="math notranslate nohighlight">\(q = 0\)</span> for elastic–perfectly-plastic). The transition is
+governed by the normalised moment ratio <span class="math notranslate nohighlight">\(\gamma = |M|/M_p\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+R =
+\begin{cases}
+1, &amp; \gamma \le \gamma_y, \\[4pt]
+1 - \dfrac{\gamma - \gamma_y}{1 - \gamma_y}\,(1 - q), &amp; \gamma_y &lt; \gamma &lt; 1, \\[6pt]
+q, &amp; \gamma \ge 1,
+\end{cases}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma_y = M_y/M_p\)</span> is the normalised yield moment. This produces a
+bilinear moment–rotation response at the section. On unloading (<span class="math notranslate nohighlight">\(\gamma\)</span>
+decreasing below the historical peak), <span class="math notranslate nohighlight">\(R\)</span> resets to <span class="math notranslate nohighlight">\(1\)</span> — the Clough
+“origin-oriented” unloading rule.</p>
+</section>
+<section id="element-stiffness-with-degradation">
+<h3>Element stiffness with degradation<a class="headerlink" href="#element-stiffness-with-degradation" title="Link to this heading">#</a></h3>
+<p>For an element with left- and right-end parameters <span class="math notranslate nohighlight">\(R_1\)</span> and <span class="math notranslate nohighlight">\(R_2\)</span>, the element
+stiffness is interpolated between the fixed–fixed (<span class="math notranslate nohighlight">\(\mathbf{k}_e\)</span>),
+pinned–fixed (<span class="math notranslate nohighlight">\(\mathbf{k}_1\)</span>) and fixed–pinned (<span class="math notranslate nohighlight">\(\mathbf{k}_2\)</span>) matrices
+(<a class="reference internal" href="references.html#ref-li-li-2007"><span class="std std-ref">Li &amp; Li, 2007, Ch. 4</span></a>). If <span class="math notranslate nohighlight">\(R_1 \ge R_2\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{k} = R_2\,\mathbf{k}_e + (R_1 - R_2)\,\mathbf{k}_2,
+\]</div>
+<p>and if <span class="math notranslate nohighlight">\(R_1 &lt; R_2\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{k} = R_1\,\mathbf{k}_e + (R_2 - R_1)\,\mathbf{k}_1.
+\]</div>
+<p>The stiffness degrades smoothly as either end yields, and reduces to the elastic
+matrix when <span class="math notranslate nohighlight">\(R_1 = R_2 = 1\)</span>.</p>
+</section>
+<section id="hinge-ownership">
+<h3>Hinge ownership<a class="headerlink" href="#hinge-ownership" title="Link to this heading">#</a></h3>
+<p>At a node shared by two elements, each plastic hinge is <em>owned</em> by a single
+element end — the one that reached plasticity first — while the adjacent element
+retains <span class="math notranslate nohighlight">\(R = 1\)</span> at that node. If both ends at a node were simultaneously degraded
+the global stiffness would become singular prematurely, terminating the analysis
+before the true collapse mechanism forms. For an interior node <span class="math notranslate nohighlight">\(j\)</span> the hinge is
+assigned to element <span class="math notranslate nohighlight">\(j-1\)</span> (its right end), which keeps the global stiffness
+non-singular during the progressive formation of hinges.</p>
+</section>
+<section id="incremental-analysis-static">
+<h3>Incremental analysis (static)<a class="headerlink" href="#incremental-analysis-static" title="Link to this heading">#</a></h3>
 <p>The proportional-load analysis proceeds incrementally:</p>
-<ol class="arabic">
-<li><p><strong>Initialise:</strong> Set all <span class="math notranslate nohighlight">\(R = 1\)</span>, <span class="math notranslate nohighlight">\(\lambda = 0\)</span> (load factor), <span class="math notranslate nohighlight">\(\mathbf{M} = \mathbf{0}\)</span> (moments).</p></li>
-<li><p><strong>Increment:</strong> Choose a step <span class="math notranslate nohighlight">\(\Delta\lambda\)</span> (adaptive: smaller steps when any <span class="math notranslate nohighlight">\(R\)</span> is low, i.e. near plasticity).</p></li>
-<li><p><strong>Solve:</strong> Assemble <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> from the current <span class="math notranslate nohighlight">\(R\)</span> values, apply boundary conditions, and solve:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{K}\,\Delta\mathbf{u} = \Delta\lambda\,\mathbf{f}_{\text{ref}}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{f}_{\text{ref}}\)</span> is the reference load vector.</p>
-</li>
-<li><p><strong>Update moments:</strong> <span class="math notranslate nohighlight">\(\mathbf{M} \leftarrow \mathbf{M} + \Delta\mathbf{M}(\Delta\mathbf{u})\)</span></p></li>
-<li><p><strong>Update R:</strong> Recompute <span class="math notranslate nohighlight">\(\gamma\)</span> at each node. If <span class="math notranslate nohighlight">\(\gamma\)</span> exceeds the historical peak, degrade <span class="math notranslate nohighlight">\(R\)</span> accordingly. If <span class="math notranslate nohighlight">\(\gamma\)</span> has decreased (unloading), reset <span class="math notranslate nohighlight">\(R = 1\)</span>.</p></li>
-<li><p><strong>Check for collapse:</strong> If a new plastic hinge has formed, test whether the current hinge pattern constitutes a mechanism (see below).</p></li>
-<li><p><strong>Repeat</strong> until collapse or <span class="math notranslate nohighlight">\(\lambda_{\max}\)</span> is reached.</p></li>
-</ol>
-</section>
-<section id="Moving-Load-Analysis">
-<h3>Moving Load Analysis<a class="headerlink" href="#Moving-Load-Analysis" title="Link to this heading">#</a></h3>
-<p>For a vehicle traversing the beam, the load position changes at each step. The key challenge is that the load must be <em>transferred</em> from the old position to the new one without introducing spurious plastic deformation. PyCBA uses paired <strong>elastic-unload / nonlinear-reload</strong> sub-increments at each position step:</p>
 <ol class="arabic simple">
-<li><p><strong>Unload</strong> the previous position’s load fraction using the <em>elastic</em> stiffness matrix (unloading is always elastic in the Clough model).</p></li>
-<li><p><strong>Reload</strong> the new position’s load fraction using the <em>current</em> (degraded) stiffness matrix.</p></li>
+<li><p><strong>Initialise:</strong> all <span class="math notranslate nohighlight">\(R = 1\)</span>, load factor <span class="math notranslate nohighlight">\(\lambda = 0\)</span>, moments
+<span class="math notranslate nohighlight">\(\mathbf{M} = \mathbf{0}\)</span>.</p></li>
+<li><p><strong>Increment:</strong> choose a step <span class="math notranslate nohighlight">\(\Delta\lambda\)</span> (adaptive — smaller when any <span class="math notranslate nohighlight">\(R\)</span>
+is low, i.e. near plasticity).</p></li>
+<li><p><strong>Solve</strong> the current tangent system
+<span class="math notranslate nohighlight">\(\mathbf{K}\,\Delta\mathbf{u} = \Delta\lambda\,\mathbf{f}_{\text{ref}}\)</span>, where
+<span class="math notranslate nohighlight">\(\mathbf{f}_{\text{ref}}\)</span> is the reference load vector.</p></li>
+<li><p><strong>Update moments:</strong> <span class="math notranslate nohighlight">\(\mathbf{M} \leftarrow \mathbf{M} + \Delta\mathbf{M}\)</span>.</p></li>
+<li><p><strong>Update <span class="math notranslate nohighlight">\(R\)</span>:</strong> recompute <span class="math notranslate nohighlight">\(\gamma\)</span> at each node; degrade <span class="math notranslate nohighlight">\(R\)</span> if <span class="math notranslate nohighlight">\(\gamma\)</span>
+exceeds its historical peak, or reset <span class="math notranslate nohighlight">\(R = 1\)</span> on unloading.</p></li>
+<li><p><strong>Check for collapse</strong> when a new hinge forms (see below).</p></li>
+<li><p><strong>Repeat</strong> until collapse or <span class="math notranslate nohighlight">\(\lambda_{\max}\)</span>.</p></li>
 </ol>
-<p>Each position step is divided into <span class="math notranslate nohighlight">\(n_{\text{sub}}\)</span> sub-increments for accuracy. This paired unload/reload procedure ensures that elastic unloading does not trigger spurious yielding, while correctly accumulating plastic damage as the vehicle traverses.</p>
 </section>
-<section id="Collapse-Detection">
-<h3>Collapse Detection<a class="headerlink" href="#Collapse-Detection" title="Link to this heading">#</a></h3>
-<p>A collapse mechanism requires sufficient plastic hinges to render the structure kinematically unstable. PyCBA detects this by a <strong>rank test</strong>:</p>
-<ol class="arabic simple">
-<li><p><strong>Cluster</strong> nearby hinged nodes (within a tolerance of <span class="math notranslate nohighlight">\(2 h_{\min}\)</span>, where <span class="math notranslate nohighlight">\(h_{\min}\)</span> is the smallest element length) to account for mesh discretisation.</p></li>
-<li><p>At each clustered hinge location, set <span class="math notranslate nohighlight">\(R = 0\)</span> at <em>both</em> element ends meeting at that node — this fully releases the node, as would occur in a true mechanism.</p></li>
-<li><p>Assemble the test stiffness matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{\text{test}}\)</span> and apply boundary conditions.</p></li>
-<li><p>If <span class="math notranslate nohighlight">\(\operatorname{rank}(\mathbf{K}_{\text{test}}) &lt; n_{\text{dof}}\)</span>, the structure is a mechanism and collapse has occurred.</p></li>
-</ol>
-<p>This approach is more robust than monitoring determinant magnitude or displacement growth, as it directly tests for kinematic instability.</p>
+<section id="moving-load-analysis">
+<h3>Moving-load analysis<a class="headerlink" href="#moving-load-analysis" title="Link to this heading">#</a></h3>
+<p>For a vehicle traversing the beam the load position changes at each step, and the
+load must be transferred from the old position to the new one without spurious
+plastic deformation. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> uses paired <strong>elastic-unload / nonlinear-reload</strong>
+sub-increments at each position: unload the previous position’s load fraction
+using the <em>elastic</em> stiffness (unloading is always elastic in the Clough model),
+then reload the new position’s load fraction using the <em>current</em> (degraded)
+stiffness. Each position step is divided into <span class="math notranslate nohighlight">\(n_{\text{sub}}\)</span> sub-increments for
+accuracy. This correctly accumulates plastic damage as the vehicle traverses
+(<a class="reference internal" href="references.html#ref-mccarthy-2012"><span class="std std-ref">McCarthy, 2012</span></a>;
+<a class="reference internal" href="references.html#ref-caprani-2006"><span class="std std-ref">Caprani, 2006</span></a>).</p>
 </section>
-<section id="Mesh-Considerations">
-<h3>Mesh Considerations<a class="headerlink" href="#Mesh-Considerations" title="Link to this heading">#</a></h3>
-<p>The continuous beam is internally meshed into short elements of a target length (<code class="docutils literal notranslate"><span class="pre">mesh_size</span></code>). The mesh density affects accuracy because:</p>
-<ul class="simple">
-<li><p><strong>Point loads</strong> coinciding with mesh nodes are represented exactly. For loads between nodes, Hermite shape-function interpolation distributes the load to adjacent nodes.</p></li>
-<li><p><strong>UDL</strong> is converted to lumped nodal forces (half the tributary load at each node of each element).</p></li>
-<li><p><strong>Plastic hinges</strong> can only form at mesh nodes. For UDL, the theoretical hinge location (e.g. at <span class="math notranslate nohighlight">\(x^* = 0.414\,L\)</span> for a propped cantilever) may not coincide with a node, causing the hinge to “snap” to a nearby node. This introduces a discretisation error that is <em>not</em> monotonically decreasing with mesh refinement — it depends on how close a node falls to the theoretical location.</p></li>
-</ul>
-<p>For point-load problems where the load and hinge locations coincide with mesh nodes, the method converges rapidly. For UDL problems, errors of a few percent are typical and can be reduced by choosing mesh sizes that place nodes near the expected hinge locations.</p>
-<p>The nonlinear analysis is demonstrated in the <a class="reference internal" href="notebooks/nonlinear.html"><span class="doc">nonlinear tutorial</span></a>; the source texts (Clough &amp; Johnston, Li &amp; Li, McCarthy, and others) are on the <a class="reference internal" href="references.html"><span class="doc">References</span></a> page.</p>
+<section id="collapse-detection">
+<h3>Collapse detection<a class="headerlink" href="#collapse-detection" title="Link to this heading">#</a></h3>
+<p>A collapse mechanism requires enough plastic hinges to render the structure
+kinematically unstable. <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> detects this with a <strong>rank test</strong>: nearby hinged
+nodes are first clustered (within <span class="math notranslate nohighlight">\(2 h_{\min}\)</span>, where <span class="math notranslate nohighlight">\(h_{\min}\)</span> is the smallest
+element length) to absorb mesh discretisation; at each clustered hinge <span class="math notranslate nohighlight">\(R = 0\)</span> is
+set at <em>both</em> element ends, fully releasing the node as in a true mechanism; the
+test stiffness <span class="math notranslate nohighlight">\(\mathbf{K}_{\text{test}}\)</span> is assembled with the boundary
+conditions applied; and if
+<span class="math notranslate nohighlight">\(\operatorname{rank}(\mathbf{K}_{\text{test}}) &lt; n_{\text{dof}}\)</span> the structure is
+a mechanism and collapse has occurred. This direct kinematic test is more robust
+than monitoring determinant magnitude or displacement growth.</p>
+</section>
+<section id="mesh-considerations">
+<h3>Mesh considerations<a class="headerlink" href="#mesh-considerations" title="Link to this heading">#</a></h3>
+<p>The continuous beam is internally meshed into short elements of a target length
+(<code class="docutils literal notranslate"><span class="pre">mesh_size</span></code>). Point loads at mesh nodes are represented exactly; loads between
+nodes are distributed to adjacent nodes by Hermite interpolation, and UDL is
+lumped to nodal forces. Plastic hinges can form only at mesh nodes, so a hinge
+whose theoretical location (e.g. <span class="math notranslate nohighlight">\(x^{*} = 0.414\,L\)</span> for a propped cantilever
+under UDL) falls between nodes “snaps” to the nearest node — a discretisation
+error that is <em>not</em> monotonic with refinement. Point-load problems whose load and
+hinge locations coincide with nodes converge rapidly; UDL problems typically show
+errors of a few percent, reducible by placing nodes near the expected hinge
+locations.</p>
+<hr class="docutils" />
+<p>The nonlinear analysis is demonstrated in the
+<a class="reference internal" href="notebooks/nonlinear.html"><span class="std std-doc">nonlinear tutorial</span></a>; worked linear examples are in
+the <a class="reference internal" href="tutorials.html"><span class="doc">Tutorials</span></a>, and all the source texts cited above — for the matrix
+stiffness method, the consistent nodal loads, the non-prismatic and
+imposed-curvature formulations, the stability check, and the plastic-hinge
+model — are collected with hyperlinks on the <a class="reference internal" href="references.html"><span class="std std-doc">References</span></a> page.</p>
 </section>
 </section>
 </section>
@@ -770,34 +1335,40 @@ q &amp; \text{if } \gamma \geq 1
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Elements">Elements</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-1:-Fixed-Fixed">Type 1: Fixed-Fixed</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-2:-Fixed-Pinned">Type 2: Fixed-Pinned</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-3:-Pinned-Fixed">Type 3: Pinned-Fixed</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Type-4:-Pinned-Pinned">Type 4: Pinned-Pinned</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Non-prismatic-(variable-EI)-elements">Non-prismatic (variable-EI) elements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sign-conventions-and-degrees-of-freedom">Sign conventions and degrees of freedom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elements">Elements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-prismatic-eulerbernoulli-beam-element">The prismatic Euler–Bernoulli beam element</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#element-types-and-moment-releases">Element types and moment releases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-prismatic-variable-ei-elements">Non-prismatic (variable-<span class="math notranslate nohighlight">\(EI\)</span>) elements</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Global-Stiffness-Matrix">Global Stiffness Matrix</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Spring-Supports">Spring Supports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-stiffness-matrix">Global stiffness matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spring-supports">Spring supports</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Loads">Loads</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Segmented-Load-Patterning-and-Kadane-Style-Selection">Segmented Load Patterning and Kadane-Style Selection</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Imposed-curvature-(initial-strain)-loads">Imposed-curvature (initial-strain) loads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loads">Loads</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consistent-nodal-fixed-end-forces">Consistent nodal (fixed-end) forces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#released-end-forces-member-releases">Released end forces (member releases)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assembly-of-the-load-vector">Assembly of the load vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imposed-curvature-initial-strain-loads">Imposed-curvature (initial-strain) loads</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Boundary-Conditions">Boundary Conditions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Reaction-Recovery">Reaction Recovery</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Member-Displacements">Member Displacements</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Nonlinear-Analysis-—-Generalized-Clough-Model">Nonlinear Analysis — Generalized Clough Model</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Concentrated-Plasticity-via-Stiffness-Degradation">Concentrated Plasticity via Stiffness Degradation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Element-Stiffness-with-Degradation">Element Stiffness with Degradation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Hinge-Ownership">Hinge Ownership</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Incremental-Analysis-(Static)">Incremental Analysis (Static)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Moving-Load-Analysis">Moving Load Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Collapse-Detection">Collapse Detection</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Mesh-Considerations">Mesh Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-mechanism-detection">Stability / mechanism detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boundary-conditions">Boundary conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-and-reaction-recovery">Solution and reaction recovery</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#member-results-moment-shear-rotation-and-deflection">Member results: moment, shear, rotation and deflection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-superposition-load-cases-and-patterning">Linear superposition, load cases and patterning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segmented-load-patterning">Segmented load patterning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-analysis-generalized-clough-model">Nonlinear analysis — Generalized Clough model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concentrated-plasticity-via-stiffness-degradation">Concentrated plasticity via stiffness degradation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#element-stiffness-with-degradation">Element stiffness with degradation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hinge-ownership">Hinge ownership</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incremental-analysis-static">Incremental analysis (static)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#moving-load-analysis">Moving-load analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collapse-detection">Collapse detection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mesh-considerations">Mesh considerations</a></li>
 </ul>
 </li>
 </ul>
@@ -807,7 +1378,7 @@ q &amp; \text{if } \gamma \geq 1
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/theory.ipynb">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/theory.md">
       <i class="fa-solid fa-pencil"></i>
       
       

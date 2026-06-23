@@ -42,6 +42,8 @@
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -476,22 +478,27 @@ Current <code class="docutils literal notranslate"><span class="pre">PyCBA</span
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">Theoretical Basis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Elements">Elements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Global-Stiffness-Matrix">Global Stiffness Matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Loads">Loads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Segmented-Load-Patterning-and-Kadane-Style-Selection">Segmented Load Patterning and Kadane-Style Selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Boundary-Conditions">Boundary Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Reaction-Recovery">Reaction Recovery</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Member-Displacements">Member Displacements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="theory.html#Nonlinear-Analysis-—-Generalized-Clough-Model">Nonlinear Analysis — Generalized Clough Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#sign-conventions-and-degrees-of-freedom">Sign conventions and degrees of freedom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#elements">Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#global-stiffness-matrix">Global stiffness matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#loads">Loads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#stability-mechanism-detection">Stability / mechanism detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#boundary-conditions">Boundary conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#solution-and-reaction-recovery">Solution and reaction recovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#member-results-moment-shear-rotation-and-deflection">Member results: moment, shear, rotation and deflection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#linear-superposition-load-cases-and-patterning">Linear superposition, load cases and patterning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory.html#nonlinear-analysis-generalized-clough-model">Nonlinear analysis — Generalized Clough model</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="references.html#matrix-stiffness-method">Matrix stiffness method</a></li>
-<li class="toctree-l2"><a class="reference internal" href="references.html#non-prismatic-elements-and-imposed-curvature">Non-prismatic elements and imposed curvature</a></li>
-<li class="toctree-l2"><a class="reference internal" href="references.html#nonlinear-analysis-and-plastic-hinge-models">Nonlinear analysis and plastic hinge models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#matrix-direct-stiffness-method-and-beam-elements">Matrix (direct) stiffness method and beam elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#consistent-nodal-loads-fixed-end-forces">Consistent nodal loads (fixed-end forces)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#non-prismatic-variable-ei-elements-and-imposed-curvature">Non-prismatic (variable-<span class="math notranslate nohighlight">\(EI\)</span>) elements and imposed curvature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#numerical-integration">Numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#stability-mechanism-detection">Stability / mechanism detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#nonlinear-analysis-and-plastic-hinge-models">Nonlinear analysis and plastic-hinge models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="references.html#plastic-analysis-virtual-work-collapse-load-factors">Plastic analysis (virtual work / collapse load factors)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="references.html#bridge-loading-and-moving-load-analysis">Bridge loading and moving load analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#bridge-loading-and-moving-load-analysis">Bridge loading and moving-load analysis</a></li>
 </ul>
 </li>
 </ul>
