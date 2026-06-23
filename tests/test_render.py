@@ -213,6 +213,95 @@ def test_plot_toggles_do_not_error():
     plt.close(ax.figure)
 
 
+def _make_analysis(beam_str="P7.5R7.0R", LM=None):
+    L, EI, R, eType = parse_beam_string(beam_str)
+    if LM is None:
+        LM = [[1, 1, 20], [2, 2, 50, 3]]
+    return cba.BeamAnalysis(L, EI, R, LM=LM, eletype=eType)
+
+
+def test_beamanalysis_plot_beam_convenience():
+    # plot_beam() on the analysis object mirrors beam.plot() without
+    # reaching through .beam, just as plot_results() does.
+    ba = _make_analysis()
+    ax = ba.plot_beam()
+    assert isinstance(ax, matplotlib.axes.Axes)
+    assert ax.patches  # supports / loads drawn
+    plt.close(ax.figure)
+
+    # load source can still be overridden, e.g. bare structure
+    ax2 = ba.plot_beam(loads=[])
+    assert isinstance(ax2, matplotlib.axes.Axes)
+    plt.close(ax2.figure)
+
+
+def test_plot_beam_tikz_returns_source():
+    # tikz=True selects the TikZ backend and returns LaTeX, no .beam indirection
+    ba = _make_analysis()
+    src = ba.plot_beam(tikz=True)
+    assert isinstance(src, str)
+    assert "\\begin{tikzpicture}" in src
+    assert "\\documentclass" in src  # standalone by default
+
+
+def test_plot_beam_tex_extension_infers_tikz(tmp_path):
+    # a .tex target selects the TikZ backend without needing tikz=True
+    ba = _make_analysis()
+    out = ba.plot_beam(save=tmp_path / "beam.tex")
+    assert out == tmp_path / "beam.tex"
+    assert out.exists()
+    assert "\\begin{tikzpicture}" in out.read_text()
+
+
+def test_plot_beam_mpl_save_writes_image(tmp_path):
+    # a non-.tex target stays on the matplotlib backend
+    ba = _make_analysis()
+    png = tmp_path / "schematic.png"
+    ax = ba.plot_beam(save=png)
+    assert isinstance(ax, matplotlib.axes.Axes)  # mpl backend still returns Axes
+    assert png.exists() and png.stat().st_size > 0
+    plt.close(ax.figure)
+
+
+def test_beam_plot_tikz_equivalent_to_to_tikz():
+    # the unified front door agrees with the explicit utility method
+    beam = make_beam("P7.5R7.0R", LM=[[1, 1, 20]])
+    assert beam.plot(tikz=True) == beam.to_tikz()
+
+
+def test_plot_results_overlay_returns_handles():
+    ba = _make_analysis()
+    ba.analyze()
+    fig, axs = ba.plot_results(show=False)
+    assert isinstance(fig, matplotlib.figure.Figure)
+    assert len(axs) == 4  # schematic + M + V + D
+    # top panel carries the schematic (support/load patches)
+    assert axs[0].patches
+    plt.close(fig)
+
+
+def test_plot_results_without_beam_is_three_panels():
+    ba = _make_analysis()
+    ba.analyze()
+    fig, axs = ba.plot_results(show_beam=False, show=False)
+    assert len(axs) == 3
+    assert not axs[0].patches  # no schematic, just the moment diagram
+    plt.close(fig)
+
+
+def test_plot_results_before_analyze_warns_and_returns_none():
+    ba = _make_analysis()
+    assert ba.plot_results(show=False) is None
+
+
+def test_repr_beam_and_analysis():
+    ba = _make_analysis("P7.5R7.0R", LM=[[1, 1, 20], [2, 2, 50, 3]])
+    assert repr(ba) == "BeamAnalysis(2 spans, 3 supports, 2 loads, not analysed)"
+    assert repr(ba.beam) == "Beam(2 spans, L=14.5, 3 supports, 2 loads)"
+    ba.analyze()
+    assert "analysed" in repr(ba) and "not analysed" not in repr(ba)
+
+
 # --------------------------------------------------------------------------- #
 # TikZ / stanli backend (string assertions)
 # --------------------------------------------------------------------------- #

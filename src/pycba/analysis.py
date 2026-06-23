@@ -588,14 +588,89 @@ class BeamAnalysis:
             ) from exc
         return x
 
-    def plot_results(self):
+    def plot_beam(
+        self,
+        loads=None,
+        *,
+        tikz=None,
+        ax=None,
+        save=None,
+        compile=False,
+        load_cases=None,
+        **kwargs,
+    ):
+        """
+        Draw a structural schematic of the beam.
+
+        Convenience wrapper around :meth:`pycba.beam.Beam.plot` so the model
+        can be drawn directly from the analysis object (mirroring
+        :meth:`plot_results`) without reaching through :attr:`beam`.  Renders
+        with matplotlib by default; saving to a ``.tex`` path (or passing
+        ``tikz=True``) produces TikZ/``stanli`` output instead.
+
+        The beam structure (geometry, supports, internal hinges) is always
+        drawn; the loads layer is optional and its source is selected with
+        ``loads``:
+
+        * ``None`` (default) - the beam's own load matrix.
+        * ``[]`` - draw the bare structure only.
+        * a PyCBA load matrix, a :class:`~pycba.load_cases.LoadCase`, or a
+          :class:`~pycba.load_cases.LoadCombination` (supply its
+          :class:`~pycba.load_cases.LoadCases` via ``load_cases``).
+
+        Parameters
+        ----------
+        loads : list | LoadCase | LoadCombination, optional
+            The load source to draw.
+        tikz : bool, optional
+            Backend selector.  ``None`` (default) infers it from ``save`` (a
+            ``.tex`` target renders TikZ, anything else uses matplotlib); pass
+            ``True``/``False`` to force the backend.
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw into (matplotlib backend only); a new figure is
+            created if omitted.
+        save : str or pathlib.Path, optional
+            If given, also write the visualisation to this path.  A ``.tex``
+            target writes the TikZ source (and selects the TikZ backend); any
+            other extension is saved by matplotlib.
+        compile : bool
+            Under the TikZ backend with ``save`` set, also run ``pdflatex`` to
+            produce a PDF (a ``.pdf`` save target enables this automatically).
+        load_cases : pycba.load_cases.LoadCases, optional
+            Required only when ``loads`` is a ``LoadCombination``.
+        **kwargs
+            Forwarded to the backend renderer (``dimensions``, ``labels``,
+            ``load_values``, ``color`` for matplotlib; ``standalone``,
+            ``scale``, ``dimensions``, ``labels``, ``load_values`` for TikZ).
+
+        Returns
+        -------
+        matplotlib.axes.Axes
+            The axes drawn into (default matplotlib backend).
+        str
+            The LaTeX source, when ``tikz=True`` and ``save`` is not given.
+        pathlib.Path
+            The written file, when ``tikz=True`` and ``save`` is given.
+        """
+        return self._beam.plot(
+            loads,
+            tikz=tikz,
+            ax=ax,
+            save=save,
+            compile=compile,
+            load_cases=load_cases,
+            **kwargs,
+        )
+
+    def plot_results(self, show_beam: bool = True, show: bool = True):
         """
         Plot bending moment, shear force, and deflection diagrams.
 
-        Produces a three-panel figure of bending moment, shear force, and
-        deflection along the beam.  Bending moment is plotted with the
-        sagging-positive convention (y-axis inverted so sagging appears below
-        the beam line).
+        Produces a figure of bending moment, shear force, and deflection along
+        the beam.  Bending moment is plotted with the sagging-positive
+        convention (y-axis inverted so sagging appears below the beam line).
+        By default the loaded-beam schematic is drawn as a top panel sharing
+        the x-axis, so the model and its load effects can be read together.
 
         .. note::
             The axis labels ("kNm", "kN", "mm") and the deflection scaling
@@ -603,35 +678,83 @@ class BeamAnalysis:
             unit system is used the plots will still be correct in shape but
             the labels and deflection axis values will need interpretation.
 
+        Parameters
+        ----------
+        show_beam : bool
+            Draw the beam/loading schematic as a top panel above the result
+            diagrams (default ``True``).  Set ``False`` for the bare
+            three-panel moment/shear/deflection figure.
+        show : bool
+            Call ``matplotlib.pyplot.show()`` before returning (default
+            ``True``).  Set ``False`` to obtain the figure handles without
+            displaying — e.g. to ``savefig`` or restyle the figure first.
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+            The figure, or ``None`` if :meth:`analyze` has not been called.
+        numpy.ndarray of matplotlib.axes.Axes
+            The panel axes (length 4 when ``show_beam`` is ``True``, else 3).
+
+        Notes
+        -----
         Has no effect and prints a warning if :meth:`analyze` has not been
         called yet.
         """
         if self._beam_results is None:
             print("Nothing to plot - run analysis first")
-            return
+            return None
         res = self._beam_results.results
         L = self._beam.length
 
-        fig, axs = plt.subplots(3, 1)
+        if show_beam:
+            fig, axs = plt.subplots(
+                4,
+                1,
+                sharex=True,
+                figsize=(8, 9),
+                gridspec_kw={"height_ratios": [1.1, 1.0, 1.0, 1.0]},
+            )
+            # The schematic stretches to fill its panel (equal_aspect=False) so
+            # it stays aligned in x with the diagrams below.
+            self._beam.plot(ax=axs[0], dimensions=False, equal_aspect=False)
+            axs[0].set_xlabel("")
+            diag = axs[1:]
+        else:
+            fig, axs = plt.subplots(3, 1, sharex=True)
+            diag = axs
 
-        ax = axs[0]
+        ax = diag[0]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(res.x, res.M, "r")
         ax.invert_yaxis()
         ax.grid()
         ax.set_ylabel("Bending Moment (kNm)")
 
-        ax = axs[1]
+        ax = diag[1]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(res.x, res.V, "r")
         ax.grid()
         ax.set_ylabel("Shear Force (kN)")
 
-        ax = axs[2]
+        ax = diag[2]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(res.x, res.D * 1e3, "r")
         ax.grid()
         ax.set_ylabel("Deflection (mm)")
         ax.set_xlabel("Distance along beam (m)")
 
-        plt.show()
+        if show:
+            plt.show()
+        return fig, axs
+
+    def __repr__(self) -> str:
+        b = self._beam
+        n_sup = b._n_supports()
+        n_loads = len(b.LM)
+        state = "analysed" if self._beam_results is not None else "not analysed"
+        return (
+            f"BeamAnalysis({b.no_spans} span{'' if b.no_spans == 1 else 's'}, "
+            f"{n_sup} support{'' if n_sup == 1 else 's'}, "
+            f"{n_loads} load{'' if n_loads == 1 else 's'}, {state})"
+        )

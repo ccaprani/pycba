@@ -2,7 +2,19 @@
 
 import pytest
 import numpy as np
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle, Rectangle
 import pycba as cba
+
+
+def _three_span_bridge():
+    L = [20.0, 25.0, 20.0]
+    EI = 30e11 * 1e-6 * np.ones(len(L))
+    R = [-1, 0, -1, 0, -1, 0, -1, 0]
+    return cba.BeamAnalysis(L, EI, R)
 
 
 def test_maxvals():
@@ -272,3 +284,75 @@ def test_coincident_critical_values():
     # Coincident V at Mmax matches envelope attribute
     i_mmax = env.Mmax.argmax()
     assert cvals["Mmax"]["Vco"] == pytest.approx(env.Vco_Mmax[i_mmax])
+
+
+def test_vehicle_spec_groups_equal_axles():
+    ba = cba.BridgeAnalysis(
+        _three_span_bridge(), cba.Vehicle([1.5, 1.5], [60, 60, 60])
+    )
+    assert ba._vehicle_spec() == "3×60 kN  (ΣW = 180 kN)"
+
+    ba2 = cba.BridgeAnalysis(
+        _three_span_bridge(),
+        cba.Vehicle([3.5, 1.2, 4.0, 1.2, 1.2], [40, 120, 120, 150, 150, 150]),
+    )
+    assert ba2._vehicle_spec() == "40 + 2×120 + 3×150 kN  (ΣW = 730 kN)"
+
+
+def test_plot_static_draws_schematic_and_diagrams():
+    veh = cba.Vehicle([1.25, 1.25, 1.25, 6.0, 1.25, 1.25, 1.25], [60] * 8)
+    ba = cba.BridgeAnalysis(_three_span_bridge(), veh)
+    fig, axs = ba.plot_static(30.0)
+    assert len(axs) == 3
+
+    schematic = axs[0]
+    # one tagged wheel per axle (support rollers are also circles, hence the gid)
+    wheels = [p for p in schematic.patches if p.get_gid() == "vehicle_wheel"]
+    assert len(wheels) == veh.NoAxles
+    # vehicle body + cab
+    rects = [p for p in schematic.patches if isinstance(p, Rectangle)]
+    assert len(rects) >= 2
+    # the axle-weight caption is present
+    assert any("Vehicle:" in t.get_text() for t in schematic.texts)
+
+    # moment & shear panels carry the diagrams
+    assert axs[1].get_ylabel().startswith("Bending Moment")
+    assert axs[2].get_ylabel().startswith("Shear Force")
+    plt.close(fig)
+
+
+def test_plot_static_draws_whole_truck_when_partly_off_deck():
+    # entering: trailing axles are off the left abutment but the whole truck
+    # (all wheels) is still drawn; the analysis/figure must still succeed.
+    veh = cba.Vehicle([2.0, 2.0], [50, 50, 50])
+    ba = cba.BridgeAnalysis(_three_span_bridge(), veh)
+    fig, axs = ba.plot_static(1.0)
+    wheels = [p for p in axs[0].patches if p.get_gid() == "vehicle_wheel"]
+    assert len(wheels) == veh.NoAxles
+    plt.close(fig)
+
+
+def test_animate_returns_animation_and_saves_gif(tmp_path):
+    from matplotlib.animation import FuncAnimation
+
+    veh = cba.Vehicle([1.5, 1.5], [70, 70, 70])
+    ba = cba.BridgeAnalysis(_three_span_bridge(), veh)
+    out = tmp_path / "traverse.gif"
+    anim = ba.animate(step=20.0, save=out, fps=5)  # coarse step -> few frames
+    assert isinstance(anim, FuncAnimation)
+    assert len(ba.pos) >= 2  # one analysed position per frame
+    assert out.exists() and out.stat().st_size > 0
+    plt.close("all")
+
+
+def test_plot_static_into_supplied_two_axes_skips_schematic():
+    # the legacy run_vehicle(plot_all=True) path supplies two axes and expects
+    # only the load-effect diagrams (no schematic, no new figure).
+    veh = cba.Vehicle([1.5], [80, 80])
+    ba = cba.BridgeAnalysis(_three_span_bridge(), veh)
+    ba._single_analysis(15.0)
+    fig, axs = plt.subplots(2, 1, sharex=True)
+    out = ba.plot_static(15.0, axs)
+    assert out is None
+    assert not any(isinstance(p, Circle) for p in axs[0].patches)
+    plt.close(fig)

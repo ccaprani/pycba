@@ -291,6 +291,25 @@ class Beam:
         """
         return len(np.where(np.array(self._restraints) == -1)[0])
 
+    def _n_supports(self) -> int:
+        """Number of nodes carrying any restraint (fixed or spring)."""
+        R = list(self._restraints)
+        return sum(
+            1
+            for i in range(self._no_spans + 1)
+            if 2 * i + 1 < len(R) and (R[2 * i] != 0 or R[2 * i + 1] != 0)
+        )
+
+    def __repr__(self) -> str:
+        n_sup = self._n_supports()
+        n_loads = len(self.LM)
+        return (
+            f"Beam({self._no_spans} span{'' if self._no_spans == 1 else 's'}, "
+            f"L={self._length:g}, "
+            f"{n_sup} support{'' if n_sup == 1 else 's'}, "
+            f"{n_loads} load{'' if n_loads == 1 else 's'})"
+        )
+
     @property
     def length(self):
         """
@@ -329,13 +348,25 @@ class Beam:
 
         return ispan, pos_in_span
 
-    def plot(self, loads=None, *, ax=None, load_cases=None, **kwargs):
+    def plot(
+        self,
+        loads=None,
+        *,
+        tikz=None,
+        ax=None,
+        save=None,
+        compile=False,
+        load_cases=None,
+        **kwargs,
+    ):
         """
-        Draw a structural schematic of the beam with matplotlib.
+        Draw a structural schematic of the beam.
 
-        The beam structure (geometry, supports, internal hinges) is always
-        drawn; the loads layer is optional and its source is selected with
-        ``loads``:
+        By default this renders with matplotlib; saving to a ``.tex`` path (or
+        passing ``tikz=True``) produces publication-quality TikZ/``stanli``
+        output instead.  The beam structure (geometry, supports, internal
+        hinges) is always drawn; the loads layer is optional and its source is
+        selected with ``loads``:
 
         * ``None`` (default) - the beam's own load matrix ``self.LM``.
         * ``[]`` - draw the bare structure only.
@@ -347,24 +378,70 @@ class Beam:
         ----------
         loads : list | LoadCase | LoadCombination, optional
             The load source to draw.
+        tikz : bool, optional
+            Backend selector.  ``None`` (default) infers it from ``save``: a
+            ``.tex`` target renders TikZ/``stanli``; anything else (or no
+            ``save``) renders with matplotlib.  Pass ``True``/``False`` to
+            force the backend - e.g. ``tikz=True`` to return the LaTeX source,
+            or to render an otherwise-ambiguous ``.pdf`` target via TikZ.
         ax : matplotlib.axes.Axes, optional
-            Axes to draw into; a new figure is created if omitted.
+            Axes to draw into (matplotlib backend only); a new figure is
+            created if omitted.
+        save : str or pathlib.Path, optional
+            If given, also write the visualisation to this path; the file
+            extension selects the backend when ``tikz`` is ``None``.  A
+            ``.tex`` target writes the TikZ/``stanli`` source; any other
+            extension is saved by matplotlib (format inferred from the
+            extension, e.g. ``.png``/``.pdf``/``.svg``).  Under the TikZ
+            backend a ``.pdf`` target is compiled with ``pdflatex``.
+        compile : bool
+            Under the TikZ backend with ``save`` set, run ``pdflatex`` to also
+            produce a PDF (requires a LaTeX install with ``stanli``).  A
+            ``.pdf`` save target enables this automatically.  Ignored for the
+            matplotlib backend.
         load_cases : pycba.load_cases.LoadCases, optional
             Required only when ``loads`` is a ``LoadCombination``.
         **kwargs
-            Forwarded to :meth:`pycba.render.BeamPlotter.render_mpl`
-            (``dimensions``, ``labels``, ``load_values``, ``color``).
+            Forwarded to the backend renderer:
+            :meth:`pycba.render.BeamPlotter.render_mpl`
+            (``dimensions``, ``labels``, ``load_values``, ``color``) or, when
+            ``tikz=True``, :meth:`pycba.render.BeamPlotter.render_tikz`
+            (``standalone``, ``scale``, ``dimensions``, ``labels``,
+            ``load_values``).
 
         Returns
         -------
         matplotlib.axes.Axes
-            The axes the schematic was drawn into.
+            The axes drawn into (matplotlib backend).
+        str
+            The LaTeX source, when the TikZ backend is selected and ``save`` is
+            not given.
+        pathlib.Path
+            The written file, when the TikZ backend is selected with ``save``
+            (the ``.tex`` path, or the ``.pdf`` when compiled).
         """
+        from pathlib import Path
         from .render import BeamPlotter
 
-        return BeamPlotter(self, loads, load_cases=load_cases).render_mpl(
-            ax=ax, **kwargs
-        )
+        use_tikz = tikz
+        if use_tikz is None:
+            # Infer the backend from the output file: a ``.tex`` target means
+            # TikZ, anything else (or no ``save``) means matplotlib.
+            use_tikz = save is not None and Path(save).suffix.lower() == ".tex"
+
+        plotter = BeamPlotter(self, loads, load_cases=load_cases)
+        if use_tikz:
+            if save is not None:
+                # A .pdf target implies the compiled figure is wanted.
+                if Path(save).suffix.lower() == ".pdf":
+                    compile = True
+                return plotter.save_tikz(save, compile=compile, **kwargs)
+            return plotter.render_tikz(**kwargs)
+
+        ax = plotter.render_mpl(ax=ax, **kwargs)
+        if save is not None:
+            ax.figure.savefig(save, bbox_inches="tight")
+        return ax
 
     def to_tikz(self, loads=None, *, load_cases=None, **kwargs) -> str:
         """
