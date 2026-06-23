@@ -32,6 +32,7 @@ from .load_cases import (
     analyze_load_case,
     collect_response_matrix,
     additive_envelope,
+    sign_selective_envelope,
     make_patterned_udl,
     make_span_udl_cases,
     plot_response_envelope,

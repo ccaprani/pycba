@@ -81,6 +81,40 @@ class LoadCase:
             self.add_load(load)
         return self
 
+    def add_all_spans_udl(
+        self, beam_model: Union[BeamAnalysis, Beam], w: float
+    ) -> LoadCase:
+        """
+        Append a full-span UDL of intensity ``w`` to every span.
+
+        This replaces the hand-written
+        ``for i in range(1, no_spans + 1): case.add_udl(i, w)`` loop. The span
+        count is read from ``beam_model``, which is required here (mirroring
+        :meth:`add_segment_udl`).
+
+        Parameters
+        ----------
+        beam_model : BeamAnalysis or Beam
+            The beam definition used to count spans.
+        w : float
+            UDL intensity applied to every span.
+
+        Returns
+        -------
+        LoadCase
+            ``self``, for fluent chaining.
+
+        Notes
+        -----
+        This adds all spans into the one (this) load case, unlike
+        :meth:`LoadCases.add_span_udl`, which creates one separate case per span.
+        """
+
+        no_spans = _template_beam(beam_model).no_spans
+        for i_span in range(1, no_spans + 1):
+            self.add_udl(i_span, w)
+        return self
+
     def add_ml(self, i_span: int, m: float, a: float) -> LoadCase:
         """Append a concentrated moment load to this load case."""
 
@@ -122,18 +156,60 @@ class LoadCombination:
     factors: Union[Sequence[float], Mapping[Union[str, int], float]]
     metadata: Optional[dict] = None
 
-    def factor_vector(self, load_cases: LoadCases) -> np.ndarray:
-        """Return this combination's factors in ``load_cases`` order."""
+    def _resolve_load_cases(self, load_cases: Optional[LoadCases]) -> LoadCases:
+        """
+        Return an explicit or bound :class:`LoadCases` basis.
 
-        return load_cases.factors(self)
+        ``load_cases`` takes precedence when supplied. Otherwise the basis bound
+        by :meth:`LoadCases.target_combination` (stored as ``_bound``) is used.
+        Combinations constructed directly have no bound basis and must be passed
+        ``load_cases`` explicitly.
+        """
 
-    def to_LM(self, load_cases: LoadCases) -> LoadMatrix:
-        """Return the factored PyCBA load matrix for this combination."""
+        lc = load_cases if load_cases is not None else getattr(self, "_bound", None)
+        if lc is None:
+            raise ValueError(
+                "No LoadCases bound to this combination; pass load_cases=... or "
+                "create it via LoadCases.target_combination()."
+            )
+        return lc
 
-        return load_cases.combined_loads(self)
+    def factor_vector(self, load_cases: Optional[LoadCases] = None) -> np.ndarray:
+        """
+        Return this combination's factors in load-case order.
 
-    def to_load_case(self, load_cases: LoadCases) -> LoadCase:
-        """Return this combination as one ordinary factored ``LoadCase``."""
+        Parameters
+        ----------
+        load_cases : LoadCases, optional
+            The basis collection. When omitted, the basis bound by
+            :meth:`LoadCases.target_combination` is used.
+        """
+
+        return self._resolve_load_cases(load_cases).factors(self)
+
+    def to_LM(self, load_cases: Optional[LoadCases] = None) -> LoadMatrix:
+        """
+        Return the factored PyCBA load matrix for this combination.
+
+        Parameters
+        ----------
+        load_cases : LoadCases, optional
+            The basis collection. When omitted, the basis bound by
+            :meth:`LoadCases.target_combination` is used.
+        """
+
+        return self._resolve_load_cases(load_cases).combined_loads(self)
+
+    def to_load_case(self, load_cases: Optional[LoadCases] = None) -> LoadCase:
+        """
+        Return this combination as one ordinary factored ``LoadCase``.
+
+        Parameters
+        ----------
+        load_cases : LoadCases, optional
+            The basis collection. When omitted, the basis bound by
+            :meth:`LoadCases.target_combination` is used.
+        """
 
         loads = self.to_LM(load_cases)
         return LoadCase(
@@ -144,16 +220,69 @@ class LoadCombination:
         )
 
     def response(
-        self, load_cases: LoadCases, response: str = "M"
+        self, load_cases: Optional[LoadCases] = None, response: str = "M"
     ) -> tuple[np.ndarray, np.ndarray]:
-        """Return this combination's response."""
+        """
+        Return this combination's response.
 
-        return load_cases.combine(self, response=response)
+        Parameters
+        ----------
+        load_cases : LoadCases, optional
+            The basis collection. When omitted, the basis bound by
+            :meth:`LoadCases.target_combination` is used.
+        response : str, optional
+            Station response to return (default ``"M"``).
+        """
 
-    def analyze(self, load_cases: LoadCases, npts: Optional[int] = None) -> BeamAnalysis:
-        """Analyse this combination as one PyCBA beam analysis."""
+        return self._resolve_load_cases(load_cases).combine(self, response=response)
 
-        return load_cases.analyze_combination(self, npts=npts)
+    def analyze(
+        self, load_cases: Optional[LoadCases] = None, npts: Optional[int] = None
+    ) -> BeamAnalysis:
+        """
+        Analyse this combination as one PyCBA beam analysis.
+
+        Parameters
+        ----------
+        load_cases : LoadCases, optional
+            The basis collection. When omitted, the basis bound by
+            :meth:`LoadCases.target_combination` is used.
+        npts : int, optional
+            Number of evaluation points along a member.
+        """
+
+        return self._resolve_load_cases(load_cases).analyze_combination(
+            self, npts=npts
+        )
+
+    analyse = analyze
+
+    def envelope(
+        self, load_cases: Optional[LoadCases] = None, npts: Optional[int] = None
+    ) -> Envelopes:
+        """
+        Analyse this combination and return a plottable :class:`Envelopes`.
+
+        This lands a target or explicit combination directly on a first-class
+        :class:`pycba.results.Envelopes`, which can be merged with
+        :meth:`Envelopes.combine` (or the ``|``/``+`` operators) and plotted.
+
+        Parameters
+        ----------
+        load_cases : LoadCases, optional
+            The basis collection. When omitted, the basis bound by
+            :meth:`LoadCases.target_combination` is used.
+        npts : int, optional
+            Number of evaluation points along a member.
+
+        Returns
+        -------
+        Envelopes
+            A single-result :class:`pycba.results.Envelopes` for this combination.
+        """
+
+        model = self.analyze(load_cases, npts=npts)
+        return Envelopes([model.beam_results])
 
 
 class LoadCases:
@@ -365,6 +494,34 @@ class LoadCases:
 
         return self.case(load_case).add_segment_udl(self.beam_model, x0, x1, w)
 
+    def add_all_spans_udl(self, load_case: str, w: float) -> LoadCase:
+        """
+        Append a full-span UDL of intensity ``w`` to every span of a named case.
+
+        The beam is supplied implicitly from this collection (consistent with
+        :meth:`add_segment_udl`). The named case is created when it does not yet
+        exist.
+
+        Parameters
+        ----------
+        load_case : str
+            Name of the load case to add the UDLs to.
+        w : float
+            UDL intensity applied to every span.
+
+        Returns
+        -------
+        LoadCase
+            The (created or existing) load case with the UDLs appended.
+
+        Notes
+        -----
+        This adds all spans into the one named case, which is distinct from
+        :meth:`add_span_udl` (one separate case per span).
+        """
+
+        return self.case(load_case).add_all_spans_udl(self.beam_model, w)
+
     def add_ml(self, load_case: str, i_span: int, m: float, a: float) -> LoadCase:
         """Append a concentrated moment load to a named load case."""
 
@@ -392,6 +549,44 @@ class LoadCases:
         """Analyse all cases and return the common station vector and matrix."""
 
         return collect_response_matrix(self.beam_model, self._cases, response=response)
+
+    def envelope(self, npts: Optional[int] = None) -> Envelopes:
+        """
+        Analyse every load case independently and return their envelope.
+
+        Each case is analysed on its own (no combination) and the per-station
+        pointwise extremes of moment and shear (plus coincident effects and
+        reaction extremes) are enveloped into a first-class
+        :class:`pycba.results.Envelopes`. This gives a one-call path to a full,
+        plottable envelope from helpers such as :func:`make_span_udl_cases` and
+        :func:`make_patterned_udl`.
+
+        Parameters
+        ----------
+        npts : int, optional
+            Number of evaluation points along a member. Defaults to the template
+            beam's ``npts`` when available.
+
+        Returns
+        -------
+        Envelopes
+            The pointwise envelope over the analysed load cases.
+
+        Notes
+        -----
+        This is the pointwise extreme of each case analysed alone, which is a
+        genuinely different result from :func:`additive_envelope` (a same-station
+        superposition of the ``n_combine`` governing cases).
+        """
+
+        results = []
+        for load_case in self._cases:
+            model = build_pycba_model(self.beam_model, load_case)
+            model.analyze(
+                npts if npts is not None else _template_npts(self.beam_model)
+            )
+            results.append(model.beam_results)
+        return Envelopes(results)
 
     def factors(
         self,
@@ -906,7 +1101,12 @@ def _make_target_combination(
         "selected_names": [load_cases[i].name for i in selected_indices],
         "target_values": target_values.tolist(),
     }
-    return LoadCombination(name=name, factors=factors, metadata=metadata)
+    combination = LoadCombination(name=name, factors=factors, metadata=metadata)
+    # Bind the originating basis as a convenience back-reference so the analysis
+    # methods can be called with no arguments. Set as a plain attribute (not a
+    # dataclass field) to leave __init__/__eq__/__repr__ untouched.
+    combination._bound = load_cases
+    return combination
 
 
 def _make_segment_udl(
