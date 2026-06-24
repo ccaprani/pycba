@@ -243,3 +243,21 @@ Analysis Programs: Theory Manual.*
 [PDF](https://secure.skghoshassociates.com/product/PT/download/TheoryManual.pdf).
 Chapters 5–6 define the 12-profile tendon library (shared with RAPT) and the
 equivalent-load (balanced-load) formulae implemented in `pycba.prestress`.
+
+## Differential temperature (thermal effects)
+
+(ref-as5100-2-2017)=
+**Standards Australia (2017).** *AS 5100.2:2017 — Bridge design, Part 2: Design
+loads.* Standards Australia, Sydney. Clause 18.3 specifies the design vertical
+(differential) temperature gradient for bridge superstructures — for concrete,
+the Priestley fifth-order positive gradient over the top 1200 mm — which the
+[Creep, Shrinkage and Thermal](notebooks/creep_shrinkage_thermal.ipynb) tutorial
+models as an imposed curvature.
+
+(ref-priestley-1976)=
+**Priestley, M.J.N. (1976).** *Design of concrete bridges for temperature
+gradients.* Origin of the fifth-order design temperature gradient through the
+top 1200 mm of the superstructure that AS 5100.2 (and US bridge practice) adopt.
+A contemporaneous treatment is *Thermal Stress Analysis of Concrete Bridge
+Superstructures*, Transportation Research Record 607 (1976),
+[PDF](https://onlinepubs.trb.org/Onlinepubs/trr/1976/607/607-003.pdf).
