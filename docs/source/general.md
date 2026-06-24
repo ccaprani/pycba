@@ -496,7 +496,7 @@ references; see in particular the *PT Designer Theory Manual*, Chapters 5
 whose 12-profile library this preprocessor reproduces.
 
 A worked, validated example follows Gilbert, Mickleborough & Ranzi
-([*Design of Prestressed Concrete to AS3600-2009*](references.md#ref-gilbert-mickleborough-ranzi-2017),
+([*Design of Prestressed Concrete to AS3600-2009*](ref-gilbert-mickleborough-ranzi-2017),
 Example 11.1) — see the Introduction tutorial.
 
 **Non-prismatic members.** The equivalent transverse loads are the *physical*
