@@ -9,8 +9,12 @@ import pycba as cba
 
 def test_membertype_is_int_enum_with_codes():
     assert issubclass(cba.MemberType, enum.IntEnum)
-    assert (int(cba.MemberType.FF), int(cba.MemberType.FP),
-            int(cba.MemberType.PF), int(cba.MemberType.PP)) == (1, 2, 3, 4)
+    assert (
+        int(cba.MemberType.FF),
+        int(cba.MemberType.FP),
+        int(cba.MemberType.PF),
+        int(cba.MemberType.PP),
+    ) == (1, 2, 3, 4)
 
 
 def test_coerce_accepts_int_enum_and_name():
@@ -31,8 +35,9 @@ def test_coerce_rejects_bad_values():
 def _Ma(eletype):
     """Hogging moment at the fixed end of a fixed-pinned span under a central PL."""
     P, L, EI = 10.0, 10.0, 30 * 600e7 * 1e-6
-    ba = cba.BeamAnalysis([L], EI, [-1, -1, -1, -1], [[1, 2, P, 0.5 * L, 0]],
-                          eletype=eletype)
+    ba = cba.BeamAnalysis(
+        [L], EI, [-1, -1, -1, -1], [[1, 2, P, 0.5 * L, 0]], eletype=eletype
+    )
     ba.analyze()
     return ba.beam_results.results.M[1], ba.beam.mbr_eletype
 
@@ -50,8 +55,9 @@ def test_eletype_forms_are_equivalent():
 
 
 def test_default_eletype_still_works():
-    ba = cba.BeamAnalysis([5.0, 6.0], 1e8, [-1, 0, -1, 0, -1, 0],
-                          [[1, 1, 10], [2, 1, 10]])
+    ba = cba.BeamAnalysis(
+        [5.0, 6.0], 1e8, [-1, 0, -1, 0, -1, 0], [[1, 1, 10], [2, 1, 10]]
+    )
     assert ba.analyze() == 0
     assert ba.beam.mbr_eletype == [1, 1]
 
