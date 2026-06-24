@@ -21,7 +21,7 @@ from .results import BeamResults, Envelopes
 from .render import BeamPlotter
 from .units import UnitSystem, set_units, get_units
 from .inf_lines import InfluenceLines
-from .utils import parse_beam_string
+from .utils import parse_beam_string, supports_to_R
 from .bridge import BridgeAnalysis
 from .vehicle import Vehicle, make_train, VehicleLibrary
 from .load_cases import (

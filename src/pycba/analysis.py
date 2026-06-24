@@ -37,7 +37,7 @@ An OO Python adaptation of CBA, originally written for MATLAB:
 http://www.colincaprani.com/programming/matlab/
 """
 
-from typing import Union, Optional
+from typing import Optional, Sequence, Union
 import numpy as np
 import matplotlib.pyplot as plt
 from .beam import Beam, LoadMatrix
@@ -69,10 +69,11 @@ class BeamAnalysis:
         self,
         L: np.ndarray,
         EI: Union[float, np.ndarray],
-        R: np.ndarray,
+        R: Optional[np.ndarray] = None,
         LM: Optional[LoadMatrix] = None,
         eletype: Optional[np.ndarray] = None,
         D: Optional[list] = None,
+        supports: Optional[Sequence] = None,
     ):
         """
         Construct a beam analysis object.
@@ -88,7 +89,7 @@ class BeamAnalysis:
             given as a :class:`~pycba.section.SectionEI` is treated as
             **non-prismatic** (variable ``EI``) and analysed by flexibility
             integration; scalar entries use the closed-form prismatic element.
-        R : array_like of int or float
+        R : array_like of int or float, optional
             Nodal restraint vector, length ``2(N+1)``.  Two entries per node
             (vertical DOF then rotational DOF), ordered left to right:
 
@@ -96,6 +97,8 @@ class BeamAnalysis:
               by ``D``).
             * ``0``  — free.
             * ``+k`` — elastic spring stiffness in consistent units.
+
+            Provide either ``R`` or the friendlier ``supports``, not both.
 
         LM : list of list, optional
             Load matrix: a list of load descriptors.  The number of columns
@@ -130,12 +133,27 @@ class BeamAnalysis:
             settlement — negative = downward).  Fixed supports (``R = -1``)
             default to zero displacement unless ``D`` provides an explicit
             override.
+        supports : sequence of (str or [float, float]), optional
+            A friendlier alternative to ``R``: one entry per node (left to
+            right), each a support name or a raw ``[vertical, rotation]`` DOF
+            pair.  Recognised names (case-insensitive):
+
+            * ``"p"`` / ``"pin"`` / ``"pinned"`` and ``"r"`` / ``"roller"`` —
+              vertical held, rotation free.
+            * ``"e"`` / ``"encastre"`` / ``"fixed"`` / ``"clamped"`` — fully
+              fixed.
+            * ``"f"`` / ``"free"`` — unrestrained (e.g. a cantilever tip).
+
+            Elastic springs are given as a raw pair, e.g. ``[5e4, 0]`` for a
+            vertical spring.  Lowered to ``R`` via
+            :func:`~pycba.supports_to_R`; mutually exclusive with ``R``.
 
         Raises
         ------
         ValueError
-            If ``R`` and ``D`` have different lengths, or ``EI`` is not
-            scalar and its length differs from ``len(L)``.
+            If both ``R`` and ``supports`` (or neither) are given, ``R`` and
+            ``D`` have different lengths, or ``EI`` is not scalar and its length
+            differs from ``len(L)``.
         """
         self.npts = 100
         self._beam_results = None
@@ -145,7 +163,9 @@ class BeamAnalysis:
         else:
             self.eletype = eletype
         # Create the beam
-        self._beam = Beam(L=L, EI=EI, R=R, LM=LM, eletype=self.eletype, D=D)
+        self._beam = Beam(
+            L=L, EI=EI, R=R, LM=LM, eletype=self.eletype, D=D, supports=supports
+        )
 
         self._n = self._beam.no_spans
         self._no_nodes = self._n + 1
