@@ -478,16 +478,24 @@ def plot_tendon(
         3,
         1,
         sharex=True,
-        figsize=(9, 7.5),
-        gridspec_kw={"height_ratios": [1.0, 1.2, 1.0]},
+        figsize=(9, 6.6),
+        gridspec_kw={"height_ratios": [0.6, 1.3, 0.85], "hspace": 0.35},
     )
 
-    # (a) beam + supports, no loads
+    def _strip_xaxis(ax):  # no x ticks / no bottom spine; the vertical grid stays
+        ax.tick_params(axis="x", bottom=False, labelbottom=False)
+        ax.spines["bottom"].set_visible(False)
+
+    # (a) beam + supports, no loads -- no x-axis, keep the vertical grid
     BeamPlotter(beam, []).render_mpl(
         ax=ax_a, equal_aspect=False, dimensions=False, units=us
     )
     ax_a.set_xlabel("")
     ax_a.set_title("Beam")
+    y0, y1 = ax_a.get_ylim()  # trim the empty height above the beam (keep supports)
+    ax_a.set_ylim(y0, 0.35 * y1)
+    ax_a.grid(True, axis="x", ls=":", alpha=0.4)
+    _strip_xaxis(ax_a)
 
     # (b) the cable drape e(x), exaggerated (its own y-scale), + below centroid
     ax_b.plot([0, total], [0, 0], "k-", lw=2, zorder=3)  # the beam (centroid)
@@ -508,12 +516,17 @@ def plot_tendon(
     ax_b.set_xlabel("")
     ax_b.set_title("Cable drape (exaggerated)")
     ax_b.grid(True, axis="x", ls=":", alpha=0.4)
+    # keep the y-axis (and its label) but drop the surrounding box and the x-axis
+    for sp in ("top", "right", "bottom"):
+        ax_b.spines[sp].set_visible(False)
+    _strip_xaxis(ax_b)
 
-    # (c) the equivalent loads on the bare beam (no support symbols)
+    # (c) the equivalent loads on the bare beam (no supports) -- keep the x-axis
     BeamPlotter(beam, LM).render_mpl(
         ax=ax_c, equal_aspect=False, show_supports=False, color=color, units=us
     )
     ax_c.set_title("Equivalent (balanced) loads")
+    ax_c.grid(True, axis="x", ls=":", alpha=0.4)
 
     if show:
         plt.show()
