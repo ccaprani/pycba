@@ -41,3 +41,4 @@ from .load_cases import (
 )
 from .pattern import LoadPattern
 from .nonlinear import NonlinearBeamAnalysis, NonlinearResult, HingeEvent
+from . import prestress

@@ -226,7 +226,7 @@ class InfluenceLines:
         (x, y) = self.get_il(poi, load_effect)
 
         if ax is None:
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(10, 3.5))
 
         ax.plot([0, self.L], [0, 0], "k", lw=2)
         ax.plot(x, y, "r")

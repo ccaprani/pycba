@@ -281,6 +281,8 @@ class BeamPlotter:
         color: str = "tab:red",
         equal_aspect: bool = True,
         units=None,
+        show_supports: bool = True,
+        figsize=(10, 3.2),
     ):
         """
         Draw the beam schematic with matplotlib.
@@ -321,20 +323,33 @@ class BeamPlotter:
         if L <= 0:
             raise ValueError("Cannot render a beam of zero length")
         if ax is None:
-            _fig, ax = plt.subplots(figsize=(10, 3.2))
+            _fig, ax = plt.subplots(figsize=figsize)
 
         sh = 0.05 * L  # support symbol unit height
 
-        # The beam itself
-        ax.plot(
-            [0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round"
-        )
+        # The beam itself: a depth-varying grey elevation for a non-prismatic
+        # member (depth proportional to EI**(1/3), the equivalent rectangular
+        # section depth), otherwise the usual flat line.
+        prof = self._ei_depth_profile(sh)
+        if prof is not None:
+            xb, hb = prof
+            ax.fill_between(
+                xb, -hb, hb, facecolor="0.82", edgecolor="none", zorder=2
+            )
+            ax.plot(xb, hb, "k-", lw=1.5, zorder=3)
+            ax.plot(xb, -hb, "k-", lw=1.5, zorder=3)
+            ax.plot([0, 0], [-hb[0], hb[0]], "k-", lw=1.5, zorder=3)
+            ax.plot([L, L], [-hb[-1], hb[-1]], "k-", lw=1.5, zorder=3)
+        else:
+            ax.plot(
+                [0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round"
+            )
 
-        for s in self.supports:
-            self._draw_support_mpl(ax, s, sh)
-
-        for h in self.hinges:
-            self._draw_hinge_mpl(ax, h, sh)
+        if show_supports:
+            for s in self.supports:
+                self._draw_support_mpl(ax, s, sh)
+            for h in self.hinges:
+                self._draw_hinge_mpl(ax, h, sh)
 
         # Loads (scaled within each family so the figure stays balanced)
         wmax = max(
@@ -348,7 +363,7 @@ class BeamPlotter:
         for m in self.moment_loads:
             self._draw_moment_mpl(ax, m, 0.045 * L, sh, color, load_values)
 
-        if labels:
+        if labels and show_supports:
             # Node letters sit just below the beam and offset to one side, so
             # they clear the loads (above) and the support symbol (directly
             # below): to the right for the right-hand end, to the left otherwise.
@@ -375,22 +390,35 @@ class BeamPlotter:
             for d in partial:
                 self._draw_load_extent_mpl(ax, d, sh)
 
-        # Axes cosmetics: labelled x, no meaningful y
-        load_top = [0.0]
-        if self.point_loads:
-            load_top.append(0.16 * L)
-        if self.dist_loads:
-            load_top.append(0.07 * L)
-        if self.moment_loads:
-            load_top.append(0.045 * L)
+        # Axes cosmetics: labelled x, no meaningful y.  Reserve vertical room on
+        # the side each glyph is actually drawn (positive loads above the beam,
+        # negative below), so upward loads do not collide with the x-axis; the
+        # magnitude labels sit a little beyond each glyph tip.
+        above = [0.0]
+        below = [0.0]
+        for p in self.point_loads:
+            ln = 0.16 * L * (0.55 + 0.45 * abs(p.P) / pmax if pmax else 1.0)
+            (above if p.P >= 0 else below).append(ln)
+        for d in self.dist_loads:
+            if d.w0 >= 0 or d.w1 >= 0:
+                above.append(0.07 * L)
+            if d.w0 < 0 or d.w1 < 0:
+                below.append(0.07 * L)
+        for _m in self.moment_loads:  # the moment arc straddles the beam
+            above.append(0.045 * L)
+            below.append(0.045 * L)
         any_loads = self.point_loads or self.dist_loads or self.moment_loads
-        ymax = max(load_top) + (1.4 * sh if any_loads else 0.9 * sh)
-        if dimensions:
-            ymin = -3.0 * sh
+        lbl = 1.4 * sh  # room beyond a glyph tip for its magnitude label
+        ymax = max(above) + (lbl if any_loads else 0.9 * sh)
+        if not show_supports:
+            sup = -0.3 * sh  # no support glyphs hang below the beam
+        elif dimensions:
+            sup = -3.0 * sh
         elif load_values and partial:
-            ymin = -2.2 * sh
+            sup = -2.2 * sh
         else:
-            ymin = -1.6 * sh
+            sup = -1.6 * sh
+        ymin = min(sup, -(max(below) + lbl)) if max(below) > 1e-12 else sup
 
         ax.set_xlim(-0.06 * L, 1.06 * L)
         ax.set_ylim(ymin, ymax)
@@ -403,6 +431,39 @@ class BeamPlotter:
         ax.set_xlabel(self._us.distance_axis)
         ax.grid(True, axis="x", ls=":", alpha=0.4)
         return ax
+
+    def _ei_depth_profile(self, sh: float):
+        """
+        Half-depth profile ``(x, h)`` for a non-prismatic beam, or ``None``.
+
+        Depth is taken proportional to ``EI(x) ** (1/3)`` (the depth of an
+        equivalent rectangular section), normalised so the stiffest section is
+        ``~1.2 sh`` deep.  Returns ``None`` for a uniform beam so it keeps the
+        plain centre-line.
+        """
+        from .section import SectionEI
+
+        eis = getattr(self.beam, "mbr_EIs", None)
+        if not eis:
+            return None
+        Ls = self.beam.mbr_lengths
+        offs = np.concatenate([[0.0], np.cumsum(Ls)])
+        xs, vals = [], []
+        for i, ei in enumerate(eis):
+            if isinstance(ei, SectionEI):
+                xl = np.linspace(0.0, Ls[i], 41)
+                v = np.asarray(ei(xl), dtype=float)
+            else:
+                xl = np.array([0.0, Ls[i]])
+                v = np.array([float(ei), float(ei)])
+            xs.append(offs[i] + xl)
+            vals.append(v)
+        xs = np.concatenate(xs)
+        vals = np.concatenate(vals)
+        if vals.max() <= 0.0 or (vals.max() - vals.min()) <= 1e-6 * vals.max():
+            return None  # uniform -> flat line
+        h = 0.6 * sh * (vals / vals.max()) ** (1.0 / 3.0)
+        return xs, h
 
     # --- matplotlib support glyphs ------------------------------------- #
     def _draw_support_mpl(self, ax, s: Support, sh: float):

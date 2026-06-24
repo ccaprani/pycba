@@ -259,7 +259,7 @@ class BridgeAnalysis:
         npts = round((pos_end - pos_start) / step) + 1
 
         if plot_all:
-            fig, axs = plt.subplots(2, 1, sharex=True)
+            fig, axs = plt.subplots(2, 1, sharex=True, figsize=(10, 6))
 
         for i in range(npts):
             # load position
@@ -492,7 +492,7 @@ class BridgeAnalysis:
                 3,
                 1,
                 sharex=True,
-                figsize=(8, 8),
+                figsize=(10, 8),
                 gridspec_kw={"height_ratios": [1.2, 1.0, 1.0]},
             )
 
@@ -740,7 +740,7 @@ class BridgeAnalysis:
         fig, axs = plt.subplots(
             3,
             1,
-            figsize=(8, 8),
+            figsize=(10, 8),
             gridspec_kw={"height_ratios": [1.2, 1.0, 1.0]},
         )
 

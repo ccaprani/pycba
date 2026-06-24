@@ -596,22 +596,29 @@ def test_sectionei_plot_haunch_flat(monkeypatch):
 
 def test_sectionei_plot_prismatic_and_ax_reuse():
     """A single-const (prismatic) section plots without error; a step renders a
-    dashed connector; and a supplied ``ax`` is reused."""
+    solid vertical riser; and a supplied ``ax`` is reused."""
     sec = SectionEI().add_segment("const", [0.0, 10.0], 2.0e5)
     fig, ax = sec.plot()
     assert isinstance(fig, matplotlib.figure.Figure)
     assert isinstance(ax, matplotlib.axes.Axes)
     plt.close(fig)
 
-    # A genuine step discontinuity draws exactly one dashed connector.
+    # A genuine step discontinuity draws exactly one solid vertical riser at the
+    # step (part of the region's black outline), spanning the two EI values.
     step = (
         SectionEI()
         .add_segment("const", [0.0, 5.0], 1.0e5)
         .add_segment("const", [5.0, 10.0], 2.0e5)
     )
     fig2, ax2 = step.plot()
-    dashed = [ln for ln in ax2.lines if ln.get_linestyle() == "--"]
-    assert len(dashed) == 1
+    risers = [
+        ln
+        for ln in ax2.lines
+        if len(np.asarray(ln.get_xdata())) == 2
+        and np.allclose(np.asarray(ln.get_xdata(), dtype=float), 5.0)
+        and np.max(np.asarray(ln.get_ydata(), dtype=float)) > 10.0
+    ]
+    assert len(risers) == 1
     plt.close(fig2)
 
     # A supplied axes (and its figure) is drawn into, not replaced.

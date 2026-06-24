@@ -475,8 +475,6 @@ class SectionEI:
         # (A section like linear/const/linear shows a single "linear" entry that
         # covers both haunches, rather than dropping the repeated kind and
         # leaving the second linear piece unrepresented.)
-        prop_cycle = plt.rcParams["axes.prop_cycle"].by_key().get("color", [])
-        kind_color: dict = {}
         prev_x1 = None
         prev_y1 = None
         for p in self._pieces:
@@ -484,27 +482,29 @@ class SectionEI:
             xs = np.linspace(p.x0, p.x1, npts)
             ys = p(xs)
 
-            label = _kind(p.degree)
-            if label in kind_color:
-                color, legend_label = kind_color[label], None
-            else:
-                color = (
-                    prop_cycle[len(kind_color) % len(prop_cycle)]
-                    if prop_cycle
-                    else None
+            # A grey region under EI(x) with a black top outline reads as a beam
+            # elevation; pieces of any kind share the same fill.
+            ax.fill_between(xs, 0.0, ys, facecolor="0.82", edgecolor="none", zorder=1)
+            ax.plot(xs, ys, "k-", lw=1.8, zorder=3)
+            if annotate:
+                ax.text(
+                    0.5 * (p.x0 + p.x1),
+                    0.5 * float(np.max(ys)),
+                    _kind(p.degree),
+                    ha="center",
+                    va="center",
+                    fontsize="small",
+                    color="0.35",
                 )
-                kind_color[label] = color
-                legend_label = label if annotate else None
-            ax.plot(xs, ys, lw=2, color=color, label=legend_label)
 
             # A step: this piece starts at the previous piece's end x but with a
-            # different value.  Draw a thin dashed connector to read the jump.
+            # different value.  Draw a vertical riser so the jump reads clearly.
             if (
                 prev_x1 is not None
                 and np.isclose(p.x0, prev_x1, atol=1e-9 * max(1.0, self.length))
                 and not np.isclose(float(ys[0]), float(prev_y1), rtol=1e-9, atol=0.0)
             ):
-                ax.plot([p.x0, p.x0], [prev_y1, ys[0]], "k--", lw=0.8, alpha=0.6)
+                ax.plot([p.x0, p.x0], [prev_y1, ys[0]], "k-", lw=1.8, zorder=3)
             prev_x1, prev_y1 = p.x1, float(ys[-1])
 
         if show_breakpoints:
@@ -512,12 +512,11 @@ class SectionEI:
                 ax.axvline(bp, color="0.7", lw=0.8, ls=":", zorder=0)
 
         ax.set_xlim(self._x0, self._end)
+        ax.set_ylim(bottom=0.0)
         ax.set_xlabel("distance along span (local)")
         ax.set_ylabel("EI")
-        ax.set_title("SectionEI — input check")
-        ax.grid(True)
-        if annotate and kind_color:
-            ax.legend(loc="best", fontsize="small")
+        ax.set_title("Section rigidity, $EI(x)$")
+        ax.grid(True, axis="x", ls=":", alpha=0.4)
 
         return fig, ax
 

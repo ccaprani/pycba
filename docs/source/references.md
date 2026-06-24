@@ -224,3 +224,40 @@ loads.
 Loading*. PhD Thesis, University College Dublin. Available at
 <http://www.colincaprani.com/files/Caprani%20PhD%20Thesis.pdf>. Background to the
 influence-line and moving-load machinery in `PyCBA`.
+
+## Prestressed concrete and equivalent loads
+
+(ref-gilbert-mickleborough-ranzi-2017)=
+**Gilbert, R.I., Mickleborough, N.C. & Ranzi, G. (2017).** *Design of
+Prestressed Concrete to AS3600-2009*, 2nd edn. CRC Press, Boca Raton. ISBN
+978-1466572690.
+[Publisher record](https://www.routledge.com/Design-of-Prestressed-Concrete-to-AS3600-2009/Gilbert-Mickleborough-Ranzi/p/book/9781466572690).
+The standard Australian text on prestressed concrete; **Example 11.1**
+(continuous beam) derives the equivalent loads and the total, primary and
+secondary moments induced by prestress — the worked example reproduced by the
+`pycba.prestress` preprocessor.
+
+(ref-ptdesigner-2000)=
+**Structural Data Inc. (2000).** *PT Designer — Post-Tensioning Design and
+Analysis Programs: Theory Manual.*
+[PDF](https://secure.skghoshassociates.com/product/PT/download/TheoryManual.pdf).
+Chapters 5–6 define the 12-profile tendon library (shared with RAPT) and the
+equivalent-load (balanced-load) formulae implemented in `pycba.prestress`.
+
+## Differential temperature (thermal effects)
+
+(ref-as5100-2-2017)=
+**Standards Australia (2017).** *AS 5100.2:2017 — Bridge design, Part 2: Design
+loads.* Standards Australia, Sydney. Clause 18.3 specifies the design vertical
+(differential) temperature gradient for bridge superstructures — for concrete,
+the Priestley fifth-order positive gradient over the top 1200 mm — which the
+[Creep, Shrinkage and Thermal](notebooks/creep_shrinkage_thermal.ipynb) tutorial
+models as an imposed curvature.
+
+(ref-priestley-1976)=
+**Priestley, M.J.N. (1976).** *Design of concrete bridges for temperature
+gradients.* Origin of the fifth-order design temperature gradient through the
+top 1200 mm of the superstructure that AS 5100.2 (and US bridge practice) adopt.
+A contemporaneous treatment is *Thermal Stress Analysis of Concrete Bridge
+Superstructures*, Transportation Research Record 607 (1976),
+[PDF](https://onlinepubs.trb.org/Onlinepubs/trr/1976/607/607-003.pdf).
