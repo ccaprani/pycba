@@ -432,7 +432,7 @@ def plot_tendon(
     units=None,
     color: str = "tab:red",
     show: bool = False,
-    figsize=(10, 6),
+    figsize=None,
 ):
     """
     Draw the tendon and its equivalent loads in three stacked, x-aligned panels.
@@ -455,9 +455,9 @@ def plot_tendon(
         Colour for the load arrows/labels.
     show : bool
         Call ``matplotlib.pyplot.show()`` before returning.
-    figsize : tuple(float, float)
-        Figure size in inches (default ``(10, 6)``), shared with the other
-        PyCBA result plots for a consistent appearance.
+    figsize : tuple(float, float), optional
+        Figure size in inches. Defaults to 10 wide and ~3 in per subplot row,
+        consistent with the other PyCBA result plots; pass a tuple to override.
 
     Returns
     -------
@@ -478,12 +478,13 @@ def plot_tendon(
     total = float(offs[-1])
     LM = equivalent_loads(model, force, profiles)
 
+    ratios = [0.6, 1.3, 0.85]  # beam strip, drape, loads
     fig, (ax_a, ax_b, ax_c) = plt.subplots(
         3,
         1,
         sharex=True,
-        figsize=figsize,
-        gridspec_kw={"height_ratios": [0.6, 1.3, 0.85], "hspace": 0.35},
+        figsize=figsize or (10, 3.0 * sum(ratios)),
+        gridspec_kw={"height_ratios": ratios, "hspace": 0.35},
     )
 
     def _strip_xaxis(ax):  # no x ticks / no bottom spine; the vertical grid stays

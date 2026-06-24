@@ -772,7 +772,7 @@ class BeamAnalysis:
         )
 
     def plot_results(
-        self, show_beam: bool = True, show: bool = True, units=None, figsize=(10, 6)
+        self, show_beam: bool = True, show: bool = True, units=None, figsize=None
     ):
         """
         Plot bending moment, shear force, and deflection diagrams.
@@ -798,9 +798,10 @@ class BeamAnalysis:
             (e.g. ``"SI"``, ``"US-ft"``, ``"N-mm"``, ``"none"``).  Defaults to
             the global default (see :func:`pycba.set_units`); the analysis
             itself is unit-agnostic and unaffected.
-        figsize : tuple(float, float)
-            Figure size in inches (default ``(10, 6)``), shared with the other
-            PyCBA result plots for a consistent appearance.
+        figsize : tuple(float, float), optional
+            Figure size in inches. Defaults to 10 wide and ~3 in per subplot
+            row (so the diagrams are not squashed), consistent with the other
+            PyCBA result plots; pass an explicit tuple to override.
 
         Returns
         -------
@@ -824,12 +825,14 @@ class BeamAnalysis:
         L = self._beam.length
 
         if show_beam:
+            # ~3 in per diagram row, plus a slim strip for the schematic.
+            ratios = [0.6, 1.0, 1.0, 1.0]
             fig, axs = plt.subplots(
                 4,
                 1,
                 sharex=True,
-                figsize=figsize,
-                gridspec_kw={"height_ratios": [1.1, 1.0, 1.0, 1.0]},
+                figsize=figsize or (10, 3.0 * sum(ratios)),
+                gridspec_kw={"height_ratios": ratios},
             )
             # The schematic stretches to fill its panel (equal_aspect=False) so
             # it stays aligned in x with the diagrams below.
@@ -837,7 +840,7 @@ class BeamAnalysis:
             axs[0].set_xlabel("")
             diag = axs[1:]
         else:
-            fig, axs = plt.subplots(3, 1, sharex=True, figsize=figsize)
+            fig, axs = plt.subplots(3, 1, sharex=True, figsize=figsize or (10, 9.0))
             diag = axs
 
         ax = diag[0]
