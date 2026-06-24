@@ -327,10 +327,23 @@ class BeamPlotter:
 
         sh = 0.05 * L  # support symbol unit height
 
-        # The beam itself
-        ax.plot(
-            [0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round"
-        )
+        # The beam itself: a depth-varying grey elevation for a non-prismatic
+        # member (depth proportional to EI**(1/3), the equivalent rectangular
+        # section depth), otherwise the usual flat line.
+        prof = self._ei_depth_profile(sh)
+        if prof is not None:
+            xb, hb = prof
+            ax.fill_between(
+                xb, -hb, hb, facecolor="0.82", edgecolor="none", zorder=2
+            )
+            ax.plot(xb, hb, "k-", lw=1.5, zorder=3)
+            ax.plot(xb, -hb, "k-", lw=1.5, zorder=3)
+            ax.plot([0, 0], [-hb[0], hb[0]], "k-", lw=1.5, zorder=3)
+            ax.plot([L, L], [-hb[-1], hb[-1]], "k-", lw=1.5, zorder=3)
+        else:
+            ax.plot(
+                [0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round"
+            )
 
         if show_supports:
             for s in self.supports:
@@ -418,6 +431,39 @@ class BeamPlotter:
         ax.set_xlabel(self._us.distance_axis)
         ax.grid(True, axis="x", ls=":", alpha=0.4)
         return ax
+
+    def _ei_depth_profile(self, sh: float):
+        """
+        Half-depth profile ``(x, h)`` for a non-prismatic beam, or ``None``.
+
+        Depth is taken proportional to ``EI(x) ** (1/3)`` (the depth of an
+        equivalent rectangular section), normalised so the stiffest section is
+        ``~1.2 sh`` deep.  Returns ``None`` for a uniform beam so it keeps the
+        plain centre-line.
+        """
+        from .section import SectionEI
+
+        eis = getattr(self.beam, "mbr_EIs", None)
+        if not eis:
+            return None
+        Ls = self.beam.mbr_lengths
+        offs = np.concatenate([[0.0], np.cumsum(Ls)])
+        xs, vals = [], []
+        for i, ei in enumerate(eis):
+            if isinstance(ei, SectionEI):
+                xl = np.linspace(0.0, Ls[i], 41)
+                v = np.asarray(ei(xl), dtype=float)
+            else:
+                xl = np.array([0.0, Ls[i]])
+                v = np.array([float(ei), float(ei)])
+            xs.append(offs[i] + xl)
+            vals.append(v)
+        xs = np.concatenate(xs)
+        vals = np.concatenate(vals)
+        if vals.max() <= 0.0 or (vals.max() - vals.min()) <= 1e-6 * vals.max():
+            return None  # uniform -> flat line
+        h = 0.6 * sh * (vals / vals.max()) ** (1.0 / 3.0)
+        return xs, h
 
     # --- matplotlib support glyphs ------------------------------------- #
     def _draw_support_mpl(self, ax, s: Support, sh: float):
