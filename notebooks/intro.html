@@ -403,7 +403,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonlinear.html">Nonlinear Beam Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonprismatic.html">Non-prismatic Elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="imposed_curvature.html">Imposed Curvature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creep_shrinkage_thermal.html">Creep, Shrinkage, and Thermal Analysis</a></li>
 </ul>
 </div>
 </nav></div>
@@ -550,11 +550,11 @@
 </div>
 <p>Now that we have applied the loads, it is ready for analysis and we call the <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function and plot the results:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -568,7 +568,7 @@
 <p>The numerical results can found from the <code class="docutils literal notranslate"><span class="pre">beam_results</span></code> member of <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object.</p>
 <p>For example, the reactions corresponding to the fully-restrained nodes are:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">R</span>
@@ -576,7 +576,7 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -586,7 +586,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 <p>and the maximum bending moment along the second member, <span class="math notranslate nohighlight">\(BC\)</span>, can be got from:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">vRes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -594,7 +594,7 @@ array([ 57.41666667, 181.42261905,  51.16071429])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -613,7 +613,7 @@ np.float64(65.42525)
 </div>
 <p>For UDLs covering the full length of the member, only the span number, load type, and value have non-zero entries.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s2">&quot;./images/intro_ex_2.png&quot;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
@@ -621,7 +621,7 @@ np.float64(65.42525)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -635,7 +635,7 @@ np.float64(65.42525)
 </ul>
 <p>Note, also that node <span class="math notranslate nohighlight">\(C\)</span> will have its two degrees of freedom restrained.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">]</span>
@@ -663,12 +663,12 @@ np.float64(65.42525)
 </div>
 <p>Along with <code class="docutils literal notranslate"><span class="pre">L</span></code>, <code class="docutils literal notranslate"><span class="pre">EI</span></code>, and <code class="docutils literal notranslate"><span class="pre">R</span></code>, the load matrix <code class="docutils literal notranslate"><span class="pre">LM</span></code> can be directly passed to the <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code> constructor resulting in an object ready for analysis. And to better evaluate the discontinuities for the moment and point loads, we can increase the number of evaluation points along each member to 500 when calling <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> as follows:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
 <span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -690,7 +690,7 @@ np.float64(65.42525)
 \[I = \frac{300\times 600^3}{12} = 5.4\times10^9\ \textrm{mm}^4\]</div>
 <p>So we can define the beam now as usual:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
@@ -701,7 +701,7 @@ np.float64(65.42525)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
@@ -710,7 +710,7 @@ np.float64(65.42525)
 </div>
 <p>Next, we add the loads for each span:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -737,11 +737,11 @@ np.float64(65.42525)
 </div>
 <p>Now we can analyze and plot the results:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -754,34 +754,32 @@ np.float64(65.42525)
 </div>
 <p>The influence of the column rotational stiffness at the joints is clear, and the moments in the columns canbe found as the difference in the moments at the ends of the connecting spans.</p>
 </section>
-<section id="Example-4---Post-tensioned-4-span-beam">
-<h2>Example 4 - Post-tensioned 4-span beam<a class="headerlink" href="#Example-4---Post-tensioned-4-span-beam" title="Link to this heading">#</a></h2>
-<p>In this example, we determine the load effects applied by a post-tensioned cable. We define the load matrix directly, based on the geometry of the cable drape.</p>
+<section id="Example-4---Post-tensioning:-equivalent-loads-of-a-draped-tendon">
+<h2>Example 4 - Post-tensioning: equivalent loads of a draped tendon<a class="headerlink" href="#Example-4---Post-tensioning:-equivalent-loads-of-a-draped-tendon" title="Link to this heading">#</a></h2>
+<p>A post-tensioning tendon is analysed by the <em>equivalent load</em> method: the draped tendon is replaced by the transverse loads it exerts on the concrete. PyCBA’s <code class="docutils literal notranslate"><span class="pre">pycba.prestress</span></code> preprocessor builds these loads from the tendon profile, described span by span, and returns an ordinary load matrix.</p>
+<p>This reproduces <strong>Example 11.1</strong> of Gilbert, Mickleborough &amp; Ranzi (<em>Design of Prestressed Concrete to AS3600-2009</em>): a three-span continuous beam (400 <span class="math notranslate nohighlight">\(\times\)</span> 900 mm) with an end cantilever, carrying a constant prestress force <span class="math notranslate nohighlight">\(P = 1800\)</span> kN. The tendon is <strong>parabolic</strong> in span A-B and <strong>harped</strong> (straight, with a low point at C) in span B-D, running straight out to the cantilever tip E. Eccentricities are measured from the centroid, positive below it: 350 mm below at the midspans
+and 350 mm above the interior supports.</p>
+<p><code class="docutils literal notranslate"><span class="pre">plot_tendon</span></code> shows the beam, the (exaggerated) cable drape, and the equivalent balancing loads it produces. (The schematic labels the four nodes A, B, C, D in order, so GMR’s third support D appears as node C, and GMR’s tendon low point C lies inside span B-D at <span class="math notranslate nohighlight">\(x = 29\)</span> m.)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
-<span class="n">E</span> <span class="o">=</span> <span class="mi">30</span>
-<span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">]</span>
-<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">LM</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>     <span class="c1"># eccentricity at end</span>
-      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
-      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
-      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
-      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">75</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>    <span class="c1"># eccentricity at end</span>
-<span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycba.prestress</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parabola</span><span class="p">,</span> <span class="n">Harp</span><span class="p">,</span> <span class="n">equivalent_loads</span><span class="p">,</span> <span class="n">plot_tendon</span>
+
+<span class="n">P</span> <span class="o">=</span> <span class="mf">1800.0</span>                          <span class="c1"># constant prestress force (kN)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">18.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">]</span>               <span class="c1"># spans A-B, B-D, D-E (m)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>     <span class="c1"># A, B, D pinned; E a free cantilever tip</span>
+<span class="n">EI</span> <span class="o">=</span> <span class="mf">30.0e6</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="mf">0.9</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">12</span>     <span class="c1"># 400 x 900 section, E = 30 GPa (kNm^2)</span>
+<span class="n">beam</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+
+<span class="n">tendon</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Parabola</span><span class="p">(</span><span class="n">e_left</span><span class="o">=-</span><span class="mf">0.10</span><span class="p">,</span> <span class="n">e_mid</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">e_right</span><span class="o">=-</span><span class="mf">0.35</span><span class="p">),</span>     <span class="c1"># A-B  (parabolic drape)</span>
+    <span class="n">Harp</span><span class="p">(</span><span class="n">e_left</span><span class="o">=-</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">e_mid</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">e_right</span><span class="o">=-</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">9.0</span><span class="p">),</span>  <span class="c1"># B-D  (harped, low point C)</span>
+    <span class="n">Harp</span><span class="p">(</span><span class="n">e_left</span><span class="o">=-</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">e_mid</span><span class="o">=-</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">e_right</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">4.0</span><span class="p">),</span> <span class="c1"># D-E  (straight to the tip)</span>
+<span class="p">]</span>
+<span class="n">LMp</span> <span class="o">=</span> <span class="n">equivalent_loads</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">P</span><span class="p">,</span> <span class="n">profiles</span><span class="o">=</span><span class="n">tendon</span><span class="p">)</span>   <span class="c1"># the balancing loads</span>
+<span class="n">plot_tendon</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">tendon</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -792,91 +790,91 @@ np.float64(65.42525)
 <img alt="../_images/notebooks_intro_38_0.png" src="../_images/notebooks_intro_38_0.png" />
 </div>
 </div>
-</section>
-<section id="Example-5---Superposition-for-load-balancing">
-<h2>Example 5 - Superposition for load-balancing<a class="headerlink" href="#Example-5---Superposition-for-load-balancing" title="Link to this heading">#</a></h2>
-<p>Using the <code class="docutils literal notranslate"><span class="pre">add_LM</span></code> subroutine load matrices may be superimposed. Based on Example 4, we will define the service loads and then the prestress equivalent loads are added. Both load cases are analysed seperately and the combined LM analysed: each set of results are displayed seperately.</p>
-<p>Define the beam as before:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
-<span class="n">E</span> <span class="o">=</span> <span class="mi">30</span>
-<span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">,</span><span class="mf">100e8</span><span class="p">]</span>
-<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">beam_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>And now define the dead loads <code class="docutils literal notranslate"><span class="pre">LMg</span></code>, the live loads <code class="docutils literal notranslate"><span class="pre">LMq</span></code>, and the prestress loads as before <code class="docutils literal notranslate"><span class="pre">LMp</span></code></p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMg</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># 20 kN/m on each span</span>
-       <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
-       <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
-       <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
-<span class="n">LMq</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># 30 kN/m on each span</span>
-       <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
-       <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
-       <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
-<span class="n">LMp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>    <span class="c1"># eccentricity at end</span>
-      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
-      <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
-      <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="c1"># concave drape for 4 m</span>
-      <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="c1"># convex drape for 1 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>   <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>  <span class="c1"># concave drape for 5 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span> <span class="c1"># convex drape for 1.5 m</span>
-      <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">75</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>    <span class="c1"># eccentricity at end</span>
-</pre></div>
-</div>
-</div>
-<p>The loadings at transfer are then obtained by superposition (<code class="docutils literal notranslate"><span class="pre">add_LM</span></code>), the superimposed loads are applied to the beam (<code class="docutils literal notranslate"><span class="pre">set_loads</span></code>), and analyzed:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMt</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">add_LM</span><span class="p">(</span><span class="n">LMg</span><span class="p">,</span><span class="n">LMp</span><span class="p">)</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LMt</span><span class="p">)</span>
-<span class="n">out_t</span> <span class="o">=</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_44_0.png" src="../_images/notebooks_intro_44_0.png" />
-</div>
-</div>
-<p>The service load effects are then calculated by further superposition of the live loads onto the transfer loads. We reset the loads in the <code class="docutils literal notranslate"><span class="pre">beam_analysis</span></code> object and re-analyze:</p>
+<p>Applying those equivalent loads and analysing gives the total prestress moment <span class="math notranslate nohighlight">\(M_p\)</span>. On a continuous beam the prestress also induces <strong>secondary</strong> (parasitic) moments: subtracting the primary moment <span class="math notranslate nohighlight">\(P e\)</span> leaves the secondary moment – here <span class="math notranslate nohighlight">\(+166\)</span> kNm over support B, matching the textbook. (The beam+loads schematic is dropped since the drape and loads are shown above.)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LMs</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">add_LM</span><span class="p">(</span><span class="n">LMt</span><span class="p">,</span><span class="n">LMq</span><span class="p">)</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LMs</span><span class="p">)</span>
-<span class="n">out_s</span> <span class="o">=</span> <span class="n">beam_analysis</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
-<span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LMp</span><span class="p">)</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="n">show_beam</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># the prestress moment Mp</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
+<span class="n">M</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="p">))]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total prestress moment Mp (cf. GMR Fig. 11.9c):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  span A-B (x=10 m): </span><span class="si">{</span><span class="n">M</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2"> kNm   [GMR -547]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  support B (x=20 m): </span><span class="si">{</span><span class="n">M</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2"> kNm   [GMR +796]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  support D (x=38 m): </span><span class="si">{</span><span class="n">M</span><span class="p">(</span><span class="mi">38</span><span class="p">)</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2"> kNm   [GMR +630]&quot;</span><span class="p">)</span>
+<span class="n">e_B</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.35</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;At support B:  primary = </span><span class="si">{</span><span class="o">-</span><span class="n">P</span><span class="o">*</span><span class="n">e_B</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2"> kNm,  secondary = </span><span class="si">{</span><span class="n">M</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="n">P</span><span class="o">*</span><span class="n">e_B</span><span class="p">)</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2"> kNm   [GMR +166]&quot;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_40_0.png" src="../_images/notebooks_intro_40_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_46_0.png" src="../_images/notebooks_intro_46_0.png" />
+<div class="highlight"><pre>
+Total prestress moment Mp (cf. GMR Fig. 11.9c):
+  span A-B (x=10 m): -547 kNm   [GMR -547]
+  support B (x=20 m): +796 kNm   [GMR +796]
+  support D (x=38 m): +630 kNm   [GMR +630]
+At support B:  primary = +630 kNm,  secondary = +166 kNm   [GMR +166]
+</pre></div></div>
+</div>
+</section>
+<section id="Example-5---Load-balancing:-combining-prestress-with-the-applied-loads">
+<h2>Example 5 - Load balancing: combining prestress with the applied loads<a class="headerlink" href="#Example-5---Load-balancing:-combining-prestress-with-the-applied-loads" title="Link to this heading">#</a></h2>
+<p>The purpose of the drape is to <em>balance</em> the applied gravity loads – the upward forces from the tendon offset the downward loads, so the concrete carries mainly axial precompression. Using the <strong>same beam, tendon and prestress</strong> as Example 4, we register the dead, live and prestress loadings as named <strong>load cases</strong> (<code class="docutils literal notranslate"><span class="pre">pycba.LoadCases</span></code>) and let PyCBA combine and analyse them from simple factor sets – no need to assemble load matrices by hand.</p>
+<p>Three combinations are compared: gravity alone (<span class="math notranslate nohighlight">\(G+Q\)</span>), at transfer (<span class="math notranslate nohighlight">\(G+P\)</span>, just after stressing, when the prestress acts against the dead load alone), and in service (<span class="math notranslate nohighlight">\(G+Q+P\)</span>):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lc</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
+<span class="n">lc</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;dead&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">)</span>   <span class="c1"># 12 kN/m dead UDL on every span</span>
+<span class="n">lc</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;live&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_all_spans_udl</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>   <span class="c1"># 10 kN/m live UDL on every span</span>
+<span class="n">lc</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;prestress&quot;</span><span class="p">,</span> <span class="n">LMp</span><span class="p">)</span>                    <span class="c1"># the prestress equivalent loads</span>
+
+<span class="n">combos</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;gravity only   (G + Q)&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dead&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;live&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s2">&quot;at transfer    (G + P)&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dead&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;prestress&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s2">&quot;in service (G + Q + P)&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dead&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;live&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;prestress&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">factors</span> <span class="ow">in</span> <span class="n">combos</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">lc</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">(</span><span class="n">factors</span><span class="p">)</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:  peak sag </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">+6.0f</span><span class="si">}</span><span class="s2"> kNm   peak deflection </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">*</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">+5.1f</span><span class="si">}</span><span class="s2"> mm&quot;</span><span class="p">)</span>
+
+<span class="n">lc</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">(</span><span class="n">combos</span><span class="p">[</span><span class="s2">&quot;in service (G + Q + P)&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="n">show_beam</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+gravity only   (G + Q):  peak sag   +722 kNm   peak deflection -34.7 mm
+at transfer    (G + P):  peak sag   +341 kNm   peak deflection  -0.2 mm
+in service (G + Q + P):  peak sag   +194 kNm   peak deflection  -8.7 mm
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_intro_42_1.png" src="../_images/notebooks_intro_42_1.png" />
+</div>
+</div>
+<p>The prestress relieves the gravity sagging moment from <span class="math notranslate nohighlight">\(+722\)</span> to <span class="math notranslate nohighlight">\(+194\)</span> kNm and cuts the peak deflection from <span class="math notranslate nohighlight">\(-35\)</span> to <span class="math notranslate nohighlight">\(-9\)</span> mm; at transfer the dead load is almost fully balanced (near-zero deflection). Naming the load cases lets <code class="docutils literal notranslate"><span class="pre">analyze_combination</span></code> build and solve each factored combination in a single call – the same machinery handles ULS factor sets such as <span class="math notranslate nohighlight">\(1.2G + 1.5Q\)</span>.</p>
 </section>
 <section id="Example-6---Prescribed-Support-Settlements">
 <h2>Example 6 - Prescribed Support Settlements<a class="headerlink" href="#Example-6---Prescribed-Support-Settlements" title="Link to this heading">#</a></h2>
@@ -884,7 +882,7 @@ np.float64(65.42525)
 <p><code class="docutils literal notranslate"><span class="pre">D</span></code> is a list of the same length as <code class="docutils literal notranslate"><span class="pre">R</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> for DOFs with no prescribed displacement, and a float (positive upward, negative downward) for any DOF whose displacement is known. Fixed supports (<code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">=</span> <span class="pre">-1</span></code>) default to zero displacement unless overridden by <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p>
 <p>We revisit the two-span beam from Example 1, but now the intermediate support <span class="math notranslate nohighlight">\(B\)</span> settles by <span class="math notranslate nohighlight">\(\delta_B = 20\)</span> mm and the far support <span class="math notranslate nohighlight">\(C\)</span> settles by <span class="math notranslate nohighlight">\(\delta_C = 10\)</span> mm.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">]</span>
@@ -919,7 +917,7 @@ Reactions (with differential settle): [ 77.752 139.3    72.948] kN
 </div>
 <p>The settlement redistributes bending moments across the spans. Plotting both cases makes the effect clear:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_ref</span> <span class="o">=</span> <span class="n">ba_ref</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
@@ -952,7 +950,7 @@ Reactions (with differential settle): [ 77.752 139.3    72.948] kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_50_0.png" src="../_images/notebooks_intro_50_0.png" />
+<img alt="../_images/notebooks_intro_47_0.png" src="../_images/notebooks_intro_47_0.png" />
 </div>
 </div>
 </section>
@@ -961,7 +959,7 @@ Reactions (with differential settle): [ 77.752 139.3    72.948] kN
 <p>When spring supports are used instead of rigid supports (positive value in <code class="docutils literal notranslate"><span class="pre">R</span></code> instead of <code class="docutils literal notranslate"><span class="pre">-1</span></code>), running the analysis also populates <code class="docutils literal notranslate"><span class="pre">beam_results.Rs</span></code> — a vector of spring forces <span class="math notranslate nohighlight">\(k_s \cdot u_i\)</span> for each spring DOF, in the same order they appear in <code class="docutils literal notranslate"><span class="pre">R</span></code>. This lets you post-process foundation loads directly without back-calculating them from the nodal displacements.</p>
 <p>We use Example 1 to illustrate.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">]</span>
@@ -972,7 +970,7 @@ Reactions (with differential settle): [ 77.752 139.3    72.948] kN
 <span class="c1"># Reference analysis – no settlement</span>
 <span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
 <span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
-<span class="n">ba</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
+<span class="n">ba</span><span class="o">.</span><span class="n">plot_results</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -980,11 +978,11 @@ Reactions (with differential settle): [ 77.752 139.3    72.948] kN
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_intro_52_0.png" src="../_images/notebooks_intro_52_0.png" />
+<img alt="../_images/notebooks_intro_49_0.png" src="../_images/notebooks_intro_49_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reactions at A and C are: </span><span class="si">{</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> kN&quot;</span><span class="p">)</span>
@@ -1054,8 +1052,8 @@ Reaction at B is: [171.669] kN
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-1---Basic-Analysis">Example 1 - Basic Analysis</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-2---Load-Definitions">Example 2 - Load Definitions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-3---3-span-beam-in-a-building-subframe">Example 3 - 3-span beam in a building subframe</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4---Post-tensioned-4-span-beam">Example 4 - Post-tensioned 4-span beam</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5---Superposition-for-load-balancing">Example 5 - Superposition for load-balancing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-4---Post-tensioning:-equivalent-loads-of-a-draped-tendon">Example 4 - Post-tensioning: equivalent loads of a draped tendon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-5---Load-balancing:-combining-prestress-with-the-applied-loads">Example 5 - Load balancing: combining prestress with the applied loads</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-6---Prescribed-Support-Settlements">Example 6 - Prescribed Support Settlements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-7---Spring-Support-Reactions">Example 7 - Spring Support Reactions</a></li>
 </ul>

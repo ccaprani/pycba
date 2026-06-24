@@ -624,6 +624,37 @@ Loading</em>. PhD Thesis, University College Dublin. Available at
 <a class="reference external" href="http://www.colincaprani.com/files/Caprani%20PhD%20Thesis.pdf">http://www.colincaprani.com/files/Caprani PhD Thesis.pdf</a>. Background to the
 influence-line and moving-load machinery in <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>.</p>
 </section>
+<section id="prestressed-concrete-and-equivalent-loads">
+<h2>Prestressed concrete and equivalent loads<a class="headerlink" href="#prestressed-concrete-and-equivalent-loads" title="Link to this heading">#</a></h2>
+<p id="ref-gilbert-mickleborough-ranzi-2017"><strong>Gilbert, R.I., Mickleborough, N.C. &amp; Ranzi, G. (2017).</strong> <em>Design of
+Prestressed Concrete to AS3600-2009</em>, 2nd edn. CRC Press, Boca Raton. ISBN
+978-1466572690.
+<a class="reference external" href="https://www.routledge.com/Design-of-Prestressed-Concrete-to-AS3600-2009/Gilbert-Mickleborough-Ranzi/p/book/9781466572690">Publisher record</a>.
+The standard Australian text on prestressed concrete; <strong>Example 11.1</strong>
+(continuous beam) derives the equivalent loads and the total, primary and
+secondary moments induced by prestress — the worked example reproduced by the
+<code class="docutils literal notranslate"><span class="pre">pycba.prestress</span></code> preprocessor.</p>
+<p id="ref-ptdesigner-2000"><strong>Structural Data Inc. (2000).</strong> <em>PT Designer — Post-Tensioning Design and
+Analysis Programs: Theory Manual.</em>
+<a class="reference external" href="https://secure.skghoshassociates.com/product/PT/download/TheoryManual.pdf">PDF</a>.
+Chapters 5–6 define the 12-profile tendon library (shared with RAPT) and the
+equivalent-load (balanced-load) formulae implemented in <code class="docutils literal notranslate"><span class="pre">pycba.prestress</span></code>.</p>
+</section>
+<section id="differential-temperature-thermal-effects">
+<h2>Differential temperature (thermal effects)<a class="headerlink" href="#differential-temperature-thermal-effects" title="Link to this heading">#</a></h2>
+<p id="ref-as5100-2-2017"><strong>Standards Australia (2017).</strong> <em>AS 5100.2:2017 — Bridge design, Part 2: Design
+loads.</em> Standards Australia, Sydney. Clause 18.3 specifies the design vertical
+(differential) temperature gradient for bridge superstructures — for concrete,
+the Priestley fifth-order positive gradient over the top 1200 mm — which the
+<a class="reference internal" href="notebooks/creep_shrinkage_thermal.html"><span class="std std-doc">Creep, Shrinkage and Thermal</span></a> tutorial
+models as an imposed curvature.</p>
+<p id="ref-priestley-1976"><strong>Priestley, M.J.N. (1976).</strong> <em>Design of concrete bridges for temperature
+gradients.</em> Origin of the fifth-order design temperature gradient through the
+top 1200 mm of the superstructure that AS 5100.2 (and US bridge practice) adopt.
+A contemporaneous treatment is <em>Thermal Stress Analysis of Concrete Bridge
+Superstructures</em>, Transportation Research Record 607 (1976),
+<a class="reference external" href="https://onlinepubs.trb.org/Onlinepubs/trr/1976/607/607-003.pdf">PDF</a>.</p>
+</section>
 </section>
 
 
@@ -672,6 +703,8 @@ influence-line and moving-load machinery in <code class="docutils literal notran
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-analysis-and-plastic-hinge-models">Nonlinear analysis and plastic-hinge models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plastic-analysis-virtual-work-collapse-load-factors">Plastic analysis (virtual work / collapse load factors)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bridge-loading-and-moving-load-analysis">Bridge loading and moving-load analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prestressed-concrete-and-equivalent-loads">Prestressed concrete and equivalent loads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differential-temperature-thermal-effects">Differential temperature (thermal effects)</a></li>
 </ul>
   </nav></div>
 

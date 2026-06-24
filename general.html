@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Reference" href="api.html" />
-    <link rel="prev" title="Imposed Curvature" href="notebooks/imposed_curvature.html" />
+    <link rel="prev" title="Creep, Shrinkage, and Thermal Analysis" href="notebooks/creep_shrinkage_thermal.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.8.0" />
@@ -900,6 +900,92 @@ units of your inputs — <code class="docutils literal notranslate"><span class=
 deflection axis is the one place a number is rescaled for display
 (<code class="docutils literal notranslate"><span class="pre">disp_scale</span></code>, e.g. ×1000 to show metres as millimetres).</p>
 </section>
+<section id="post-tensioning-equivalent-loads">
+<h2>Post-Tensioning (equivalent loads)<a class="headerlink" href="#post-tensioning-equivalent-loads" title="Link to this heading">#</a></h2>
+<p>A draped post-tensioning tendon can be turned into the equivalent (“balanced”)
+loads it exerts on the concrete with the <code class="docutils literal notranslate"><span class="pre">pycba.prestress</span></code> preprocessor. It is
+<em>only</em> a preprocessor: it returns an ordinary load matrix that you apply to the
+beam like any other loading — the analysis itself is unchanged.</p>
+<p>The tendon is described <strong>span by span</strong> by a profile whose geometry is given as
+<strong>eccentricities from the section centroid, positive below the centroid</strong> (so a
+sagging tendon balances gravity). The profiles mirror the standard library used
+by RAPT / PT Designer — 12 types, 7 for spans and 5 for cantilevers — via four
+profile objects:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Object</p></th>
+<th class="head"><p>RAPT/PT-Designer types</p></th>
+<th class="head"><p>Parameters (eccentricities + positions)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Parabola</span></code></p></td>
+<td><p>1, 2 (8, 9 on cantilevers)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">e_left,</span> <span class="pre">e_mid,</span> <span class="pre">e_right</span></code> (+ <code class="docutils literal notranslate"><span class="pre">c_left,</span> <span class="pre">c_right</span></code> for face-to-face)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CompoundParabola</span></code></p></td>
+<td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">e_left,</span> <span class="pre">e_mid,</span> <span class="pre">e_right,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">c</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Harp</span></code></p></td>
+<td><p>4, 5 (10, 11 on cantilevers)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">e_left,</span> <span class="pre">e_mid,</span> <span class="pre">e_right,</span> <span class="pre">a</span></code> (+ <code class="docutils literal notranslate"><span class="pre">c_left,</span> <span class="pre">c_right</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DoubleHarp</span></code></p></td>
+<td><p>6, 7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">e_left,</span> <span class="pre">e_1,</span> <span class="pre">e_2,</span> <span class="pre">e_right,</span> <span class="pre">a,</span> <span class="pre">b</span></code> (+ <code class="docutils literal notranslate"><span class="pre">c_left,</span> <span class="pre">c_right</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycba.prestress</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parabola</span><span class="p">,</span> <span class="n">equivalent_loads</span>
+
+<span class="c1"># a 2-span continuous beam</span>
+<span class="n">beam</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">4.0e5</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># a parabolic tendon: low at each midspan, raised over the interior support</span>
+<span class="n">F</span> <span class="o">=</span> <span class="mf">1500.0</span>  <span class="c1"># effective prestress force</span>
+<span class="n">loads</span> <span class="o">=</span> <span class="n">equivalent_loads</span><span class="p">(</span>
+    <span class="n">beam</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="n">F</span><span class="p">,</span>
+    <span class="n">profiles</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Parabola</span><span class="p">(</span><span class="n">e_left</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">e_mid</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">e_right</span><span class="o">=-</span><span class="mf">0.25</span><span class="p">),</span>  <span class="c1"># span 1</span>
+        <span class="n">Parabola</span><span class="p">(</span><span class="n">e_left</span><span class="o">=-</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">e_mid</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">e_right</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>  <span class="c1"># span 2</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">beam</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">loads</span><span class="p">)</span>   <span class="c1"># the balanced loads are now an ordinary loading</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>     <span class="c1"># M here is the balanced moment M_bal</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pycba.prestress.plot_tendon(beam,</span> <span class="pre">force,</span> <span class="pre">profiles)</span></code> draws three stacked, x-aligned panels — the beam, the (exaggerated) cable drape, and the equivalent loads it produces — to show how the profile becomes the loading.</p>
+<p>A cantilever (free-end) span is detected automatically and uses the cantilever
+form of its profile (the tendon anchors at the free tip).</p>
+<p>The equivalent loads are generated from first principles from the piecewise
+tendon <code class="docutils literal notranslate"><span class="pre">e(x)</span></code>: a uniform load <code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">=</span> <span class="pre">F·e″</span></code> over each parabolic segment, a point
+load <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">=</span> <span class="pre">F·Δe′</span></code> at each interior kink, an anchorage moment <code class="docutils literal notranslate"><span class="pre">F·e</span></code> at each end,
+and an anchorage force <code class="docutils literal notranslate"><span class="pre">F·e′</span></code> at a free tip. Applying them gives the <strong>balanced</strong>
+moment <code class="docutils literal notranslate"><span class="pre">M_bal</span></code>; the secondary (parasitic) moment is then <code class="docutils literal notranslate"><span class="pre">M₂</span> <span class="pre">=</span> <span class="pre">M_bal</span> <span class="pre">−</span> <span class="pre">F·e</span></code>,
+where <code class="docutils literal notranslate"><span class="pre">e</span> <span class="pre">=</span> <span class="pre">e(x)</span></code> is the tendon eccentricity.</p>
+<p>The profile geometry and the equivalent-load derivation follow the standard PT
+references; see in particular the <em>PT Designer Theory Manual</em>, Chapters 5
+(Tendon Profiles) and 6 (Equivalent Loads),
+<a class="reference external" href="https://secure.skghoshassociates.com/product/PT/download/TheoryManual.pdf">available here</a>,
+whose 12-profile library this preprocessor reproduces.</p>
+<p>A worked, validated example follows Gilbert, Mickleborough &amp; Ranzi
+(<a class="reference internal" href="references.html#ref-gilbert-mickleborough-ranzi-2017"><span class="std std-ref"><em>Design of Prestressed Concrete to AS3600-2009</em></span></a>,
+Example 11.1) — see the Introduction tutorial.</p>
+<p><strong>Non-prismatic members.</strong> The equivalent transverse loads are the <em>physical</em>
+curvature of the tendon (<code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">=</span> <span class="pre">F·e″</span></code>) and so are independent of the section, and
+<code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> analyses variable-<code class="docutils literal notranslate"><span class="pre">EI</span></code> members directly — so a draped tendon on a
+non-prismatic beam (pass a <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> as <code class="docutils literal notranslate"><span class="pre">EI</span></code>) is handled correctly, including
+its effect on the secondary moments. Eccentricities are taken from the beam
+reference axis; for a non-prismatic section the concrete centroid moves within
+the section, which matters for <em>stress checks</em> and the primary/secondary split
+but not for the equivalent loads or <code class="docutils literal notranslate"><span class="pre">M_bal</span></code>.</p>
+</section>
 </section>
 
 
@@ -913,12 +999,12 @@ deflection axis is the one place a number is rescaled for display
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="notebooks/imposed_curvature.html"
+       href="notebooks/creep_shrinkage_thermal.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Imposed Curvature</p>
+        <p class="prev-next-title">Creep, Shrinkage, and Thermal Analysis</p>
       </div>
     </a>
     <a class="right-next"
@@ -963,6 +1049,7 @@ deflection axis is the one place a number is rescaled for display
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#units">Units</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-tensioning-equivalent-loads">Post-Tensioning (equivalent loads)</a></li>
 </ul>
   </nav></div>
 

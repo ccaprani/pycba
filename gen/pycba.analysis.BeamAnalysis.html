@@ -475,6 +475,15 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.VehicleLibrary.html">pycba.vehicle.VehicleLibrary</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.prestress.html">pycba.prestress</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.prestress.equivalent_loads.html">pycba.prestress.equivalent_loads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.prestress.plot_tendon.html">pycba.prestress.plot_tendon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.prestress.CompoundParabola.html">pycba.prestress.CompoundParabola</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.prestress.DoubleHarp.html">pycba.prestress.DoubleHarp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.prestress.Harp.html">pycba.prestress.Harp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.prestress.Parabola.html">pycba.prestress.Parabola</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.nonlinear.html">pycba.nonlinear</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.nonlinear.HingeEvent.html">pycba.nonlinear.HingeEvent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.nonlinear.NonlinearBeamAnalysis.html">pycba.nonlinear.NonlinearBeamAnalysis</a></li>
@@ -939,7 +948,7 @@ produce a PDF (a <code class="docutils literal notranslate"><span class="pre">.p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_results">
-<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
 <dd><p>Plot bending moment, shear force, and deflection diagrams.</p>
 <p>Produces a figure of bending moment, shear force, and deflection along
 the beam.  Bending moment is plotted with the sagging-positive
@@ -959,6 +968,9 @@ displaying — e.g. to <code class="docutils literal notranslate"><span class="p
 (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;SI&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;US-ft&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;N-mm&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>).  Defaults to
 the global default (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>); the analysis
 itself is unit-agnostic and unaffected.</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Figure size in inches. Defaults to 10 wide and ~3 in per subplot
+row (so the diagrams are not squashed), consistent with the other
+PyCBA result plots; pass an explicit tuple to override.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

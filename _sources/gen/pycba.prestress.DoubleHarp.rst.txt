@@ -1,0 +1,38 @@
+pycba.prestress.DoubleHarp
+==========================
+
+.. currentmodule:: pycba.prestress
+
+.. autoclass:: DoubleHarp
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~DoubleHarp.segments
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DoubleHarp.c_left
+      ~DoubleHarp.c_right
+      ~DoubleHarp.e_left
+      ~DoubleHarp.e_1
+      ~DoubleHarp.e_2
+      ~DoubleHarp.e_right
+      ~DoubleHarp.a
+      ~DoubleHarp.b
+   
+   

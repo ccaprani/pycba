@@ -1,0 +1,6 @@
+pycba.prestress.plot\_tendon
+============================
+
+.. currentmodule:: pycba.prestress
+
+.. autofunction:: plot_tendon

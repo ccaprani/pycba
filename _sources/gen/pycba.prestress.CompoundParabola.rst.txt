@@ -1,0 +1,36 @@
+pycba.prestress.CompoundParabola
+================================
+
+.. currentmodule:: pycba.prestress
+
+.. autoclass:: CompoundParabola
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~CompoundParabola.segments
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CompoundParabola.e_left
+      ~CompoundParabola.e_mid
+      ~CompoundParabola.e_right
+      ~CompoundParabola.a
+      ~CompoundParabola.b
+      ~CompoundParabola.c
+   
+   

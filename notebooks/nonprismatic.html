@@ -49,7 +49,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Imposed Curvature" href="imposed_curvature.html" />
+    <link rel="next" title="Creep, Shrinkage, and Thermal Analysis" href="creep_shrinkage_thermal.html" />
     <link rel="prev" title="Nonlinear Beam Analysis" href="nonlinear.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -403,7 +403,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonlinear.html">Nonlinear Beam Analysis</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Non-prismatic Elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="imposed_curvature.html">Imposed Curvature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creep_shrinkage_thermal.html">Creep, Shrinkage, and Thermal Analysis</a></li>
 </ul>
 </div>
 </nav></div>
@@ -467,7 +467,7 @@
   <section id="Non-prismatic-Elements">
 <h1>Non-prismatic Elements<a class="headerlink" href="#Non-prismatic-Elements" title="Link to this heading">#</a></h1>
 <p>A <em>non-prismatic</em> member has a flexural rigidity <span class="math notranslate nohighlight">\(EI(x)\)</span> that varies along its length — a haunch, a taper or a stepped section. In <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> such a member is an <strong>element</strong>, defined by a <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> object built from contiguous segments (<code class="docutils literal notranslate"><span class="pre">const</span></code>, <code class="docutils literal notranslate"><span class="pre">linear</span></code>, <code class="docutils literal notranslate"><span class="pre">pwl</span></code>, <code class="docutils literal notranslate"><span class="pre">poly</span></code>) and analysed exactly by flexibility integration.</p>
-<p>The companion tutorial, <a class="reference internal" href="imposed_curvature.html"><span class="doc">Imposed Curvature</span></a>, covers the <em>loading</em> side (creep/shrinkage/thermal curvatures), including a combined example that applies an imposed curvature to the non-prismatic beam built here. The underlying method is in the <a class="reference internal" href="../theory.html"><span class="doc">Theoretical Basis</span></a>; the source texts are on the <a class="reference internal" href="../references.html"><span class="doc">References</span></a> page.</p>
+<p>The companion tutorial, <a class="reference internal" href="creep_shrinkage_thermal.html"><span class="doc">Creep, Shrinkage, and Thermal Analysis</span></a>, covers the <em>loading</em> side (creep/shrinkage/thermal curvatures), including a combined example that applies an imposed curvature to the non-prismatic beam built here. The underlying method is in the <a class="reference internal" href="../theory.html"><span class="doc">Theoretical Basis</span></a>; the source texts are on the <a class="reference internal" href="../references.html"><span class="doc">References</span></a> page.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -495,7 +495,7 @@
         <span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.2e5</span><span class="p">,</span> <span class="mf">3.0e5</span><span class="p">]),</span>  <span class="c1"># haunch up to the right support</span>
     <span class="p">]</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">sec</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">sec</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -592,7 +592,7 @@ Haunched  pier moment =   -501.0 kNm  (+34% -- haunch draws hogging to the pier)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># EI(x) elevation and the resulting BMD (haunched vs prismatic).</span>
@@ -600,7 +600,7 @@ Haunched  pier moment =   -501.0 kNm  (+34% -- haunch draws hogging to the pier)
 <span class="n">EI_prof</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sec1</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="n">sec2</span><span class="p">(</span><span class="n">xx</span><span class="p">)])</span> <span class="o">/</span> <span class="mf">1e6</span>          <span class="c1"># MNm^2</span>
 <span class="n">x_prof</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">xx</span><span class="p">,</span> <span class="n">Lsp</span> <span class="o">+</span> <span class="n">xx</span><span class="p">])</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_prof</span><span class="p">,</span> <span class="n">EI_prof</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;haunched $EI(x)$&quot;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">EI_const</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;prismatic $EI$&quot;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">Lsp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
@@ -653,11 +653,11 @@ Haunched  pier moment =   -501.0 kNm  (+34% -- haunch draws hogging to the pier)
       </div>
     </a>
     <a class="right-next"
-       href="imposed_curvature.html"
+       href="creep_shrinkage_thermal.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Imposed Curvature</p>
+        <p class="prev-next-title">Creep, Shrinkage, and Thermal Analysis</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

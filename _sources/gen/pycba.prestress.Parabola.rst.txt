@@ -1,0 +1,35 @@
+pycba.prestress.Parabola
+========================
+
+.. currentmodule:: pycba.prestress
+
+.. autoclass:: Parabola
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~Parabola.segments
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Parabola.c_left
+      ~Parabola.c_right
+      ~Parabola.e_left
+      ~Parabola.e_mid
+      ~Parabola.e_right
+   
+   

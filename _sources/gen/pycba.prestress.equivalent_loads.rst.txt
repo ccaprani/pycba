@@ -1,0 +1,6 @@
+pycba.prestress.equivalent\_loads
+=================================
+
+.. currentmodule:: pycba.prestress
+
+.. autofunction:: equivalent_loads

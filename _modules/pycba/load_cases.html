@@ -1836,7 +1836,7 @@
 <span class="sd">    plot. ``show=False`` suppresses ``plt.show()``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="n">label</span> <span class="o">=</span> <span class="p">(</span>
@@ -1897,7 +1897,7 @@
     <span class="n">spans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span>
 
     <span class="n">fig_height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">0.45</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.2</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">fig_height</span><span class="p">))</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">fig_height</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">load_case</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">load_cases</span><span class="p">):</span>
         <span class="n">y0</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mf">0.3</span>

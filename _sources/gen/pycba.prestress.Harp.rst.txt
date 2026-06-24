@@ -1,0 +1,36 @@
+pycba.prestress.Harp
+====================
+
+.. currentmodule:: pycba.prestress
+
+.. autoclass:: Harp
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~Harp.segments
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Harp.c_left
+      ~Harp.c_right
+      ~Harp.e_left
+      ~Harp.e_mid
+      ~Harp.e_right
+      ~Harp.a
+   
+   
