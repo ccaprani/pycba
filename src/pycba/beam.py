@@ -1,12 +1,13 @@
 """
 PyCBA - Beam Class definition
 """
-from typing import Optional, Union
+from typing import Optional, Sequence, Union
 import numpy as np
 from scipy import integrate
 from .load import parse_LM, LoadType, LoadMatrix, LoadCNL, LoadIC
 from .types import MemberType
 from .section import SectionEI
+from .utils import supports_to_R, SupportType
 
 
 class Beam:
@@ -22,6 +23,7 @@ class Beam:
         LM: Optional[LoadMatrix] = None,
         eletype: Optional[np.ndarray] = None,
         D: Optional[np.ndarray] = None,
+        supports: Optional[Sequence[SupportType]] = None,
     ):
         """
         Constructs a beam object
@@ -33,7 +35,9 @@ class Beam:
         EI : np.ndarray
             A vector of member flexural rigidities.
         R : np.ndarray
-            A vector describing the support conditions at each member end.
+            A vector describing the support conditions at each member end (the
+            low-level restraint vector).  Provide either ``R`` or the friendlier
+            ``supports``, not both.
         LM : Optional[list[list[Union[int, float]]]]
             The load matrix: a list of loads on the beam; each load with several
             parameters.
@@ -44,6 +48,13 @@ class Beam:
         D : Optional[np.ndarray]
             A vector of prescribed displacements. Must have same length as R.
             Use None for DOFs without prescribed displacement.
+        supports : Optional[Sequence[str or [float, float]]]
+            A friendlier alternative to ``R``: one entry per node (left to
+            right), each a support name (``"p"``/``"pin"``/``"pinned"``,
+            ``"r"``/``"roller"``, ``"e"``/``"encastre"``/``"fixed"``,
+            ``"f"``/``"free"``) or a raw ``[vertical, rotation]`` DOF pair (e.g.
+            ``[5e4, 0]`` for a vertical spring).  Lowered to ``R`` via
+            :func:`~pycba.supports_to_R`.  Mutually exclusive with ``R``.
 
 
         Returns
@@ -66,6 +77,15 @@ class Beam:
         # be invalidated.  Load changes deliberately do not bump it.
         self._structure_version = 0
 
+        # The friendly ``supports`` list is sugar for the low-level ``R`` vector;
+        # lower it here so the rest of the constructor is unchanged.
+        if supports is not None:
+            if R is not None:
+                raise ValueError("Pass either R or supports, not both.")
+            if L is None:
+                raise ValueError("supports requires L to set the node count.")
+            R = supports_to_R(supports, n_nodes=len(L) + 1)
+
         if L is not None and eletype is not None:
             # A single rigidity (scalar EI, or one SectionEI) applies to all
             # spans; otherwise one rigidity per span is required.
@@ -78,6 +98,8 @@ class Beam:
                         self.add_span(l, ei, et)
                 else:
                     raise ValueError("Define EI for each span")
+            if R is None:
+                raise ValueError("Provide support conditions via R or supports.")
             if len(R) == 2 * len(L) + 2:
                 self._restraints = R
             else:

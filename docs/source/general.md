@@ -72,6 +72,49 @@ Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of
 
 **Units**: kN/m or kNm/rad or None
 
+(named-supports)=
+### Named supports (`supports`)
+
+Writing `R` by hand means tracking two DOFs per node and the `-1`/`0`/`+k`
+convention. As a friendlier alternative, pass `supports=` instead of `R=` — a
+list with **one entry per node** (left to right), each naming the support there:
+
+| Name(s) | Meaning | Lowers to `[vertical, rotation]` |
+|---|---|---|
+| `"p"`, `"pin"`, `"pinned"` | pinned | `[-1, 0]` |
+| `"r"`, `"roller"` | roller | `[-1, 0]` |
+| `"e"`, `"encastre"`, `"fixed"`, `"clamped"` | fully fixed | `[-1, -1]` |
+| `"f"`, `"free"` | free (e.g. a cantilever tip) | `[0, 0]` |
+
+Names are case-insensitive. The two letters `e` (encastre) and `f` (free) are
+deliberately distinct so a built-in support is never confused with a free end.
+In a beam, `pin` and `roller` are identical (there is no horizontal DOF to
+distinguish them); both names are kept for readability. The same vocabulary
+drives `parse_beam_string` (described under *Element Types*, below), so the two
+entry points stay in lockstep.
+
+```python
+# These two beams are identical:
+ba = cba.BeamAnalysis(L=[7.5, 7.0], EI=30e4, supports=["p", "r", "r"])
+ba = cba.BeamAnalysis(L=[7.5, 7.0], EI=30e4, R=[-1, 0, -1, 0, -1, 0])
+```
+
+An **elastic spring** carries a stiffness value, which a name cannot, so give
+that node a raw `[vertical, rotation]` pair instead — this is also the general
+escape hatch back to the `R` convention:
+
+```python
+# Vertical spring (k = 5e4) at the middle node, rotation free:
+ba = cba.BeamAnalysis(L=[7.5, 7.0], EI=30e4, supports=["p", [5e4, 0], "p"])
+```
+
+`supports` and `R` are mutually exclusive (pass one or the other), and
+`supports_to_R(supports)` is available if you want the lowered vector directly.
+An **internal hinge is not a support** — it is a moment release *between* two
+members — so it cannot appear in `supports`; release the moment on the adjacent
+member through its element type (`FP`/`PF`/`PP`; see *Element Types*, below)
+instead.
+
 If the restraints leave the structure under-supported, it is a *mechanism* —
 the stiffness matrix is singular and the solution is meaningless. Before
 solving, `analyze()` checks the free-DOF stiffness for this condition and
