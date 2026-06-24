@@ -16,6 +16,7 @@
       :nosignatures:
    
       parse_beam_string
+      supports_to_R
    
    
 

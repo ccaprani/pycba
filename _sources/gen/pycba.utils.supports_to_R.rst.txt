@@ -1,0 +1,6 @@
+pycba.utils.supports\_to\_R
+===========================
+
+.. currentmodule:: pycba.utils
+
+.. autofunction:: supports_to_R

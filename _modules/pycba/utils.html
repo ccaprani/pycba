@@ -437,7 +437,139 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+
+<span class="c1"># Per-node support-name vocabulary, shared by :func:`parse_beam_string` and the</span>
+<span class="c1"># friendlier ``supports=`` constructor argument.  Each name lowers to a</span>
+<span class="c1"># ``[vertical, rotation]`` restraint pair in the ``R`` convention (``-1`` = fixed,</span>
+<span class="c1"># ``0`` = free); a 1D beam node carries only these two DOFs.  Pin and roller are</span>
+<span class="c1"># identical in a beam (no horizontal DOF distinguishes them); both names are kept</span>
+<span class="c1"># for readability and visualisation intent.</span>
+<span class="n">_SUPPORT_DOF</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;pin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;pinned&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;roller&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;encastre&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;fixed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;clamped&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;free&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="c1"># Support type that is *not* a ground restraint but an internal moment release;</span>
+<span class="c1"># only meaningful inside a beam string (where it also pins the previous member).</span>
+<span class="n">_HINGE_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;hinge&quot;</span><span class="p">}</span>
+
+<span class="n">SupportType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_support_pair</span><span class="p">(</span><span class="n">entry</span><span class="p">:</span> <span class="n">SupportType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lower a single per-node support to its ``[vertical, rotation]`` DOF pair.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    entry : str or sequence of float</span>
+<span class="sd">        Either a support name (case-insensitive; see :data:`_SUPPORT_DOF`) or a</span>
+<span class="sd">        raw two-element ``[vertical, rotation]`` restraint pair in the ``R``</span>
+<span class="sd">        convention.  A pair is the escape hatch for elastic springs, e.g.</span>
+<span class="sd">        ``[5e4, 0]`` is a vertical spring of stiffness ``5e4`` with the rotation</span>
+<span class="sd">        free.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If a name is unknown, names an internal hinge (which is a member</span>
+<span class="sd">        release, not a support), or a numeric pair does not have exactly two</span>
+<span class="sd">        entries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_HINGE_NAMES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;A hinge is an internal moment release, not a support; do not &quot;</span>
+                <span class="s2">&quot;list it in `supports`. Release the moment on the adjacent &quot;</span>
+                <span class="s2">&quot;member via its element type instead (e.g. eletype &#39;FP&#39;/&#39;PF&#39;).&quot;</span>
+            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_SUPPORT_DOF</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">_SUPPORT_DOF</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown support </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">; use one of: </span><span class="si">{</span><span class="n">names</span><span class="si">}</span><span class="s2">; or a raw &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;[vertical, rotation] DOF pair (e.g. [5e4, 0] for a spring).&quot;</span>
+            <span class="p">)</span>
+    <span class="n">pair</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;A support DOF pair must have exactly 2 entries &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;[vertical, rotation], got </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">pair</span>
+
+
+<div class="viewcode-block" id="supports_to_R">
+<a class="viewcode-back" href="../../gen/pycba.utils.supports_to_R.html#pycba.utils.supports_to_R">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">supports_to_R</span><span class="p">(</span>
+    <span class="n">supports</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">SupportType</span><span class="p">],</span> <span class="n">n_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lower a per-node list of named supports to a raw restraint vector ``R``.</span>
+
+<span class="sd">    This is the friendly front-end to the low-level ``R`` vector used throughout</span>
+<span class="sd">    PyCBA: one entry per node (left to right), each either a support *name* or a</span>
+<span class="sd">    raw ``[vertical, rotation]`` DOF pair.  The result is exactly the ``R`` you</span>
+<span class="sd">    would otherwise write by hand, so ``supports=`` and ``R=`` are</span>
+<span class="sd">    interchangeable on the :class:`~pycba.Beam` / :class:`~pycba.BeamAnalysis`</span>
+<span class="sd">    constructors.</span>
+
+<span class="sd">    Recognised names (case-insensitive):</span>
+
+<span class="sd">    * ``&quot;p&quot;`` / ``&quot;pin&quot;`` / ``&quot;pinned&quot;`` and ``&quot;r&quot;`` / ``&quot;roller&quot;`` -&gt; ``[-1, 0]``</span>
+<span class="sd">      (vertical held, rotation free).</span>
+<span class="sd">    * ``&quot;e&quot;`` / ``&quot;encastre&quot;`` / ``&quot;fixed&quot;`` / ``&quot;clamped&quot;`` -&gt; ``[-1, -1]``</span>
+<span class="sd">      (fully fixed).</span>
+<span class="sd">    * ``&quot;f&quot;`` / ``&quot;free&quot;`` -&gt; ``[0, 0]`` (unrestrained, e.g. a cantilever tip).</span>
+
+<span class="sd">    Elastic springs are given as a raw pair, e.g. ``[5e4, 0]`` for a vertical</span>
+<span class="sd">    spring (stiffness ``5e4``) with the rotation free.</span>
+
+<span class="sd">    An internal hinge is **not** a support (it is a member moment release) and is</span>
+<span class="sd">    rejected; release the moment on the adjacent member via its element type</span>
+<span class="sd">    instead.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    supports : sequence of (str or [float, float])</span>
+<span class="sd">        One entry per node, ordered left to right.</span>
+<span class="sd">    n_nodes : int, optional</span>
+<span class="sd">        Expected number of nodes (``= number of spans + 1``).  If given, the</span>
+<span class="sd">        length of ``supports`` is validated against it for a clear early error.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        The restraint vector ``R`` of length ``2 * len(supports)``.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If ``n_nodes`` is given and does not match ``len(supports)``, or any</span>
+<span class="sd">        entry is not a recognised name or valid ``[vertical, rotation]`` pair.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n_nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">supports</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_nodes</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">n_nodes</span><span class="si">}</span><span class="s2"> supports (one per node), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">supports</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">supports</span><span class="p">:</span>
+        <span class="n">R</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_support_pair</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
 
 
 <div class="viewcode-block" id="parse_beam_string">
@@ -524,16 +656,11 @@
     <span class="n">R</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">eType</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">L</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">terminals</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;p&quot;</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span>  <span class="c1"># pin or roller</span>
-            <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;e&quot;</span><span class="p">:</span>  <span class="c1"># encastre</span>
-            <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span>  <span class="c1"># free</span>
-            <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;h&quot;</span><span class="p">:</span>  <span class="c1"># hinge</span>
-            <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;h&quot;</span><span class="p">:</span>  <span class="c1"># internal hinge: unsupported node + release of prev member</span>
+            <span class="n">R</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
             <span class="n">eType</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="n">elem</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># p / r / e / f map via the shared support vocabulary</span>
+            <span class="n">R</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_SUPPORT_DOF</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span></div>
 

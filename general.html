@@ -513,6 +513,62 @@ Unrestrained degrees of freedom are indicated by a “0” value.
 Supports with a stiffness (kN/m or kNm/rad) are indicated by a positive value of the stiffness, <code class="docutils literal notranslate"><span class="pre">k</span></code>: i.e. “+k”</p>
 <p><strong>Dimension</strong>: 2<code class="docutils literal notranslate"><span class="pre">N</span></code> x 1</p>
 <p><strong>Units</strong>: kN/m or kNm/rad or None</p>
+<section id="named-supports-supports">
+<span id="named-supports"></span><h3>Named supports (<code class="docutils literal notranslate"><span class="pre">supports</span></code>)<a class="headerlink" href="#named-supports-supports" title="Link to this heading">#</a></h3>
+<p>Writing <code class="docutils literal notranslate"><span class="pre">R</span></code> by hand means tracking two DOFs per node and the <code class="docutils literal notranslate"><span class="pre">-1</span></code>/<code class="docutils literal notranslate"><span class="pre">0</span></code>/<code class="docutils literal notranslate"><span class="pre">+k</span></code>
+convention. As a friendlier alternative, pass <code class="docutils literal notranslate"><span class="pre">supports=</span></code> instead of <code class="docutils literal notranslate"><span class="pre">R=</span></code> — a
+list with <strong>one entry per node</strong> (left to right), each naming the support there:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name(s)</p></th>
+<th class="head"><p>Meaning</p></th>
+<th class="head"><p>Lowers to <code class="docutils literal notranslate"><span class="pre">[vertical,</span> <span class="pre">rotation]</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;p&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;pin&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;pinned&quot;</span></code></p></td>
+<td><p>pinned</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;roller&quot;</span></code></p></td>
+<td><p>roller</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;e&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;encastre&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;fixed&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;clamped&quot;</span></code></p></td>
+<td><p>fully fixed</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">-1]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;f&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;free&quot;</span></code></p></td>
+<td><p>free (e.g. a cantilever tip)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Names are case-insensitive. The two letters <code class="docutils literal notranslate"><span class="pre">e</span></code> (encastre) and <code class="docutils literal notranslate"><span class="pre">f</span></code> (free) are
+deliberately distinct so a built-in support is never confused with a free end.
+In a beam, <code class="docutils literal notranslate"><span class="pre">pin</span></code> and <code class="docutils literal notranslate"><span class="pre">roller</span></code> are identical (there is no horizontal DOF to
+distinguish them); both names are kept for readability. The same vocabulary
+drives <code class="docutils literal notranslate"><span class="pre">parse_beam_string</span></code> (described under <em>Element Types</em>, below), so the two
+entry points stay in lockstep.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># These two beams are identical:</span>
+<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">])</span>
+<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>An <strong>elastic spring</strong> carries a stiffness value, which a name cannot, so give
+that node a raw <code class="docutils literal notranslate"><span class="pre">[vertical,</span> <span class="pre">rotation]</span></code> pair instead — this is also the general
+escape hatch back to the <code class="docutils literal notranslate"><span class="pre">R</span></code> convention:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vertical spring (k = 5e4) at the middle node, rotation free:</span>
+<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5e4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;p&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">supports</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span></code> are mutually exclusive (pass one or the other), and
+<code class="docutils literal notranslate"><span class="pre">supports_to_R(supports)</span></code> is available if you want the lowered vector directly.
+An <strong>internal hinge is not a support</strong> — it is a moment release <em>between</em> two
+members — so it cannot appear in <code class="docutils literal notranslate"><span class="pre">supports</span></code>; release the moment on the adjacent
+member through its element type (<code class="docutils literal notranslate"><span class="pre">FP</span></code>/<code class="docutils literal notranslate"><span class="pre">PF</span></code>/<code class="docutils literal notranslate"><span class="pre">PP</span></code>; see <em>Element Types</em>, below)
+instead.</p>
 <p>If the restraints leave the structure under-supported, it is a <em>mechanism</em> —
 the stiffness matrix is singular and the solution is meaningless. Before
 solving, <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> checks the free-DOF stiffness for this condition and
@@ -529,6 +585,7 @@ looped analyses that vary only the loads (e.g. a moving-load run) incur the
 check only once; it is re-evaluated only if the beam structure changes. For an
 unusual but intentionally near-singular model you can skip it entirely with
 <code class="docutils literal notranslate"><span class="pre">ba.analyze(check_stability=False)</span></code>.</p>
+</section>
 </section>
 <section id="load-matrix-lm">
 <h2>Load Matrix (<code class="docutils literal notranslate"><span class="pre">LM</span></code>)<a class="headerlink" href="#load-matrix-lm" title="Link to this heading">#</a></h2>
@@ -1037,7 +1094,10 @@ but not for the equivalent loads or <code class="docutils literal notranslate"><
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#member-lengths-l">Member Lengths (<code class="docutils literal notranslate"><span class="pre">L</span></code>)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flexural-rigidity-ei">Flexural Rigidity (<code class="docutils literal notranslate"><span class="pre">EI</span></code>)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restraints-r">Restraints (<code class="docutils literal notranslate"><span class="pre">R</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restraints-r">Restraints (<code class="docutils literal notranslate"><span class="pre">R</span></code>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#named-supports-supports">Named supports (<code class="docutils literal notranslate"><span class="pre">supports</span></code>)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-matrix-lm">Load Matrix (<code class="docutils literal notranslate"><span class="pre">LM</span></code>)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-cases-and-response-combinations">Load Cases and Response Combinations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prescribed-displacements-d">Prescribed Displacements (<code class="docutils literal notranslate"><span class="pre">D</span></code>)</a></li>

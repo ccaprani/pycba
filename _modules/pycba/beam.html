@@ -435,12 +435,13 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">PyCBA - Beam Class definition</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_LM</span><span class="p">,</span> <span class="n">LoadType</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCNL</span><span class="p">,</span> <span class="n">LoadIC</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemberType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">supports_to_R</span><span class="p">,</span> <span class="n">SupportType</span>
 
 
 <div class="viewcode-block" id="Beam">
@@ -458,6 +459,7 @@
         <span class="n">LM</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadMatrix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">supports</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">SupportType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs a beam object</span>
@@ -469,7 +471,9 @@
 <span class="sd">        EI : np.ndarray</span>
 <span class="sd">            A vector of member flexural rigidities.</span>
 <span class="sd">        R : np.ndarray</span>
-<span class="sd">            A vector describing the support conditions at each member end.</span>
+<span class="sd">            A vector describing the support conditions at each member end (the</span>
+<span class="sd">            low-level restraint vector).  Provide either ``R`` or the friendlier</span>
+<span class="sd">            ``supports``, not both.</span>
 <span class="sd">        LM : Optional[list[list[Union[int, float]]]]</span>
 <span class="sd">            The load matrix: a list of loads on the beam; each load with several</span>
 <span class="sd">            parameters.</span>
@@ -480,6 +484,13 @@
 <span class="sd">        D : Optional[np.ndarray]</span>
 <span class="sd">            A vector of prescribed displacements. Must have same length as R.</span>
 <span class="sd">            Use None for DOFs without prescribed displacement.</span>
+<span class="sd">        supports : Optional[Sequence[str or [float, float]]]</span>
+<span class="sd">            A friendlier alternative to ``R``: one entry per node (left to</span>
+<span class="sd">            right), each a support name (``&quot;p&quot;``/``&quot;pin&quot;``/``&quot;pinned&quot;``,</span>
+<span class="sd">            ``&quot;r&quot;``/``&quot;roller&quot;``, ``&quot;e&quot;``/``&quot;encastre&quot;``/``&quot;fixed&quot;``,</span>
+<span class="sd">            ``&quot;f&quot;``/``&quot;free&quot;``) or a raw ``[vertical, rotation]`` DOF pair (e.g.</span>
+<span class="sd">            ``[5e4, 0]`` for a vertical spring).  Lowered to ``R`` via</span>
+<span class="sd">            :func:`~pycba.supports_to_R`.  Mutually exclusive with ``R``.</span>
 
 
 <span class="sd">        Returns</span>
@@ -502,6 +513,15 @@
         <span class="c1"># be invalidated.  Load changes deliberately do not bump it.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">=</span> <span class="mi">0</span>
 
+        <span class="c1"># The friendly ``supports`` list is sugar for the low-level ``R`` vector;</span>
+        <span class="c1"># lower it here so the rest of the constructor is unchanged.</span>
+        <span class="k">if</span> <span class="n">supports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pass either R or supports, not both.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;supports requires L to set the node count.&quot;</span><span class="p">)</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">supports_to_R</span><span class="p">(</span><span class="n">supports</span><span class="p">,</span> <span class="n">n_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># A single rigidity (scalar EI, or one SectionEI) applies to all</span>
             <span class="c1"># spans; otherwise one rigidity per span is required.</span>
@@ -514,6 +534,8 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define EI for each span&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Provide support conditions via R or supports.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="n">R</span>
             <span class="k">else</span><span class="p">:</span>

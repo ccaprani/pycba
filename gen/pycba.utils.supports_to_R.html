@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.inf_lines &#8212; PyCBA 0.9.0 documentation</title>
+    <title>pycba.utils.supports_to_R &#8212; PyCBA 0.9.0 documentation</title>
   
   
   
@@ -42,12 +42,12 @@
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.inf_lines';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.utils.supports_to_R';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pycba.inf_lines.InfluenceLines" href="pycba.inf_lines.InfluenceLines.html" />
-    <link rel="prev" title="pycba.units.UnitSystem" href="pycba.units.UnitSystem.html" />
+    <link rel="next" title="Theoretical Basis" href="../theory.html" />
+    <link rel="prev" title="pycba.utils.parse_beam_string" href="pycba.utils.parse_beam_string.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.9.0" />
@@ -461,7 +461,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.units.UnitSystem.html">pycba.units.UnitSystem</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">pycba.inf_lines</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.inf_lines.html">pycba.inf_lines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.inf_lines.InfluenceLines.html">pycba.inf_lines.InfluenceLines</a></li>
 </ul>
 </details></li>
@@ -490,9 +490,9 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.nonlinear.NonlinearResult.html">pycba.nonlinear.NonlinearResult</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.utils.html">pycba.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.utils.html">pycba.utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pycba.utils.parse_beam_string.html">pycba.utils.parse_beam_string</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.utils.supports_to_R.html">pycba.utils.supports_to_R</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.utils.supports_to_R</a></li>
 </ul>
 </details></li>
 </ul>
@@ -538,7 +538,10 @@
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.inf_lines</span></li>
+    
+    <li class="breadcrumb-item"><a href="pycba.utils.html" class="nav-link">pycba.utils</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.utils.supports_to_R</span></li>
   </ul>
 </nav>
 </div>
@@ -555,18 +558,52 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-pycba.inf_lines">
-<span id="pycba-inf-lines"></span><h1>pycba.inf_lines<a class="headerlink" href="#module-pycba.inf_lines" title="Link to this heading">#</a></h1>
-<p>PyCBA - Continuous Beam Analysis - Influence Lines Module</p>
-<p class="rubric">Classes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="pycba.inf_lines.InfluenceLines.html#pycba.inf_lines.InfluenceLines" title="pycba.inf_lines.InfluenceLines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InfluenceLines</span></code></a></p></td>
-<td><p>Creates influence lines for an arbitrary beam configuration using CBA</p></td>
-</tr>
-</tbody>
-</table>
-</div>
+  <section id="pycba-utils-supports-to-r">
+<h1>pycba.utils.supports_to_R<a class="headerlink" href="#pycba-utils-supports-to-r" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pycba.utils.supports_to_R">
+<span class="sig-name descname"><span class="pre">supports_to_R</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supports</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/utils.html#supports_to_R"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.utils.supports_to_R" title="Link to this definition">#</a></dt>
+<dd><p>Lower a per-node list of named supports to a raw restraint vector <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p>
+<p>This is the friendly front-end to the low-level <code class="docutils literal notranslate"><span class="pre">R</span></code> vector used throughout
+PyCBA: one entry per node (left to right), each either a support <em>name</em> or a
+raw <code class="docutils literal notranslate"><span class="pre">[vertical,</span> <span class="pre">rotation]</span></code> DOF pair.  The result is exactly the <code class="docutils literal notranslate"><span class="pre">R</span></code> you
+would otherwise write by hand, so <code class="docutils literal notranslate"><span class="pre">supports=</span></code> and <code class="docutils literal notranslate"><span class="pre">R=</span></code> are
+interchangeable on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Beam</span></code> / <code class="xref py py-class docutils literal notranslate"><span class="pre">BeamAnalysis</span></code>
+constructors.</p>
+<p>Recognised names (case-insensitive):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;p&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;pin&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;pinned&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;roller&quot;</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">0]</span></code>
+(vertical held, rotation free).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;e&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;encastre&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;fixed&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;clamped&quot;</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">-1]</span></code>
+(fully fixed).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;f&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;free&quot;</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0]</span></code> (unrestrained, e.g. a cantilever tip).</p></li>
+</ul>
+<p>Elastic springs are given as a raw pair, e.g. <code class="docutils literal notranslate"><span class="pre">[5e4,</span> <span class="pre">0]</span></code> for a vertical
+spring (stiffness <code class="docutils literal notranslate"><span class="pre">5e4</span></code>) with the rotation free.</p>
+<p>An internal hinge is <strong>not</strong> a support (it is a member moment release) and is
+rejected; release the moment on the adjacent member via its element type
+instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>supports</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</span>) – One entry per node, ordered left to right.</p></li>
+<li><p><strong>n_nodes</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – Expected number of nodes (<code class="docutils literal notranslate"><span class="pre">=</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">spans</span> <span class="pre">+</span> <span class="pre">1</span></code>).  If given, the
+length of <code class="docutils literal notranslate"><span class="pre">supports</span></code> is validated against it for a clear early error.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The restraint vector <code class="docutils literal notranslate"><span class="pre">R</span></code> of length <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">len(supports)</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></span></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">n_nodes</span></code> is given and does not match <code class="docutils literal notranslate"><span class="pre">len(supports)</span></code>, or any
+    entry is not a recognised name or valid <code class="docutils literal notranslate"><span class="pre">[vertical,</span> <span class="pre">rotation]</span></code> pair.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -580,20 +617,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.units.UnitSystem.html"
+       href="pycba.utils.parse_beam_string.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.units.UnitSystem</p>
+        <p class="prev-next-title">pycba.utils.parse_beam_string</p>
       </div>
     </a>
     <a class="right-next"
-       href="pycba.inf_lines.InfluenceLines.html"
+       href="../theory.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pycba.inf_lines.InfluenceLines</p>
+        <p class="prev-next-title">Theoretical Basis</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -609,10 +646,22 @@
 
 
   <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.utils.supports_to_R"><code class="docutils literal notranslate"><span class="pre">supports_to_R()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.inf_lines.rst">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.utils.supports_to_R.rst">
       <i class="fa-solid fa-pencil"></i>
       
       

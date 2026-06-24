@@ -492,6 +492,7 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.utils.html">pycba.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.utils.parse_beam_string.html">pycba.utils.parse_beam_string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.utils.supports_to_R.html">pycba.utils.supports_to_R</a></li>
 </ul>
 </details></li>
 </ul>
@@ -561,7 +562,7 @@
 <h1>pycba.analysis.BeamAnalysis<a class="headerlink" href="#pycba-analysis-beamanalysis" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">BeamAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">BeamAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Direct-stiffness continuous beam analyser.</p>
 <p>Assembles the global stiffness matrix from individual span stiffness
@@ -589,7 +590,7 @@ otherwise one entry per span is required.  A span whose rigidity is
 given as a <a class="reference internal" href="pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a> is treated as
 <strong>non-prismatic</strong> (variable <code class="docutils literal notranslate"><span class="pre">EI</span></code>) and analysed by flexibility
 integration; scalar entries use the closed-form prismatic element.</p></li>
-<li><p><strong>R</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span>) – <p>Nodal restraint vector, length <code class="docutils literal notranslate"><span class="pre">2(N+1)</span></code>.  Two entries per node
+<li><p><strong>R</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – <p>Nodal restraint vector, length <code class="docutils literal notranslate"><span class="pre">2(N+1)</span></code>.  Two entries per node
 (vertical DOF then rotational DOF), ordered left to right:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code> — fully restrained (zero displacement unless overridden
@@ -597,6 +598,7 @@ by <code class="docutils literal notranslate"><span class="pre">D</span></code>)
 <li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>  — free.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">+k</span></code> — elastic spring stiffness in consistent units.</p></li>
 </ul>
+<p>Provide either <code class="docutils literal notranslate"><span class="pre">R</span></code> or the friendlier <code class="docutils literal notranslate"><span class="pre">supports</span></code>, not both.</p>
 </p></li>
 <li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]]</span>) – <p>Load matrix: a list of load descriptors.  The number of columns
 per entry depends on the load type:</p>
@@ -630,11 +632,26 @@ Provide a float for DOFs with a known displacement (e.g. a support
 settlement — negative = downward).  Fixed supports (<code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">=</span> <span class="pre">-1</span></code>)
 default to zero displacement unless <code class="docutils literal notranslate"><span class="pre">D</span></code> provides an explicit
 override.</p></li>
+<li><p><strong>supports</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>]</span>) – <p>A friendlier alternative to <code class="docutils literal notranslate"><span class="pre">R</span></code>: one entry per node (left to
+right), each a support name or a raw <code class="docutils literal notranslate"><span class="pre">[vertical,</span> <span class="pre">rotation]</span></code> DOF
+pair.  Recognised names (case-insensitive):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;p&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;pin&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;pinned&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;roller&quot;</span></code> —
+vertical held, rotation free.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;e&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;encastre&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;fixed&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;clamped&quot;</span></code> — fully
+fixed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;f&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;free&quot;</span></code> — unrestrained (e.g. a cantilever tip).</p></li>
+</ul>
+<p>Elastic springs are given as a raw pair, e.g. <code class="docutils literal notranslate"><span class="pre">[5e4,</span> <span class="pre">0]</span></code> for a
+vertical spring.  Lowered to <code class="docutils literal notranslate"><span class="pre">R</span></code> via
+<code class="xref py py-func docutils literal notranslate"><span class="pre">supports_to_R()</span></code>; mutually exclusive with <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">D</span></code> have different lengths, or <code class="docutils literal notranslate"><span class="pre">EI</span></code> is not
-    scalar and its length differs from <code class="docutils literal notranslate"><span class="pre">len(L)</span></code>.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If both <code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">supports</span></code> (or neither) are given, <code class="docutils literal notranslate"><span class="pre">R</span></code> and
+    <code class="docutils literal notranslate"><span class="pre">D</span></code> have different lengths, or <code class="docutils literal notranslate"><span class="pre">EI</span></code> is not scalar and its length
+    differs from <code class="docutils literal notranslate"><span class="pre">len(L)</span></code>.</p>
 </dd>
 </dl>
 <p class="rubric">Methods</p>

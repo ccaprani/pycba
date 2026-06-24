@@ -471,7 +471,7 @@
 <span class="sd">http://www.colincaprani.com/programming/matlab/</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.beam</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">LoadMatrix</span>
@@ -505,10 +505,11 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">L</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-        <span class="n">R</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">R</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">LM</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LoadMatrix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">supports</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a beam analysis object.</span>
@@ -524,7 +525,7 @@
 <span class="sd">            given as a :class:`~pycba.section.SectionEI` is treated as</span>
 <span class="sd">            **non-prismatic** (variable ``EI``) and analysed by flexibility</span>
 <span class="sd">            integration; scalar entries use the closed-form prismatic element.</span>
-<span class="sd">        R : array_like of int or float</span>
+<span class="sd">        R : array_like of int or float, optional</span>
 <span class="sd">            Nodal restraint vector, length ``2(N+1)``.  Two entries per node</span>
 <span class="sd">            (vertical DOF then rotational DOF), ordered left to right:</span>
 
@@ -532,6 +533,8 @@
 <span class="sd">              by ``D``).</span>
 <span class="sd">            * ``0``  — free.</span>
 <span class="sd">            * ``+k`` — elastic spring stiffness in consistent units.</span>
+
+<span class="sd">            Provide either ``R`` or the friendlier ``supports``, not both.</span>
 
 <span class="sd">        LM : list of list, optional</span>
 <span class="sd">            Load matrix: a list of load descriptors.  The number of columns</span>
@@ -566,12 +569,27 @@
 <span class="sd">            settlement — negative = downward).  Fixed supports (``R = -1``)</span>
 <span class="sd">            default to zero displacement unless ``D`` provides an explicit</span>
 <span class="sd">            override.</span>
+<span class="sd">        supports : sequence of (str or [float, float]), optional</span>
+<span class="sd">            A friendlier alternative to ``R``: one entry per node (left to</span>
+<span class="sd">            right), each a support name or a raw ``[vertical, rotation]`` DOF</span>
+<span class="sd">            pair.  Recognised names (case-insensitive):</span>
+
+<span class="sd">            * ``&quot;p&quot;`` / ``&quot;pin&quot;`` / ``&quot;pinned&quot;`` and ``&quot;r&quot;`` / ``&quot;roller&quot;`` —</span>
+<span class="sd">              vertical held, rotation free.</span>
+<span class="sd">            * ``&quot;e&quot;`` / ``&quot;encastre&quot;`` / ``&quot;fixed&quot;`` / ``&quot;clamped&quot;`` — fully</span>
+<span class="sd">              fixed.</span>
+<span class="sd">            * ``&quot;f&quot;`` / ``&quot;free&quot;`` — unrestrained (e.g. a cantilever tip).</span>
+
+<span class="sd">            Elastic springs are given as a raw pair, e.g. ``[5e4, 0]`` for a</span>
+<span class="sd">            vertical spring.  Lowered to ``R`` via</span>
+<span class="sd">            :func:`~pycba.supports_to_R`; mutually exclusive with ``R``.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If ``R`` and ``D`` have different lengths, or ``EI`` is not</span>
-<span class="sd">            scalar and its length differs from ``len(L)``.</span>
+<span class="sd">            If both ``R`` and ``supports`` (or neither) are given, ``R`` and</span>
+<span class="sd">            ``D`` have different lengths, or ``EI`` is not scalar and its length</span>
+<span class="sd">            differs from ``len(L)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="kc">None</span>
@@ -581,7 +599,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">eletype</span> <span class="o">=</span> <span class="n">eletype</span>
         <span class="c1"># Create the beam</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span> <span class="o">=</span> <span class="n">Beam</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="o">=</span><span class="n">LM</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eletype</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span> <span class="o">=</span> <span class="n">Beam</span><span class="p">(</span>
+            <span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="o">=</span><span class="n">LM</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eletype</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="n">supports</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">no_spans</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">+</span> <span class="mi">1</span>
