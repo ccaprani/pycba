@@ -405,9 +405,7 @@ class Envelopes:
         return zero_env
 
     @classmethod
-    def combine(
-        cls, envs: Sequence[Envelopes], mode: str = "envelope"
-    ) -> Envelopes:
+    def combine(cls, envs: Sequence[Envelopes], mode: str = "envelope") -> Envelopes:
         """
         Merge several compatible envelopes into a new :class:`Envelopes`.
 

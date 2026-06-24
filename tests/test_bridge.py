@@ -287,9 +287,7 @@ def test_coincident_critical_values():
 
 
 def test_vehicle_spec_groups_equal_axles():
-    ba = cba.BridgeAnalysis(
-        _three_span_bridge(), cba.Vehicle([1.5, 1.5], [60, 60, 60])
-    )
+    ba = cba.BridgeAnalysis(_three_span_bridge(), cba.Vehicle([1.5, 1.5], [60, 60, 60]))
     assert ba._vehicle_spec() == "3×60 kN  (ΣW = 180 kN)"
 
     ba2 = cba.BridgeAnalysis(

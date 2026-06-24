@@ -251,9 +251,7 @@ class LoadCombination:
             Number of evaluation points along a member.
         """
 
-        return self._resolve_load_cases(load_cases).analyze_combination(
-            self, npts=npts
-        )
+        return self._resolve_load_cases(load_cases).analyze_combination(self, npts=npts)
 
     analyse = analyze
 
@@ -582,9 +580,7 @@ class LoadCases:
         results = []
         for load_case in self._cases:
             model = build_pycba_model(self.beam_model, load_case)
-            model.analyze(
-                npts if npts is not None else _template_npts(self.beam_model)
-            )
+            model.analyze(npts if npts is not None else _template_npts(self.beam_model))
             results.append(model.beam_results)
         return Envelopes(results)
 
@@ -910,8 +906,7 @@ def analyse_load_case(
     }.get(response.upper())
     if attr is None:
         raise ValueError(
-            "response must be one of 'M', 'V', 'D'/'deflection', or "
-            "'R'/'rotation'."
+            "response must be one of 'M', 'V', 'D'/'deflection', or " "'R'/'rotation'."
         )
 
     model = build_pycba_model(beam_model, load_case)
@@ -977,9 +972,7 @@ def additive_envelope(
 
     n_load_cases, _ = B.shape
     if n_load_cases < n_combine:
-        raise ValueError(
-            f"Need at least {n_combine} load cases, got {n_load_cases}."
-        )
+        raise ValueError(f"Need at least {n_combine} load cases, got {n_load_cases}.")
 
     order = np.argsort(B, axis=0)
     idx_neg = order[:n_combine, :]

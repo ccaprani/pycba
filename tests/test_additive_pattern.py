@@ -202,9 +202,7 @@ def test_load_pattern_accepts_load_case_inputs():
     ]
     pattern_LM = lp.to_LM()
     assert tuple(pattern_LM) == pattern_cases.names
-    assert pattern_LM["Max even spans"] == pattern_cases.case(
-        "Max even spans"
-    ).loads
+    assert pattern_LM["Max even spans"] == pattern_cases.case("Max even spans").loads
     assert pattern_cases.to_LM() == pattern_LM
     assert pattern_cases[2].name == "Max even spans"
     assert pattern_cases[2].to_LM() == pattern_LM["Max even spans"]
@@ -359,12 +357,11 @@ def test_patterned_udl_target_combination_selects_segments_by_target_effect():
     assert np.array_equal(factors, (target_values < 0.0).astype(float))
     assert np.allclose(y, factors @ B)
     y_at_target = load_case_tools._response_at(x, y.reshape(1, -1), 8.0)[0]
-    assert y_at_target == pytest.approx(
-        target_values[target_values < 0.0].sum()
+    assert y_at_target == pytest.approx(target_values[target_values < 0.0].sum())
+    assert (
+        combination.metadata["selected_indices"]
+        == np.flatnonzero(target_values < 0.0).tolist()
     )
-    assert combination.metadata["selected_indices"] == np.flatnonzero(
-        target_values < 0.0
-    ).tolist()
     assert len(combination.to_LM(load_cases)) == int(factors.sum())
 
 
