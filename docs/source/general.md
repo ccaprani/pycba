@@ -492,3 +492,16 @@ references; see in particular the *PT Designer Theory Manual*, Chapters 5
 (Tendon Profiles) and 6 (Equivalent Loads),
 [available here](https://secure.skghoshassociates.com/product/PT/download/TheoryManual.pdf),
 whose 12-profile library this preprocessor reproduces.
+
+A worked, validated example follows Gilbert, Mickleborough & Ranzi
+([*Design of Prestressed Concrete to AS3600-2009*](references.md#ref-gilbert-mickleborough-ranzi-2017),
+Example 11.1) — see the Introduction tutorial.
+
+**Non-prismatic members.** The equivalent transverse loads are the *physical*
+curvature of the tendon (`w = F·e″`) and so are independent of the section, and
+`PyCBA` analyses variable-`EI` members directly — so a draped tendon on a
+non-prismatic beam (pass a `SectionEI` as `EI`) is handled correctly, including
+its effect on the secondary moments. Eccentricities are taken from the beam
+reference axis; for a non-prismatic section the concrete centroid moves within
+the section, which matters for *stress checks* and the primary/secondary split
+but not for the equivalent loads or `M_bal`.
