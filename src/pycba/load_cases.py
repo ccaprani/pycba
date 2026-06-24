@@ -1244,7 +1244,7 @@ def plot_response_envelope(
     plot. ``show=False`` suppresses ``plt.show()``.
     """
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 5))
 
     for j in range(B.shape[0]):
         label = (
@@ -1302,7 +1302,7 @@ def plot_load_patterns(
     spans = np.diff(boundaries)
 
     fig_height = max(2.5, 0.45 * len(load_cases) + 1.2)
-    fig, ax = plt.subplots(figsize=(8.0, fig_height))
+    fig, ax = plt.subplots(figsize=(10.0, fig_height))
 
     for j, load_case in enumerate(load_cases):
         y0 = j - 0.3

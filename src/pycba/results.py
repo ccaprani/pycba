@@ -746,6 +746,7 @@ class Envelopes:
 
         L = self.x[-1]
 
+        kwargs.setdefault("figsize", (10, 6))
         fig, axs = plt.subplots(2, 1, sharex=True, **kwargs)
 
         ax = axs[0]
