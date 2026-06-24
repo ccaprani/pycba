@@ -24,6 +24,7 @@ class Beam:
         eletype: Optional[np.ndarray] = None,
         D: Optional[np.ndarray] = None,
         supports: Optional[Sequence[SupportType]] = None,
+        GAv: Optional[Union[float, "SectionEI", Sequence]] = None,
     ):
         """
         Constructs a beam object
@@ -55,6 +56,15 @@ class Beam:
             ``"f"``/``"free"``) or a raw ``[vertical, rotation]`` DOF pair (e.g.
             ``[5e4, 0]`` for a vertical spring).  Lowered to ``R`` via
             :func:`~pycba.supports_to_R`.  Mutually exclusive with ``R``.
+        GAv : Optional[float, SectionEI, or sequence]
+            Transverse **shear rigidity** ``G·A_v`` of each span (``A_v`` the
+            shear area).  A span with a finite ``GAv`` is analysed as a
+            shear-deformable **Timoshenko** element; ``None`` (the default)
+            keeps the member on the exact Euler–Bernoulli path, bit-for-bit
+            unchanged.  Like ``EI``: a single scalar (or one
+            :class:`~pycba.section.SectionEI` describing ``GAv(x)``) applies to
+            all spans, otherwise one entry per span (each ``None``, a scalar, or
+            a :class:`~pycba.section.SectionEI`).
 
 
         Returns
@@ -66,6 +76,7 @@ class Beam:
         self._length = 0
         self.mbr_lengths = []
         self.mbr_EIs = []
+        self.mbr_GAv = []
         self.mbr_eletype = []
         self._restraints = []
         self._prescribed_displacements = []
@@ -87,15 +98,17 @@ class Beam:
             R = supports_to_R(supports, n_nodes=len(L) + 1)
 
         if L is not None and eletype is not None:
+            # Normalise GAv to one entry per span (None => Euler-Bernoulli).
+            GAv_list = self._broadcast_GAv(GAv, len(L))
             # A single rigidity (scalar EI, or one SectionEI) applies to all
             # spans; otherwise one rigidity per span is required.
             if isinstance(EI, (float, int, SectionEI)):
-                for l, et in zip(L, eletype):
-                    self.add_span(l, EI, et)
+                for l, et, gav in zip(L, eletype, GAv_list):
+                    self.add_span(l, EI, et, gav)
             else:
                 if len(L) == len(EI):
-                    for l, ei, et in zip(L, EI, eletype):
-                        self.add_span(l, ei, et)
+                    for l, ei, et, gav in zip(L, EI, eletype, GAv_list):
+                        self.add_span(l, ei, et, gav)
                 else:
                     raise ValueError("Define EI for each span")
             if R is None:
@@ -115,7 +128,32 @@ class Beam:
         if LM is not None:
             self.LM = LM
 
-    def add_span(self, L: float, EI: float, eletype: Union[int, str, MemberType] = 1):
+    @staticmethod
+    def _broadcast_GAv(GAv, n_spans: int) -> list:
+        """
+        Normalise the ``GAv`` argument to one entry per span.
+
+        ``None`` (the default) marks every span as Euler–Bernoulli.  A scalar
+        or single :class:`~pycba.section.SectionEI` is applied to all spans; a
+        sequence must give one entry per span (each ``None``, a scalar, or a
+        :class:`~pycba.section.SectionEI`).
+        """
+        if GAv is None:
+            return [None] * n_spans
+        if isinstance(GAv, (float, int, SectionEI)):
+            return [GAv] * n_spans
+        GAv = list(GAv)
+        if len(GAv) != n_spans:
+            raise ValueError("Define GAv for each span (or pass a scalar/None).")
+        return GAv
+
+    def add_span(
+        self,
+        L: float,
+        EI: float,
+        eletype: Union[int, str, MemberType] = 1,
+        GAv: Optional[Union[float, "SectionEI"]] = None,
+    ):
         """
         Add a span to the continuous beam
 
@@ -129,6 +167,11 @@ class Beam:
             The element type for the member, as the integer code ``1-4``, a
             :class:`~pycba.MemberType` (e.g. ``MemberType.FP``), or its
             case-insensitive name (e.g. ``"FP"``).  See :class:`~pycba.MemberType`.
+        GAv : float or pycba.section.SectionEI, optional
+            Transverse shear rigidity ``G·A_v`` of the member.  When given (and
+            finite) the member is a shear-deformable **Timoshenko** element;
+            ``None`` (default) keeps the exact Euler–Bernoulli element.  A
+            :class:`~pycba.section.SectionEI` describes a variable ``GAv(x)``.
 
         Returns
         -------
@@ -139,8 +182,12 @@ class Beam:
             # A non-prismatic section must span the full member length so its
             # piecewise EI(x) covers the element exactly.
             EI.validate_length(L)
+        if isinstance(GAv, SectionEI):
+            # A variable shear rigidity must likewise cover the full member.
+            GAv.validate_length(L)
         self.mbr_lengths.append(L)
         self.mbr_EIs.append(EI)
+        self.mbr_GAv.append(GAv)
         self.mbr_eletype.append(MemberType.coerce(eletype))
         self._no_spans = len(self.mbr_lengths)
         self._length += L
@@ -148,7 +195,11 @@ class Beam:
         self._structure_version += 1
 
     def add_member(
-        self, L: float, EI: float, mbr_type: Union[int, str, MemberType] = MemberType.FF
+        self,
+        L: float,
+        EI: float,
+        mbr_type: Union[int, str, MemberType] = MemberType.FF,
+        GAv: Optional[Union[float, "SectionEI"]] = None,
     ):
         """
         Add a member (span) to the beam, naming its type.
@@ -165,8 +216,11 @@ class Beam:
             The flexural rigidity of the member.
         mbr_type : pycba.MemberType, str, or int
             The member type / moment-release pattern (default ``FF``).
+        GAv : float or pycba.section.SectionEI, optional
+            Transverse shear rigidity ``G·A_v``; when given the member is a
+            shear-deformable Timoshenko element (see :meth:`add_span`).
         """
-        self.add_span(L, EI, mbr_type)
+        self.add_span(L, EI, mbr_type, GAv)
 
     @property
     def loads(self) -> LoadMatrix:
@@ -585,11 +639,14 @@ class Beam:
         L = self.mbr_lengths[i_span]
         eType = self.mbr_eletype[i_span]
         EI = self.mbr_EIs[i_span]
+        GAv = self.mbr_GAv[i_span] if i_span < len(self.mbr_GAv) else None
 
         for load in self._loads:
             if load.i_span != i_span:
                 continue
-            if isinstance(EI, SectionEI):
+            if GAv is not None:
+                ref += self._ref_timoshenko(load, EI, GAv, L, eType)
+            elif isinstance(EI, SectionEI):
                 ref += self._ref_nonprismatic(load, EI, L, eType)
             else:
                 ref += load.get_ref(L, eType)
@@ -728,6 +785,18 @@ class Beam:
         EI = self.mbr_EIs[i_span]
         L = self.mbr_lengths[i_span]
         eType = self.mbr_eletype[i_span]
+        GAv = self.mbr_GAv[i_span] if i_span < len(self.mbr_GAv) else None
+
+        # Shear-deformable (Timoshenko) member: opt-in via a finite ``GAv``.  A
+        # variable EI and/or GAv goes through the flexibility integrator; the
+        # common prismatic case uses the closed-form element and static
+        # condensation for the released variants.
+        if GAv is not None:
+            if isinstance(EI, SectionEI) or isinstance(GAv, SectionEI):
+                return self.k_timoshenko(EI, GAv, L, eType)
+            kff = self.k_FF_timo(EI, GAv, L)
+            released = {1: [], 2: [3], 3: [1], 4: [1, 3]}[int(np.asarray(eType).item())]
+            return self._condense(kff, released) if released else kff
 
         # Non-prismatic (variable-EI) members are handled by flexibility
         # integration; the scalar/prismatic path below is unchanged.
@@ -1090,3 +1159,360 @@ class Beam:
         kc = np.zeros((4, 4))
         kc[np.ix_(kept, kept)] = Kcond
         return kc
+
+    # ------------------------------------------------------------------
+    #  Timoshenko (shear-deformable) element
+    # ------------------------------------------------------------------
+    def k_FF_timo(self, EI: float, GAv: float, L: float) -> np.ndarray:
+        """
+        Stiffness matrix for a prismatic fixed-fixed Timoshenko element.
+
+        The standard two-node shear-flexible element introduces the
+        dimensionless shear parameter
+
+        .. math::
+            \\Phi = \\frac{12 EI}{G A_v L^2}
+
+        so the element stiffness is
+
+        .. math::
+            k = \\frac{EI}{(1+\\Phi)L^3}
+            \\begin{bmatrix}
+                12 & 6L & -12 & 6L \\\\
+                6L & (4+\\Phi)L^2 & -6L & (2-\\Phi)L^2 \\\\
+                -12 & -6L & 12 & -6L \\\\
+                6L & (2-\\Phi)L^2 & -6L & (4+\\Phi)L^2
+            \\end{bmatrix}
+
+        As ``GAv -> inf`` (``\\Phi -> 0``) this reduces exactly to the
+        Euler–Bernoulli :meth:`k_FF`.  The DOF order and sign convention match
+        the rest of PyCBA, ``[v_i, theta_i, v_j, theta_j]``, with ``theta`` the
+        cross-section rotation.
+
+        Parameters
+        ----------
+        EI : float
+            The flexural rigidity of the member (assumed prismatic).
+        GAv : float
+            The transverse shear rigidity ``G·A_v`` of the member.
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        k : np.ndarray, shape (4, 4)
+            The element stiffness matrix.
+        """
+        L2 = L**2
+        L3 = L**3
+        phi = 12.0 * EI / (GAv * L2)
+        c = EI / (1.0 + phi)
+
+        kfv = 12.0 * c / L3
+        kft = 6.0 * c / L2
+        kmt = (4.0 + phi) * c / L
+        kmth = (2.0 - phi) * c / L
+
+        k = np.array(
+            [
+                [kfv, kft, -kfv, kft],
+                [kft, kmt, -kft, kmth],
+                [-kfv, -kft, kfv, -kft],
+                [kft, kmth, -kft, kmt],
+            ]
+        )
+        return k
+
+    def _shear_flexibility(self, GAv: Union[float, "SectionEI"], L: float) -> float:
+        """
+        Shear contribution to the end-rotation flexibility.
+
+        On the released (simply-supported) element a unit end moment produces a
+        constant shear ``v = -1/L`` (the support reactions), so the shear
+        strain energy adds the *same* term
+
+        .. math::
+            \\frac{1}{L^2}\\int_0^L \\frac{1}{G A_v(x)}\\,dx
+
+        to **every** entry of the 2x2 end-rotation flexibility matrix.  For a
+        constant ``GAv`` this is ``1/(L\\,G A_v)``; for a variable ``GAv(x)``
+        (a :class:`~pycba.section.SectionEI`) the integral is evaluated by the
+        same breakpoint-aware Gauss quadrature used for the flexural terms.
+
+        Parameters
+        ----------
+        GAv : float or SectionEI
+            The shear rigidity (constant or variable along the member).
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        float
+            The scalar shear-flexibility term added to all entries of ``F``.
+        """
+        if isinstance(GAv, SectionEI):
+            xg, wg = self._gauss_nodes(GAv, L)
+            integral = float(np.sum(wg / GAv(xg)))
+        else:
+            integral = L / GAv
+        return integral / (L * L)
+
+    def _timo_flexibility(
+        self, EI: Union[float, "SectionEI"], GAv: Union[float, "SectionEI"], L: float
+    ) -> np.ndarray:
+        """
+        2x2 end moment-rotation flexibility of a Timoshenko element.
+
+        This is the Euler–Bernoulli flexural flexibility (closed-form for a
+        scalar ``EI``, or :meth:`_flexibility` for a
+        :class:`~pycba.section.SectionEI`) plus the shear contribution from
+        :meth:`_shear_flexibility`.  Inverting it gives the moment-rotation
+        stiffness ``K_theta`` used to build the element (see
+        :meth:`k_timoshenko`).  For a constant ``EI``/``GAv`` it reproduces the
+        closed-form prismatic element :meth:`k_FF_timo` to machine precision.
+
+        Parameters
+        ----------
+        EI : float or SectionEI
+            The flexural rigidity (constant or variable).
+        GAv : float or SectionEI
+            The shear rigidity (constant or variable).
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        np.ndarray, shape (2, 2)
+            The end moment-rotation flexibility matrix.
+        """
+        if isinstance(EI, SectionEI):
+            F = self._flexibility(EI, L)
+        else:
+            F = np.array(
+                [
+                    [L / (3.0 * EI), -L / (6.0 * EI)],
+                    [-L / (6.0 * EI), L / (3.0 * EI)],
+                ]
+            )
+        return F + self._shear_flexibility(GAv, L)
+
+    def k_timoshenko(
+        self,
+        EI: Union[float, "SectionEI"],
+        GAv: Union[float, "SectionEI"],
+        L: float,
+        eType: int,
+    ) -> np.ndarray:
+        """
+        4x4 Timoshenko element stiffness for scalar or variable ``EI``/``GAv``.
+
+        The 2x2 moment-rotation stiffness ``K_theta`` (the inverse of the
+        shear-augmented flexibility, see :meth:`_timo_flexibility`) is expanded
+        to the full 4-DOF element by the same kinematic chord transformation
+        used for the non-prismatic element (see :meth:`k_nonprismatic`), and
+        moment releases (element types 2, 3, 4) are imposed by static
+        condensation.  This single path covers prismatic and non-prismatic,
+        constant- and variable-shear members; for a constant ``EI``/``GAv`` it
+        reproduces :meth:`k_FF_timo` (and hence the Euler–Bernoulli element as
+        ``GAv -> inf``) to machine precision.
+
+        Parameters
+        ----------
+        EI : float or SectionEI
+            The flexural rigidity (constant or variable).
+        GAv : float or SectionEI
+            The shear rigidity (constant or variable).
+        L : float
+            The length of the member.
+        eType : int
+            The element type (1: FF, 2: FP, 3: PF, 4: PP).
+
+        Returns
+        -------
+        k : np.ndarray, shape (4, 4)
+            The element stiffness matrix.
+        """
+        Kth = np.linalg.inv(self._timo_flexibility(EI, GAv, L))
+        T = np.array(
+            [
+                [1.0 / L, 1.0, -1.0 / L, 0.0],
+                [1.0 / L, 0.0, -1.0 / L, 1.0],
+            ]
+        )
+        k = T.T @ Kth @ T
+
+        released = {1: [], 2: [3], 3: [1], 4: [1, 3]}[int(np.asarray(eType).item())]
+        if released:
+            k = self._condense(k, released)
+        return k
+
+    def _timo_theta0(
+        self,
+        load,
+        EI: Union[float, "SectionEI"],
+        GAv: Union[float, "SectionEI"],
+        L: float,
+    ) -> np.ndarray:
+        """
+        Primary end rotations of a load on a released Timoshenko span.
+
+        The released (simply-supported) span carries the load's moment diagram
+        ``M(x)`` and shear ``V(x)`` (from :meth:`~pycba.load.Load.get_mbr_results`).
+        The end rotations work-conjugate to the end moments combine the
+        flexural and shear contributions,
+
+        .. math::
+            \\theta_{0,a} = \\int_0^L m_a\\,\\frac{M}{EI}\\,dx
+                          + \\int_0^L v\\,\\frac{V}{G A_v}\\,dx, \\quad
+            \\theta_{0,b} = \\int_0^L m_b\\,\\frac{M}{EI}\\,dx
+                          + \\int_0^L v\\,\\frac{V}{G A_v}\\,dx
+
+        with the unit-moment diagrams ``m_a = 1 - x/L``, ``m_b = -x/L`` and the
+        constant unit-moment shear ``v = -1/L``.  The integral is split at the
+        section breakpoints so any ``EI``/``GAv`` kink or step is honoured
+        exactly.  Used only for variable ``EI``/``GAv``; the prismatic case has
+        an exact closed-form transform in :meth:`_ref_timoshenko`.
+
+        Parameters
+        ----------
+        load : pycba.load.Load
+            The load object.
+        EI : float or SectionEI
+            The flexural rigidity (constant or variable).
+        GAv : float or SectionEI
+            The shear rigidity (constant or variable).
+        L : float
+            The length of the member.
+
+        Returns
+        -------
+        np.ndarray, shape (2,)
+            The primary end rotations ``[theta_0a, theta_0b]``.
+        """
+        bps = []
+        if isinstance(EI, SectionEI):
+            bps += list(EI.breakpoints)
+        if isinstance(GAv, SectionEI):
+            bps += list(GAv.breakpoints)
+        if bps:
+            edges = np.unique(np.concatenate([[0.0, L], bps]))
+            edges = edges[(edges >= -1e-12) & (edges <= L + 1e-12)]
+            edges[0], edges[-1] = 0.0, L
+        else:
+            edges = np.array([0.0, L])
+
+        theta0 = np.zeros(2)
+        for a, b in zip(edges[:-1], edges[1:]):
+            if b <= a:
+                continue
+            n = 2001
+            xx = np.linspace(a, b, n)
+            mr = load.get_mbr_results(xx, L)
+            EIx = EI(xx) if isinstance(EI, SectionEI) else EI
+            curv = mr.M / EIx
+            if isinstance(load, LoadIC):
+                curv = curv + load.kappa_imp(xx)
+            GAvx = GAv(xx) if isinstance(GAv, SectionEI) else GAv
+            gamma = mr.V / GAvx
+            mi = 1.0 - xx / L
+            mj = -xx / L
+            vi = -1.0 / L  # unit-moment shear (constant), same for both ends
+            shear = integrate.simpson(vi * gamma, x=xx)
+            theta0[0] += integrate.simpson(mi * curv, x=xx) + shear
+            theta0[1] += integrate.simpson(mj * curv, x=xx) + shear
+        return theta0
+
+    def _ref_timoshenko(
+        self,
+        load,
+        EI: Union[float, "SectionEI"],
+        GAv: Union[float, "SectionEI"],
+        L: float,
+        eType: int,
+    ) -> np.ndarray:
+        """
+        Released end forces of a single load on a Timoshenko member.
+
+        The fixed-end moments are the Timoshenko moment-rotation stiffness
+        applied to the released-span end rotations.  For a **prismatic** member
+        the released end rotations are purely flexural (the shear term
+        integrates to zero on a simply-supported span), giving the exact
+        closed-form transform of the Euler–Bernoulli fixed-end moments
+
+        .. math::
+            \\begin{bmatrix} M_a \\\\ M_b \\end{bmatrix}_{T}
+            = \\frac{1}{2(1+\\Phi)}
+            \\begin{bmatrix} 2+\\Phi & -\\Phi \\\\ -\\Phi & 2+\\Phi \\end{bmatrix}
+            \\begin{bmatrix} M_a \\\\ M_b \\end{bmatrix}_{EB},
+
+        which recovers the Euler–Bernoulli moments as ``\\Phi -> 0``.  For a
+        **variable** ``EI``/``GAv`` the end rotations are obtained from
+        :meth:`_timo_theta0` and combined with the shear-augmented
+        moment-rotation stiffness.  The end shears follow from statics and any
+        moment releases are imposed by static condensation, mirroring
+        :meth:`_ref_nonprismatic`.
+
+        Parameters
+        ----------
+        load : pycba.load.Load
+            The load object.
+        EI : float or SectionEI
+            The flexural rigidity (constant or variable).
+        GAv : float or SectionEI
+            The shear rigidity (constant or variable).
+        L : float
+            The length of the member.
+        eType : int
+            The element type (1: FF, 2: FP, 3: PF, 4: PP).
+
+        Returns
+        -------
+        np.ndarray, shape (4,)
+            Released end force vector ``[Va, Ma, Vb, Mb]``.
+        """
+        eType = int(np.asarray(eType).item())
+        prismatic = not isinstance(EI, SectionEI) and not isinstance(GAv, SectionEI)
+        cnl = load.get_cnl(L, 1)  # fixed-fixed Euler-Bernoulli CNL
+
+        if prismatic:
+            phi = 12.0 * EI / (GAv * L**2)
+            denom = 2.0 * (1.0 + phi)
+            Ma = ((2.0 + phi) * cnl.Ma - phi * cnl.Mb) / denom
+            Mb = (-phi * cnl.Ma + (2.0 + phi) * cnl.Mb) / denom
+        else:
+            theta0 = self._timo_theta0(load, EI, GAv, L)
+            Kth = np.linalg.inv(self._timo_flexibility(EI, GAv, L))
+            FEM = Kth @ theta0
+            Ma, Mb = FEM[0], FEM[1]
+
+        # Simply-supported reactions: recover from the prismatic CNL by removing
+        # the (prismatic) end-moment couple, leaving pure SS shears.
+        Va_ss = cnl.Va - (cnl.Ma + cnl.Mb) / L
+        Vb_ss = cnl.Vb + (cnl.Ma + cnl.Mb) / L
+
+        ref = np.array(
+            [
+                Va_ss + (Ma + Mb) / L,
+                Ma,
+                Vb_ss - (Ma + Mb) / L,
+                Mb,
+            ]
+        )
+
+        if eType == 4:
+            # Pinned-pinned: release both end moments (mirror _ref_nonprismatic).
+            Va_ff, Vb_ff = ref[0], ref[2]
+            ref[0] = Va_ff + (Ma + Mb) / L
+            ref[1] = 0.0
+            ref[2] = Vb_ff - (Ma + Mb) / L
+            ref[3] = 0.0
+        elif eType in (2, 3):
+            # Single moment release: condense the released rotational DOF using
+            # the Timoshenko fixed-fixed stiffness.
+            r = [3] if eType == 2 else [1]
+            kff = self.k_timoshenko(EI, GAv, L, 1)
+            Krr = kff[np.ix_(r, r)]
+            theta_r = np.linalg.solve(Krr, ref[r])
+            ref = ref - kff[:, r] @ theta_r
+        return ref

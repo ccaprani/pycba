@@ -5,8 +5,9 @@
 The source texts and papers underpinning the formulations used in `PyCBA` are
 collected below: the matrix (direct) stiffness method and Euler–Bernoulli beam
 element; the consistent nodal (fixed-end) load formulae; the non-prismatic
-(variable-$EI$) element and imposed-curvature load; and the nonlinear
-(Generalized Clough) plastic-hinge analysis. Each entry is hyperlinked to a DOI
+(variable-$EI$) element and imposed-curvature load; the Timoshenko
+(shear-deformable) element; and the nonlinear (Generalized Clough) plastic-hinge
+analysis. Each entry is hyperlinked to a DOI
 or a stable URL, and is cross-referenced from the [Theoretical Basis](theory.md)
 page by the labelled anchors shown.
 
@@ -125,6 +126,32 @@ members — the engineering context for `PyCBA`'s imposed-curvature load.
 Deformations*, 2nd edn. E & FN Spon, London. Catalogue record:
 <https://search.worldcat.org/title/30894947>. Earlier edition of the
 imposed-curvature / variable-rigidity formulation refined in the 3rd edition.
+
+## Timoshenko (shear-deformable) beam elements
+
+(ref-timoshenko-1921)=
+**Timoshenko, S.P. (1921).** "On the correction for shear of the differential
+equation for transverse vibrations of prismatic bars." *Philosophical Magazine,
+Series 6* **41**(245), 744–746.
+[DOI: 10.1080/14786442108636264](https://doi.org/10.1080/14786442108636264). The
+original beam theory that augments Euler–Bernoulli bending with a transverse
+shear deformation, the basis of `PyCBA`'s shear-flexible element.
+
+(ref-cowper-1966)=
+**Cowper, G.R. (1966).** "The shear coefficient in Timoshenko's beam theory."
+*Journal of Applied Mechanics* **33**(2), 335–340.
+[DOI: 10.1115/1.3625046](https://doi.org/10.1115/1.3625046). Derives the
+cross-section shear coefficient $k$ (and hence the shear area $A_v = kA$) used to
+form the shear rigidity $GA_v$ supplied to a Timoshenko member.
+
+(ref-friedman-kosmatka-1993)=
+**Friedman, Z. & Kosmatka, J.B. (1993).** "An improved two-node Timoshenko beam
+finite element." *Computers & Structures* **47**(3), 473–481.
+[DOI: 10.1016/0045-7949(93)90243-7](https://doi.org/10.1016/0045-7949(93)90243-7).
+The interdependent-interpolation two-node element that is free of shear locking
+and reduces exactly to the Euler–Bernoulli element as $GA_v \to \infty$ — the
+$\Phi$-parameterised $4\times4$ stiffness matrix implemented in `PyCBA`
+(see also [Przemieniecki, 1968](ref-przemieniecki-1968)).
 
 ## Numerical integration
 

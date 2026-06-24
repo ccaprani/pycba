@@ -867,6 +867,7 @@ def build_pycba_model(
         LM=_load_case_loads(load_case),
         eletype=list(beam.mbr_eletype),
         D=list(beam.prescribed_displacements),
+        GAv=list(getattr(beam, "mbr_GAv", [])) or None,
     )
 
 

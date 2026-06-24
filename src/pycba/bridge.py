@@ -58,6 +58,7 @@ class BridgeAnalysis:
         EI: Union[float, np.ndarray],
         R: np.ndarray,
         eletype: Optional[np.ndarray] = None,
+        GAv: Optional[Union[float, np.ndarray]] = None,
     ):
         """
         Create and add a beam to a bridge analysis
@@ -72,13 +73,17 @@ class BridgeAnalysis:
             A vector describing the support conditions at each member end.
         eletype : Optional[np.ndarray]
             A vector of the member types. Defaults to a fixed-fixed element.
+        GAv : Optional[Union[float, np.ndarray]]
+            Transverse shear rigidity ``G·A_v`` of each span.  When given, the
+            bridge is analysed with shear-deformable Timoshenko elements; the
+            default (``None``) uses Euler–Bernoulli elements.
 
         Returns
         -------
         ba : BeamAnalysis
             A :class:`pycba.analysis.BeamAnalysis` object.
         """
-        self.ba = BeamAnalysis(L=L, EI=EI, R=R, eletype=eletype)
+        self.ba = BeamAnalysis(L=L, EI=EI, R=R, eletype=eletype, GAv=GAv)
         self.static_LM = self.ba.beam.loads
         return self.ba
 
