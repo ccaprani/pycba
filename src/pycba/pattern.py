@@ -139,13 +139,11 @@ class LoadPattern:
         if self.LMg is None or self.LMq is None:
             raise ValueError("Dead and live loads must be set before patterning.")
 
-        wmax = (
-            _factor_load_matrix(self.LMg, self.gamma_g_max)
-            + _factor_load_matrix(self.LMq, self.gamma_q_max)
+        wmax = _factor_load_matrix(self.LMg, self.gamma_g_max) + _factor_load_matrix(
+            self.LMq, self.gamma_q_max
         )
-        wmin = (
-            _factor_load_matrix(self.LMg, self.gamma_g_min)
-            + _factor_load_matrix(self.LMq, self.gamma_q_min)
+        wmin = _factor_load_matrix(self.LMg, self.gamma_g_min) + _factor_load_matrix(
+            self.LMq, self.gamma_q_min
         )
         N = self.ba.beam.no_spans
         load_cases = LoadCases(self.ba)

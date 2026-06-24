@@ -29,7 +29,9 @@ def _e_of_x(segs, xs):
     for j, x in enumerate(xs):
         for s in segs:
             if s.x1 - 1e-9 <= x <= s.x2 + 1e-9:
-                out[j] = s.e1 + s.slope_start() * (x - s.x1) + 0.5 * s.epp * (x - s.x1) ** 2
+                out[j] = (
+                    s.e1 + s.slope_start() * (x - s.x1) + 0.5 * s.epp * (x - s.x1) ** 2
+                )
                 break
     return out
 
@@ -52,19 +54,38 @@ CANT_L = [0, 0, -1, -1]  # free-fixed: left cantilever
 SPAN_PROFILES = [
     ("Type1 centreline parabola", Parabola(0.10, 0.55, 0.10)),
     ("Type1 asymmetric parabola", Parabola(-0.05, 0.55, 0.15)),
-    ("Type2 face-to-face parabola", Parabola(0.10, 0.55, 0.10, c_left=1.0, c_right=1.0)),
-    ("Type3 compound parabola", CompoundParabola(0.10, 0.55, 0.10, a=2.0, b=2.0, c=4.0)),
+    (
+        "Type2 face-to-face parabola",
+        Parabola(0.10, 0.55, 0.10, c_left=1.0, c_right=1.0),
+    ),
+    (
+        "Type3 compound parabola",
+        CompoundParabola(0.10, 0.55, 0.10, a=2.0, b=2.0, c=4.0),
+    ),
     ("Type4 single harp", Harp(0.10, 0.55, 0.10, a=4.0)),
     ("Type5 face-to-face harp", Harp(0.10, 0.55, 0.10, a=4.0, c_left=1.0, c_right=1.0)),
     ("Type6 double harp", DoubleHarp(0.10, 0.55, 0.55, 0.10, a=2.0, b=6.0)),
-    ("Type7 ff double harp", DoubleHarp(0.1, 0.55, 0.55, 0.1, a=2, b=6, c_left=1, c_right=1)),
+    (
+        "Type7 ff double harp",
+        DoubleHarp(0.1, 0.55, 0.55, 0.1, a=2, b=6, c_left=1, c_right=1),
+    ),
 ]
 
 CANT_PROFILES = [
     ("Type8 cantilever parabola", CANT_R, Parabola(0.10, 0.0, 0.45), "right"),
-    ("Type9 ff cantilever parabola", CANT_R, Parabola(0.10, 0.0, 0.45, c_left=1.0), "right"),
+    (
+        "Type9 ff cantilever parabola",
+        CANT_R,
+        Parabola(0.10, 0.0, 0.45, c_left=1.0),
+        "right",
+    ),
     ("Type10 cantilever harp", CANT_R, Harp(0.10, 0.30, 0.45, a=4.0), "right"),
-    ("Type11 ff cantilever harp", CANT_R, Harp(0.10, 0.30, 0.45, a=4.0, c_left=1.0), "right"),
+    (
+        "Type11 ff cantilever harp",
+        CANT_R,
+        Harp(0.10, 0.30, 0.45, a=4.0, c_left=1.0),
+        "right",
+    ),
     ("Type8 left cantilever", CANT_L, Parabola(0.45, 0.0, 0.10), "left"),
     ("Type10 left cant harp", CANT_L, Harp(0.45, 0.30, 0.10, a=4.0), "left"),
 ]
@@ -85,7 +106,9 @@ def test_cantilever_profiles_reproduce_primary_moment(label, R, prof, cant):
 def test_parabola_balanced_udl_and_midspan_moment():
     """Centreline parabola: w = -8 F a / L^2 (upward); SS midspan moment = -F a."""
     L, a = 10.0, 0.4
-    LM = equivalent_loads(cba.Beam([L], EI, SS, eletype=[1]), F, [Parabola(0.0, a, 0.0)])
+    LM = equivalent_loads(
+        cba.Beam([L], EI, SS, eletype=[1]), F, [Parabola(0.0, a, 0.0)]
+    )
     udl = [r for r in LM if r[1] == 1][0][2]
     assert udl == pytest.approx(-8 * F * a / L**2)
     ba = cba.BeamAnalysis([L], EI, SS, LM)
@@ -119,9 +142,7 @@ def test_continuous_matches_direct_balanced_udl():
     w = -8 * F * a / 100.0
     bau = cba.BeamAnalysis(L2, EI, R2, [[1, 1, w], [2, 1, w]])
     bau.analyze()
-    assert np.allclose(
-        ba.beam_results.results.M, bau.beam_results.results.M, atol=1e-6
-    )
+    assert np.allclose(ba.beam_results.results.M, bau.beam_results.results.M, atol=1e-6)
 
 
 def test_per_span_force_and_unstressed_span():
