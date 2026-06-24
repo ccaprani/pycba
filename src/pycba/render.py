@@ -376,22 +376,35 @@ class BeamPlotter:
             for d in partial:
                 self._draw_load_extent_mpl(ax, d, sh)
 
-        # Axes cosmetics: labelled x, no meaningful y
-        load_top = [0.0]
-        if self.point_loads:
-            load_top.append(0.16 * L)
-        if self.dist_loads:
-            load_top.append(0.07 * L)
-        if self.moment_loads:
-            load_top.append(0.045 * L)
+        # Axes cosmetics: labelled x, no meaningful y.  Reserve vertical room on
+        # the side each glyph is actually drawn (positive loads above the beam,
+        # negative below), so upward loads do not collide with the x-axis; the
+        # magnitude labels sit a little beyond each glyph tip.
+        above = [0.0]
+        below = [0.0]
+        for p in self.point_loads:
+            ln = 0.16 * L * (0.55 + 0.45 * abs(p.P) / pmax if pmax else 1.0)
+            (above if p.P >= 0 else below).append(ln)
+        for d in self.dist_loads:
+            if d.w0 >= 0 or d.w1 >= 0:
+                above.append(0.07 * L)
+            if d.w0 < 0 or d.w1 < 0:
+                below.append(0.07 * L)
+        for _m in self.moment_loads:  # the moment arc straddles the beam
+            above.append(0.045 * L)
+            below.append(0.045 * L)
         any_loads = self.point_loads or self.dist_loads or self.moment_loads
-        ymax = max(load_top) + (1.4 * sh if any_loads else 0.9 * sh)
-        if dimensions:
-            ymin = -3.0 * sh
+        lbl = 1.4 * sh  # room beyond a glyph tip for its magnitude label
+        ymax = max(above) + (lbl if any_loads else 0.9 * sh)
+        if not show_supports:
+            sup = -0.3 * sh  # no support glyphs hang below the beam
+        elif dimensions:
+            sup = -3.0 * sh
         elif load_values and partial:
-            ymin = -2.2 * sh
+            sup = -2.2 * sh
         else:
-            ymin = -1.6 * sh
+            sup = -1.6 * sh
+        ymin = min(sup, -(max(below) + lbl)) if max(below) > 1e-12 else sup
 
         ax.set_xlim(-0.06 * L, 1.06 * L)
         ax.set_ylim(ymin, ymax)
