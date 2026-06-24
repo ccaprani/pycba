@@ -432,6 +432,7 @@ def plot_tendon(
     units=None,
     color: str = "tab:red",
     show: bool = False,
+    figsize=(10, 6),
 ):
     """
     Draw the tendon and its equivalent loads in three stacked, x-aligned panels.
@@ -454,6 +455,9 @@ def plot_tendon(
         Colour for the load arrows/labels.
     show : bool
         Call ``matplotlib.pyplot.show()`` before returning.
+    figsize : tuple(float, float)
+        Figure size in inches (default ``(10, 6)``), shared with the other
+        PyCBA result plots for a consistent appearance.
 
     Returns
     -------
@@ -478,7 +482,7 @@ def plot_tendon(
         3,
         1,
         sharex=True,
-        figsize=(9, 6.6),
+        figsize=figsize,
         gridspec_kw={"height_ratios": [0.6, 1.3, 0.85], "hspace": 0.35},
     )
 

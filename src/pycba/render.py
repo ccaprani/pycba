@@ -282,6 +282,7 @@ class BeamPlotter:
         equal_aspect: bool = True,
         units=None,
         show_supports: bool = True,
+        figsize=(10, 3.2),
     ):
         """
         Draw the beam schematic with matplotlib.
@@ -322,7 +323,7 @@ class BeamPlotter:
         if L <= 0:
             raise ValueError("Cannot render a beam of zero length")
         if ax is None:
-            _fig, ax = plt.subplots(figsize=(10, 3.2))
+            _fig, ax = plt.subplots(figsize=figsize)
 
         sh = 0.05 * L  # support symbol unit height
 

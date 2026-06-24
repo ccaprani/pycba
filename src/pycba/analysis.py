@@ -771,7 +771,9 @@ class BeamAnalysis:
             **kwargs,
         )
 
-    def plot_results(self, show_beam: bool = True, show: bool = True, units=None):
+    def plot_results(
+        self, show_beam: bool = True, show: bool = True, units=None, figsize=(10, 6)
+    ):
         """
         Plot bending moment, shear force, and deflection diagrams.
 
@@ -796,6 +798,9 @@ class BeamAnalysis:
             (e.g. ``"SI"``, ``"US-ft"``, ``"N-mm"``, ``"none"``).  Defaults to
             the global default (see :func:`pycba.set_units`); the analysis
             itself is unit-agnostic and unaffected.
+        figsize : tuple(float, float)
+            Figure size in inches (default ``(10, 6)``), shared with the other
+            PyCBA result plots for a consistent appearance.
 
         Returns
         -------
@@ -823,7 +828,7 @@ class BeamAnalysis:
                 4,
                 1,
                 sharex=True,
-                figsize=(8, 9),
+                figsize=figsize,
                 gridspec_kw={"height_ratios": [1.1, 1.0, 1.0, 1.0]},
             )
             # The schematic stretches to fill its panel (equal_aspect=False) so
@@ -832,7 +837,7 @@ class BeamAnalysis:
             axs[0].set_xlabel("")
             diag = axs[1:]
         else:
-            fig, axs = plt.subplots(3, 1, sharex=True)
+            fig, axs = plt.subplots(3, 1, sharex=True, figsize=figsize)
             diag = axs
 
         ax = diag[0]
