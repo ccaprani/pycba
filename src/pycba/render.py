@@ -281,6 +281,7 @@ class BeamPlotter:
         color: str = "tab:red",
         equal_aspect: bool = True,
         units=None,
+        show_supports: bool = True,
     ):
         """
         Draw the beam schematic with matplotlib.
@@ -330,11 +331,11 @@ class BeamPlotter:
             [0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round"
         )
 
-        for s in self.supports:
-            self._draw_support_mpl(ax, s, sh)
-
-        for h in self.hinges:
-            self._draw_hinge_mpl(ax, h, sh)
+        if show_supports:
+            for s in self.supports:
+                self._draw_support_mpl(ax, s, sh)
+            for h in self.hinges:
+                self._draw_hinge_mpl(ax, h, sh)
 
         # Loads (scaled within each family so the figure stays balanced)
         wmax = max(
@@ -348,7 +349,7 @@ class BeamPlotter:
         for m in self.moment_loads:
             self._draw_moment_mpl(ax, m, 0.045 * L, sh, color, load_values)
 
-        if labels:
+        if labels and show_supports:
             # Node letters sit just below the beam and offset to one side, so
             # they clear the loads (above) and the support symbol (directly
             # below): to the right for the right-hand end, to the left otherwise.

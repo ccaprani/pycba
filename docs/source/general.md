@@ -477,6 +477,8 @@ beam.analyze()
 beam.plot_results()     # M here is the balanced moment M_bal
 ```
 
+`pycba.prestress.plot_tendon(beam, force, profiles)` draws three stacked, x-aligned panels — the beam, the (exaggerated) cable drape, and the equivalent loads it produces — to show how the profile becomes the loading.
+
 A cantilever (free-end) span is detected automatically and uses the cantilever
 form of its profile (the tendon anchors at the free tip).
 

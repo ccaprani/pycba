@@ -49,6 +49,7 @@ __all__ = [
     "Harp",
     "DoubleHarp",
     "equivalent_loads",
+    "plot_tendon",
 ]
 
 _TOL = 1e-9
@@ -405,3 +406,115 @@ def equivalent_loads(
         LM.append([n, 2, -last_F * last_slope, L[-1]])
 
     return LM
+
+
+def _eval_e(segs: List[_Seg], x: float) -> float:
+    """Tendon eccentricity at span-local ``x`` from its segments."""
+    for s in segs:
+        if s.x1 - _TOL <= x <= s.x2 + _TOL:
+            return s.e1 + s.slope_start() * (x - s.x1) + 0.5 * s.epp * (x - s.x1) ** 2
+    return 0.0
+
+
+def _cantilever_side(R, i, n):
+    if R[2 * i] == 0 and R[2 * i + 1] == 0:
+        return "left"
+    if R[2 * (i + 1)] == 0 and R[2 * (i + 1) + 1] == 0:
+        return "right"
+    return None
+
+
+def plot_tendon(
+    model,
+    force: Union[float, Sequence[float]],
+    profiles: Sequence[Optional[Profile]],
+    *,
+    units=None,
+    color: str = "tab:red",
+    show: bool = False,
+):
+    """
+    Draw the tendon and its equivalent loads in three stacked, x-aligned panels.
+
+    (a) the beam with its supports (no loads); (b) the specified cable drape -
+    the tendon eccentricity profile, on its own (exaggerated) vertical scale,
+    measured positive below the centroid; and (c) the equivalent ("balanced")
+    loads the tendon exerts, drawn on the bare beam (no support symbols).  Read
+    top to bottom, this shows how the drape becomes the balancing loads.
+
+    Parameters
+    ----------
+    model : pycba.Beam or pycba.BeamAnalysis
+        Supplies the geometry.
+    force, profiles
+        As for :func:`equivalent_loads`.
+    units : str or pycba.units.UnitSystem, optional
+        Display unit system for the load labels and the length axis.
+    color : str
+        Colour for the load arrows/labels.
+    show : bool
+        Call ``matplotlib.pyplot.show()`` before returning.
+
+    Returns
+    -------
+    matplotlib.figure.Figure, tuple(matplotlib.axes.Axes)
+        The figure and its three axes (beam, drape, loads).
+    """
+    import matplotlib.pyplot as plt
+
+    from .render import BeamPlotter
+    from .units import resolve
+
+    us = resolve(units)
+    beam = model.beam if hasattr(model, "beam") else model
+    Ls = list(beam.mbr_lengths)
+    R = list(beam.restraints)
+    n = len(Ls)
+    offs = np.concatenate([[0.0], np.cumsum(Ls)])
+    total = float(offs[-1])
+    LM = equivalent_loads(model, force, profiles)
+
+    fig, (ax_a, ax_b, ax_c) = plt.subplots(
+        3,
+        1,
+        sharex=True,
+        figsize=(9, 7.5),
+        gridspec_kw={"height_ratios": [1.0, 1.2, 1.0]},
+    )
+
+    # (a) beam + supports, no loads
+    BeamPlotter(beam, []).render_mpl(
+        ax=ax_a, equal_aspect=False, dimensions=False, units=us
+    )
+    ax_a.set_xlabel("")
+    ax_a.set_title("Beam")
+
+    # (b) the cable drape e(x), exaggerated (its own y-scale), + below centroid
+    ax_b.plot([0, total], [0, 0], "k-", lw=2, zorder=3)  # the beam (centroid)
+    for i in range(n + 1):
+        if not (R[2 * i] == 0 and R[2 * i + 1] == 0):  # a supported node
+            ax_b.plot([offs[i]], [0], marker="^", color="0.35", ms=8, zorder=4)
+    for i, prof in enumerate(profiles):
+        if prof is None:
+            continue
+        segs = prof.segments(Ls[i], _cantilever_side(R, i, n))
+        xs = np.linspace(0.0, Ls[i], 80)
+        es = np.array([_eval_e(segs, x) for x in xs])
+        ax_b.plot(offs[i] + xs, es, color="tab:blue", lw=2.0, zorder=5)
+    ax_b.axhline(0, color="0.6", ls="--", lw=0.8, zorder=1)
+    ax_b.invert_yaxis()  # positive e (below centroid) drawn downward
+    lu = f" ({us.length})" if us.length else ""
+    ax_b.set_ylabel(f"Tendon eccentricity{lu}\n(+ve below centroid)")
+    ax_b.set_xlabel("")
+    ax_b.set_title("Cable drape (exaggerated)")
+    ax_b.grid(True, axis="x", ls=":", alpha=0.4)
+
+    # (c) the equivalent loads on the bare beam (no support symbols)
+    BeamPlotter(beam, LM).render_mpl(
+        ax=ax_c, equal_aspect=False, show_supports=False, color=color, units=us
+    )
+    ax_c.set_title("Equivalent (balanced) loads")
+
+    if show:
+        plt.show()
+    return fig, (ax_a, ax_b, ax_c)

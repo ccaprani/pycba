@@ -146,3 +146,42 @@ def test_profile_count_must_match_spans():
     beam = cba.Beam([8.0, 8.0], EI, [-1, 0, -1, 0, -1, 0], eletype=[1, 1])
     with pytest.raises(ValueError, match="one per span"):
         equivalent_loads(beam, F, [Parabola(0, 0.3, 0)])
+
+
+def test_plot_tendon_three_panels():
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from pycba.prestress import plot_tendon
+
+    beam = cba.BeamAnalysis([20.0, 18.0, 8.0], EI, [-1, 0, -1, 0, -1, 0, 0, 0])
+    tendon = [
+        Parabola(-0.10, 0.35, -0.35),
+        Harp(-0.35, 0.35, -0.35, a=9.0),
+        Harp(-0.35, -0.20, -0.05, a=4.0),
+    ]
+    fig, axs = plot_tendon(beam, 1800.0, tendon)
+    assert len(axs) == 3
+    # the drape panel carries the tendon curve (a blue line)
+    assert any("blue" in str(ln.get_color()) for ln in axs[1].lines)
+    # the loads panel rendered the balanced loads (UDL band / arrows / labels)
+    assert axs[2].patches or axs[2].texts
+    plt.close(fig)
+
+
+def test_render_show_supports_toggle():
+    """show_supports=False drops the support glyphs from the schematic."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from pycba.render import BeamPlotter
+
+    beam = cba.Beam([6.0, 6.0], EI, [-1, 0, -1, 0, -1, 0], eletype=[1, 1])
+    fig, (a1, a2) = plt.subplots(2, 1)
+    BeamPlotter(beam, []).render_mpl(ax=a1, show_supports=True)
+    BeamPlotter(beam, []).render_mpl(ax=a2, show_supports=False)
+    assert len(a1.patches) > 0  # supports drawn
+    assert len(a2.patches) == 0  # supports suppressed
+    plt.close(fig)
