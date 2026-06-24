@@ -20,6 +20,7 @@
     pycba.inf_lines
     pycba.bridge
     pycba.vehicle
+    pycba.prestress
     pycba.nonlinear
     pycba.utils
 ```

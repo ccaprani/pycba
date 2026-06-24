@@ -433,3 +433,62 @@ Because this is a *display* layer only, the system you choose must match the
 units of your inputs — `PyCBA` does not convert the numbers for you. The
 deflection axis is the one place a number is rescaled for display
 (`disp_scale`, e.g. ×1000 to show metres as millimetres).
+
+## Post-Tensioning (equivalent loads)
+
+A draped post-tensioning tendon can be turned into the equivalent ("balanced")
+loads it exerts on the concrete with the `pycba.prestress` preprocessor. It is
+*only* a preprocessor: it returns an ordinary load matrix that you apply to the
+beam like any other loading — the analysis itself is unchanged.
+
+The tendon is described **span by span** by a profile whose geometry is given as
+**eccentricities from the section centroid, positive below the centroid** (so a
+sagging tendon balances gravity). The profiles mirror the standard library used
+by RAPT / PT Designer — 12 types, 7 for spans and 5 for cantilevers — via four
+profile objects:
+
+| Object | RAPT/PT-Designer types | Parameters (eccentricities + positions) |
+| --- | --- | --- |
+| `Parabola` | 1, 2 (8, 9 on cantilevers) | `e_left, e_mid, e_right` (+ `c_left, c_right` for face-to-face) |
+| `CompoundParabola` | 3 | `e_left, e_mid, e_right, a, b, c` |
+| `Harp` | 4, 5 (10, 11 on cantilevers) | `e_left, e_mid, e_right, a` (+ `c_left, c_right`) |
+| `DoubleHarp` | 6, 7 | `e_left, e_1, e_2, e_right, a, b` (+ `c_left, c_right`) |
+
+```python
+import pycba as cba
+from pycba.prestress import Parabola, equivalent_loads
+
+# a 2-span continuous beam
+beam = cba.BeamAnalysis(L=[20.0, 20.0], EI=4.0e5, R=[-1, 0, -1, 0, -1, 0])
+
+# a parabolic tendon: low at each midspan, raised over the interior support
+F = 1500.0  # effective prestress force
+loads = equivalent_loads(
+    beam,
+    force=F,
+    profiles=[
+        Parabola(e_left=0.0, e_mid=0.35, e_right=-0.25),  # span 1
+        Parabola(e_left=-0.25, e_mid=0.35, e_right=0.0),  # span 2
+    ],
+)
+
+beam.set_loads(loads)   # the balanced loads are now an ordinary loading
+beam.analyze()
+beam.plot_results()     # M here is the balanced moment M_bal
+```
+
+A cantilever (free-end) span is detected automatically and uses the cantilever
+form of its profile (the tendon anchors at the free tip).
+
+The equivalent loads are generated from first principles from the piecewise
+tendon `e(x)`: a uniform load `w = F·e″` over each parabolic segment, a point
+load `P = F·Δe′` at each interior kink, an anchorage moment `F·e` at each end,
+and an anchorage force `F·e′` at a free tip. Applying them gives the **balanced**
+moment `M_bal`; the secondary (parasitic) moment is then `M₂ = M_bal − F·e`,
+where `e = e(x)` is the tendon eccentricity.
+
+The profile geometry and the equivalent-load derivation follow the standard PT
+references; see in particular the *PT Designer Theory Manual*, Chapters 5
+(Tendon Profiles) and 6 (Equivalent Loads),
+[available here](https://secure.skghoshassociates.com/product/PT/download/TheoryManual.pdf),
+whose 12-profile library this preprocessor reproduces.
