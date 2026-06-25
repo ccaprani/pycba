@@ -20,6 +20,7 @@ from .load import (
 from .results import BeamResults, Envelopes
 from .render import BeamPlotter
 from .units import UnitSystem, set_units, get_units
+from .plotting import set_backend, get_backend
 from .inf_lines import InfluenceLines
 from .utils import parse_beam_string, supports_to_R
 from .bridge import BridgeAnalysis

@@ -16,6 +16,7 @@
     pycba.results
     pycba.pattern
     pycba.render
+    pycba.plotting
     pycba.units
     pycba.inf_lines
     pycba.bridge

@@ -742,7 +742,7 @@ class Envelopes:
 
         return np.array([op(chunk) for chunk in chunks])
 
-    def plot(self, each=False, units=None, **kwargs):
+    def plot(self, each=False, units=None, backend=None, **kwargs):
         """
         Plots the envelopes of bending and shear.
 
@@ -752,6 +752,12 @@ class Envelopes:
             Wether or not to show each BMD and SFD in the enveloping. The default is False
         units : str or pycba.units.UnitSystem, optional
             Display unit system for the labels (see :func:`pycba.set_units`).
+        backend : {"matplotlib", "plotly"}, optional
+            Plotting backend; defaults to the global default (see
+            :func:`pycba.set_backend`).  With ``"plotly"`` an interactive,
+            hover-to-read envelope figure (a ``plotly.graph_objects.Figure``) is
+            returned, with the max/min band shaded; ``each`` and ``**kwargs`` do
+            not apply.
         **kwargs : Dict
             Matplotlib keyword arguments for plotting.
 
@@ -761,10 +767,15 @@ class Envelopes:
 
         """
         from .units import resolve
+        from .plotting import resolve_backend
 
-        us = resolve(units)
         if self.nres < 1:
             raise ValueError("No results to display")
+        if resolve_backend(backend) == "plotly":
+            from .plotting import envelope_figure
+
+            return envelope_figure(self, units=units)
+        us = resolve(units)
 
         L = self.x[-1]
 
