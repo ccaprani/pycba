@@ -123,11 +123,27 @@ def test_resolve_off_deck_dropped():
     assert set(xg) == {8.0}
 
 
-def test_resolve_d_from_supports():
+def test_resolve_dv():
     bridge = cba.BeamAnalysis([10.0, 10.0], EI, [-1, 0, -1, 0, -1, 0])
-    sp, xg = cba.resolve_shear_points(bridge.beam, d_from_supports=1.0)
-    # Supports at x = 0, 10, 20 -> sections at 1, 9, 11, 19 (off-deck dropped).
+    sp, xg = cba.resolve_shear_points(bridge.beam, dv=1.0)
+    # Vertical supports at x = 0, 10, 20: dv on every valid side gives sections
+    # at 1, 9, 11, 19 (the off-deck -1 and 21 are dropped).
     assert set(np.round(xg, 6)) == {1.0, 9.0, 11.0, 19.0}
+
+
+def test_dv_sections_tagged_with_support_and_side():
+    """Each dv section is tagged with its support and side, so the end supports
+    (x=0 and x=L) are identifiable in critical_values()."""
+    bridge = cba.BeamAnalysis([15.0, 15.0], EI, [-1, 0, -1, 0, -1, 0])
+    ba = cba.BridgeAnalysis(bridge)
+    ba.add_vehicle(np.array([]), np.array([100.0]))
+    env = ba.run_vehicle(0.5, dv=1.0)
+    sp = ba.critical_values(env)["shear_points"]
+    # Supports at 0, 15, 30 -> sections at 1, 14, 16, 29.
+    assert sp[1.0]["support"] == 0.0 and sp[1.0]["side"] == "right"
+    assert sp[29.0]["support"] == 30.0 and sp[29.0]["side"] == "left"
+    assert sp[14.0]["support"] == 15.0 and sp[14.0]["side"] == "left"
+    assert sp[16.0]["support"] == 15.0 and sp[16.0]["side"] == "right"
 
 
 # ---------------------------------------------------------------------------

@@ -52,11 +52,11 @@ def test_interval_udl_split_equals_full():
 # run_load_model: vehicle + co-travelling lane UDL
 # ---------------------------------------------------------------------------
 def test_run_load_model_no_udl_matches_run_vehicle():
-    """A gap wider than the deck removes the lane UDL, recovering run_vehicle."""
+    """Clearances wider than the deck remove the lane UDL, recovering run_vehicle."""
     Ls = [10.0, 10.0]
     ba = BridgeAnalysis(_two_span(Ls))
     ba.add_vehicle(np.array([]), np.array([200.0]))
-    env_model = ba.run_load_model(step=0.25, w_lane=10.0, gap=1e3)
+    env_model = ba.run_load_model(step=0.25, w_lane=10.0, clearances=(1e3, 1e3))
 
     ba2 = BridgeAnalysis(_two_span(Ls))
     ba2.add_vehicle(np.array([]), np.array([200.0]))
@@ -74,22 +74,22 @@ def test_run_load_model_adds_lane_load():
 
     ba2 = BridgeAnalysis(_two_span())
     ba2.add_vehicle(np.array([]), np.array([200.0]))
-    env_model = ba2.run_load_model(step=0.25, w_lane=10.0, gap=0.0)
+    env_model = ba2.run_load_model(step=0.25, w_lane=10.0)  # continuous UDL
 
     assert env_model.Mmax.max() > env_veh.Mmax.max()
 
 
 def test_run_load_model_udl_runs_under_vehicle():
-    """The default (gap=0) lane UDL is continuous and runs directly beneath the
-    vehicle (M1600 style), so each position's result equals axle-only plus the
-    full-deck UDL by linearity - even for a multi-axle vehicle with finite
-    length."""
+    """The default (no clearances) lane UDL is continuous and runs directly
+    beneath the vehicle (M1600 style), so each position's result equals
+    axle-only plus the full-deck UDL by linearity - even for a multi-axle
+    vehicle with finite length."""
     Ls = [10.0, 10.0]
     W, P = 10.0, 200.0
     spac, wts = np.array([3.0]), np.array([P / 2, P / 2])  # 3 m long, two axles
     ba = BridgeAnalysis(_two_span(Ls))
     ba.add_vehicle(spac, wts)
-    ba.run_load_model(step=0.5, w_lane=W, gap=0.0)
+    ba.run_load_model(step=0.5, w_lane=W)
     combined = ba.vResults
 
     ba2 = BridgeAnalysis(_two_span(Ls))
@@ -110,22 +110,31 @@ def test_run_load_model_udl_runs_under_vehicle():
         )
 
 
-def test_run_load_model_gap_clears_under_vehicle():
-    """A positive gap removes the lane UDL over a length centred on the vehicle,
-    reducing the load near the cleared region."""
+def test_run_load_model_clearances_clear_under_vehicle():
+    """A clear zone removes the lane UDL around the vehicle, reducing the load
+    near the cleared region."""
     Ls = [10.0, 10.0]
     W = 10.0
     ba = BridgeAnalysis(_two_span(Ls))
     ba.add_vehicle(np.array([]), np.array([0.0]))  # UDL-only effect
 
-    # Single position with the (zero-weight) axle over the interior support.
-    full = ba.run_load_model(step=20.0, w_lane=W, gap=0.0, pos_start=10.0, pos_end=10.0)
-    gapped = ba.run_load_model(
-        step=20.0, w_lane=W, gap=4.0, pos_start=10.0, pos_end=10.0
+    # Single position with the (zero-weight, zero-length) axle over the support.
+    full = ba.run_load_model(step=20.0, w_lane=W, pos_start=10.0, pos_end=10.0)
+    cleared = ba.run_load_model(
+        step=20.0, w_lane=W, clearances=(2.0, 2.0), pos_start=10.0, pos_end=10.0
     )
 
     # Clearing the UDL around the support reduces the hogging there.
-    assert gapped.Mmin.min() > full.Mmin.min()
+    assert cleared.Mmin.min() > full.Mmin.min()
+
+
+def test_run_load_model_clearances_validation():
+    """Non-physical clearances are rejected."""
+    ba = BridgeAnalysis(_two_span())
+    ba.add_vehicle(np.array([]), np.array([100.0]))
+    for bad in [(-1.0, 0.0), (0.0, -2.0), (1.0,), (1.0, 2.0, 3.0), 5.0]:
+        with pytest.raises(ValueError):
+            ba.run_load_model(step=1.0, w_lane=10.0, clearances=bad)
 
 
 # ---------------------------------------------------------------------------
