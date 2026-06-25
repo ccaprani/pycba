@@ -294,6 +294,42 @@ def test_plot_results_before_analyze_warns_and_returns_none():
     assert ba.plot_results(show=False) is None
 
 
+def test_plot_bmd_sfd_deflection_axes_and_convention():
+    ba = cba.BeamAnalysis([10.0], 1.0e5, [-1, -1, -1, 0])
+    ba.add_udl(1, 10.0)
+    ba.analyze()
+    ax_m = ba.plot_bmd()
+    assert ax_m.yaxis_inverted()  # sagging-positive: moment y-axis inverted
+    ax_v = ba.plot_sfd()
+    assert not ax_v.yaxis_inverted()
+    ax_d = ba.plot_dsd()
+    assert ax_d is not None and not ax_d.yaxis_inverted()
+    plt.close("all")
+
+
+def test_plot_bmd_overlay_on_existing_axes():
+    ti = cba.BeamAnalysis([10.0], 1.0e5, [-1, -1, -1, 0], GAv=2.0e4)
+    ti.add_udl(1, 10.0)
+    ti.analyze()
+    eb = cba.BeamAnalysis([10.0], 1.0e5, [-1, -1, -1, 0])
+    eb.add_udl(1, 10.0)
+    eb.analyze()
+    ax = ti.plot_bmd(label="Timoshenko")
+    n0 = len(ax.lines)
+    out = eb.plot_bmd(ax=ax, color="0.5", ls="--", label="Euler-Bernoulli")
+    assert out is ax  # overlay returns the same axes
+    assert len(ax.lines) == n0 + 1  # only the curve is added, no re-setup
+    assert ax.yaxis_inverted()  # overlay must not flip the axis back
+    plt.close("all")
+
+
+def test_plot_diagram_before_analyze_returns_none():
+    ba = cba.BeamAnalysis([10.0], 1.0e5, [-1, -1, -1, 0])
+    assert ba.plot_bmd() is None
+    assert ba.plot_sfd() is None
+    assert ba.plot_dsd() is None
+
+
 def test_repr_beam_and_analysis():
     ba = _make_analysis("P7.5R7.0R", LM=[[1, 1, 20], [2, 2, 50, 3]])
     assert repr(ba) == "BeamAnalysis(2 spans, 3 supports, 2 loads, not analysed)"

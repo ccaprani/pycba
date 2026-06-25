@@ -43,6 +43,7 @@ import matplotlib.pyplot as plt
 from .beam import Beam, LoadMatrix
 from .results import BeamResults
 from .load import add_LM
+from .section import SectionEI
 
 
 class BeamAnalysis:
@@ -74,6 +75,7 @@ class BeamAnalysis:
         eletype: Optional[np.ndarray] = None,
         D: Optional[list] = None,
         supports: Optional[Sequence] = None,
+        GAv: Optional[Union[float, SectionEI, Sequence]] = None,
     ):
         """
         Construct a beam analysis object.
@@ -147,6 +149,13 @@ class BeamAnalysis:
             Elastic springs are given as a raw pair, e.g. ``[5e4, 0]`` for a
             vertical spring.  Lowered to ``R`` via
             :func:`~pycba.supports_to_R`; mutually exclusive with ``R``.
+        GAv : float, pycba.section.SectionEI, or array_like, optional
+            Transverse shear rigidity ``G·A_v`` of each span.  A span given a
+            finite ``GAv`` is analysed as a shear-deformable **Timoshenko**
+            element; ``None`` (the default) keeps the exact Euler–Bernoulli
+            element.  Broadcasts like ``EI``: a single scalar (or one
+            :class:`~pycba.section.SectionEI` for a variable ``GAv(x)``) applies
+            to all spans, otherwise one entry per span.
 
         Raises
         ------
@@ -164,7 +173,14 @@ class BeamAnalysis:
             self.eletype = eletype
         # Create the beam
         self._beam = Beam(
-            L=L, EI=EI, R=R, LM=LM, eletype=self.eletype, D=D, supports=supports
+            L=L,
+            EI=EI,
+            R=R,
+            LM=LM,
+            eletype=self.eletype,
+            D=D,
+            supports=supports,
+            GAv=GAv,
         )
 
         self._n = self._beam.no_spans
@@ -886,6 +902,115 @@ class BeamAnalysis:
         if show:
             plt.show()
         return fig, axs
+
+    def _plot_diagram(self, kind, ax=None, units=None, figsize=None, **kwargs):
+        """
+        Draw a single result diagram (bending moment, shear, or deflection).
+
+        Shared backend for :meth:`plot_bmd`, :meth:`plot_sfd` and
+        :meth:`plot_dsd`.  When ``ax`` is ``None`` a new figure/axes is
+        created and fully set up (zero baseline, axis labels, grid, and -- for
+        the bending moment -- the inverted, sagging-positive y-axis); when an
+        existing ``ax`` is passed only the curve is added, so a second analysis
+        can be overlaid for comparison without disturbing the axis.
+
+        Parameters
+        ----------
+        kind : {"M", "V", "D"}
+            Which load effect to draw.
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw into; a new figure is created if omitted.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system (see :func:`pycba.set_units`).
+        figsize : tuple(float, float), optional
+            Figure size when a new axes is created.
+        **kwargs
+            Forwarded to :meth:`matplotlib.axes.Axes.plot` for the curve
+            (e.g. ``color``, ``ls``, ``lw``, ``label``).
+
+        Returns
+        -------
+        matplotlib.axes.Axes or None
+            The axes drawn into, or ``None`` if :meth:`analyze` has not run.
+        """
+        from .units import resolve
+
+        if self._beam_results is None:
+            print("Nothing to plot - run analysis first")
+            return None
+        us = resolve(units)
+        res = self._beam_results.results
+        L = self._beam.length
+        y, ylabel, invert = {
+            "M": (res.M, us.moment_axis, True),
+            "V": (res.V, us.shear_axis, False),
+            "D": (res.D * us.disp_scale, us.deflection_axis, False),
+        }[kind]
+
+        if ax is None:
+            _, ax = plt.subplots(figsize=figsize or (8, 3.2))
+            ax.plot([0, L], [0, 0], "k", lw=2)
+            ax.grid()
+            ax.set_ylabel(ylabel)
+            ax.set_xlabel(us.distance_axis)
+            if invert:
+                ax.invert_yaxis()
+        kwargs.setdefault("color", "r")
+        ax.plot(res.x, y, **kwargs)
+        return ax
+
+    def plot_bmd(self, ax=None, units=None, **kwargs):
+        """
+        Plot the bending-moment diagram.
+
+        Uses the sagging-positive convention (the y-axis is inverted so sagging
+        appears below the beam line), matching :meth:`plot_results`.  Pass an
+        existing ``ax`` to overlay a second analysis for comparison; the axis is
+        set up only on the first call, so the overlay is not re-inverted.
+
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw into; a new figure is created if omitted.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system (see :func:`pycba.set_units`).
+        **kwargs
+            Forwarded to the curve plot (``color``, ``ls``, ``lw``, ``label``).
+
+        Returns
+        -------
+        matplotlib.axes.Axes or None
+            The axes drawn into (``None`` before :meth:`analyze`).
+        """
+        return self._plot_diagram("M", ax=ax, units=units, **kwargs)
+
+    def plot_sfd(self, ax=None, units=None, **kwargs):
+        """
+        Plot the shear-force diagram.
+
+        See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,
+        and matplotlib ``**kwargs``).
+
+        Returns
+        -------
+        matplotlib.axes.Axes or None
+            The axes drawn into (``None`` before :meth:`analyze`).
+        """
+        return self._plot_diagram("V", ax=ax, units=units, **kwargs)
+
+    def plot_dsd(self, ax=None, units=None, **kwargs):
+        """
+        Plot the deflected-shape diagram.
+
+        See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,
+        and matplotlib ``**kwargs``).
+
+        Returns
+        -------
+        matplotlib.axes.Axes or None
+            The axes drawn into (``None`` before :meth:`analyze`).
+        """
+        return self._plot_diagram("D", ax=ax, units=units, **kwargs)
 
     def __repr__(self) -> str:
         b = self._beam

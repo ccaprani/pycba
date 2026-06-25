@@ -152,6 +152,8 @@ class BeamResults:
         L = beam.mbr_lengths[i_span]
         EI = beam.mbr_EIs[i_span]
         etype = beam.mbr_eletype[i_span]
+        mbr_GAv = getattr(beam, "mbr_GAv", [])
+        GAv = mbr_GAv[i_span] if i_span < len(mbr_GAv) else None
 
         dx = L / self.npts
         x = np.zeros(self.npts + 3)
@@ -187,31 +189,53 @@ class BeamResults:
             curv = res.M / EI
         curv = curv + kappa_imp
 
-        # If no releases, the rotation at i is the nodal DOF.
-        R0 = d[1]
-
-        # Otherwise, account for the release.  When no imposed curvature is
-        # present the prismatic closed-form rotation correction is retained
-        # (identical to previous behaviour); otherwise -- and for non-prismatic
-        # members -- R0 is recovered from the kinematic boundary condition
-        # D(L) = d[2], which is valid for any EI(x) and curvature field.
         h = L / self.npts
-        use_bc = isinstance(EI, SectionEI) or np.any(kappa_imp != 0.0)
-        if etype > 1 and not use_bc:
-            theta = (d[2] - d[0]) / L
-            phi = (L / (3 * EI)) * (-(f[1] - 0.5 * f[3]) + (Ma - 0.5 * Mb))
-            R0 = theta - phi
+
+        # Shear-deformable (Timoshenko) member: the rotation reported (and used
+        # as the integration constant) is the *cross-section* rotation ``psi``;
+        # the slope of the deflected shape is ``psi + gamma`` with the shear
+        # strain ``gamma = V/GAv``.  For Euler–Bernoulli (``GAv is None``) the
+        # shear slope is zero and ``psi`` is the slope, so the result below is
+        # bit-for-bit identical to the previous behaviour.
+        if GAv is not None:
+            GAv_x = GAv(x[1:-1]) if isinstance(GAv, SectionEI) else GAv
+            # PyCBA's shear sign is opposite to the (dw/dx = psi + gamma)
+            # convention, so the shear slope enters with a leading minus.
+            gamma = -res.V[1:-1] / GAv_x
+        else:
+            gamma = 0.0
+
+        # Shear deformation forces the boundary-condition integration for a
+        # released member (the closed-form rotation correction is
+        # Euler–Bernoulli only); non-prismatic and imposed-curvature members
+        # likewise recover the i-end rotation from the kinematic BC D(L) = d[2].
+        use_bc = (
+            isinstance(EI, SectionEI) or np.any(kappa_imp != 0.0) or GAv is not None
+        )
+
+        # Provisional cross-section rotation from the bending curvature.
+        psi_prov = integrate.cumulative_trapezoid(curv[1:-1], dx=h, initial=0)
 
         if etype > 1 and use_bc:
-            R_prov = integrate.cumulative_trapezoid(curv[1:-1], dx=h, initial=0)
-            D_prov = integrate.cumulative_trapezoid(R_prov, dx=h, initial=0)
-            R0 = (d[2] - d[0] - D_prov[-1]) / L
-            R = R_prov + R0
+            # Recover the i-end rotation from the kinematic BC D(L) = d[2],
+            # valid for any EI(x), GAv(x) and curvature field.
+            slope_prov = psi_prov + gamma
+            D_prov = integrate.cumulative_trapezoid(slope_prov, dx=h, initial=0)
+            psi_i = (d[2] - d[0] - D_prov[-1]) / L
+            psi = psi_prov + psi_i
+        elif etype > 1:
+            # Euler–Bernoulli closed-form release correction (no shear).
+            theta = (d[2] - d[0]) / L
+            phi = (L / (3 * EI)) * (-(f[1] - 0.5 * f[3]) + (Ma - 0.5 * Mb))
+            psi = psi_prov + (theta - phi)
         else:
-            R = integrate.cumulative_trapezoid(curv[1:-1], dx=h, initial=0) + R0
-        D = integrate.cumulative_trapezoid(R, dx=h, initial=0) + d[0]
+            # No release: the i-end cross-section rotation is the nodal DOF.
+            psi = psi_prov + d[1]
 
-        res.R[1:-1] = R
+        slope = psi + gamma
+        D = integrate.cumulative_trapezoid(slope, dx=h, initial=0) + d[0]
+
+        res.R[1:-1] = psi
         res.D[1:-1] = D
 
         return res
