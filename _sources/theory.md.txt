@@ -37,11 +37,14 @@ The overall procedure is:
    along each span) are recovered.
 
 ```{note}
-`PyCBA` uses **Euler–Bernoulli** (engineer's) beam theory: plane sections remain
-plane and normal to the neutral axis, so **shear deformation is neglected**. It
-is *not* a Timoshenko formulation. Axial deformation is also omitted — the
-elements carry transverse (bending) action only, which is the appropriate
-idealisation for a continuous beam.
+By default `PyCBA` uses **Euler–Bernoulli** (engineer's) beam theory: plane
+sections remain plane and normal to the neutral axis, so **shear deformation is
+neglected**. A member may instead be made a **Timoshenko** (shear-deformable)
+element by supplying a finite transverse shear rigidity `GAv` (see
+[Timoshenko elements](theory-timoshenko) below); this is opt-in per member and
+the Euler–Bernoulli path is otherwise unchanged. Axial deformation is omitted in
+both cases — the elements carry transverse (bending and, optionally, shear)
+action only, which is the appropriate idealisation for a continuous beam.
 ```
 
 ## Sign conventions and degrees of freedom
@@ -255,6 +258,101 @@ prismatic limit) reproduces the closed-form $\mathbf{k}_{\text{FF}}$,
 $\mathbf{k}_{\text{FP}}$, $\mathbf{k}_{\text{PF}}$ and $\mathbf{k}_{\text{PP}}$
 above to machine precision. Scalar (prismatic) and `SectionEI` (non-prismatic)
 members may be freely mixed in one beam.
+
+(theory-timoshenko)=
+
+### Timoshenko (shear-deformable) elements
+
+A **Timoshenko** member augments the bending deformation with a transverse
+**shear deformation** ([Timoshenko, 1921](ref-timoshenko-1921)): the cross
+section rotates by $\psi(x)$, which is no longer constrained to remain normal to
+the deflected axis, and the difference between the axis slope and the section
+rotation is the shear strain
+
+$$
+\gamma = \frac{dw}{dx} - \psi = \frac{V}{GA_v},
+$$
+
+where $GA_v$ is the transverse **shear rigidity** ($A_v = kA$ the shear area,
+with $k$ the cross-section shear coefficient,
+[Cowper, 1966](ref-cowper-1966)). A member becomes a Timoshenko element purely
+by being given a finite `GAv` (a scalar, or a {class}`~pycba.section.SectionEI`
+for a variable $GA_v(x)$); the nodal DOF are unchanged — two per node,
+$[v,\ \theta]$, with $\theta$ now the **section rotation** $\psi$ — so assembly,
+supports, reactions and the plotting layer are all inherited unchanged.
+
+For a prismatic member the element is parameterised by the dimensionless shear
+parameter
+
+$$
+\Phi = \frac{12\,EI}{GA_v\,L^2},
+$$
+
+giving the locking-free two-node stiffness
+([Friedman & Kosmatka, 1993](ref-friedman-kosmatka-1993);
+[Przemieniecki, 1968](ref-przemieniecki-1968);
+{meth}`pycba.beam.Beam.k_FF_timo`)
+
+$$
+\mathbf{k}_{\text{FF}} = \frac{EI}{(1+\Phi)L^3}
+\begin{bmatrix}
+12 & 6L & -12 & 6L \\
+6L & (4+\Phi)L^2 & -6L & (2-\Phi)L^2 \\
+-12 & -6L & 12 & -6L \\
+6L & (2-\Phi)L^2 & -6L & (4+\Phi)L^2
+\end{bmatrix}.
+$$
+
+As $GA_v \to \infty$ (slender member, $\Phi \to 0$) this reduces **exactly** to
+the Euler–Bernoulli $\mathbf{k}_{\text{FF}}$ above, and member releases are
+imposed by the same static condensation used everywhere else.
+
+The element follows the *same flexibility derivation* as the non-prismatic
+member, with one addition: applying unit end moments to the released span also
+produces a constant shear $v = -1/L$ (the support reactions), so the shear
+strain energy adds the term
+
+$$
+\frac{1}{L^2}\int_0^L \frac{dx}{GA_v(x)}
+$$
+
+to **every** entry of the end-rotation flexibility $\mathbf{F}$ before inverting
+to $\mathbf{K}_\theta$ ({meth}`pycba.beam.Beam._timo_flexibility`). For a
+constant $EI$/$GA_v$ this reproduces the closed-form matrix above to machine
+precision; the same single path
+({meth}`pycba.beam.Beam.k_timoshenko`) therefore covers prismatic,
+non-prismatic, and variable-shear members. Because this shares the non-prismatic
+machinery, **no per-load fixed-end-force formulae are rewritten**: for a
+prismatic member the shear contribution to the released-span end rotations
+integrates to zero, so the Timoshenko fixed-end moments are the exact closed-form
+transform of the Euler–Bernoulli values,
+
+$$
+\begin{bmatrix} M_a \\ M_b \end{bmatrix}_{\!T}
+= \frac{1}{2(1+\Phi)}
+\begin{bmatrix} 2+\Phi & -\Phi \\ -\Phi & 2+\Phi \end{bmatrix}
+\begin{bmatrix} M_a \\ M_b \end{bmatrix}_{\!EB}
+$$
+
+({meth}`pycba.beam.Beam._ref_timoshenko`); for a variable $EI$/$GA_v$ the end
+rotations (including the shear term) are obtained by the same breakpoint-aware
+integration. A symmetric load on a prismatic member therefore keeps its
+Euler–Bernoulli fixed-end moments, while an unsymmetric load — or a continuous
+beam — redistributes according to $\Phi$.
+
+In the member-results recovery the reported rotation is the **section rotation**
+$\psi$ (continuous with the nodal DOF), and the deflection integrates the axis
+slope $\psi + \gamma$, i.e. the bending deflection plus the shear contribution
+$\int V/GA_v$; for $GA_v \to \infty$ the shear slope vanishes and the result is
+identical to Euler–Bernoulli.
+
+```{note}
+For slender members (span/depth $\gtrsim 20$) the shear deflection is typically
+under a couple of percent; the Timoshenko option matters for deep or short
+members (transfer beams, deep voided slabs, short spans). Shear-deformable
+elements are not currently combined with the nonlinear (plastic-hinge) engine,
+which remains Euler–Bernoulli.
+```
 
 ## Global stiffness matrix
 
@@ -644,6 +742,15 @@ inter-nodal loads and the $M_i, M_j$ are the solved member-end moments. For a
 non-prismatic member, or whenever an imposed curvature is present, $\theta_0$ is
 instead recovered from the kinematic boundary condition $\delta(L) = v_j$, which
 is valid for any $EI(x)$ and curvature field.
+
+For a **Timoshenko** member the integrated quantity $\theta(x)$ is the section
+rotation $\psi$ (from the bending curvature, as above), and the deflection
+integrates the **axis slope** $\psi + \gamma$ with the shear strain
+$\gamma = V/GA_v$, so $\delta$ carries the additional shear deflection
+$\int V/GA_v$. Because the closed-form release correction is Euler–Bernoulli
+only, a released Timoshenko member uses the same kinematic boundary-condition
+recovery as the non-prismatic case. For $GA_v \to \infty$ the shear slope
+vanishes and the recovery is identical to Euler–Bernoulli.
 
 ## Linear superposition, load cases and patterning
 

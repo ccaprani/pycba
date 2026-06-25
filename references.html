@@ -455,8 +455,9 @@
 <p>The source texts and papers underpinning the formulations used in <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> are
 collected below: the matrix (direct) stiffness method and Euler–Bernoulli beam
 element; the consistent nodal (fixed-end) load formulae; the non-prismatic
-(variable-<span class="math notranslate nohighlight">\(EI\)</span>) element and imposed-curvature load; and the nonlinear
-(Generalized Clough) plastic-hinge analysis. Each entry is hyperlinked to a DOI
+(variable-<span class="math notranslate nohighlight">\(EI\)</span>) element and imposed-curvature load; the Timoshenko
+(shear-deformable) element; and the nonlinear (Generalized Clough) plastic-hinge
+analysis. Each entry is hyperlinked to a DOI
 or a stable URL, and is cross-referenced from the <a class="reference internal" href="theory.html"><span class="std std-doc">Theoretical Basis</span></a>
 page by the labelled anchors shown.</p>
 <section id="matrix-direct-stiffness-method-and-beam-elements">
@@ -545,6 +546,27 @@ members — the engineering context for <code class="docutils literal notranslat
 Deformations</em>, 2nd edn. E &amp; FN Spon, London. Catalogue record:
 <a class="reference external" href="https://search.worldcat.org/title/30894947">https://search.worldcat.org/title/30894947</a>. Earlier edition of the
 imposed-curvature / variable-rigidity formulation refined in the 3rd edition.</p>
+</section>
+<section id="timoshenko-shear-deformable-beam-elements">
+<h2>Timoshenko (shear-deformable) beam elements<a class="headerlink" href="#timoshenko-shear-deformable-beam-elements" title="Link to this heading">#</a></h2>
+<p id="ref-timoshenko-1921"><strong>Timoshenko, S.P. (1921).</strong> “On the correction for shear of the differential
+equation for transverse vibrations of prismatic bars.” <em>Philosophical Magazine,
+Series 6</em> <strong>41</strong>(245), 744–746.
+<a class="reference external" href="https://doi.org/10.1080/14786442108636264">DOI: 10.1080/14786442108636264</a>. The
+original beam theory that augments Euler–Bernoulli bending with a transverse
+shear deformation, the basis of <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>’s shear-flexible element.</p>
+<p id="ref-cowper-1966"><strong>Cowper, G.R. (1966).</strong> “The shear coefficient in Timoshenko’s beam theory.”
+<em>Journal of Applied Mechanics</em> <strong>33</strong>(2), 335–340.
+<a class="reference external" href="https://doi.org/10.1115/1.3625046">DOI: 10.1115/1.3625046</a>. Derives the
+cross-section shear coefficient <span class="math notranslate nohighlight">\(k\)</span> (and hence the shear area <span class="math notranslate nohighlight">\(A_v = kA\)</span>) used to
+form the shear rigidity <span class="math notranslate nohighlight">\(GA_v\)</span> supplied to a Timoshenko member.</p>
+<p id="ref-friedman-kosmatka-1993"><strong>Friedman, Z. &amp; Kosmatka, J.B. (1993).</strong> “An improved two-node Timoshenko beam
+finite element.” <em>Computers &amp; Structures</em> <strong>47</strong>(3), 473–481.
+<a class="reference external" href="https://doi.org/10.1016/0045-7949(93)90243-7">DOI: 10.1016/0045-7949(93)90243-7</a>.
+The interdependent-interpolation two-node element that is free of shear locking
+and reduces exactly to the Euler–Bernoulli element as <span class="math notranslate nohighlight">\(GA_v \to \infty\)</span> — the
+<span class="math notranslate nohighlight">\(\Phi\)</span>-parameterised <span class="math notranslate nohighlight">\(4\times4\)</span> stiffness matrix implemented in <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>
+(see also <a class="reference internal" href="#ref-przemieniecki-1968"><span class="std std-ref">Przemieniecki, 1968</span></a>).</p>
 </section>
 <section id="numerical-integration">
 <h2>Numerical integration<a class="headerlink" href="#numerical-integration" title="Link to this heading">#</a></h2>
@@ -698,6 +720,7 @@ Superstructures</em>, Transportation Research Record 607 (1976),
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-direct-stiffness-method-and-beam-elements">Matrix (direct) stiffness method and beam elements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consistent-nodal-loads-fixed-end-forces">Consistent nodal loads (fixed-end forces)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-prismatic-variable-ei-elements-and-imposed-curvature">Non-prismatic (variable-<span class="math notranslate nohighlight">\(EI\)</span>) elements and imposed curvature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#timoshenko-shear-deformable-beam-elements">Timoshenko (shear-deformable) beam elements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-integration">Numerical integration</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-mechanism-detection">Stability / mechanism detection</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-analysis-and-plastic-hinge-models">Nonlinear analysis and plastic-hinge models</a></li>

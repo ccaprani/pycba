@@ -460,6 +460,7 @@
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">supports</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">SupportType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs a beam object</span>
@@ -491,6 +492,15 @@
 <span class="sd">            ``&quot;f&quot;``/``&quot;free&quot;``) or a raw ``[vertical, rotation]`` DOF pair (e.g.</span>
 <span class="sd">            ``[5e4, 0]`` for a vertical spring).  Lowered to ``R`` via</span>
 <span class="sd">            :func:`~pycba.supports_to_R`.  Mutually exclusive with ``R``.</span>
+<span class="sd">        GAv : Optional[float, SectionEI, or sequence]</span>
+<span class="sd">            Transverse **shear rigidity** ``G·A_v`` of each span (``A_v`` the</span>
+<span class="sd">            shear area).  A span with a finite ``GAv`` is analysed as a</span>
+<span class="sd">            shear-deformable **Timoshenko** element; ``None`` (the default)</span>
+<span class="sd">            keeps the member on the exact Euler–Bernoulli path, bit-for-bit</span>
+<span class="sd">            unchanged.  Like ``EI``: a single scalar (or one</span>
+<span class="sd">            :class:`~pycba.section.SectionEI` describing ``GAv(x)``) applies to</span>
+<span class="sd">            all spans, otherwise one entry per span (each ``None``, a scalar, or</span>
+<span class="sd">            a :class:`~pycba.section.SectionEI`).</span>
 
 
 <span class="sd">        Returns</span>
@@ -502,6 +512,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prescribed_displacements</span> <span class="o">=</span> <span class="p">[]</span>
@@ -523,15 +534,17 @@
             <span class="n">R</span> <span class="o">=</span> <span class="n">supports_to_R</span><span class="p">(</span><span class="n">supports</span><span class="p">,</span> <span class="n">n_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Normalise GAv to one entry per span (None =&gt; Euler-Bernoulli).</span>
+            <span class="n">GAv_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_broadcast_GAv</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">))</span>
             <span class="c1"># A single rigidity (scalar EI, or one SectionEI) applies to all</span>
             <span class="c1"># spans; otherwise one rigidity per span is required.</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)):</span>
-                <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">et</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eletype</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">et</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eletype</span><span class="p">,</span> <span class="n">GAv_list</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">EI</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">eletype</span><span class="p">):</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">eletype</span><span class="p">,</span> <span class="n">GAv_list</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define EI for each span&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -551,9 +564,34 @@
         <span class="k">if</span> <span class="n">LM</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">LM</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast_GAv</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">n_spans</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalise the ``GAv`` argument to one entry per span.</span>
+
+<span class="sd">        ``None`` (the default) marks every span as Euler–Bernoulli.  A scalar</span>
+<span class="sd">        or single :class:`~pycba.section.SectionEI` is applied to all spans; a</span>
+<span class="sd">        sequence must give one entry per span (each ``None``, a scalar, or a</span>
+<span class="sd">        :class:`~pycba.section.SectionEI`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">GAv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">GAv</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
+        <span class="n">GAv</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">GAv</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">GAv</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_spans</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define GAv for each span (or pass a scalar/None).&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">GAv</span>
+
 <div class="viewcode-block" id="Beam.add_span">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_span">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eletype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_span</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">eletype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a span to the continuous beam</span>
 
@@ -567,6 +605,11 @@
 <span class="sd">            The element type for the member, as the integer code ``1-4``, a</span>
 <span class="sd">            :class:`~pycba.MemberType` (e.g. ``MemberType.FP``), or its</span>
 <span class="sd">            case-insensitive name (e.g. ``&quot;FP&quot;``).  See :class:`~pycba.MemberType`.</span>
+<span class="sd">        GAv : float or pycba.section.SectionEI, optional</span>
+<span class="sd">            Transverse shear rigidity ``G·A_v`` of the member.  When given (and</span>
+<span class="sd">            finite) the member is a shear-deformable **Timoshenko** element;</span>
+<span class="sd">            ``None`` (default) keeps the exact Euler–Bernoulli element.  A</span>
+<span class="sd">            :class:`~pycba.section.SectionEI` describes a variable ``GAv(x)``.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -577,8 +620,12 @@
             <span class="c1"># A non-prismatic section must span the full member length so its</span>
             <span class="c1"># piecewise EI(x) covers the element exactly.</span>
             <span class="n">EI</span><span class="o">.</span><span class="n">validate_length</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="c1"># A variable shear rigidity must likewise cover the full member.</span>
+            <span class="n">GAv</span><span class="o">.</span><span class="n">validate_length</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EI</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GAv</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MemberType</span><span class="o">.</span><span class="n">coerce</span><span class="p">(</span><span class="n">eletype</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">+=</span> <span class="n">L</span>
@@ -589,7 +636,11 @@
 <div class="viewcode-block" id="Beam.add_member">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_member">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_member</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">mbr_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="n">MemberType</span><span class="o">.</span><span class="n">FF</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">mbr_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="n">MemberType</span><span class="o">.</span><span class="n">FF</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a member (span) to the beam, naming its type.</span>
@@ -606,8 +657,11 @@
 <span class="sd">            The flexural rigidity of the member.</span>
 <span class="sd">        mbr_type : pycba.MemberType, str, or int</span>
 <span class="sd">            The member type / moment-release pattern (default ``FF``).</span>
+<span class="sd">        GAv : float or pycba.section.SectionEI, optional</span>
+<span class="sd">            Transverse shear rigidity ``G·A_v``; when given the member is a</span>
+<span class="sd">            shear-deformable Timoshenko element (see :meth:`add_span`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">mbr_type</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">mbr_type</span><span class="p">,</span> <span class="n">GAv</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
@@ -1044,11 +1098,14 @@
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">GAv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
         <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">!=</span> <span class="n">i_span</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">GAv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ref</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_timoshenko</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
                 <span class="n">ref</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_nonprismatic</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ref</span> <span class="o">+=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
@@ -1190,6 +1247,18 @@
         <span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">GAv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="c1"># Shear-deformable (Timoshenko) member: opt-in via a finite ``GAv``.  A</span>
+        <span class="c1"># variable EI and/or GAv goes through the flexibility integrator; the</span>
+        <span class="c1"># common prismatic case uses the closed-form element and static</span>
+        <span class="c1"># condensation for the released variants.</span>
+        <span class="k">if</span> <span class="n">GAv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_timoshenko</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
+            <span class="n">kff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_FF_timo</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+            <span class="n">released</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[],</span> <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">eType</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_condense</span><span class="p">(</span><span class="n">kff</span><span class="p">,</span> <span class="n">released</span><span class="p">)</span> <span class="k">if</span> <span class="n">released</span> <span class="k">else</span> <span class="n">kff</span>
 
         <span class="c1"># Non-prismatic (variable-EI) members are handled by flexibility</span>
         <span class="c1"># integration; the scalar/prismatic path below is unchanged.</span>
@@ -1570,7 +1639,370 @@
 
         <span class="n">kc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
         <span class="n">kc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">kept</span><span class="p">,</span> <span class="n">kept</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Kcond</span>
-        <span class="k">return</span> <span class="n">kc</span></div>
+        <span class="k">return</span> <span class="n">kc</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1">#  Timoshenko (shear-deformable) element</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Beam.k_FF_timo">
+<a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF_timo">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">k_FF_timo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">GAv</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stiffness matrix for a prismatic fixed-fixed Timoshenko element.</span>
+
+<span class="sd">        The standard two-node shear-flexible element introduces the</span>
+<span class="sd">        dimensionless shear parameter</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \\Phi = \\frac{12 EI}{G A_v L^2}</span>
+
+<span class="sd">        so the element stiffness is</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            k = \\frac{EI}{(1+\\Phi)L^3}</span>
+<span class="sd">            \\begin{bmatrix}</span>
+<span class="sd">                12 &amp; 6L &amp; -12 &amp; 6L \\\\</span>
+<span class="sd">                6L &amp; (4+\\Phi)L^2 &amp; -6L &amp; (2-\\Phi)L^2 \\\\</span>
+<span class="sd">                -12 &amp; -6L &amp; 12 &amp; -6L \\\\</span>
+<span class="sd">                6L &amp; (2-\\Phi)L^2 &amp; -6L &amp; (4+\\Phi)L^2</span>
+<span class="sd">            \\end{bmatrix}</span>
+
+<span class="sd">        As ``GAv -&gt; inf`` (``\\Phi -&gt; 0``) this reduces exactly to the</span>
+<span class="sd">        Euler–Bernoulli :meth:`k_FF`.  The DOF order and sign convention match</span>
+<span class="sd">        the rest of PyCBA, ``[v_i, theta_i, v_j, theta_j]``, with ``theta`` the</span>
+<span class="sd">        cross-section rotation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EI : float</span>
+<span class="sd">            The flexural rigidity of the member (assumed prismatic).</span>
+<span class="sd">        GAv : float</span>
+<span class="sd">            The transverse shear rigidity ``G·A_v`` of the member.</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        k : np.ndarray, shape (4, 4)</span>
+<span class="sd">            The element stiffness matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="mf">12.0</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="p">(</span><span class="n">GAv</span> <span class="o">*</span> <span class="n">L2</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">EI</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span>
+
+        <span class="n">kfv</span> <span class="o">=</span> <span class="mf">12.0</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="n">L3</span>
+        <span class="n">kft</span> <span class="o">=</span> <span class="mf">6.0</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="n">L2</span>
+        <span class="n">kmt</span> <span class="o">=</span> <span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="n">L</span>
+        <span class="n">kmth</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="n">L</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="n">kfv</span><span class="p">,</span> <span class="n">kft</span><span class="p">,</span> <span class="o">-</span><span class="n">kfv</span><span class="p">,</span> <span class="n">kft</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">kft</span><span class="p">,</span> <span class="n">kmt</span><span class="p">,</span> <span class="o">-</span><span class="n">kft</span><span class="p">,</span> <span class="n">kmth</span><span class="p">],</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">kfv</span><span class="p">,</span> <span class="o">-</span><span class="n">kft</span><span class="p">,</span> <span class="n">kfv</span><span class="p">,</span> <span class="o">-</span><span class="n">kft</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">kft</span><span class="p">,</span> <span class="n">kmth</span><span class="p">,</span> <span class="o">-</span><span class="n">kft</span><span class="p">,</span> <span class="n">kmt</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">k</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_shear_flexibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shear contribution to the end-rotation flexibility.</span>
+
+<span class="sd">        On the released (simply-supported) element a unit end moment produces a</span>
+<span class="sd">        constant shear ``v = -1/L`` (the support reactions), so the shear</span>
+<span class="sd">        strain energy adds the *same* term</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \\frac{1}{L^2}\\int_0^L \\frac{1}{G A_v(x)}\\,dx</span>
+
+<span class="sd">        to **every** entry of the 2x2 end-rotation flexibility matrix.  For a</span>
+<span class="sd">        constant ``GAv`` this is ``1/(L\\,G A_v)``; for a variable ``GAv(x)``</span>
+<span class="sd">        (a :class:`~pycba.section.SectionEI`) the integral is evaluated by the</span>
+<span class="sd">        same breakpoint-aware Gauss quadrature used for the flexural terms.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        GAv : float or SectionEI</span>
+<span class="sd">            The shear rigidity (constant or variable along the member).</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The scalar shear-flexibility term added to all entries of ``F``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="n">xg</span><span class="p">,</span> <span class="n">wg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_nodes</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+            <span class="n">integral</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">wg</span> <span class="o">/</span> <span class="n">GAv</span><span class="p">(</span><span class="n">xg</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">integral</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="n">GAv</span>
+        <span class="k">return</span> <span class="n">integral</span> <span class="o">/</span> <span class="p">(</span><span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_timo_flexibility</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span> <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        2x2 end moment-rotation flexibility of a Timoshenko element.</span>
+
+<span class="sd">        This is the Euler–Bernoulli flexural flexibility (closed-form for a</span>
+<span class="sd">        scalar ``EI``, or :meth:`_flexibility` for a</span>
+<span class="sd">        :class:`~pycba.section.SectionEI`) plus the shear contribution from</span>
+<span class="sd">        :meth:`_shear_flexibility`.  Inverting it gives the moment-rotation</span>
+<span class="sd">        stiffness ``K_theta`` used to build the element (see</span>
+<span class="sd">        :meth:`k_timoshenko`).  For a constant ``EI``/``GAv`` it reproduces the</span>
+<span class="sd">        closed-form prismatic element :meth:`k_FF_timo` to machine precision.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EI : float or SectionEI</span>
+<span class="sd">            The flexural rigidity (constant or variable).</span>
+<span class="sd">        GAv : float or SectionEI</span>
+<span class="sd">            The shear rigidity (constant or variable).</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray, shape (2, 2)</span>
+<span class="sd">            The end moment-rotation flexibility matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="n">F</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">[</span><span class="n">L</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">EI</span><span class="p">),</span> <span class="o">-</span><span class="n">L</span> <span class="o">/</span> <span class="p">(</span><span class="mf">6.0</span> <span class="o">*</span> <span class="n">EI</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="o">-</span><span class="n">L</span> <span class="o">/</span> <span class="p">(</span><span class="mf">6.0</span> <span class="o">*</span> <span class="n">EI</span><span class="p">),</span> <span class="n">L</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">EI</span><span class="p">)],</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">F</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shear_flexibility</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Beam.k_timoshenko">
+<a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_timoshenko">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">k_timoshenko</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        4x4 Timoshenko element stiffness for scalar or variable ``EI``/``GAv``.</span>
+
+<span class="sd">        The 2x2 moment-rotation stiffness ``K_theta`` (the inverse of the</span>
+<span class="sd">        shear-augmented flexibility, see :meth:`_timo_flexibility`) is expanded</span>
+<span class="sd">        to the full 4-DOF element by the same kinematic chord transformation</span>
+<span class="sd">        used for the non-prismatic element (see :meth:`k_nonprismatic`), and</span>
+<span class="sd">        moment releases (element types 2, 3, 4) are imposed by static</span>
+<span class="sd">        condensation.  This single path covers prismatic and non-prismatic,</span>
+<span class="sd">        constant- and variable-shear members; for a constant ``EI``/``GAv`` it</span>
+<span class="sd">        reproduces :meth:`k_FF_timo` (and hence the Euler–Bernoulli element as</span>
+<span class="sd">        ``GAv -&gt; inf``) to machine precision.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EI : float or SectionEI</span>
+<span class="sd">            The flexural rigidity (constant or variable).</span>
+<span class="sd">        GAv : float or SectionEI</span>
+<span class="sd">            The shear rigidity (constant or variable).</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+<span class="sd">        eType : int</span>
+<span class="sd">            The element type (1: FF, 2: FP, 3: PF, 4: PP).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        k : np.ndarray, shape (4, 4)</span>
+<span class="sd">            The element stiffness matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Kth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timo_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Kth</span> <span class="o">@</span> <span class="n">T</span>
+
+        <span class="n">released</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[],</span> <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">eType</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())]</span>
+        <span class="k">if</span> <span class="n">released</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_condense</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">released</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">k</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_timo_theta0</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">load</span><span class="p">,</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Primary end rotations of a load on a released Timoshenko span.</span>
+
+<span class="sd">        The released (simply-supported) span carries the load&#39;s moment diagram</span>
+<span class="sd">        ``M(x)`` and shear ``V(x)`` (from :meth:`~pycba.load.Load.get_mbr_results`).</span>
+<span class="sd">        The end rotations work-conjugate to the end moments combine the</span>
+<span class="sd">        flexural and shear contributions,</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \\theta_{0,a} = \\int_0^L m_a\\,\\frac{M}{EI}\\,dx</span>
+<span class="sd">                          + \\int_0^L v\\,\\frac{V}{G A_v}\\,dx, \\quad</span>
+<span class="sd">            \\theta_{0,b} = \\int_0^L m_b\\,\\frac{M}{EI}\\,dx</span>
+<span class="sd">                          + \\int_0^L v\\,\\frac{V}{G A_v}\\,dx</span>
+
+<span class="sd">        with the unit-moment diagrams ``m_a = 1 - x/L``, ``m_b = -x/L`` and the</span>
+<span class="sd">        constant unit-moment shear ``v = -1/L``.  The integral is split at the</span>
+<span class="sd">        section breakpoints so any ``EI``/``GAv`` kink or step is honoured</span>
+<span class="sd">        exactly.  Used only for variable ``EI``/``GAv``; the prismatic case has</span>
+<span class="sd">        an exact closed-form transform in :meth:`_ref_timoshenko`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load : pycba.load.Load</span>
+<span class="sd">            The load object.</span>
+<span class="sd">        EI : float or SectionEI</span>
+<span class="sd">            The flexural rigidity (constant or variable).</span>
+<span class="sd">        GAv : float or SectionEI</span>
+<span class="sd">            The shear rigidity (constant or variable).</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray, shape (2,)</span>
+<span class="sd">            The primary end rotations ``[theta_0a, theta_0b]``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="n">bps</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">EI</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="n">bps</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">GAv</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bps</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">bps</span><span class="p">]))</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[(</span><span class="n">edges</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-12</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">edges</span> <span class="o">&lt;=</span> <span class="n">L</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)]</span>
+            <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span><span class="p">])</span>
+
+        <span class="n">theta0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="mi">2001</span>
+            <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">mr</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_mbr_results</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+            <span class="n">EIx</span> <span class="o">=</span> <span class="n">EI</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span> <span class="k">else</span> <span class="n">EI</span>
+            <span class="n">curv</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">M</span> <span class="o">/</span> <span class="n">EIx</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="n">LoadIC</span><span class="p">):</span>
+                <span class="n">curv</span> <span class="o">=</span> <span class="n">curv</span> <span class="o">+</span> <span class="n">load</span><span class="o">.</span><span class="n">kappa_imp</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+            <span class="n">GAvx</span> <span class="o">=</span> <span class="n">GAv</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span> <span class="k">else</span> <span class="n">GAv</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="n">GAvx</span>
+            <span class="n">mi</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">xx</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">mj</span> <span class="o">=</span> <span class="o">-</span><span class="n">xx</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">vi</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">L</span>  <span class="c1"># unit-moment shear (constant), same for both ends</span>
+            <span class="n">shear</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">vi</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">xx</span><span class="p">)</span>
+            <span class="n">theta0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">mi</span> <span class="o">*</span> <span class="n">curv</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">xx</span><span class="p">)</span> <span class="o">+</span> <span class="n">shear</span>
+            <span class="n">theta0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">mj</span> <span class="o">*</span> <span class="n">curv</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">xx</span><span class="p">)</span> <span class="o">+</span> <span class="n">shear</span>
+        <span class="k">return</span> <span class="n">theta0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ref_timoshenko</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">load</span><span class="p">,</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Released end forces of a single load on a Timoshenko member.</span>
+
+<span class="sd">        The fixed-end moments are the Timoshenko moment-rotation stiffness</span>
+<span class="sd">        applied to the released-span end rotations.  For a **prismatic** member</span>
+<span class="sd">        the released end rotations are purely flexural (the shear term</span>
+<span class="sd">        integrates to zero on a simply-supported span), giving the exact</span>
+<span class="sd">        closed-form transform of the Euler–Bernoulli fixed-end moments</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \\begin{bmatrix} M_a \\\\ M_b \\end{bmatrix}_{T}</span>
+<span class="sd">            = \\frac{1}{2(1+\\Phi)}</span>
+<span class="sd">            \\begin{bmatrix} 2+\\Phi &amp; -\\Phi \\\\ -\\Phi &amp; 2+\\Phi \\end{bmatrix}</span>
+<span class="sd">            \\begin{bmatrix} M_a \\\\ M_b \\end{bmatrix}_{EB},</span>
+
+<span class="sd">        which recovers the Euler–Bernoulli moments as ``\\Phi -&gt; 0``.  For a</span>
+<span class="sd">        **variable** ``EI``/``GAv`` the end rotations are obtained from</span>
+<span class="sd">        :meth:`_timo_theta0` and combined with the shear-augmented</span>
+<span class="sd">        moment-rotation stiffness.  The end shears follow from statics and any</span>
+<span class="sd">        moment releases are imposed by static condensation, mirroring</span>
+<span class="sd">        :meth:`_ref_nonprismatic`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        load : pycba.load.Load</span>
+<span class="sd">            The load object.</span>
+<span class="sd">        EI : float or SectionEI</span>
+<span class="sd">            The flexural rigidity (constant or variable).</span>
+<span class="sd">        GAv : float or SectionEI</span>
+<span class="sd">            The shear rigidity (constant or variable).</span>
+<span class="sd">        L : float</span>
+<span class="sd">            The length of the member.</span>
+<span class="sd">        eType : int</span>
+<span class="sd">            The element type (1: FF, 2: FP, 3: PF, 4: PP).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray, shape (4,)</span>
+<span class="sd">            Released end force vector ``[Va, Ma, Vb, Mb]``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eType</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">eType</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+        <span class="n">prismatic</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span>
+        <span class="n">cnl</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># fixed-fixed Euler-Bernoulli CNL</span>
+
+        <span class="k">if</span> <span class="n">prismatic</span><span class="p">:</span>
+            <span class="n">phi</span> <span class="o">=</span> <span class="mf">12.0</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="p">(</span><span class="n">GAv</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">denom</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span>
+            <span class="n">Ma</span> <span class="o">=</span> <span class="p">((</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span> <span class="o">-</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">denom</span>
+            <span class="n">Mb</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">phi</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">denom</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">theta0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timo_theta0</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+            <span class="n">Kth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timo_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
+            <span class="n">FEM</span> <span class="o">=</span> <span class="n">Kth</span> <span class="o">@</span> <span class="n">theta0</span>
+            <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span> <span class="o">=</span> <span class="n">FEM</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">FEM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Simply-supported reactions: recover from the prismatic CNL by removing</span>
+        <span class="c1"># the (prismatic) end-moment couple, leaving pure SS shears.</span>
+        <span class="n">Va_ss</span> <span class="o">=</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Va</span> <span class="o">-</span> <span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+        <span class="n">Vb_ss</span> <span class="o">=</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Vb</span> <span class="o">+</span> <span class="p">(</span><span class="n">cnl</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">cnl</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">Va_ss</span> <span class="o">+</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span>
+                <span class="n">Ma</span><span class="p">,</span>
+                <span class="n">Vb_ss</span> <span class="o">-</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span>
+                <span class="n">Mb</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="c1"># Pinned-pinned: release both end moments (mirror _ref_nonprismatic).</span>
+            <span class="n">Va_ff</span><span class="p">,</span> <span class="n">Vb_ff</span> <span class="o">=</span> <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Va_ff</span> <span class="o">+</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vb_ff</span> <span class="o">-</span> <span class="p">(</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
+            <span class="n">ref</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">elif</span> <span class="n">eType</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="c1"># Single moment release: condense the released rotational DOF using</span>
+            <span class="c1"># the Timoshenko fixed-fixed stiffness.</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">if</span> <span class="n">eType</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">kff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_timoshenko</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">Krr</span> <span class="o">=</span> <span class="n">kff</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">)]</span>
+            <span class="n">theta_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">Krr</span><span class="p">,</span> <span class="n">ref</span><span class="p">[</span><span class="n">r</span><span class="p">])</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">ref</span> <span class="o">-</span> <span class="n">kff</span><span class="p">[:,</span> <span class="n">r</span><span class="p">]</span> <span class="o">@</span> <span class="n">theta_r</span>
+        <span class="k">return</span> <span class="n">ref</span></div>
 
 </pre></div>
 

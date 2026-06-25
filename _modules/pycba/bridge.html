@@ -496,6 +496,7 @@
         <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
         <span class="n">R</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and add a beam to a bridge analysis</span>
@@ -510,13 +511,17 @@
 <span class="sd">            A vector describing the support conditions at each member end.</span>
 <span class="sd">        eletype : Optional[np.ndarray]</span>
 <span class="sd">            A vector of the member types. Defaults to a fixed-fixed element.</span>
+<span class="sd">        GAv : Optional[Union[float, np.ndarray]]</span>
+<span class="sd">            Transverse shear rigidity ``G·A_v`` of each span.  When given, the</span>
+<span class="sd">            bridge is analysed with shear-deformable Timoshenko elements; the</span>
+<span class="sd">            default (``None``) uses Euler–Bernoulli elements.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ba : BeamAnalysis</span>
 <span class="sd">            A :class:`pycba.analysis.BeamAnalysis` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="n">eletype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="n">eletype</span><span class="p">,</span> <span class="n">GAv</span><span class="o">=</span><span class="n">GAv</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">loads</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span></div>
 

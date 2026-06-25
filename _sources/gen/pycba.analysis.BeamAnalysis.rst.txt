@@ -25,7 +25,10 @@ pycba.analysis.BeamAnalysis
       ~BeamAnalysis.analyze
       ~BeamAnalysis.is_stable
       ~BeamAnalysis.plot_beam
+      ~BeamAnalysis.plot_bmd
+      ~BeamAnalysis.plot_dsd
       ~BeamAnalysis.plot_results
+      ~BeamAnalysis.plot_sfd
       ~BeamAnalysis.set_loads
    
    

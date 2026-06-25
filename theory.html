@@ -488,11 +488,14 @@ along each span) are recovered.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> uses <strong>Euler–Bernoulli</strong> (engineer’s) beam theory: plane sections remain
-plane and normal to the neutral axis, so <strong>shear deformation is neglected</strong>. It
-is <em>not</em> a Timoshenko formulation. Axial deformation is also omitted — the
-elements carry transverse (bending) action only, which is the appropriate
-idealisation for a continuous beam.</p>
+<p>By default <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> uses <strong>Euler–Bernoulli</strong> (engineer’s) beam theory: plane
+sections remain plane and normal to the neutral axis, so <strong>shear deformation is
+neglected</strong>. A member may instead be made a <strong>Timoshenko</strong> (shear-deformable)
+element by supplying a finite transverse shear rigidity <code class="docutils literal notranslate"><span class="pre">GAv</span></code> (see
+<a class="reference internal" href="#theory-timoshenko"><span class="std std-ref">Timoshenko elements</span></a> below); this is opt-in per member and
+the Euler–Bernoulli path is otherwise unchanged. Axial deformation is omitted in
+both cases — the elements carry transverse (bending and, optionally, shear)
+action only, which is the appropriate idealisation for a continuous beam.</p>
 </div>
 <section id="sign-conventions-and-degrees-of-freedom">
 <h2>Sign conventions and degrees of freedom<a class="headerlink" href="#sign-conventions-and-degrees-of-freedom" title="Link to this heading">#</a></h2>
@@ -715,6 +718,91 @@ prismatic limit) reproduces the closed-form <span class="math notranslate nohigh
 <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{FP}}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{PF}}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{PP}}\)</span>
 above to machine precision. Scalar (prismatic) and <code class="docutils literal notranslate"><span class="pre">SectionEI</span></code> (non-prismatic)
 members may be freely mixed in one beam.</p>
+</section>
+<section id="timoshenko-shear-deformable-elements">
+<span id="theory-timoshenko"></span><h3>Timoshenko (shear-deformable) elements<a class="headerlink" href="#timoshenko-shear-deformable-elements" title="Link to this heading">#</a></h3>
+<p>A <strong>Timoshenko</strong> member augments the bending deformation with a transverse
+<strong>shear deformation</strong> (<a class="reference internal" href="references.html#ref-timoshenko-1921"><span class="std std-ref">Timoshenko, 1921</span></a>): the cross
+section rotates by <span class="math notranslate nohighlight">\(\psi(x)\)</span>, which is no longer constrained to remain normal to
+the deflected axis, and the difference between the axis slope and the section
+rotation is the shear strain</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma = \frac{dw}{dx} - \psi = \frac{V}{GA_v},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(GA_v\)</span> is the transverse <strong>shear rigidity</strong> (<span class="math notranslate nohighlight">\(A_v = kA\)</span> the shear area,
+with <span class="math notranslate nohighlight">\(k\)</span> the cross-section shear coefficient,
+<a class="reference internal" href="references.html#ref-cowper-1966"><span class="std std-ref">Cowper, 1966</span></a>). A member becomes a Timoshenko element purely
+by being given a finite <code class="docutils literal notranslate"><span class="pre">GAv</span></code> (a scalar, or a <a class="reference internal" href="gen/pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a>
+for a variable <span class="math notranslate nohighlight">\(GA_v(x)\)</span>); the nodal DOF are unchanged — two per node,
+<span class="math notranslate nohighlight">\([v,\ \theta]\)</span>, with <span class="math notranslate nohighlight">\(\theta\)</span> now the <strong>section rotation</strong> <span class="math notranslate nohighlight">\(\psi\)</span> — so assembly,
+supports, reactions and the plotting layer are all inherited unchanged.</p>
+<p>For a prismatic member the element is parameterised by the dimensionless shear
+parameter</p>
+<div class="math notranslate nohighlight">
+\[
+\Phi = \frac{12\,EI}{GA_v\,L^2},
+\]</div>
+<p>giving the locking-free two-node stiffness
+(<a class="reference internal" href="references.html#ref-friedman-kosmatka-1993"><span class="std std-ref">Friedman &amp; Kosmatka, 1993</span></a>;
+<a class="reference internal" href="references.html#ref-przemieniecki-1968"><span class="std std-ref">Przemieniecki, 1968</span></a>;
+<a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF_timo" title="pycba.beam.Beam.k_FF_timo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam.k_FF_timo()</span></code></a>)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{k}_{\text{FF}} = \frac{EI}{(1+\Phi)L^3}
+\begin{bmatrix}
+12 &amp; 6L &amp; -12 &amp; 6L \\
+6L &amp; (4+\Phi)L^2 &amp; -6L &amp; (2-\Phi)L^2 \\
+-12 &amp; -6L &amp; 12 &amp; -6L \\
+6L &amp; (2-\Phi)L^2 &amp; -6L &amp; (4+\Phi)L^2
+\end{bmatrix}.
+\end{split}\]</div>
+<p>As <span class="math notranslate nohighlight">\(GA_v \to \infty\)</span> (slender member, <span class="math notranslate nohighlight">\(\Phi \to 0\)</span>) this reduces <strong>exactly</strong> to
+the Euler–Bernoulli <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{FF}}\)</span> above, and member releases are
+imposed by the same static condensation used everywhere else.</p>
+<p>The element follows the <em>same flexibility derivation</em> as the non-prismatic
+member, with one addition: applying unit end moments to the released span also
+produces a constant shear <span class="math notranslate nohighlight">\(v = -1/L\)</span> (the support reactions), so the shear
+strain energy adds the term</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{L^2}\int_0^L \frac{dx}{GA_v(x)}
+\]</div>
+<p>to <strong>every</strong> entry of the end-rotation flexibility <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> before inverting
+to <span class="math notranslate nohighlight">\(\mathbf{K}_\theta\)</span> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam._timo_flexibility()</span></code>). For a
+constant <span class="math notranslate nohighlight">\(EI\)</span>/<span class="math notranslate nohighlight">\(GA_v\)</span> this reproduces the closed-form matrix above to machine
+precision; the same single path
+(<a class="reference internal" href="gen/pycba.beam.Beam.html#pycba.beam.Beam.k_timoshenko" title="pycba.beam.Beam.k_timoshenko"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam.k_timoshenko()</span></code></a>) therefore covers prismatic,
+non-prismatic, and variable-shear members. Because this shares the non-prismatic
+machinery, <strong>no per-load fixed-end-force formulae are rewritten</strong>: for a
+prismatic member the shear contribution to the released-span end rotations
+integrates to zero, so the Timoshenko fixed-end moments are the exact closed-form
+transform of the Euler–Bernoulli values,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix} M_a \\ M_b \end{bmatrix}_{\!T}
+= \frac{1}{2(1+\Phi)}
+\begin{bmatrix} 2+\Phi &amp; -\Phi \\ -\Phi &amp; 2+\Phi \end{bmatrix}
+\begin{bmatrix} M_a \\ M_b \end{bmatrix}_{\!EB}
+\end{split}\]</div>
+<p>(<code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.beam.Beam._ref_timoshenko()</span></code>); for a variable <span class="math notranslate nohighlight">\(EI\)</span>/<span class="math notranslate nohighlight">\(GA_v\)</span> the end
+rotations (including the shear term) are obtained by the same breakpoint-aware
+integration. A symmetric load on a prismatic member therefore keeps its
+Euler–Bernoulli fixed-end moments, while an unsymmetric load — or a continuous
+beam — redistributes according to <span class="math notranslate nohighlight">\(\Phi\)</span>.</p>
+<p>In the member-results recovery the reported rotation is the <strong>section rotation</strong>
+<span class="math notranslate nohighlight">\(\psi\)</span> (continuous with the nodal DOF), and the deflection integrates the axis
+slope <span class="math notranslate nohighlight">\(\psi + \gamma\)</span>, i.e. the bending deflection plus the shear contribution
+<span class="math notranslate nohighlight">\(\int V/GA_v\)</span>; for <span class="math notranslate nohighlight">\(GA_v \to \infty\)</span> the shear slope vanishes and the result is
+identical to Euler–Bernoulli.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For slender members (span/depth <span class="math notranslate nohighlight">\(\gtrsim 20\)</span>) the shear deflection is typically
+under a couple of percent; the Timoshenko option matters for deep or short
+members (transfer beams, deep voided slabs, short spans). Shear-deformable
+elements are not currently combined with the nonlinear (plastic-hinge) engine,
+which remains Euler–Bernoulli.</p>
+</div>
 </section>
 </section>
 <section id="global-stiffness-matrix">
@@ -1110,6 +1198,14 @@ inter-nodal loads and the <span class="math notranslate nohighlight">\(M_i, M_j\
 non-prismatic member, or whenever an imposed curvature is present, <span class="math notranslate nohighlight">\(\theta_0\)</span> is
 instead recovered from the kinematic boundary condition <span class="math notranslate nohighlight">\(\delta(L) = v_j\)</span>, which
 is valid for any <span class="math notranslate nohighlight">\(EI(x)\)</span> and curvature field.</p>
+<p>For a <strong>Timoshenko</strong> member the integrated quantity <span class="math notranslate nohighlight">\(\theta(x)\)</span> is the section
+rotation <span class="math notranslate nohighlight">\(\psi\)</span> (from the bending curvature, as above), and the deflection
+integrates the <strong>axis slope</strong> <span class="math notranslate nohighlight">\(\psi + \gamma\)</span> with the shear strain
+<span class="math notranslate nohighlight">\(\gamma = V/GA_v\)</span>, so <span class="math notranslate nohighlight">\(\delta\)</span> carries the additional shear deflection
+<span class="math notranslate nohighlight">\(\int V/GA_v\)</span>. Because the closed-form release correction is Euler–Bernoulli
+only, a released Timoshenko member uses the same kinematic boundary-condition
+recovery as the non-prismatic case. For <span class="math notranslate nohighlight">\(GA_v \to \infty\)</span> the shear slope
+vanishes and the recovery is identical to Euler–Bernoulli.</p>
 </section>
 <section id="linear-superposition-load-cases-and-patterning">
 <h2>Linear superposition, load cases and patterning<a class="headerlink" href="#linear-superposition-load-cases-and-patterning" title="Link to this heading">#</a></h2>
@@ -1340,6 +1436,7 @@ model — are collected with hyperlinks on the <a class="reference internal" hre
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-prismatic-eulerbernoulli-beam-element">The prismatic Euler–Bernoulli beam element</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#element-types-and-moment-releases">Element types and moment releases</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-prismatic-variable-ei-elements">Non-prismatic (variable-<span class="math notranslate nohighlight">\(EI\)</span>) elements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timoshenko-shear-deformable-elements">Timoshenko (shear-deformable) elements</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-stiffness-matrix">Global stiffness matrix</a><ul class="nav section-nav flex-column">

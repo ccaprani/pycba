@@ -1438,6 +1438,7 @@
         <span class="n">LM</span><span class="o">=</span><span class="n">_load_case_loads</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
         <span class="n">eletype</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">),</span>
         <span class="n">D</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">prescribed_displacements</span><span class="p">),</span>
+        <span class="n">GAv</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="s2">&quot;mbr_GAv&quot;</span><span class="p">,</span> <span class="p">[]))</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

@@ -23,11 +23,13 @@ pycba.beam.Beam
       ~Beam.get_ref
       ~Beam.get_span_k
       ~Beam.k_FF
+      ~Beam.k_FF_timo
       ~Beam.k_FP
       ~Beam.k_PF
       ~Beam.k_PP
       ~Beam.k_nonprismatic
       ~Beam.k_theta
+      ~Beam.k_timoshenko
       ~Beam.plot
       ~Beam.save_tikz
       ~Beam.to_tikz

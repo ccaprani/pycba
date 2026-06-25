@@ -562,7 +562,7 @@
 <h1>pycba.analysis.BeamAnalysis<a class="headerlink" href="#pycba-analysis-beamanalysis" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">BeamAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">BeamAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Direct-stiffness continuous beam analyser.</p>
 <p>Assembles the global stiffness matrix from individual span stiffness
@@ -646,6 +646,12 @@ fixed.</p></li>
 vertical spring.  Lowered to <code class="docutils literal notranslate"><span class="pre">R</span></code> via
 <code class="xref py py-func docutils literal notranslate"><span class="pre">supports_to_R()</span></code>; mutually exclusive with <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p>
 </p></li>
+<li><p><strong>GAv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <a class="reference internal" href="pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>) – Transverse shear rigidity <code class="docutils literal notranslate"><span class="pre">G·A_v</span></code> of each span.  A span given a
+finite <code class="docutils literal notranslate"><span class="pre">GAv</span></code> is analysed as a shear-deformable <strong>Timoshenko</strong>
+element; <code class="docutils literal notranslate"><span class="pre">None</span></code> (the default) keeps the exact Euler–Bernoulli
+element.  Broadcasts like <code class="docutils literal notranslate"><span class="pre">EI</span></code>: a single scalar (or one
+<a class="reference internal" href="pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a> for a variable <code class="docutils literal notranslate"><span class="pre">GAv(x)</span></code>) applies
+to all spans, otherwise one entry per span.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -684,10 +690,19 @@ vertical spring.  Lowered to <code class="docutils literal notranslate"><span cl
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_beam" title="pycba.analysis.BeamAnalysis.plot_beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beam</span></code></a></p></td>
 <td><p>Draw a structural schematic of the beam.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bmd</span></code></a></p></td>
+<td><p>Plot the bending-moment diagram.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="pycba.analysis.BeamAnalysis.plot_dsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_dsd</span></code></a></p></td>
+<td><p>Plot the deflected-shape diagram.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
 <td><p>Plot bending moment, shear force, and deflection diagrams.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="pycba.analysis.BeamAnalysis.plot_sfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sfd</span></code></a></p></td>
+<td><p>Plot the shear-force diagram.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
 <td><p>Replace the current load matrix with a new one.</p></td>
 </tr>
 </tbody>
@@ -1003,6 +1018,63 @@ PyCBA result plots; pass an explicit tuple to override.</p></li>
 called yet.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_bmd">
+<span class="sig-name descname"><span class="pre">plot_bmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_bmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="Link to this definition">#</a></dt>
+<dd><p>Plot the bending-moment diagram.</p>
+<p>Uses the sagging-positive convention (the y-axis is inverted so sagging
+appears below the beam line), matching <a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_results()</span></code></a>.  Pass an
+existing <code class="docutils literal notranslate"><span class="pre">ax</span></code> to overlay a second analysis for comparison; the axis is
+set up only on the first call, so the overlay is not re-inverted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into; a new figure is created if omitted.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
+<li><p><strong>**kwargs</strong> – Forwarded to the curve plot (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">ls</span></code>, <code class="docutils literal notranslate"><span class="pre">lw</span></code>, <code class="docutils literal notranslate"><span class="pre">label</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib.axes.Axes or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_sfd">
+<span class="sig-name descname"><span class="pre">plot_sfd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_sfd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="Link to this definition">#</a></dt>
+<dd><p>Plot the shear-force diagram.</p>
+<p>See <a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_bmd()</span></code></a> for the parameters (overlay via <code class="docutils literal notranslate"><span class="pre">ax</span></code>, <code class="docutils literal notranslate"><span class="pre">units</span></code>,
+and matplotlib <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib.axes.Axes or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_dsd">
+<span class="sig-name descname"><span class="pre">plot_dsd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_dsd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="Link to this definition">#</a></dt>
+<dd><p>Plot the deflected-shape diagram.</p>
+<p>See <a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_bmd()</span></code></a> for the parameters (overlay via <code class="docutils literal notranslate"><span class="pre">ax</span></code>, <code class="docutils literal notranslate"><span class="pre">units</span></code>,
+and matplotlib <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib.axes.Axes or None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1068,6 +1140,9 @@ called yet.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.is_stable"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.is_stable()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_beam"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_beam()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_results"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_results()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_bmd"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_bmd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_sfd"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_sfd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_dsd"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_dsd()</span></code></a></li>
 </ul>
 </li>
 </ul>

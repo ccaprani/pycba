@@ -477,6 +477,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.beam</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">LoadMatrix</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamResults</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_LM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
 
 
 <div class="viewcode-block" id="BeamAnalysis">
@@ -510,6 +511,7 @@
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">supports</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a beam analysis object.</span>
@@ -583,6 +585,13 @@
 <span class="sd">            Elastic springs are given as a raw pair, e.g. ``[5e4, 0]`` for a</span>
 <span class="sd">            vertical spring.  Lowered to ``R`` via</span>
 <span class="sd">            :func:`~pycba.supports_to_R`; mutually exclusive with ``R``.</span>
+<span class="sd">        GAv : float, pycba.section.SectionEI, or array_like, optional</span>
+<span class="sd">            Transverse shear rigidity ``G·A_v`` of each span.  A span given a</span>
+<span class="sd">            finite ``GAv`` is analysed as a shear-deformable **Timoshenko**</span>
+<span class="sd">            element; ``None`` (the default) keeps the exact Euler–Bernoulli</span>
+<span class="sd">            element.  Broadcasts like ``EI``: a single scalar (or one</span>
+<span class="sd">            :class:`~pycba.section.SectionEI` for a variable ``GAv(x)``) applies</span>
+<span class="sd">            to all spans, otherwise one entry per span.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -600,7 +609,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">eletype</span> <span class="o">=</span> <span class="n">eletype</span>
         <span class="c1"># Create the beam</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span> <span class="o">=</span> <span class="n">Beam</span><span class="p">(</span>
-            <span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">LM</span><span class="o">=</span><span class="n">LM</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eletype</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="n">supports</span>
+            <span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span>
+            <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span>
+            <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span>
+            <span class="n">LM</span><span class="o">=</span><span class="n">LM</span><span class="p">,</span>
+            <span class="n">eletype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eletype</span><span class="p">,</span>
+            <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span>
+            <span class="n">supports</span><span class="o">=</span><span class="n">supports</span><span class="p">,</span>
+            <span class="n">GAv</span><span class="o">=</span><span class="n">GAv</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">no_spans</span>
@@ -1354,6 +1370,124 @@
         <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plot_diagram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw a single result diagram (bending moment, shear, or deflection).</span>
+
+<span class="sd">        Shared backend for :meth:`plot_bmd`, :meth:`plot_sfd` and</span>
+<span class="sd">        :meth:`plot_dsd`.  When ``ax`` is ``None`` a new figure/axes is</span>
+<span class="sd">        created and fully set up (zero baseline, axis labels, grid, and -- for</span>
+<span class="sd">        the bending moment -- the inverted, sagging-positive y-axis); when an</span>
+<span class="sd">        existing ``ax`` is passed only the curve is added, so a second analysis</span>
+<span class="sd">        can be overlaid for comparison without disturbing the axis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kind : {&quot;M&quot;, &quot;V&quot;, &quot;D&quot;}</span>
+<span class="sd">            Which load effect to draw.</span>
+<span class="sd">        ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">            Axes to draw into; a new figure is created if omitted.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system (see :func:`pycba.set_units`).</span>
+<span class="sd">        figsize : tuple(float, float), optional</span>
+<span class="sd">            Figure size when a new axes is created.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Forwarded to :meth:`matplotlib.axes.Axes.plot` for the curve</span>
+<span class="sd">            (e.g. ``color``, ``ls``, ``lw``, ``label``).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes or None</span>
+<span class="sd">            The axes drawn into, or ``None`` if :meth:`analyze` has not run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">results</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">length</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">deflection_axis</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="p">}[</span><span class="n">kind</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">invert</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span>
+
+<div class="viewcode-block" id="BeamAnalysis.plot_bmd">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_bmd">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_bmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the bending-moment diagram.</span>
+
+<span class="sd">        Uses the sagging-positive convention (the y-axis is inverted so sagging</span>
+<span class="sd">        appears below the beam line), matching :meth:`plot_results`.  Pass an</span>
+<span class="sd">        existing ``ax`` to overlay a second analysis for comparison; the axis is</span>
+<span class="sd">        set up only on the first call, so the overlay is not re-inverted.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">            Axes to draw into; a new figure is created if omitted.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system (see :func:`pycba.set_units`).</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Forwarded to the curve plot (``color``, ``ls``, ``lw``, ``label``).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes or None</span>
+<span class="sd">            The axes drawn into (``None`` before :meth:`analyze`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BeamAnalysis.plot_sfd">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_sfd">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_sfd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the shear-force diagram.</span>
+
+<span class="sd">        See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,</span>
+<span class="sd">        and matplotlib ``**kwargs``).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes or None</span>
+<span class="sd">            The axes drawn into (``None`` before :meth:`analyze`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BeamAnalysis.plot_dsd">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_dsd">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_dsd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the deflected-shape diagram.</span>
+
+<span class="sd">        See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,</span>
+<span class="sd">        and matplotlib ``**kwargs``).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes or None</span>
+<span class="sd">            The axes drawn into (``None`` before :meth:`analyze`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
