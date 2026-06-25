@@ -79,18 +79,21 @@ def test_run_load_model_adds_lane_load():
     assert env_model.Mmax.max() > env_veh.Mmax.max()
 
 
-def test_run_load_model_full_deck_superposition():
-    """With the UDL present at every position (single axle, gap=0), each
-    position's result equals axle-only + full-deck UDL by linearity."""
+def test_run_load_model_udl_runs_under_vehicle():
+    """The default (gap=0) lane UDL is continuous and runs directly beneath the
+    vehicle (M1600 style), so each position's result equals axle-only plus the
+    full-deck UDL by linearity - even for a multi-axle vehicle with finite
+    length."""
     Ls = [10.0, 10.0]
     W, P = 10.0, 200.0
+    spac, wts = np.array([3.0]), np.array([P / 2, P / 2])  # 3 m long, two axles
     ba = BridgeAnalysis(_two_span(Ls))
-    ba.add_vehicle(np.array([]), np.array([P]))
+    ba.add_vehicle(spac, wts)
     ba.run_load_model(step=0.5, w_lane=W, gap=0.0)
     combined = ba.vResults
 
     ba2 = BridgeAnalysis(_two_span(Ls))
-    ba2.add_vehicle(np.array([]), np.array([P]))
+    ba2.add_vehicle(spac, wts)
     ba2.run_vehicle(step=0.5)
     veh_only = ba2.vResults
 
@@ -105,6 +108,24 @@ def test_run_load_model_full_deck_superposition():
         assert np.allclose(
             combined[k].results.M, veh_only[k].results.M + udl_M, atol=1e-6
         )
+
+
+def test_run_load_model_gap_clears_under_vehicle():
+    """A positive gap removes the lane UDL over a length centred on the vehicle,
+    reducing the load near the cleared region."""
+    Ls = [10.0, 10.0]
+    W = 10.0
+    ba = BridgeAnalysis(_two_span(Ls))
+    ba.add_vehicle(np.array([]), np.array([0.0]))  # UDL-only effect
+
+    # Single position with the (zero-weight) axle over the interior support.
+    full = ba.run_load_model(step=20.0, w_lane=W, gap=0.0, pos_start=10.0, pos_end=10.0)
+    gapped = ba.run_load_model(
+        step=20.0, w_lane=W, gap=4.0, pos_start=10.0, pos_end=10.0
+    )
+
+    # Clearing the UDL around the support reduces the hogging there.
+    assert gapped.Mmin.min() > full.Mmin.min()
 
 
 # ---------------------------------------------------------------------------

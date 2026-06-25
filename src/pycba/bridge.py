@@ -451,17 +451,18 @@ class BridgeAnalysis:
         d_from_supports: Optional[float] = None,
     ) -> Envelopes:
         """
-        Run a moving load model: the vehicle together with a co-travelling lane
+        Run a moving load model: the vehicle together with an accompanying lane
         UDL, enveloped over the traverse.
 
         At each vehicle position the axles are placed as point loads (as in
         :meth:`run_vehicle`) and a uniform lane UDL of intensity ``w_lane`` is
-        applied across the whole deck *except* a gap spanning the vehicle
-        footprint ``[pos - vehicle.L, pos]``, optionally widened by ``gap`` on
-        each side.  This supports code load models that pair a notional truck
-        with a lane UDL (e.g. AS5100 M1600, AASHTO HL-93, Eurocode LM1).
+        applied along the deck while the vehicle sweeps across it.  By default
+        the UDL is continuous, running *directly beneath the vehicle* - as for
+        the AS5100 M1600, where the 6 kN/m lane UDL accompanies the truck with
+        no break.  A clear gap centred on the vehicle can be requested via
+        ``gap`` for the load models that specify one.
 
-        The lane UDL is applied over the full deck outside the gap.  For a
+        The lane UDL is applied over the full deck (outside any gap).  For a
         continuous beam, loading only the same-sign influence-line regions can
         be more adverse for a given effect; influence-line patterning of the
         lane UDL is a planned refinement.  To pattern manually, combine separate
@@ -474,10 +475,11 @@ class BridgeAnalysis:
         w_lane : float
             The lane UDL intensity (same sign convention as a beam UDL).
         gap : float, optional
-            Length of deck kept clear of the lane UDL on each side of the
-            vehicle footprint.  The default (``0.0``) clears exactly the
-            footprint; a single-axle vehicle then leaves no gap unless ``gap``
-            is set.
+            Total length of deck kept clear of the lane UDL, centred on the
+            vehicle footprint.  The default (``0.0``) applies the UDL
+            continuously, including directly beneath the vehicle (M1600 style);
+            a positive value clears that length around the vehicle for models
+            that require it.
         plot_env : bool, optional
             Whether to plot the resulting envelope. The default is False.
         pos_start, pos_end : float, optional
@@ -516,9 +518,11 @@ class BridgeAnalysis:
                 pos = pos_start + i * step
                 self.pos.append(pos)
 
-                # Lane UDL across the deck except the gap over the vehicle.
-                excl_lo = pos - self.veh.L - gap
-                excl_hi = pos + gap
+                # Lane UDL along the deck, with an optional clear gap of length
+                # `gap` centred on the vehicle footprint (gap=0 => continuous).
+                centre = pos - 0.5 * self.veh.L
+                excl_lo = centre - 0.5 * gap
+                excl_hi = centre + 0.5 * gap
                 udl_rows = []
                 if excl_lo > 0.0:
                     udl_rows += self._interval_udl_LM(0.0, min(excl_lo, length), w_lane)
