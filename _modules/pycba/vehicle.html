@@ -574,281 +574,571 @@
 <a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">VehicleLibrary</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A repository of some useful vehicles for analysis</span>
+<span class="sd">    A repository of standard bridge design vehicles, grouped by region.</span>
+
+<span class="sd">    Access a vehicle through its region namespace::</span>
+
+<span class="sd">        cba.VehicleLibrary.AU.get_m1600(6.25)     # AS 5100.2 road</span>
+<span class="sd">        cba.VehicleLibrary.AU.get_300la()         # AS 5100.2 rail</span>
+<span class="sd">        cba.VehicleLibrary.US.get_hl93_truck()     # AASHTO LRFD</span>
+<span class="sd">        cba.VehicleLibrary.EU.get_lm71()           # Eurocode EN 1991-2 rail</span>
+<span class="sd">        cba.VehicleLibrary.UK.get_hb(units=45)     # BS 5400 / CS 454</span>
+<span class="sd">        cba.VehicleLibrary.CA.get_cl625()          # CSA S6</span>
+<span class="sd">        cba.VehicleLibrary.CN.get_jtg_vehicle()    # JTG D60</span>
+
+<span class="sd">    Each getter returns a :class:`Vehicle` (axle point loads).  Where a code</span>
+<span class="sd">    pairs the vehicle with a lane / distributed load, that value is given in the</span>
+<span class="sd">    getter&#39;s docstring for use as ``BridgeAnalysis.run_load_model(..., w_lane=)``.</span>
+
+<span class="sd">    Regions</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`AU`</span>
+<span class="sd">        AS 5100.2 and the historical NAASRA models (M1600, S1600, A160, W80,</span>
+<span class="sd">        300LA / LA rail, T44, MS18, ABAG assessment trucks).</span>
+<span class="sd">    :class:`US`</span>
+<span class="sd">        AASHTO LRFD (HL-93) and the AREA / AREMA Cooper E rail series.</span>
+<span class="sd">    :class:`EU`</span>
+<span class="sd">        Eurocode EN 1991-2 (Load Model 1, rail Load Model 71).</span>
+<span class="sd">    :class:`UK`</span>
+<span class="sd">        BS 5400 / CS 454 (HB abnormal vehicle).</span>
+<span class="sd">    :class:`CA`</span>
+<span class="sd">        CSA S6 (CL-625).</span>
+<span class="sd">    :class:`CN`</span>
+<span class="sd">        JTG D60 (standard vehicle).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">abag_bdouble_aw</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="mi">6</span><span class="p">,</span>
-                <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
-                <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="c1"># ================================================================== #</span>
+    <span class="c1"># Australia - AS 5100.2 and the historical NAASRA models</span>
+    <span class="c1"># ================================================================== #</span>
+<div class="viewcode-block" id="VehicleLibrary.AU">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">AU</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Australian road &amp; rail loads: AS 5100.2 and the historical NAASRA models.&quot;&quot;&quot;</span>
+
+        <span class="n">abag_bdouble_aw</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="mi">6</span><span class="p">,</span>
+                    <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="o">*</span> <span class="mf">9.81</span>
+        <span class="p">)</span>  <span class="c1"># t to kN</span>
+
+        <span class="n">abag_bdouble_as</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="p">]</span>
+
+        <span class="n">abag_semitrailer_aw</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="mf">9.81</span>
+        <span class="p">)</span>  <span class="c1"># t to kN</span>
+
+        <span class="n">abag_semitrailer_as</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">10.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="p">]</span>
+
+<div class="viewcode-block" id="VehicleLibrary.AU.get_abag_bdouble">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_abag_bdouble">[docs]</a>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_abag_bdouble</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            One of the Australian Bridge Assessment Guidelines (ABAG) 68.5 t</span>
+<span class="sd">            B-double trucks.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            iax : int</span>
+<span class="sd">                The 0-based index of the variable axle spacing required:</span>
+
+<span class="sd">                    - **0**: Variable spacings are 5.5 and 6.5 from front</span>
+<span class="sd">                    - **1**: Variable spacings are 6.0 and 6.0 from front</span>
+<span class="sd">                    - **2**: Variable spacings are 6.5 and 5.5 from front</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            Vehicle</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_aw</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.AU.get_abag_semitrailer">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_abag_semitrailer">[docs]</a>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_abag_semitrailer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            One of the Australian Bridge Assessment Guidelines (ABAG) 45 t</span>
+<span class="sd">            semi-trailer trucks.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            iax : int</span>
+<span class="sd">                The 0-based index of the variable axle spacing required:</span>
+
+<span class="sd">                    - **0**: Variable spacing is 4.4 m</span>
+<span class="sd">                    - **1**: Variable spacing is 6.4 m</span>
+<span class="sd">                    - **2**: Variable spacing is 8.4 m</span>
+<span class="sd">                    - **3**: Variable spacing is 10.4 m</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            Vehicle</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_aw</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.AU.get_example_permit">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_example_permit">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_example_permit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;An example B-double type truck that might seek a network access permit.&quot;&quot;&quot;</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span><span class="mf">1.793</span><span class="p">,</span> <span class="mf">2.507</span><span class="p">,</span> <span class="mf">1.370</span><span class="p">,</span> <span class="mf">5.403</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">6.303</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">axw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">])</span> <span class="o">*</span> <span class="mf">9.81</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.AU.get_m1600">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_m1600">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_m1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The AS 5100.2 M1600 load model truck: the notional moving-traffic load,</span>
+<span class="sd">            usually critical for short-to-medium spans once the dynamic load</span>
+<span class="sd">            allowance is included.  Accompanied by a 6 kN/m lane UDL (``w_lane=6``).</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            middle_spacing : float</span>
+<span class="sd">                The variable middle axle-group spacing; min. 6.25 m.</span>
+
+<span class="sd">            Raises</span>
+<span class="sd">            ------</span>
+<span class="sd">            ValueError</span>
+<span class="sd">                If the spacing is less than the code minimum of 6.25 m.</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            Vehicle</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">middle_spacing</span> <span class="o">&lt;</span> <span class="mf">6.25</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Min. M1600 middle spacing is 6.25 m&quot;</span><span class="p">)</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">3.75</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="n">middle_spacing</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
             <span class="p">]</span>
-        <span class="p">)</span>
-        <span class="o">*</span> <span class="mf">9.81</span>
-    <span class="p">)</span>  <span class="c1"># t to kN</span>
-
-    <span class="n">abag_bdouble_as</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-    <span class="p">]</span>
-
-    <span class="n">abag_semitrailer_aw</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">17</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">22.5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="mf">9.81</span>
-    <span class="p">)</span>  <span class="c1"># t to kN</span>
-
-    <span class="n">abag_semitrailer_as</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-        <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">10.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-    <span class="p">]</span>
-
-<div class="viewcode-block" id="VehicleLibrary.get_abag_bdouble">
-<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_abag_bdouble">[docs]</a>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_abag_bdouble</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates one of the Australian Bridge Assessment Guidelines (ABAG) 68.5 t</span>
-<span class="sd">        B-double trucks.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        iax : int</span>
-<span class="sd">            The 0-based index of the variable axle spacing required:</span>
-
-<span class="sd">                - **0**: Variable spacings are 5.5 and 6.5 from front</span>
-<span class="sd">                - **1**: Variable spacings are 6.0 and 6.0 from front</span>
-<span class="sd">                - **2**: Variable spacings are 6.5 and 5.5 from front</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Vehicle</span>
-<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_bdouble_aw</span><span class="p">)</span></div>
+            <span class="n">axw</span> <span class="o">=</span> <span class="mi">120</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VehicleLibrary.get_abag_semitrailer">
-<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_abag_semitrailer">[docs]</a>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_abag_semitrailer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iax</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates one of the Australian Bridge Assessment Guidelines (ABAG) 45 t</span>
-<span class="sd">        semi-trailer trucks</span>
+<div class="viewcode-block" id="VehicleLibrary.AU.get_s1600">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_s1600">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_s1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The AS 5100.2 S1600 load model truck: the notional stationary-traffic</span>
+<span class="sd">            load, critical for longer spans.  Accompanied by a 24 kN/m lane UDL</span>
+<span class="sd">            (``w_lane=24``).</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        iax : int</span>
-<span class="sd">            The 0-based index of the variable axle spacing required:</span>
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            middle_spacing : float</span>
+<span class="sd">                The variable middle axle-group spacing; min. 6.25 m.</span>
 
-<span class="sd">                - **0**: Variable spacing is 4.4 m</span>
-<span class="sd">                - **1**: Variable spacing is 6.4 m</span>
-<span class="sd">                - **2**: Variable spacing is 8.4 m</span>
-<span class="sd">                - **3**: Variable spacing is 10.4 m</span>
+<span class="sd">            Raises</span>
+<span class="sd">            ------</span>
+<span class="sd">            ValueError</span>
+<span class="sd">                If the spacing is less than the code minimum of 6.25 m.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Vehicle</span>
-<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_as</span><span class="p">[</span><span class="n">iax</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">abag_semitrailer_aw</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="VehicleLibrary.get_example_permit">
-<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_example_permit">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_example_permit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        An example B-double type truck that might seek a network access permit.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Vehicle</span>
-<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.793</span><span class="p">,</span> <span class="mf">2.507</span><span class="p">,</span> <span class="mf">1.370</span><span class="p">,</span> <span class="mf">5.403</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">6.303</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">,</span> <span class="mf">1.232</span><span class="p">])</span>
-        <span class="n">axw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">])</span> <span class="o">*</span> <span class="mf">9.81</span>
-        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            Vehicle</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">middle_spacing</span> <span class="o">&lt;</span> <span class="mf">6.25</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Min. S1600 middle spacing is 6.25 m&quot;</span><span class="p">)</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">3.75</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="n">middle_spacing</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+                <span class="mf">1.25</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="n">axw</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VehicleLibrary.get_m1600">
-<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_m1600">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_m1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The AS5100 M1600 load model truck. This is the notional load model for</span>
-<span class="sd">        moving traffic and is usually critical for short to medium span bridges</span>
-<span class="sd">        once the dyanmic load allowance is included.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        middle_spacing : float</span>
-<span class="sd">            The spacing for the variable middle axle spacing; min. 6.25 m.</span>
-
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        ValueError</span>
-<span class="sd">            If the supplied spacing is less than the code-specified minimum</span>
-<span class="sd">            of 6.25 m.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Vehicle</span>
-<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">middle_spacing</span> <span class="o">&lt;</span> <span class="mf">6.25</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Min. M1600 middle spacing is 6.25 m&quot;</span><span class="p">)</span>
-        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">3.75</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="n">middle_spacing</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">5.0</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-        <span class="p">]</span>
-        <span class="n">axw</span> <span class="o">=</span> <span class="mi">120</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
+<div class="viewcode-block" id="VehicleLibrary.AU.get_a160">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_a160">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_a160</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;AS 5100.2 A160 individual axle load (cl 7.2): a single 160 kN axle.&quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">160.0</span><span class="p">]))</span></div>
 
 
-<div class="viewcode-block" id="VehicleLibrary.get_s1600">
-<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_s1600">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_s1600</span><span class="p">(</span><span class="n">middle_spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The AS5100 S1600 load model truck. This is the notional load model for</span>
-<span class="sd">        stationary traffic and is criticial for longer spans.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        middle_spacing : float</span>
-<span class="sd">            The spacing for the variable middle axle spacing; min. 6.25 m.</span>
-
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        ValueError</span>
-<span class="sd">            If the supplied spacing is less than the code-specified minimum</span>
-<span class="sd">            of 6.25 m.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Vehicle</span>
-<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">middle_spacing</span> <span class="o">&lt;</span> <span class="mf">6.25</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Min. S1600 middle spacing is 6.25 m&quot;</span><span class="p">)</span>
-        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">3.75</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="n">middle_spacing</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">5.0</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-            <span class="mf">1.25</span><span class="p">,</span>
-        <span class="p">]</span>
-        <span class="n">axw</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
+<div class="viewcode-block" id="VehicleLibrary.AU.get_w80">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_w80">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_w80</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;AS 5100.2 W80 individual wheel load (cl 7.2): a single 80 kN wheel.&quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">80.0</span><span class="p">]))</span></div>
 
 
+<div class="viewcode-block" id="VehicleLibrary.AU.get_la_rail">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_la_rail">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_la_rail</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">axle_group_spacing</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">axle_weight</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The AS 5100.2 LA rail load model, including the simulated locomotive.</span>
+<span class="sd">            The default 300 kN axle weight is the 300LA; pass ``axle_weight`` for</span>
+<span class="sd">            other variants (e.g. 250, 150).</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            axle_group_count : int</span>
+<span class="sd">                The number of axle groups; enough to cover the adverse portion of</span>
+<span class="sd">                the influence line for the component being examined.</span>
+<span class="sd">            axle_group_spacing : float</span>
+<span class="sd">                Centre-to-centre group spacing, min. 12 m, max. 20 m (not a gap).</span>
+<span class="sd">            axle_weight : float</span>
+<span class="sd">                The nominal axle weight. Default 300 kN (300LA).</span>
+
+<span class="sd">            Raises</span>
+<span class="sd">            ------</span>
+<span class="sd">            ValueError</span>
+<span class="sd">                If the group spacing is outside 12-20 m, or the group count &lt; 1.</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            Vehicle</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">axle_group_spacing</span> <span class="o">&lt;</span> <span class="mf">12.0</span> <span class="ow">or</span> <span class="n">axle_group_spacing</span> <span class="o">&gt;</span> <span class="mf">20.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Axle group spacing should be between 12 and 20 m&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">axle_group_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need at least one axle group&quot;</span><span class="p">)</span>
+
+            <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">]</span>  <span class="c1"># simulated locomotive</span>
+            <span class="n">axw</span> <span class="o">=</span> <span class="p">[</span><span class="mf">360.0</span><span class="p">]</span>
+            <span class="n">single_ags</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">]</span>
+            <span class="n">single_agw</span> <span class="o">=</span> <span class="p">[</span><span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">]</span>
+            <span class="n">group_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">single_ags</span><span class="p">)</span>
+
+            <span class="n">axs</span> <span class="o">+=</span> <span class="n">single_ags</span>
+            <span class="n">axw</span> <span class="o">+=</span> <span class="n">single_agw</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">axle_group_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">axs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">axle_group_spacing</span> <span class="o">-</span> <span class="n">group_length</span><span class="p">]</span> <span class="o">+</span> <span class="n">single_ags</span>
+                <span class="n">axw</span> <span class="o">+=</span> <span class="n">single_agw</span>
+
+            <span class="n">axw</span> <span class="o">=</span> <span class="p">(</span><span class="n">axle_weight</span> <span class="o">/</span> <span class="mf">300.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axw</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axs</span><span class="p">),</span> <span class="n">axw</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.AU.get_300la">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_300la">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_300la</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">axle_group_spacing</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;The AS 5100.2 300LA rail load model (:meth:`get_la_rail` with 300 kN axles).&quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_la_rail</span><span class="p">(</span>
+                <span class="n">axle_group_count</span><span class="p">,</span> <span class="n">axle_group_spacing</span><span class="p">,</span> <span class="n">axle_weight</span><span class="o">=</span><span class="mf">300.0</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.AU.get_t44">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_t44">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_t44</span><span class="p">(</span><span class="n">variable_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            NAASRA / AUSTROADS T44 design truck (the pre-M1600 Australian road</span>
+<span class="sd">            load): a 48 kN steer axle and two tandem groups (4 x 96 kN), 432 kN</span>
+<span class="sd">            total.  Axles at 3.7 m (steer to first tandem), 1.2 m within each</span>
+<span class="sd">            tandem, and a variable 3.0-8.0 m gap between the tandem groups.  The</span>
+<span class="sd">            companion L44 lane load is 12.5 kN/m plus a 150 kN concentrated load</span>
+<span class="sd">            per 3 m lane.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            variable_spacing : float</span>
+<span class="sd">                The gap between the two tandem groups, 3.0-8.0 m (default 3.0).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">&lt;=</span> <span class="n">variable_spacing</span> <span class="o">&lt;=</span> <span class="mf">8.0</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;T44 tandem-group spacing must be between 3.0 and 8.0 m&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.7</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">variable_spacing</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">48.0</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">]),</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.AU.get_ms18">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.AU.get_ms18">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_ms18</span><span class="p">(</span><span class="n">rear_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.27</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            NAASRA MS18 design truck - the metric form of the AASHTO HS20-44</span>
+<span class="sd">            truck: three axles of 35.6, 142.3 and 142.3 kN (8 / 32 / 32 kip).  The</span>
+<span class="sd">            front-to-drive spacing is fixed at 4.27 m; the rear (trailer) spacing</span>
+<span class="sd">            is varied 4.27-9.14 m for the worst effect.  The companion lane load is</span>
+<span class="sd">            9.34 kN/m plus an 80 kN (moment) / 115 kN (shear) concentrated load.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            rear_spacing : float</span>
+<span class="sd">                The variable rear-axle spacing, 4.27-9.14 m (default 4.27).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">4.27</span> <span class="o">&lt;=</span> <span class="n">rear_spacing</span> <span class="o">&lt;=</span> <span class="mf">9.14</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;MS18 rear axle spacing must be between 4.27 and 9.14 m&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.27</span><span class="p">,</span> <span class="n">rear_spacing</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">35.6</span><span class="p">,</span> <span class="mf">142.3</span><span class="p">,</span> <span class="mf">142.3</span><span class="p">])</span>
+            <span class="p">)</span></div>
+</div>
+
+
+    <span class="c1"># ================================================================== #</span>
+    <span class="c1"># United States - AASHTO LRFD and the AREA / AREMA Cooper rail series</span>
+    <span class="c1"># ================================================================== #</span>
+<div class="viewcode-block" id="VehicleLibrary.US">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.US">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">US</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;US road &amp; rail loads: AASHTO LRFD (HL-93) and the AREA Cooper E series.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VehicleLibrary.US.get_hl93_truck">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.US.get_hl93_truck">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_hl93_truck</span><span class="p">(</span><span class="n">rear_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            AASHTO LRFD HL-93 design truck (Art. 3.6.1.2.2): three axles of 35, 145</span>
+<span class="sd">            and 145 kN.  The front-to-middle spacing is fixed at 4.3 m; the rear</span>
+<span class="sd">            (middle-to-back) spacing is varied 4.3-9.0 m to maximise the effect.</span>
+<span class="sd">            HL-93 is the truck (or the tandem, whichever governs) combined with the</span>
+<span class="sd">            design lane load (``w_lane=9.3`` kN/m); the 33% dynamic load allowance</span>
+<span class="sd">            applies to the truck only.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            rear_spacing : float</span>
+<span class="sd">                The variable middle-to-rear axle spacing, 4.3-9.0 m (default 4.3).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">4.3</span> <span class="o">&lt;=</span> <span class="n">rear_spacing</span> <span class="o">&lt;=</span> <span class="mf">9.0</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;HL-93 rear axle spacing must be between 4.3 and 9.0 m&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.3</span><span class="p">,</span> <span class="n">rear_spacing</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">35.0</span><span class="p">,</span> <span class="mf">145.0</span><span class="p">,</span> <span class="mf">145.0</span><span class="p">])</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.US.get_hl93_tandem">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.US.get_hl93_tandem">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_hl93_tandem</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            AASHTO LRFD HL-93 design tandem (Art. 3.6.1.2.3): two 110 kN axles at</span>
+<span class="sd">            1.2 m.  Combined with the design lane load (``w_lane=9.3`` kN/m); the</span>
+<span class="sd">            heavier of the truck and tandem governs.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.2</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">110.0</span><span class="p">,</span> <span class="mf">110.0</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.US.get_cooper">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.US.get_cooper">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_cooper</span><span class="p">(</span><span class="n">E</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">80.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            AREA / AREMA Cooper E-series rail load: two locomotives in series</span>
+<span class="sd">            (each a lead axle, four driving axles and a four-axle tender),</span>
+<span class="sd">            conventionally followed by a uniform trailing load.  The axle pattern</span>
+<span class="sd">            is the standard Cooper E10 reference scaled linearly by the E-number</span>
+<span class="sd">            ``E`` (the maximum driving-axle load, in kips); e.g. ``E=80`` is the</span>
+<span class="sd">            common Cooper E80.</span>
+
+<span class="sd">            Per locomotive the E10 axle loads are 5, 10, 10, 10, 10 (lead + four</span>
+<span class="sd">            drivers) and 6.5 x 4 (tender), at spacings 8, 5, 5, 5, 9, 5, 6, 5 ft,</span>
+<span class="sd">            with an 8 ft coupling between the two locomotives; values are returned</span>
+<span class="sd">            in kN and m.  The trailing uniform load is ``E/10`` kip/ft - apply it</span>
+<span class="sd">            as ``w_lane`` (about ``1.46 * E`` kN/m; E80 ~ 117 kN/m).</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            E : float</span>
+<span class="sd">                The Cooper E-number (maximum driving-axle load in kips). Default 80.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">KIP</span><span class="p">,</span> <span class="n">FT</span> <span class="o">=</span> <span class="mf">4.4482216</span><span class="p">,</span> <span class="mf">0.3048</span>
+            <span class="n">loco_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">])</span>  <span class="c1"># E10, kip</span>
+            <span class="n">loco_s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>  <span class="c1"># ft, within a locomotive</span>
+            <span class="n">coupling</span> <span class="o">=</span> <span class="mf">8.0</span>  <span class="c1"># ft, between the two locomotives</span>
+            <span class="n">axw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">loco_w</span><span class="p">,</span> <span class="n">loco_w</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">E</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">KIP</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">loco_s</span> <span class="o">+</span> <span class="p">[</span><span class="n">coupling</span><span class="p">]</span> <span class="o">+</span> <span class="n">loco_s</span><span class="p">)</span> <span class="o">*</span> <span class="n">FT</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">axw</span><span class="p">)</span></div>
+</div>
+
+
+    <span class="c1"># ================================================================== #</span>
+    <span class="c1"># Europe - Eurocode EN 1991-2</span>
+    <span class="c1"># ================================================================== #</span>
+<div class="viewcode-block" id="VehicleLibrary.EU">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.EU">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">EU</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;European road &amp; rail loads: Eurocode EN 1991-2.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VehicleLibrary.EU.get_lm1">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.EU.get_lm1">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_lm1</span><span class="p">(</span><span class="n">alpha_Q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Eurocode EN 1991-2 Load Model 1 tandem system (TS), Lane 1 (Table 4.2):</span>
+<span class="sd">            two 300 kN axles at 1.2 m.  Accompanied by the Lane-1 UDL of 9 kN/m2,</span>
+<span class="sd">            i.e. ``w_lane=27`` kN/m over the 3 m notional lane.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            alpha_Q : float</span>
+<span class="sd">                National-Annex adjustment factor on the axle loads (default 1.0).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">Q</span> <span class="o">=</span> <span class="mf">300.0</span> <span class="o">*</span> <span class="n">alpha_Q</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.2</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Q</span><span class="p">,</span> <span class="n">Q</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="VehicleLibrary.EU.get_lm71">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.EU.get_lm71">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_lm71</span><span class="p">(</span><span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Eurocode EN 1991-2 rail Load Model 71 (cl 6.3.2): four 250 kN axles at</span>
+<span class="sd">            1.6 m centres, with two 80 kN/m distributed loads acting on each side</span>
+<span class="sd">            starting 0.8 m beyond the outer axles (use ``w_lane=80`` for the</span>
+<span class="sd">            distributed component).</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            alpha : float</span>
+<span class="sd">                Classification factor (0.75-1.46; default 1.0).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">Q</span> <span class="o">=</span> <span class="mf">250.0</span> <span class="o">*</span> <span class="n">alpha</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">Q</span><span class="p">))</span></div>
+</div>
+
+
+    <span class="c1"># ================================================================== #</span>
+    <span class="c1"># United Kingdom - BS 5400 / CS 454</span>
+    <span class="c1"># ================================================================== #</span>
+<div class="viewcode-block" id="VehicleLibrary.UK">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.UK">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">UK</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;UK road loads: BS 5400 / CS 454.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VehicleLibrary.UK.get_hb">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.UK.get_hb">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_hb</span><span class="p">(</span><span class="n">units</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">45.0</span><span class="p">,</span> <span class="n">inner_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            BS 5400-2 / CS 454 HB abnormal vehicle (cl 6.3): a four-axle bogie,</span>
+<span class="sd">            each axle ``units x 10`` kN, at spacings 1.8, ``inner_spacing`` and</span>
+<span class="sd">            1.8 m.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            units : float</span>
+<span class="sd">                Number of HB units, typically 25-45 (250-450 kN/axle). Default 45.</span>
+<span class="sd">            inner_spacing : float</span>
+<span class="sd">                The variable inner spacing; the code uses 6, 11, 16, 21 or 26 m for</span>
+<span class="sd">                the worst effect. Default 6 m.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">P</span> <span class="o">=</span> <span class="n">units</span> <span class="o">*</span> <span class="mf">10.0</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">inner_spacing</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span></div>
+</div>
+
+
+    <span class="c1"># ================================================================== #</span>
+    <span class="c1"># Canada - CSA S6</span>
+    <span class="c1"># ================================================================== #</span>
+<div class="viewcode-block" id="VehicleLibrary.CA">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.CA">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">CA</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Canadian road loads: CSA S6.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VehicleLibrary.CA.get_cl625">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.CA.get_cl625">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_cl625</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            CSA S6 CL-625 design truck (cl 3.8.3.1.2): five axles of 50, 125, 125,</span>
+<span class="sd">            175 and 150 kN (625 kN total) at spacings 3.6, 1.2, 6.6 and 6.6 m.  The</span>
+<span class="sd">            CL-625 lane load is 80% of these axle loads superimposed on a</span>
+<span class="sd">            ``w_lane=9`` kN/m UDL.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.6</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">]),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">125.0</span><span class="p">,</span> <span class="mf">125.0</span><span class="p">,</span> <span class="mf">175.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">]),</span>
+            <span class="p">)</span></div>
+</div>
+
+
+    <span class="c1"># ================================================================== #</span>
+    <span class="c1"># China - JTG D60</span>
+    <span class="c1"># ================================================================== #</span>
+<div class="viewcode-block" id="VehicleLibrary.CN">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.CN">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">CN</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Chinese road loads: JTG D60.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VehicleLibrary.CN.get_jtg_vehicle">
+<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.CN.get_jtg_vehicle">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_jtg_vehicle</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            China JTG D60-2015 standard vehicle load (vehicle load, cl 4.3.1): five</span>
+<span class="sd">            axles of 30, 120, 120, 140 and 140 kN (550 kN total) at spacings 3.0,</span>
+<span class="sd">            1.4, 7.0 and 1.4 m.  The companion lane load is a span-dependent UDL</span>
+<span class="sd">            (10.5 kN/m for Highway Class I) plus a concentrated load.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">]),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mf">140.0</span><span class="p">,</span> <span class="mf">140.0</span><span class="p">]),</span>
+            <span class="p">)</span></div>
+</div>
+
+
+    <span class="c1"># ------------------------------------------------------------------ #</span>
+    <span class="c1"># Non-regional helpers</span>
+    <span class="c1"># ------------------------------------------------------------------ #</span>
 <div class="viewcode-block" id="VehicleLibrary.get_validation_truck">
 <a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_validation_truck">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_validation_truck</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Vehicle</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A set of moving loads used for validation on a 20 m span against the</span>
-<span class="sd">        textbook, &quot;Structural and Stress Analysis&quot;&quot;, 2nd edn., Megson, p. 579.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Vehicle</span>
-<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
+<span class="sd">        textbook &quot;Structural and Stress Analysis&quot;, 2nd edn., Megson, p. 579.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span></div>
-
-
-<div class="viewcode-block" id="VehicleLibrary.get_la_rail">
-<a class="viewcode-back" href="../../gen/pycba.vehicle.VehicleLibrary.html#pycba.vehicle.VehicleLibrary.get_la_rail">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_la_rail</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">axle_group_spacing</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">axle_weight</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The AS5100.2 LA rail load model, including the simulated locomotive.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        axle_group_count : int</span>
-<span class="sd">            The number of axle groups. This should be sufficient to cover the</span>
-<span class="sd">            adverse portion of the influence line for the component being</span>
-<span class="sd">            examined.</span>
-
-<span class="sd">        axle_weight : float</span>
-<span class="sd">            The nominal axle weight. Default is 300 kN, but 150LA and others are</span>
-<span class="sd">            also used.</span>
-
-<span class="sd">        axle_group_spacing : float</span>
-<span class="sd">            The spacing between each axle group, min. 12 m, max. 20 m. Note</span>
-<span class="sd">            that this is not a gap but the centre-of-group to centre-of-group</span>
-<span class="sd">            distance.</span>
-
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        ValueError</span>
-<span class="sd">            If the supplied axle group spacing is outside the code-specified</span>
-<span class="sd">            limits of 12 to 20 m, or the number of axle groups is &lt; 1.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Vehicle</span>
-<span class="sd">            The :class:`pycba.bridge.Vehicle` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="n">axle_group_spacing</span> <span class="o">&lt;</span> <span class="mf">12.0</span> <span class="ow">or</span> <span class="n">axle_group_spacing</span> <span class="o">&gt;</span> <span class="mf">20.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Axle group spacing should be between 12 and 20 m&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">axle_group_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need at least one axle group&quot;</span><span class="p">)</span>
-
-        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">]</span>  <span class="c1"># simulated locomotive</span>
-        <span class="n">axw</span> <span class="o">=</span> <span class="p">[</span><span class="mf">360.0</span><span class="p">]</span>
-        <span class="n">single_ags</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">]</span>
-        <span class="n">single_agw</span> <span class="o">=</span> <span class="p">[</span><span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">]</span>
-        <span class="n">group_length</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">single_ags</span><span class="p">)</span>
-
-        <span class="c1"># first group</span>
-        <span class="n">axs</span> <span class="o">+=</span> <span class="n">single_ags</span>
-        <span class="n">axw</span> <span class="o">+=</span> <span class="n">single_agw</span>
-
-        <span class="c1"># additional groups</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">axle_group_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">axs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">axle_group_spacing</span> <span class="o">-</span> <span class="n">group_length</span><span class="p">]</span> <span class="o">+</span> <span class="n">single_ags</span>
-            <span class="n">axw</span> <span class="o">+=</span> <span class="n">single_agw</span>
-
-        <span class="c1"># Now scale the weights</span>
-        <span class="n">axw</span> <span class="o">=</span> <span class="p">(</span><span class="n">axle_weight</span> <span class="o">/</span> <span class="mf">300.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axw</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axs</span><span class="p">),</span> <span class="n">axw</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

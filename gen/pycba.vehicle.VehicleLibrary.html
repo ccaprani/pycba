@@ -585,66 +585,65 @@
 <dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">VehicleLibrary</span></span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A repository of some useful vehicles for analysis</p>
+<p>A repository of standard bridge design vehicles, grouped by region.</p>
+<p>Access a vehicle through its region namespace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>     <span class="c1"># AS 5100.2 road</span>
+<span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_300la</span><span class="p">()</span>         <span class="c1"># AS 5100.2 rail</span>
+<span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">US</span><span class="o">.</span><span class="n">get_hl93_truck</span><span class="p">()</span>     <span class="c1"># AASHTO LRFD</span>
+<span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">EU</span><span class="o">.</span><span class="n">get_lm71</span><span class="p">()</span>           <span class="c1"># Eurocode EN 1991-2 rail</span>
+<span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">UK</span><span class="o">.</span><span class="n">get_hb</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>     <span class="c1"># BS 5400 / CS 454</span>
+<span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">CA</span><span class="o">.</span><span class="n">get_cl625</span><span class="p">()</span>          <span class="c1"># CSA S6</span>
+<span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">CN</span><span class="o">.</span><span class="n">get_jtg_vehicle</span><span class="p">()</span>    <span class="c1"># JTG D60</span>
+</pre></div>
+</div>
+<p>Each getter returns a <a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a> (axle point loads).  Where a code
+pairs the vehicle with a lane / distributed load, that value is given in the
+getter’s docstring for use as <code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.run_load_model(...,</span> <span class="pre">w_lane=)</span></code>.</p>
+<section id="regions">
+<h2>Regions<a class="headerlink" href="#regions" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.AU" title="pycba.vehicle.VehicleLibrary.AU"><code class="xref py py-class docutils literal notranslate"><span class="pre">AU</span></code></a></dt><dd><p>AS 5100.2 and the historical NAASRA models (M1600, S1600, A160, W80,
+300LA / LA rail, T44, MS18, ABAG assessment trucks).</p>
+</dd>
+<dt><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.US" title="pycba.vehicle.VehicleLibrary.US"><code class="xref py py-class docutils literal notranslate"><span class="pre">US</span></code></a></dt><dd><p>AASHTO LRFD (HL-93) and the AREA / AREMA Cooper E rail series.</p>
+</dd>
+<dt><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.EU" title="pycba.vehicle.VehicleLibrary.EU"><code class="xref py py-class docutils literal notranslate"><span class="pre">EU</span></code></a></dt><dd><p>Eurocode EN 1991-2 (Load Model 1, rail Load Model 71).</p>
+</dd>
+<dt><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.UK" title="pycba.vehicle.VehicleLibrary.UK"><code class="xref py py-class docutils literal notranslate"><span class="pre">UK</span></code></a></dt><dd><p>BS 5400 / CS 454 (HB abnormal vehicle).</p>
+</dd>
+<dt><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.CA" title="pycba.vehicle.VehicleLibrary.CA"><code class="xref py py-class docutils literal notranslate"><span class="pre">CA</span></code></a></dt><dd><p>CSA S6 (CL-625).</p>
+</dd>
+<dt><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.CN" title="pycba.vehicle.VehicleLibrary.CN"><code class="xref py py-class docutils literal notranslate"><span class="pre">CN</span></code></a></dt><dd><p>JTG D60 (standard vehicle).</p>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_abag_bdouble" title="pycba.vehicle.VehicleLibrary.get_abag_bdouble"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_abag_bdouble</span></code></a></p></td>
-<td><p>Creates one of the Australian Bridge Assessment Guidelines (ABAG) 68.5 t B-double trucks.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_abag_semitrailer" title="pycba.vehicle.VehicleLibrary.get_abag_semitrailer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_abag_semitrailer</span></code></a></p></td>
-<td><p>Creates one of the Australian Bridge Assessment Guidelines (ABAG) 45 t semi-trailer trucks</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_example_permit" title="pycba.vehicle.VehicleLibrary.get_example_permit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_example_permit</span></code></a></p></td>
-<td><p>An example B-double type truck that might seek a network access permit.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_la_rail" title="pycba.vehicle.VehicleLibrary.get_la_rail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_la_rail</span></code></a></p></td>
-<td><p>The AS5100.2 LA rail load model, including the simulated locomotive.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_m1600" title="pycba.vehicle.VehicleLibrary.get_m1600"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_m1600</span></code></a></p></td>
-<td><p>The AS5100 M1600 load model truck.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_s1600" title="pycba.vehicle.VehicleLibrary.get_s1600"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_s1600</span></code></a></p></td>
-<td><p>The AS5100 S1600 load model truck.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_validation_truck" title="pycba.vehicle.VehicleLibrary.get_validation_truck"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_validation_truck</span></code></a></p></td>
-<td><p>A set of moving loads used for validation on a 20 m span against the textbook, &quot;Structural and Stress Analysis&quot;&quot;, 2nd edn., Megson, p.</p></td>
+<td><p>A set of moving loads used for validation on a 20 m span against the textbook &quot;Structural and Stress Analysis&quot;, 2nd edn., Megson, p.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">abag_bdouble_as</span></code></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.abag_bdouble_aw" title="pycba.vehicle.VehicleLibrary.abag_bdouble_aw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">abag_bdouble_aw</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">abag_semitrailer_as</span></code></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.abag_semitrailer_aw" title="pycba.vehicle.VehicleLibrary.abag_semitrailer_aw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">abag_semitrailer_aw</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">AU</span></span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Australian road &amp; rail loads: AS 5100.2 and the historical NAASRA models.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.abag_bdouble_aw">
-<span class="sig-name descname"><span class="pre">abag_bdouble_aw</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([58.86</span> <span class="pre">,</span> <span class="pre">83.385,</span> <span class="pre">83.385,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">73.575])</span></span><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.abag_bdouble_aw" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.abag_bdouble_aw">
+<span class="sig-name descname"><span class="pre">abag_bdouble_aw</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([58.86</span> <span class="pre">,</span> <span class="pre">83.385,</span> <span class="pre">83.385,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span> <span class="pre">73.575,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">73.575])</span></span><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.abag_bdouble_aw" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.abag_semitrailer_aw">
-<span class="sig-name descname"><span class="pre">abag_semitrailer_aw</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([</span> <span class="pre">58.86</span>&#160; <span class="pre">,</span>&#160; <span class="pre">83.385</span> <span class="pre">,</span>&#160; <span class="pre">83.385</span> <span class="pre">,</span> <span class="pre">110.3625,</span> <span class="pre">110.3625,</span>&#160; <span class="pre">73.575</span> <span class="pre">])</span></span><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.abag_semitrailer_aw" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.abag_semitrailer_aw">
+<span class="sig-name descname"><span class="pre">abag_semitrailer_aw</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([</span> <span class="pre">58.86</span>&#160; <span class="pre">,</span>&#160; <span class="pre">83.385</span> <span class="pre">,</span>&#160; <span class="pre">83.385</span> <span class="pre">,</span> <span class="pre">110.3625,</span> <span class="pre">110.3625,</span>&#160; <span class="pre">73.575</span> <span class="pre">])</span></span><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.abag_semitrailer_aw" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.get_abag_bdouble">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_abag_bdouble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.get_abag_bdouble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.get_abag_bdouble" title="Link to this definition">#</a></dt>
-<dd><p>Creates one of the Australian Bridge Assessment Guidelines (ABAG) 68.5 t
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_abag_bdouble">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_abag_bdouble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_abag_bdouble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_abag_bdouble" title="Link to this definition">#</a></dt>
+<dd><p>One of the Australian Bridge Assessment Guidelines (ABAG) 68.5 t
 B-double trucks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -658,20 +657,17 @@ B-double trucks.</p>
 </div></blockquote>
 </p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.get_abag_semitrailer">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_abag_semitrailer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.get_abag_semitrailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.get_abag_semitrailer" title="Link to this definition">#</a></dt>
-<dd><p>Creates one of the Australian Bridge Assessment Guidelines (ABAG) 45 t
-semi-trailer trucks</p>
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_abag_semitrailer">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_abag_semitrailer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_abag_semitrailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_abag_semitrailer" title="Link to this definition">#</a></dt>
+<dd><p>One of the Australian Bridge Assessment Guidelines (ABAG) 45 t
+semi-trailer trucks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>iax</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – <p>The 0-based index of the variable axle spacing required:</p>
@@ -685,25 +681,35 @@ semi-trailer trucks</p>
 </div></blockquote>
 </p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.get_example_permit">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_example_permit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.get_example_permit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.get_example_permit" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_example_permit">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_example_permit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_example_permit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_example_permit" title="Link to this definition">#</a></dt>
 <dd><p>An example B-double type truck that might seek a network access permit.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_m1600">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_m1600</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">middle_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_m1600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_m1600" title="Link to this definition">#</a></dt>
+<dd><p>The AS 5100.2 M1600 load model truck: the notional moving-traffic load,
+usually critical for short-to-medium spans once the dynamic load
+allowance is included.  Accompanied by a 6 kN/m lane UDL (<code class="docutils literal notranslate"><span class="pre">w_lane=6</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>middle_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The variable middle axle-group spacing; min. 6.25 m.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the spacing is less than the code minimum of 6.25 m.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
@@ -712,21 +718,93 @@ semi-trailer trucks</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.get_m1600">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_m1600</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">middle_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.get_m1600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.get_m1600" title="Link to this definition">#</a></dt>
-<dd><p>The AS5100 M1600 load model truck. This is the notional load model for
-moving traffic and is usually critical for short to medium span bridges
-once the dyanmic load allowance is included.</p>
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_s1600">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_s1600</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">middle_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_s1600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_s1600" title="Link to this definition">#</a></dt>
+<dd><p>The AS 5100.2 S1600 load model truck: the notional stationary-traffic
+load, critical for longer spans.  Accompanied by a 24 kN/m lane UDL
+(<code class="docutils literal notranslate"><span class="pre">w_lane=24</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>middle_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The spacing for the variable middle axle spacing; min. 6.25 m.</p>
+<dd class="field-odd"><p><strong>middle_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The variable middle axle-group spacing; min. 6.25 m.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the supplied spacing is less than the code-specified minimum
-    of 6.25 m.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the spacing is less than the code minimum of 6.25 m.</p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_a160">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_a160</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_a160"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_a160" title="Link to this definition">#</a></dt>
+<dd><p>AS 5100.2 A160 individual axle load (cl 7.2): a single 160 kN axle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_w80">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_w80</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_w80"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_w80" title="Link to this definition">#</a></dt>
+<dd><p>AS 5100.2 W80 individual wheel load (cl 7.2): a single 80 kN wheel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_la_rail">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_la_rail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axle_group_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axle_group_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axle_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_la_rail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_la_rail" title="Link to this definition">#</a></dt>
+<dd><p>The AS 5100.2 LA rail load model, including the simulated locomotive.
+The default 300 kN axle weight is the 300LA; pass <code class="docutils literal notranslate"><span class="pre">axle_weight</span></code> for
+other variants (e.g. 250, 150).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>axle_group_count</strong> (<em>int</em>) – The number of axle groups; enough to cover the adverse portion of
+the influence line for the component being examined.</p></li>
+<li><p><strong>axle_group_spacing</strong> (<em>float</em>) – Centre-to-centre group spacing, min. 12 m, max. 20 m (not a gap).</p></li>
+<li><p><strong>axle_weight</strong> (<em>float</em>) – The nominal axle weight. Default 300 kN (300LA).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the group spacing is outside 12-20 m, or the group count &lt; 1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle">Vehicle</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_300la">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_300la</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axle_group_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axle_group_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_300la"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_300la" title="Link to this definition">#</a></dt>
+<dd><p>The AS 5100.2 300LA rail load model (<a class="reference internal" href="#pycba.vehicle.VehicleLibrary.AU.get_la_rail" title="pycba.vehicle.VehicleLibrary.AU.get_la_rail"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_la_rail()</span></code></a> with 300 kN axles).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_t44">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_t44</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_t44"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_t44" title="Link to this definition">#</a></dt>
+<dd><p>NAASRA / AUSTROADS T44 design truck (the pre-M1600 Australian road
+load): a 48 kN steer axle and two tandem groups (4 x 96 kN), 432 kN
+total.  Axles at 3.7 m (steer to first tandem), 1.2 m within each
+tandem, and a variable 3.0-8.0 m gap between the tandem groups.  The
+companion L44 lane load is 12.5 kN/m plus a 150 kN concentrated load
+per 3 m lane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The gap between the two tandem groups, 3.0-8.0 m (default 3.0).</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
@@ -735,75 +813,210 @@ once the dyanmic load allowance is included.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.get_s1600">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_s1600</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">middle_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.get_s1600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.get_s1600" title="Link to this definition">#</a></dt>
-<dd><p>The AS5100 S1600 load model truck. This is the notional load model for
-stationary traffic and is criticial for longer spans.</p>
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.AU.get_ms18">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_ms18</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rear_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.27</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.AU.get_ms18"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.AU.get_ms18" title="Link to this definition">#</a></dt>
+<dd><p>NAASRA MS18 design truck - the metric form of the AASHTO HS20-44
+truck: three axles of 35.6, 142.3 and 142.3 kN (8 / 32 / 32 kip).  The
+front-to-drive spacing is fixed at 4.27 m; the rear (trailer) spacing
+is varied 4.27-9.14 m for the worst effect.  The companion lane load is
+9.34 kN/m plus an 80 kN (moment) / 115 kN (shear) concentrated load.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>middle_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The spacing for the variable middle axle spacing; min. 6.25 m.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the supplied spacing is less than the code-specified minimum
-    of 6.25 m.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
+<dd class="field-odd"><p><strong>rear_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The variable rear-axle spacing, 4.27-9.14 m (default 4.27).</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
 </dd>
 </dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.US">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">US</span></span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.US"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.US" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>US road &amp; rail loads: AASHTO LRFD (HL-93) and the AREA Cooper E series.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.US.get_hl93_truck">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_hl93_truck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rear_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.US.get_hl93_truck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.US.get_hl93_truck" title="Link to this definition">#</a></dt>
+<dd><p>AASHTO LRFD HL-93 design truck (Art. 3.6.1.2.2): three axles of 35, 145
+and 145 kN.  The front-to-middle spacing is fixed at 4.3 m; the rear
+(middle-to-back) spacing is varied 4.3-9.0 m to maximise the effect.
+HL-93 is the truck (or the tandem, whichever governs) combined with the
+design lane load (<code class="docutils literal notranslate"><span class="pre">w_lane=9.3</span></code> kN/m); the 33% dynamic load allowance
+applies to the truck only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rear_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The variable middle-to-rear axle spacing, 4.3-9.0 m (default 4.3).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.US.get_hl93_tandem">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_hl93_tandem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.US.get_hl93_tandem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.US.get_hl93_tandem" title="Link to this definition">#</a></dt>
+<dd><p>AASHTO LRFD HL-93 design tandem (Art. 3.6.1.2.3): two 110 kN axles at
+1.2 m.  Combined with the design lane load (<code class="docutils literal notranslate"><span class="pre">w_lane=9.3</span></code> kN/m); the
+heavier of the truck and tandem governs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.US.get_cooper">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_cooper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.US.get_cooper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.US.get_cooper" title="Link to this definition">#</a></dt>
+<dd><p>AREA / AREMA Cooper E-series rail load: two locomotives in series
+(each a lead axle, four driving axles and a four-axle tender),
+conventionally followed by a uniform trailing load.  The axle pattern
+is the standard Cooper E10 reference scaled linearly by the E-number
+<code class="docutils literal notranslate"><span class="pre">E</span></code> (the maximum driving-axle load, in kips); e.g. <code class="docutils literal notranslate"><span class="pre">E=80</span></code> is the
+common Cooper E80.</p>
+<p>Per locomotive the E10 axle loads are 5, 10, 10, 10, 10 (lead + four
+drivers) and 6.5 x 4 (tender), at spacings 8, 5, 5, 5, 9, 5, 6, 5 ft,
+with an 8 ft coupling between the two locomotives; values are returned
+in kN and m.  The trailing uniform load is <code class="docutils literal notranslate"><span class="pre">E/10</span></code> kip/ft - apply it
+as <code class="docutils literal notranslate"><span class="pre">w_lane</span></code> (about <code class="docutils literal notranslate"><span class="pre">1.46</span> <span class="pre">*</span> <span class="pre">E</span></code> kN/m; E80 ~ 117 kN/m).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>E</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The Cooper E-number (maximum driving-axle load in kips). Default 80.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.EU">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">EU</span></span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.EU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.EU" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>European road &amp; rail loads: Eurocode EN 1991-2.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.EU.get_lm1">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_lm1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha_Q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.EU.get_lm1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.EU.get_lm1" title="Link to this definition">#</a></dt>
+<dd><p>Eurocode EN 1991-2 Load Model 1 tandem system (TS), Lane 1 (Table 4.2):
+two 300 kN axles at 1.2 m.  Accompanied by the Lane-1 UDL of 9 kN/m2,
+i.e. <code class="docutils literal notranslate"><span class="pre">w_lane=27</span></code> kN/m over the 3 m notional lane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alpha_Q</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – National-Annex adjustment factor on the axle loads (default 1.0).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.EU.get_lm71">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_lm71</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.EU.get_lm71"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.EU.get_lm71" title="Link to this definition">#</a></dt>
+<dd><p>Eurocode EN 1991-2 rail Load Model 71 (cl 6.3.2): four 250 kN axles at
+1.6 m centres, with two 80 kN/m distributed loads acting on each side
+starting 0.8 m beyond the outer axles (use <code class="docutils literal notranslate"><span class="pre">w_lane=80</span></code> for the
+distributed component).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alpha</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Classification factor (0.75-1.46; default 1.0).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.UK">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">UK</span></span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.UK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.UK" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>UK road loads: BS 5400 / CS 454.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.UK.get_hb">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_hb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">45.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.UK.get_hb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.UK.get_hb" title="Link to this definition">#</a></dt>
+<dd><p>BS 5400-2 / CS 454 HB abnormal vehicle (cl 6.3): a four-axle bogie,
+each axle <code class="docutils literal notranslate"><span class="pre">units</span> <span class="pre">x</span> <span class="pre">10</span></code> kN, at spacings 1.8, <code class="docutils literal notranslate"><span class="pre">inner_spacing</span></code> and
+1.8 m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>units</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Number of HB units, typically 25-45 (250-450 kN/axle). Default 45.</p></li>
+<li><p><strong>inner_spacing</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The variable inner spacing; the code uses 6, 11, 16, 21 or 26 m for
+the worst effect. Default 6 m.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.CA">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">CA</span></span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.CA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.CA" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Canadian road loads: CSA S6.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.CA.get_cl625">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_cl625</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.CA.get_cl625"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.CA.get_cl625" title="Link to this definition">#</a></dt>
+<dd><p>CSA S6 CL-625 design truck (cl 3.8.3.1.2): five axles of 50, 125, 125,
+175 and 150 kN (625 kN total) at spacings 3.6, 1.2, 6.6 and 6.6 m.  The
+CL-625 lane load is 80% of these axle loads superimposed on a
+<code class="docutils literal notranslate"><span class="pre">w_lane=9</span></code> kN/m UDL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.CN">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">CN</span></span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.CN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.CN" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Chinese road loads: JTG D60.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.CN.get_jtg_vehicle">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_jtg_vehicle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.CN.get_jtg_vehicle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.CN.get_jtg_vehicle" title="Link to this definition">#</a></dt>
+<dd><p>China JTG D60-2015 standard vehicle load (vehicle load, cl 4.3.1): five
+axles of 30, 120, 120, 140 and 140 kN (550 kN total) at spacings 3.0,
+1.4, 7.0 and 1.4 m.  The companion lane load is a span-dependent UDL
+(10.5 kN/m for Highway Class I) plus a concentrated load.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.get_validation_truck">
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_validation_truck</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.get_validation_truck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.get_validation_truck" title="Link to this definition">#</a></dt>
 <dd><p>A set of moving loads used for validation on a 20 m span against the
-textbook, “Structural and Stress Analysis””, 2nd edn., Megson, p. 579.</p>
+textbook “Structural and Stress Analysis”, 2nd edn., Megson, p. 579.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong></p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
-</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.get_la_rail">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_la_rail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axle_group_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axle_group_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axle_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#VehicleLibrary.get_la_rail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.get_la_rail" title="Link to this definition">#</a></dt>
-<dd><p>The AS5100.2 LA rail load model, including the simulated locomotive.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>axle_group_count</strong> (<em>int</em>) – The number of axle groups. This should be sufficient to cover the
-adverse portion of the influence line for the component being
-examined.</p></li>
-<li><p><strong>axle_weight</strong> (<em>float</em>) – The nominal axle weight. Default is 300 kN, but 150LA and others are
-also used.</p></li>
-<li><p><strong>axle_group_spacing</strong> (<em>float</em>) – The spacing between each axle group, min. 12 m, max. 20 m. Note
-that this is not a gap but the centre-of-group to centre-of-group
-distance.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the supplied axle group spacing is outside the code-specified
-    limits of 12 to 20 m, or the number of axle groups is &lt; 1.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code> object.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle">Vehicle</a></p>
-</dd>
-</dl>
-</dd></dl>
-
+</section>
 </dd></dl>
 
 </section>
@@ -856,15 +1069,46 @@ distance.</p></li>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.abag_bdouble_aw"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.abag_bdouble_aw</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.abag_semitrailer_aw"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.abag_semitrailer_aw</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_abag_bdouble"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_abag_bdouble()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_abag_semitrailer"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_abag_semitrailer()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_example_permit"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_example_permit()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_m1600"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_m1600()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_s1600"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_s1600()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.abag_bdouble_aw"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.abag_bdouble_aw</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.abag_semitrailer_aw"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.abag_semitrailer_aw</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_abag_bdouble"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_abag_bdouble()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_abag_semitrailer"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_abag_semitrailer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_example_permit"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_example_permit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_m1600"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_m1600()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_s1600"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_s1600()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_a160"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_a160()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_w80"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_w80()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_la_rail"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_la_rail()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_300la"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_300la()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_t44"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_t44()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.AU.get_ms18"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_ms18()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.US"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.US</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.US.get_hl93_truck"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.US.get_hl93_truck()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.US.get_hl93_tandem"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.US.get_hl93_tandem()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.US.get_cooper"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.US.get_cooper()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.EU"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.EU</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.EU.get_lm1"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.EU.get_lm1()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.EU.get_lm71"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.EU.get_lm71()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.UK"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.UK</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.UK.get_hb"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.UK.get_hb()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.CA"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.CA</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.CA.get_cl625"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.CA.get_cl625()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.CN"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.CN</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.CN.get_jtg_vehicle"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.CN.get_jtg_vehicle()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_validation_truck"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_validation_truck()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_la_rail"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_la_rail()</span></code></a></li>
 </ul>
 </li>
 </ul>

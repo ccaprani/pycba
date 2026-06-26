@@ -401,6 +401,7 @@
 <li class="toctree-l1"><a class="reference internal" href="envelopes.html">Load Cases, Load Patterning &amp; Design Envelopes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inf_lines.html">Influence Lines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vehicle_library.html">The Vehicle Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonlinear.html">Nonlinear Beam Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonprismatic.html">Non-prismatic Elements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timoshenko.html">Timoshenko (Shear-Deformable) Beam Elements</a></li>
@@ -611,7 +612,7 @@ max bearing pressure: 123.6 kN/m
  (free)               (abutment)               (pier)            (abutment)             (free)
 </pre></div>
 </div>
-<p>We model it as one continuous member: a foundation (<code class="docutils literal notranslate"><span class="pre">kf</span></code>) on the approaches only, pinned abutments and a central pier under the bridge, and the stiffer bridge-deck <code class="docutils literal notranslate"><span class="pre">EI</span></code> over the two spans. Then we run the AS5100.2 <strong>300LA</strong> rail load model (<code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_la_rail</span></code>) across it and envelope the effects.</p>
+<p>We model it as one continuous member: a foundation (<code class="docutils literal notranslate"><span class="pre">kf</span></code>) on the approaches only, pinned abutments and a central pier under the bridge, and the stiffer bridge-deck <code class="docutils literal notranslate"><span class="pre">EI</span></code> over the two spans. Then we run the AS5100.2 <strong>300LA</strong> rail load model (<code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_la_rail</span></code>) across it and envelope the effects.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -638,7 +639,7 @@ max bearing pressure: 123.6 kN/m
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">veh</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_la_rail</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>   <span class="c1"># AS5100.2 300LA</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">veh</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_la_rail</span><span class="p">(</span><span class="n">axle_group_count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>   <span class="c1"># AS5100.2 300LA</span>
 <span class="n">bridge</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BridgeAnalysis</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span> <span class="n">veh</span><span class="p">)</span>
 <span class="n">env</span> <span class="o">=</span> <span class="n">bridge</span><span class="o">.</span><span class="n">run_vehicle</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">cv</span> <span class="o">=</span> <span class="n">bridge</span><span class="o">.</span><span class="n">critical_values</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>

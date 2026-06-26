@@ -401,6 +401,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Load Cases, Load Patterning &amp; Design Envelopes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inf_lines.html">Influence Lines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bridge.html">Bridge Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vehicle_library.html">The Vehicle Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonlinear.html">Nonlinear Beam Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonprismatic.html">Non-prismatic Elements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timoshenko.html">Timoshenko (Shear-Deformable) Beam Elements</a></li>
@@ -1120,7 +1121,7 @@ LoadCase(name=&#39;Qk&#39;, loads=[[1, 1, 30], [2, 1, 30], [3, 1, 30], [4, 1, 30
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
 <span class="n">bridge_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BridgeAnalysis</span><span class="p">(</span><span class="n">beam_analysis</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">)</span>
 <span class="n">env_veh</span> <span class="o">=</span> <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">run_vehicle</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="n">env_veh</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>

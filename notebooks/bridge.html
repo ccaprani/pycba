@@ -49,7 +49,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Nonlinear Beam Analysis" href="nonlinear.html" />
+    <link rel="next" title="The Vehicle Library" href="vehicle_library.html" />
     <link rel="prev" title="Influence Lines" href="inf_lines.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -401,6 +401,7 @@
 <li class="toctree-l1"><a class="reference internal" href="envelopes.html">Load Cases, Load Patterning &amp; Design Envelopes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inf_lines.html">Influence Lines</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Bridge Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vehicle_library.html">The Vehicle Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonlinear.html">Nonlinear Beam Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonprismatic.html">Non-prismatic Elements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timoshenko.html">Timoshenko (Shear-Deformable) Beam Elements</a></li>
@@ -726,7 +727,7 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bridge</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
 <span class="n">bridge</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="mi">500</span>  <span class="c1"># Use more points along the beam members</span>
-<span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
+<span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
 <span class="n">bridge_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BridgeAnalysis</span><span class="p">(</span><span class="n">bridge</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">)</span>
 <span class="n">env</span> <span class="o">=</span> <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">run_vehicle</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
@@ -853,7 +854,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="n">spans</span><span class="p">:</span>
     <span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">1e11</span> <span class="o">*</span> <span class="mf">1e-6</span>
     <span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -917,7 +918,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">envs</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_abag_bdouble</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_abag_bdouble</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">bridge_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BridgeAnalysis</span><span class="p">(</span><span class="n">bridge</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">)</span>
     <span class="n">envs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bridge_analysis</span><span class="o">.</span><span class="n">run_vehicle</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
 </pre></div>
@@ -945,7 +946,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_example_permit</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_example_permit</span><span class="p">()</span>
 <span class="n">bridge_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BridgeAnalysis</span><span class="p">(</span><span class="n">bridge</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">)</span>
 <span class="n">trial_env</span> <span class="o">=</span> <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">run_vehicle</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -1049,13 +1050,13 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 </section>
 <section id="Example-7---Rail-loading">
 <h2>Example 7 - Rail loading<a class="headerlink" href="#Example-7---Rail-loading" title="Link to this heading">#</a></h2>
-<p>Using the <code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_la_rail</span></code> method we create a 300LA train load and calculate the values for Appendix C of AS5100.2.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">VehicleLibrary.AU.get_la_rail</span></code> method we create a 300LA train load and calculate the values for Appendix C of AS5100.2.</p>
 <p>First, create the vehicle using the library method, here the defaults of 300LA, 12m axle-group spacing (centre-to-centre), and 10 No. axle groups (length 150~m) are adequate. Note that we could rationalize the number of axle groups for shorter spans to reduce computation, but this is just a refinement.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_la_rail</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_la_rail</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1253,7 +1254,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1600_vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1600_vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
 <span class="n">df_m1600</span> <span class="o">=</span> <span class="n">critical_effects</span><span class="p">(</span><span class="n">m1600_vehicle</span><span class="p">,</span><span class="n">low_span</span><span class="o">=</span><span class="n">low_span</span><span class="p">,</span><span class="n">high_span</span><span class="o">=</span><span class="n">high_span</span><span class="p">,</span><span class="n">udl</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 <span class="n">df_m1600</span>
 </pre></div>
@@ -1374,7 +1375,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s1600_vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_s1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s1600_vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_s1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">)</span>
 <span class="n">df_s1600</span> <span class="o">=</span> <span class="n">critical_effects</span><span class="p">(</span><span class="n">s1600_vehicle</span><span class="p">,</span><span class="n">low_span</span><span class="o">=</span><span class="n">low_span</span><span class="p">,</span><span class="n">high_span</span><span class="o">=</span><span class="n">high_span</span><span class="p">,</span><span class="n">udl</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
 <span class="n">df_s1600</span>
 </pre></div>
@@ -1496,7 +1497,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rail_vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_la_rail</span><span class="p">(</span><span class="n">axle_weight</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rail_vehicle</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_la_rail</span><span class="p">(</span><span class="n">axle_weight</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 <span class="n">df_rail</span> <span class="o">=</span> <span class="n">critical_effects</span><span class="p">(</span><span class="n">rail_vehicle</span><span class="p">,</span><span class="n">low_span</span><span class="o">=</span><span class="n">low_span</span><span class="p">,</span><span class="n">high_span</span><span class="o">=</span><span class="n">high_span</span><span class="p">)</span>
 <span class="n">df_rail</span>
 </pre></div>
@@ -1856,7 +1857,7 @@ section across the whole traverse. <code class="docutils literal notranslate"><s
 
 <span class="n">bridge_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BridgeAnalysis</span><span class="p">()</span>
 <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">add_bridge</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
-<span class="n">bridge_analysis</span><span class="o">.</span><span class="n">set_vehicle</span><span class="p">(</span><span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">))</span>
+<span class="n">bridge_analysis</span><span class="o">.</span><span class="n">set_vehicle</span><span class="p">(</span><span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">AU</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">))</span>
 
 <span class="n">env</span> <span class="o">=</span> <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">run_load_model</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">w_lane</span><span class="o">=</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">dv</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">plot_env</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -1998,11 +1999,11 @@ section across the whole traverse. <code class="docutils literal notranslate"><s
       </div>
     </a>
     <a class="right-next"
-       href="nonlinear.html"
+       href="vehicle_library.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Nonlinear Beam Analysis</p>
+        <p class="prev-next-title">The Vehicle Library</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
