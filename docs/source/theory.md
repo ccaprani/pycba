@@ -356,10 +356,11 @@ which remains Euler–Bernoulli.
 
 ### Beam on an elastic (Winkler) foundation
 
-A span given a finite foundation modulus $k_f$ (the modulus of subgrade
+A member given a finite foundation modulus $k_f$ (the modulus of subgrade
 reaction per unit length of beam) rests on a continuous Winkler foundation that
-resists deflection with a distributed reaction $q(x) = -k_f\,v(x)$. The
-governing equation becomes
+resists deflection with a distributed reaction $q(x) = -k_f\,v(x)$. (Throughout,
+*member* and *span* are used interchangeably for the element between two nodes.)
+The governing equation becomes
 
 $$ EI\,\frac{\mathrm{d}^4 v}{\mathrm{d}x^4} + k_f\,v = w(x), $$
 
@@ -367,10 +368,11 @@ whose homogeneous solutions decay over the characteristic length
 $\lambda = (4EI/k_f)^{1/4}$.
 
 Rather than introduce the exact (hyperbolic) foundation element and re-derive
-the fixed-end forces for every load type, PyCBA models the foundation span as a
-**statically-condensed super-element**. The span is meshed into $n$ ordinary
-Euler–Bernoulli sub-elements; each receives the standard *consistent* foundation
-stiffness
+the fixed-end forces for every load type, PyCBA models the foundation member as a
+**statically-condensed super-element** (the same internal-meshing idea used by
+the [nonlinear analysis](theory-nonlinear)). The member is meshed into $n$
+ordinary Euler–Bernoulli sub-elements; each receives the standard *consistent*
+foundation stiffness
 
 $$ \mathbf{k}_f^{(e)} = \frac{k_f\,h}{420}
 \begin{bmatrix}
@@ -382,7 +384,7 @@ $$ \mathbf{k}_f^{(e)} = \frac{k_f\,h}{420}
 
 formed from the same cubic Hermite shape functions as the element stiffness
 ($h = L/n$ the sub-element length). The internal nodes are removed by static
-condensation, so the span still presents a two-node $4\times4$ stiffness and a
+condensation, so the member still presents a two-node $4\times4$ stiffness and a
 condensed fixed-end-force vector to the global assembly — reactions, plotting
 and influence lines are inherited unchanged. Member results are recovered by
 reconstructing the internal sub-element displacements and concatenating each
@@ -393,7 +395,7 @@ deflection $P\beta/2k_f$ and moment $P/4\beta$ (with $\beta = 1/\lambda$) under 
 point load.
 
 ```{note}
-The foundation super-element currently supports prismatic, fixed-fixed spans
+The foundation super-element currently supports prismatic, fixed-fixed members
 without shear flexibility (`GAv`), carrying UDL, point and partial-UDL loads;
 other combinations raise a clear error.
 ```

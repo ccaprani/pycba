@@ -1,18 +1,21 @@
 """
 PyCBA - beam on elastic (Winkler) foundation.
 
-A foundation span is modelled as a *super-element*: internally it is meshed into
-``n`` Euler-Bernoulli sub-elements, each carrying the standard consistent Winkler
-foundation stiffness, and the internal nodes are statically condensed out so the
-span still presents the usual two-node (4-DOF) stiffness to the global assembly.
-Applied-load handling and the per-sub-element member-result recovery are
-inherited from PyCBA's existing Euler-Bernoulli machinery, so no per-load-type
-closed forms are re-derived; accuracy improves with mesh refinement and the mesh
-defaults to the foundation characteristic length.
+A foundation *member* (PyCBA uses "member" and "span" interchangeably for the
+element between two nodes) is modelled as a *super-element*: internally it is
+meshed into ``n`` Euler-Bernoulli **sub-elements**, each carrying the standard
+consistent Winkler foundation stiffness, and the internal nodes are statically
+condensed out so the member still presents the usual two-node (4-DOF) stiffness
+to the global assembly.  Applied-load handling and the per-sub-element
+member-result recovery are inherited from PyCBA's existing Euler-Bernoulli
+machinery, so no per-load-type closed forms are re-derived; accuracy improves
+with mesh refinement and the mesh defaults to the foundation characteristic
+length.  (This internal meshing mirrors the super-element used by the nonlinear
+analysis.)
 
-Supported in this version: *prismatic*, fixed-fixed (default ``eletype``) spans
-without shear flexibility (``GAv``), carrying UDL, point-load and partial-UDL
-loads.  Other combinations raise a clear error.
+Supported in this version: *prismatic*, fixed-fixed (default ``eletype``)
+members without shear flexibility (``GAv``), carrying UDL, point-load and
+partial-UDL loads.  Other combinations raise a clear error.
 """
 
 from __future__ import annotations
@@ -38,7 +41,7 @@ def auto_subdivisions(
     n_max: int = 400,
 ) -> int:
     """
-    Number of sub-elements for a foundation span: at least ``per_wave`` per
+    Number of sub-elements for a foundation member: at least ``per_wave`` per
     characteristic length, clipped to ``[n_min, n_max]``.
     """
     lam = characteristic_length(EI, kf)
@@ -99,7 +102,7 @@ def _eb_member_values(L, EI, f, d, loads, npts) -> MemberResults:
 
 
 def _concat_results(res_list: List[MemberResults]) -> MemberResults:
-    """Concatenate per-sub-element results into a single span result."""
+    """Concatenate per-sub-element results into a single member result."""
     arrays = [
         np.concatenate([getattr(r, a) for r in res_list])
         for a in ("x", "M", "V", "R", "D")
@@ -109,12 +112,12 @@ def _concat_results(res_list: List[MemberResults]) -> MemberResults:
 
 class FoundationElement:
     """
-    Beam-on-elastic-foundation super-element for one prismatic span.
+    Beam-on-elastic-foundation super-element for one prismatic member.
 
     Parameters
     ----------
     L : float
-        Span length.
+        Member length.
     EI : float
         Flexural rigidity (prismatic; a ``SectionEI`` raises ``NotImplementedError``).
     kf : float
@@ -128,7 +131,7 @@ class FoundationElement:
         if isinstance(EI, SectionEI):
             raise NotImplementedError(
                 "A Winkler foundation currently requires a prismatic (scalar EI) "
-                "span; non-prismatic foundation members are not yet supported."
+                "member; non-prismatic foundation members are not yet supported."
             )
         self.L = float(L)
         self.EI = float(EI)
@@ -154,7 +157,7 @@ class FoundationElement:
 
     # -- loads ---------------------------------------------------------- #
     def _subelement_loads(self, loads) -> List[list]:
-        """Restrict the span's loads onto each sub-element (local coordinates)."""
+        """Restrict the member's loads onto each sub-element (local coordinates)."""
         n, h, L = self.n, self.h, self.L
         per: List[list] = [[] for _ in range(n)]
         for load in loads:
@@ -177,7 +180,7 @@ class FoundationElement:
             else:
                 raise NotImplementedError(
                     f"Load type {type(load).__name__} is not supported on a "
-                    "Winkler foundation span; use UDL, point or partial-UDL loads."
+                    "Winkler foundation member; use UDL, point or partial-UDL loads."
                 )
         return per
 
@@ -202,7 +205,7 @@ class FoundationElement:
     # -- recovery ------------------------------------------------------- #
     def recover(self, dr, loads, npts: int) -> MemberResults:
         """
-        Member load-effect arrays along the span given its end displacements
+        Member load-effect arrays along the member given its end displacements
         ``dr = [v_i, θ_i, v_j, θ_j]`` (from the global solve) and its loads.
         """
         dr = np.asarray(dr, dtype=float)

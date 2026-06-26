@@ -149,6 +149,20 @@ def test_released_foundation_raises():
 
 def test_unsupported_load_on_foundation_raises():
     ba = cba.BeamAnalysis([6.0], 1.0, [-1, 0, -1, 0], kf=100.0)
-    ba.add_ml(1, 5.0, 3.0)  # moment load not supported on a foundation span
+    ba.add_ml(1, 5.0, 3.0)  # moment load not supported on a foundation member
     with pytest.raises(NotImplementedError):
         ba.analyze()
+
+
+def test_foundation_render_draws_springs():
+    """A foundation member is drawn with a row of springs on hatched ground."""
+    import matplotlib.pyplot as plt
+
+    base = cba.BeamAnalysis([8.0], 1e5, [0, 0, 0, 0])
+    base.add_pl(1, 300, 4.0)
+    found = cba.BeamAnalysis([8.0], 1e5, [0, 0, 0, 0], kf=2e4)
+    found.add_pl(1, 300, 4.0)
+    n_base = len(base.beam.plot().lines)
+    n_found = len(found.beam.plot().lines)
+    assert n_found > n_base + 10  # springs + ground hatch add many segments
+    plt.close("all")
