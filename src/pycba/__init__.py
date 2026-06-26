@@ -23,7 +23,7 @@ from .units import UnitSystem, set_units, get_units
 from .plotting import set_backend, get_backend
 from .inf_lines import InfluenceLines
 from .utils import parse_beam_string, supports_to_R
-from .bridge import BridgeAnalysis
+from .bridge import BridgeAnalysis, resolve_shear_points
 from .vehicle import Vehicle, make_train, VehicleLibrary
 from .load_cases import (
     LoadCase,

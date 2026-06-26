@@ -11,6 +11,69 @@ from .vehicle import Vehicle
 from .load import add_LM
 
 
+def _vertical_support_xs(beam) -> np.ndarray:
+    """Global x-coordinates of the vertical supports (fixed or spring)."""
+    node_x = np.cumsum(np.insert(np.asarray(beam.mbr_lengths, dtype=float), 0, 0.0))
+    restraints = np.asarray(beam.restraints)
+    return np.array(
+        [x0 for i, x0 in enumerate(node_x) if restraints[2 * i] != 0], dtype=float
+    )
+
+
+def resolve_shear_points(
+    beam,
+    points: Optional[Union[float, List[float], np.ndarray]] = None,
+    dv: Optional[float] = None,
+) -> (Dict[int, np.ndarray], np.ndarray):
+    """
+    Resolve requested "shear point" sections to per-member local coordinates.
+
+    Shear points are sections at which the shear is recovered exactly (on both
+    sides), for example the face of a support or the critical-shear section a
+    distance ``dv`` from a support.  They are specified in global beam
+    coordinates and are fixed for the analysis, so the evaluation grid stays
+    consistent across a moving-load traverse.
+
+    Parameters
+    ----------
+    beam : Beam
+        The :class:`pycba.beam.Beam` to resolve against.
+    points : float or array-like, optional
+        Global coordinate(s), measured from the left end of the beam, at which
+        shear points are required.
+    dv : float, optional
+        The critical-shear distance (e.g. the MCFT effective shear depth
+        :math:`d_v`).  Adds a shear point at this distance from every vertical
+        support, on each valid (on-deck) side: two sections at an interior
+        support, one at an end support.
+
+    Returns
+    -------
+    sp : Dict[int, np.ndarray]
+        Mapping of 0-based member index to a sorted vector of member-local
+        coordinates, suitable for ``BeamResults(shear_points=...)``.
+    points_global : np.ndarray
+        The sorted vector of global section coordinates actually placed.
+    """
+    globals_ = []
+    if points is not None:
+        globals_.extend(float(p) for p in np.atleast_1d(points))
+    if dv is not None:
+        for x0 in _vertical_support_xs(beam):
+            globals_.extend([x0 - dv, x0 + dv])
+
+    # Keep only on-deck interior sections, de-duplicated and sorted.
+    points_global = np.array(sorted({g for g in globals_ if 0.0 < g < beam.length}))
+
+    sp: Dict[int, list] = {}
+    for g in points_global:
+        ispan, pos_in_span = beam.get_local_span_coords(g)
+        if ispan != -1:
+            sp.setdefault(ispan, []).append(pos_in_span)
+
+    return {k: np.array(sorted(v)) for k, v in sp.items()}, points_global
+
+
 class BridgeAnalysis:
     """
     Performs a bridge crossing analysis for a defined vehicle. The vehicle is moved
@@ -46,6 +109,9 @@ class BridgeAnalysis:
         self.veh = veh
         self.vResults = []
         self.pos = []
+        # Global coordinates of any shear-point sections placed in the last
+        # analysis (populated by run_vehicle/static_vehicle when requested).
+        self.shear_points_x = np.array([])
 
         self.static_LM = []
 
@@ -144,7 +210,13 @@ class BridgeAnalysis:
         """
         self.veh = veh
 
-    def static_vehicle(self, pos: float, plotflag: bool = False) -> BeamResults:
+    def static_vehicle(
+        self,
+        pos: float,
+        plotflag: bool = False,
+        shear_points: Optional[Union[float, List[float], np.ndarray, Dict]] = None,
+        dv: Optional[float] = None,
+    ) -> BeamResults:
         """
         Performs a single analysis for the vehicle, static at a given position
 
@@ -154,6 +226,13 @@ class BridgeAnalysis:
             The location of the front axle of the vehicle in global beam coordinates.
         plotflag : bool, optional
             Whether or not to plot the results. The default is False.
+        shear_points : float, array-like or dict, optional
+            Section(s) at which the shear is recovered exactly on both sides.
+            Either global coordinate(s) (resolved via :func:`resolve_shear_points`)
+            or a pre-resolved ``{member_index: local_coords}`` mapping.
+        dv : float, optional
+            Critical-shear distance: add a shear point this distance from every
+            vertical support, on each valid side (see :func:`resolve_shear_points`).
 
         Raises
         ------
@@ -167,16 +246,95 @@ class BridgeAnalysis:
             The `pycba.Beamresults` object containing the analysis results.
         """
         self._check_objects()
+        self._apply_shear_points(shear_points, dv)
 
-        out = self._single_analysis(pos)
-        if out != 0:
-            raise ValueError("Bridge analysis did not succeed")
-            return
+        try:
+            out = self._single_analysis(pos)
+            if out != 0:
+                raise ValueError("Bridge analysis did not succeed")
+        finally:
+            self.ba.shear_points = None
 
         if plotflag:
             self.plot_static(pos)
 
         return self.ba.beam_results
+
+    def _apply_shear_points(self, shear_points, dv):
+        """
+        Resolve and arm shear-point sections on the underlying beam analysis.
+
+        Sets ``self.ba.shear_points`` (consumed by each ``analyze()`` call) and
+        records the placed global section coordinates in ``self.shear_points_x``
+        for :meth:`critical_values`.  A pre-resolved ``dict`` is used as-is; any
+        other spec is resolved with :func:`resolve_shear_points`.
+        """
+        if isinstance(shear_points, dict):
+            sp = shear_points
+            self.shear_points_x = np.array([])
+        elif shear_points is None and dv is None:
+            sp = None
+            self.shear_points_x = np.array([])
+        else:
+            sp, self.shear_points_x = resolve_shear_points(
+                self.ba.beam, shear_points, dv
+            )
+        self.ba.shear_points = sp if sp else None
+
+    def _axle_LM(self, pos: float) -> List[list]:
+        """
+        Build the load-matrix rows for the vehicle axles with the front axle at
+        ``pos``.  Only axles currently on the deck are included.
+
+        Parameters
+        ----------
+        pos : float
+            The location of the front axle in global beam coordinates.
+
+        Returns
+        -------
+        List[list]
+            Point-load (type 2) rows for the on-deck axles.
+        """
+        axle_positions = pos - self.veh.axle_coords
+
+        rows = []
+        for iaxle in range(self.veh.NoAxles):
+            load = self.veh.axw[iaxle]
+            ispan, pos_in_span = self.ba.beam.get_local_span_coords(
+                axle_positions[iaxle]
+            )
+            if ispan != -1:
+                rows.append([ispan + 1, 2, load, pos_in_span, 0])
+        return rows
+
+    def _interval_udl_LM(self, xa: float, xb: float, w: float) -> List[list]:
+        """
+        Convert a global UDL interval ``[xa, xb]`` of intensity ``w`` into
+        per-span partial-UDL (type 3) load-matrix rows, splitting the interval
+        at the span boundaries.  Portions off the deck are ignored.
+
+        Parameters
+        ----------
+        xa, xb : float
+            Start and end of the loaded interval in global coordinates.
+        w : float
+            The UDL intensity.
+
+        Returns
+        -------
+        List[list]
+            Partial-UDL rows ``[span, 3, w, a, c]`` for each loaded span portion.
+        """
+        beam = self.ba.beam
+        node_x = np.cumsum(np.insert(np.asarray(beam.mbr_lengths, dtype=float), 0, 0.0))
+        rows = []
+        for i in range(beam.no_spans):
+            lo = max(xa, node_x[i])
+            hi = min(xb, node_x[i + 1])
+            if hi - lo > 1e-9:
+                rows.append([i + 1, 3, w, lo - node_x[i], hi - lo])
+        return rows
 
     def _single_analysis(self, pos: float) -> int:
         """
@@ -194,21 +352,8 @@ class BridgeAnalysis:
             0 if the analysis succeeds.
 
         """
-
-        axle_positions = pos - self.veh.axle_coords
-
-        # Create the CBA Load Matrix, checking axle positions, etc
-        LM = []
-        for iaxle in range(self.veh.NoAxles):
-            load = self.veh.axw[iaxle]
-            ispan, pos_in_span = self.ba.beam.get_local_span_coords(
-                axle_positions[iaxle]
-            )
-            if ispan != -1:
-                LM.append([ispan + 1, 2, load, pos_in_span, 0])
-
-        # Now add any pre-existing loads on the beam
-        LM = add_LM(self.static_LM, LM)
+        # Superimpose the axle loads on any pre-existing loads on the beam
+        LM = add_LM(self.static_LM, self._axle_LM(pos))
 
         self.ba.set_loads(LM)
         return self.ba.analyze()
@@ -220,6 +365,8 @@ class BridgeAnalysis:
         plot_all: bool = False,
         pos_start: Optional[float] = None,
         pos_end: Optional[float] = None,
+        shear_points: Optional[Union[float, List[float], np.ndarray, Dict]] = None,
+        dv: Optional[float] = None,
     ) -> Envelopes:
         """
         Runs the vehicle over the bridge performing a static analysis at each point
@@ -239,6 +386,16 @@ class BridgeAnalysis:
         pos_end : Optional[float], optional
             The ending position of the front axle. Defaults to beam length plus
             vehicle length (front axle past the right end of the beam).
+        shear_points : float, array-like or dict, optional
+            Section(s) at which the shear is recovered exactly on both sides for
+            every vehicle position - e.g. support faces or a distance ``d_v``
+            from a support, for bridge shear assessment.  Either global
+            coordinate(s) (resolved via :func:`resolve_shear_points`) or a
+            pre-resolved ``{member_index: local_coords}`` mapping.  The resulting
+            sections are reported by :meth:`critical_values`.
+        dv : float, optional
+            Critical-shear distance: add a shear point this distance from every
+            vertical support, on each valid side (see :func:`resolve_shear_points`).
 
         Raises
         ------
@@ -255,6 +412,7 @@ class BridgeAnalysis:
         self._check_objects()
         self.pos = []
         self.vResults = []
+        self._apply_shear_points(shear_points, dv)
 
         if pos_start is None:
             pos_start = 0.0
@@ -266,18 +424,168 @@ class BridgeAnalysis:
         if plot_all:
             fig, axs = plt.subplots(2, 1, sharex=True, figsize=(10, 6))
 
-        for i in range(npts):
-            # load position
-            pos = pos_start + i * step
-            self.pos.append(pos)
-            out = self._single_analysis(pos)
-            if out != 0:
-                raise ValueError("Bridge analysis did not succeed at {pos=}")
-                return
-            if plot_all:
-                self.plot_static(pos, axs)
-                plt.pause(0.01)
-            self.vResults.append(self.ba.beam_results)
+        try:
+            for i in range(npts):
+                # load position
+                pos = pos_start + i * step
+                self.pos.append(pos)
+                out = self._single_analysis(pos)
+                if out != 0:
+                    raise ValueError("Bridge analysis did not succeed at {pos=}")
+                if plot_all:
+                    self.plot_static(pos, axs)
+                    plt.pause(0.01)
+                self.vResults.append(self.ba.beam_results)
+        finally:
+            self.ba.shear_points = None
+
+        env = Envelopes(self.vResults)
+
+        if plot_env:
+            self.plot_envelopes(env)
+
+        return env
+
+    @staticmethod
+    def _validate_clearances(clearances):
+        """
+        Validate a lane-UDL ``(back, front)`` clearance pair.
+
+        Returns ``(back, front)`` as floats, or ``(0.0, 0.0)`` when
+        ``clearances`` is ``None`` (no clear zone).  Raises ``ValueError`` for
+        anything that is not a finite, non-negative pair.
+        """
+        if clearances is None:
+            return 0.0, 0.0
+        try:
+            back, front = clearances
+        except (TypeError, ValueError):
+            raise ValueError(
+                "clearances must be a (back, front) tuple of two distances, or None"
+            )
+        back, front = float(back), float(front)
+        if not (np.isfinite(back) and np.isfinite(front)) or back < 0.0 or front < 0.0:
+            raise ValueError("clearances (back, front) must be finite and non-negative")
+        return back, front
+
+    def run_load_model(
+        self,
+        step: float,
+        w_lane: float,
+        clearances: Optional[tuple] = None,
+        plot_env: bool = False,
+        pos_start: Optional[float] = None,
+        pos_end: Optional[float] = None,
+        shear_points: Optional[Union[float, List[float], np.ndarray, Dict]] = None,
+        dv: Optional[float] = None,
+    ) -> Envelopes:
+        """
+        Run a moving load model: the vehicle together with an accompanying lane
+        UDL, enveloped over the traverse.
+
+        At each vehicle position the axles are placed as point loads (as in
+        :meth:`run_vehicle`) and a uniform lane UDL of intensity ``w_lane`` is
+        applied along the deck while the vehicle sweeps across it.  By default
+        the UDL is continuous, running *directly beneath the vehicle* - as for
+        the AS5100 M1600, where the 6 kN/m lane UDL accompanies the truck with
+        no break.  Load models that interrupt the lane UDL around the vehicle
+        specify a clear zone via ``clearances`` (see below).
+
+        The lane UDL is applied over the full deck (outside any clear zone).
+        For a continuous beam, loading only the same-sign influence-line regions
+        can be more adverse for a given effect; influence-line patterning of the
+        lane UDL is a planned refinement.  To pattern manually, combine separate
+        envelopes with :meth:`Envelopes.sum` / :meth:`Envelopes.augment`.
+
+        Parameters
+        ----------
+        step : float
+            The distance increment to move the vehicle.
+        w_lane : float
+            The lane UDL intensity (same sign convention as a beam UDL).
+        clearances : (back, front) tuple, optional
+            The clear zone over which the lane UDL is removed around the
+            vehicle, given as ``(back, front)`` distances in metres: ``back`` is
+            measured rearward from the *rear* axle and ``front`` forward from the
+            *front* axle, and the wheelbase between the axles is always part of
+            the cleared zone.  Both values must be finite and non-negative.
+
+            **Beware:** ``None`` and ``(0.0, 0.0)`` are *not* the same.  ``None``
+            (the default) means *no* clear zone - the lane UDL is continuous and
+            runs directly beneath the vehicle (the AS5100 M1600 case).
+            ``(0.0, 0.0)`` clears exactly the wheelbase (the UDL is removed from
+            under the vehicle) with no headway either side.  For a single-point
+            vehicle (``vehicle.L == 0``) the wheelbase has zero length, so
+            ``(0.0, 0.0)`` then coincides with ``None``.
+        plot_env : bool, optional
+            Whether to plot the resulting envelope. The default is False.
+        pos_start, pos_end : float, optional
+            The traverse range of the front axle (see :meth:`run_vehicle`).
+        shear_points : float, array-like or dict, optional
+            Sections for exact both-sided shear recovery (see
+            :meth:`run_vehicle`).
+        dv : float, optional
+            Critical-shear distance shear points at every vehicle position (see
+            :meth:`run_vehicle`).
+
+        Raises
+        ------
+        ValueError
+            If ``clearances`` is not a finite, non-negative ``(back, front)``
+            pair, or if a static beam analysis does not succeed.
+
+        Returns
+        -------
+        Envelopes
+            The load-effect envelopes for the traverse.
+        """
+        back, front = self._validate_clearances(clearances)
+
+        self._check_objects()
+        self.pos = []
+        self.vResults = []
+        self._apply_shear_points(shear_points, dv)
+
+        length = self.ba.beam.length
+        if pos_start is None:
+            pos_start = 0.0
+        if pos_end is None:
+            pos_end = length + self.veh.L
+
+        npts = round((pos_end - pos_start) / step) + 1
+
+        try:
+            for i in range(npts):
+                pos = pos_start + i * step
+                self.pos.append(pos)
+
+                # Lane UDL along the deck.  With no clear zone the UDL is
+                # continuous (runs under the vehicle).  Otherwise it is removed
+                # from `back` behind the rear axle to `front` ahead of the
+                # front axle (front axle at `pos`, rear axle at `pos - veh.L`).
+                if clearances is None:
+                    udl_rows = self._interval_udl_LM(0.0, length, w_lane)
+                else:
+                    excl_lo = (pos - self.veh.L) - back
+                    excl_hi = pos + front
+                    udl_rows = []
+                    if excl_lo > 0.0:
+                        udl_rows += self._interval_udl_LM(
+                            0.0, min(excl_lo, length), w_lane
+                        )
+                    if excl_hi < length:
+                        udl_rows += self._interval_udl_LM(
+                            max(excl_hi, 0.0), length, w_lane
+                        )
+
+                LM = add_LM(self.static_LM, self._axle_LM(pos) + udl_rows)
+                self.ba.set_loads(LM)
+                out = self.ba.analyze()
+                if out != 0:
+                    raise ValueError(f"Bridge analysis did not succeed at {pos=}")
+                self.vResults.append(self.ba.beam_results)
+        finally:
+            self.ba.shear_points = None
 
         env = Envelopes(self.vResults)
 
@@ -386,6 +694,38 @@ class BridgeAnalysis:
                 "val": env.Rmin[i, :].min(),
                 "pos": self.pos[env.Rmin[i, :].argmin()],
             }
+
+        # Report the corrected critical shears at any requested shear points.
+        # Each section was sampled by a station pair straddling it, so the
+        # left- and right-hand shear limits are read from the stations either
+        # side of the section coordinate.  Each section is tagged with the
+        # vertical support it is nearest to and the side it lies on, so the end
+        # supports (at x = 0 and x = L) are identifiable in the results.
+        if len(self.shear_points_x) > 0:
+            support_xs = _vertical_support_xs(self.ba.beam)
+            sp_block = {}
+            for xg in self.shear_points_x:
+                left = np.nonzero(env.x < xg)[0]
+                right = np.nonzero(env.x > xg)[0]
+                if len(left) == 0 or len(right) == 0:
+                    continue
+                il = left[np.argmax(env.x[left])]
+                ir = right[np.argmin(env.x[right])]
+                entry = {
+                    "Vmax": max(env.Vmax[il], env.Vmax[ir]),
+                    "Vmin": min(env.Vmin[il], env.Vmin[ir]),
+                    "Vmax_left": env.Vmax[il],
+                    "Vmax_right": env.Vmax[ir],
+                    "Vmin_left": env.Vmin[il],
+                    "Vmin_right": env.Vmin[ir],
+                }
+                if len(support_xs) > 0:
+                    isup = int(np.argmin(np.abs(support_xs - xg)))
+                    sx = support_xs[isup]
+                    entry["support"] = float(sx)
+                    entry["side"] = "left" if xg < sx else "right"
+                sp_block[float(xg)] = entry
+            crit_values["shear_points"] = sp_block
 
         return crit_values
 
