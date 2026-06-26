@@ -3,7 +3,7 @@ PyCBA - Beam Results module
 """
 
 from __future__ import annotations  # https://bit.ly/3KYiL2o
-from typing import Dict, List, Sequence, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
@@ -12,6 +12,20 @@ from .section import SectionEI
 from .types import MemberResults
 from .load import LoadMaMb, LoadCNL, LoadIC
 from copy import deepcopy
+
+
+# Relative half-spacing of the paired "shear point" stations placed either side
+# of a requested section.  The pair straddles the section (at ``xs - off`` and
+# ``xs + off``) so the closed-form shear is sampled just-left and just-right of
+# it; this captures the shear discontinuity when a point load (e.g. an axle)
+# sits exactly at the section, since ``np.heaviside(0) == 0`` would otherwise
+# return only the left-hand limit at a coincident station.
+_SHEAR_POINT_REL_OFFSET = 1e-9
+
+
+def _shear_point_offset(L: float) -> float:
+    """Absolute half-spacing of a shear-point station pair on a member of length ``L``."""
+    return _SHEAR_POINT_REL_OFFSET * L
 
 
 class BeamResults:
@@ -26,6 +40,7 @@ class BeamResults:
         r: np.ndarray,
         npts: int = 100,
         rs: np.ndarray = None,
+        shear_points: Optional[Dict[int, np.ndarray]] = None,
     ):
         """
         Initialize member results from global results
@@ -43,12 +58,19 @@ class BeamResults:
             effects. The default is 100.
         rs : np.ndarray, optional
             The vector of spring forces (k_s * u_i) for spring restraints (restraint > 0).
+        shear_points : Optional[Dict[int, np.ndarray]], optional
+            Extra "shear point" sections requested per member, as a mapping of
+            0-based member index to a vector of member-local coordinates.  Each
+            section is sampled by a station pair straddling it, so the shear is
+            recovered just-left and just-right of the section.  The default
+            (``None``) leaves the uniform evaluation grid bit-for-bit unchanged.
 
         Returns
         -------
         None.
         """
         self.npts = npts
+        self.shear_points = shear_points or {}
         self.vRes = self._member_analysis(beam, d)
         self.D = d  # nodal displacements
         self.R = r  # reactions at fixed restraints (restraint == -1)
@@ -155,10 +177,43 @@ class BeamResults:
         mbr_GAv = getattr(beam, "mbr_GAv", [])
         GAv = mbr_GAv[i_span] if i_span < len(mbr_GAv) else None
 
+        # Winkler foundation span: recover via the condensed super-element, which
+        # reconstructs the internal sub-element displacements and concatenates
+        # their exact Euler-Bernoulli diagrams.
+        mbr_kf = getattr(beam, "mbr_kf", [])
+        if i_span < len(mbr_kf) and mbr_kf[i_span] is not None:
+            loads = [ld for ld in beam._loads if ld.i_span == i_span]
+            return beam._foundation(i_span).recover(d, loads, self.npts)
+
         dx = L / self.npts
-        x = np.zeros(self.npts + 3)
-        x[1 : self.npts + 2] = dx * np.arange(0, self.npts + 1)
-        x[self.npts + 2] = L
+        xr = dx * np.arange(0, self.npts + 1)  # uniform interior stations [0, L]
+
+        # Optionally splice in paired "shear point" stations either side of each
+        # requested section so the closed-form shear is sampled just-left and
+        # just-right of it (capturing the jump when a point load sits exactly
+        # there).  The points are fixed per member, so the station grid stays
+        # identical across a moving-load traverse, as :class:`Envelopes` requires.
+        sp = self.shear_points.get(i_span)
+        augmented = sp is not None and len(sp) > 0
+        if augmented:
+            off = _shear_point_offset(L)
+            pairs = [p for xs in sp if off < xs < L - off for p in (xs - off, xs + off)]
+            if pairs:
+                xr = np.sort(np.concatenate([xr, np.asarray(pairs, dtype=float)]))
+            else:
+                augmented = False
+
+        # Pad with duplicated end stations (these carry the end-shear
+        # discontinuity at the supports); the interior ``x[1:-1]`` is the
+        # evaluation grid used for the moment-area integration.
+        x = np.empty(len(xr) + 2)
+        x[0] = xr[0]
+        x[1:-1] = xr
+        x[-1] = xr[-1]
+
+        # Non-uniform integration is needed only when the grid was augmented;
+        # the default path keeps ``dx`` so results are bit-for-bit unchanged.
+        int_kw = {"x": x[1:-1]} if augmented else {"dx": dx}
 
         # Get the results for the end moments alone
         MaMb = LoadMaMb(i_span=i_span, Ma=f[1], Mb=f[3])
@@ -189,8 +244,6 @@ class BeamResults:
             curv = res.M / EI
         curv = curv + kappa_imp
 
-        h = L / self.npts
-
         # Shear-deformable (Timoshenko) member: the rotation reported (and used
         # as the integration constant) is the *cross-section* rotation ``psi``;
         # the slope of the deflected shape is ``psi + gamma`` with the shear
@@ -214,13 +267,13 @@ class BeamResults:
         )
 
         # Provisional cross-section rotation from the bending curvature.
-        psi_prov = integrate.cumulative_trapezoid(curv[1:-1], dx=h, initial=0)
+        psi_prov = integrate.cumulative_trapezoid(curv[1:-1], initial=0, **int_kw)
 
         if etype > 1 and use_bc:
             # Recover the i-end rotation from the kinematic BC D(L) = d[2],
             # valid for any EI(x), GAv(x) and curvature field.
             slope_prov = psi_prov + gamma
-            D_prov = integrate.cumulative_trapezoid(slope_prov, dx=h, initial=0)
+            D_prov = integrate.cumulative_trapezoid(slope_prov, initial=0, **int_kw)
             psi_i = (d[2] - d[0] - D_prov[-1]) / L
             psi = psi_prov + psi_i
         elif etype > 1:
@@ -233,7 +286,7 @@ class BeamResults:
             psi = psi_prov + d[1]
 
         slope = psi + gamma
-        D = integrate.cumulative_trapezoid(slope, dx=h, initial=0) + d[0]
+        D = integrate.cumulative_trapezoid(slope, initial=0, **int_kw) + d[0]
 
         res.R[1:-1] = psi
         res.D[1:-1] = D
@@ -742,7 +795,7 @@ class Envelopes:
 
         return np.array([op(chunk) for chunk in chunks])
 
-    def plot(self, each=False, units=None, **kwargs):
+    def plot(self, each=False, units=None, backend=None, **kwargs):
         """
         Plots the envelopes of bending and shear.
 
@@ -752,6 +805,12 @@ class Envelopes:
             Wether or not to show each BMD and SFD in the enveloping. The default is False
         units : str or pycba.units.UnitSystem, optional
             Display unit system for the labels (see :func:`pycba.set_units`).
+        backend : {"matplotlib", "plotly"}, optional
+            Plotting backend; defaults to the global default (see
+            :func:`pycba.set_backend`).  With ``"plotly"`` an interactive,
+            hover-to-read envelope figure (a ``plotly.graph_objects.Figure``) is
+            returned, with the max/min band shaded; ``each`` and ``**kwargs`` do
+            not apply.
         **kwargs : Dict
             Matplotlib keyword arguments for plotting.
 
@@ -761,10 +820,15 @@ class Envelopes:
 
         """
         from .units import resolve
+        from .plotting import resolve_backend
 
-        us = resolve(units)
         if self.nres < 1:
             raise ValueError("No results to display")
+        if resolve_backend(backend) == "plotly":
+            from .plotting import envelope_figure
+
+            return envelope_figure(self, units=units)
+        us = resolve(units)
 
         L = self.x[-1]
 

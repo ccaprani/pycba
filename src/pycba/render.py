@@ -340,6 +340,7 @@ class BeamPlotter:
             ax.plot([0, L], [0, 0], "k-", lw=3, zorder=5, solid_capstyle="round")
 
         if show_supports:
+            self._draw_foundations_mpl(ax, sh)
             for s in self.supports:
                 self._draw_support_mpl(ax, s, sh)
             for h in self.hinges:
@@ -553,6 +554,29 @@ class BeamPlotter:
             ax.add_patch(
                 Wedge((x, 0), r, 180, 360, fc="white", ec="k", lw=1.1, zorder=7)
             )
+
+    def _draw_foundations_mpl(self, ax, sh: float):
+        """
+        Draw a Winkler-foundation indication - a row of springs standing on a
+        hatched ground line - under any member that has an elastic foundation
+        (a finite ``kf``).
+        """
+        mbr_kf = getattr(self.beam, "mbr_kf", None)
+        if not mbr_kf:
+            return
+        yg = -1.25 * sh  # ground line, just below the spring feet
+        hs = 0.16 * sh
+        for i, kf in enumerate(mbr_kf):
+            if kf is None:
+                continue
+            x0, x1 = self.node_x[i], self.node_x[i + 1]
+            n = int(np.clip(round((x1 - x0) / (1.4 * sh)), 3, 18))
+            for xc in np.linspace(x0, x1, n):
+                self._spring_mpl(ax, xc, sh)
+            ax.plot([x0, x1], [yg, yg], "k-", lw=1.0, zorder=3)
+            nh = int(np.clip(round((x1 - x0) / (0.45 * sh)), 6, 80))
+            for xi in np.linspace(x0, x1 - (x1 - x0) / nh, nh):
+                ax.plot([xi, xi + hs], [yg, yg - hs], "k-", lw=0.6, zorder=3)
 
     def _ground_mpl(self, ax, xc: float, ytop: float, width: float, n: int = 6):
         """A hatched ground line centred at ``xc`` with its top at ``ytop``."""

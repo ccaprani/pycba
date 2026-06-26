@@ -10,12 +10,14 @@
 
     pycba.analysis
     pycba.beam
+    pycba.foundation
     pycba.section
     pycba.load
     pycba.load_cases
     pycba.results
     pycba.pattern
     pycba.render
+    pycba.plotting
     pycba.units
     pycba.inf_lines
     pycba.bridge

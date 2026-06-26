@@ -76,6 +76,7 @@ class BeamAnalysis:
         D: Optional[list] = None,
         supports: Optional[Sequence] = None,
         GAv: Optional[Union[float, SectionEI, Sequence]] = None,
+        kf: Optional[Union[float, Sequence]] = None,
     ):
         """
         Construct a beam analysis object.
@@ -156,6 +157,14 @@ class BeamAnalysis:
             element.  Broadcasts like ``EI``: a single scalar (or one
             :class:`~pycba.section.SectionEI` for a variable ``GAv(x)``) applies
             to all spans, otherwise one entry per span.
+        kf : float or array_like, optional
+            Winkler foundation modulus (modulus of subgrade reaction per unit
+            beam length).  A span with a finite ``kf`` rests on an elastic
+            (Winkler) foundation, modelled as a statically-condensed
+            beam-on-elastic-foundation super-element.  Like ``EI``: a scalar
+            applies to all spans, otherwise one entry per span (each ``None`` or
+            a modulus).  Supported for prismatic, fixed-fixed spans without
+            ``GAv``, carrying UDL / point / partial-UDL loads.
 
         Raises
         ------
@@ -165,6 +174,11 @@ class BeamAnalysis:
             differs from ``len(L)``.
         """
         self.npts = 100
+        # Optional per-member "shear point" sections (0-based member index ->
+        # member-local coordinates) spliced into the evaluation grid so the
+        # shear is recovered exactly either side of each section.  ``None``
+        # leaves the uniform grid unchanged; set by a moving-load analysis.
+        self.shear_points = None
         self._beam_results = None
 
         if eletype is None:
@@ -181,6 +195,7 @@ class BeamAnalysis:
             D=D,
             supports=supports,
             GAv=GAv,
+            kf=kf,
         )
 
         self._n = self._beam.no_spans
@@ -413,7 +428,9 @@ class BeamAnalysis:
         d = self._solver(ksys, f)
         r, rs = self._reactions(ksysU, d, fU)
 
-        self._beam_results = BeamResults(self._beam, d, r, self.npts, rs)
+        self._beam_results = BeamResults(
+            self._beam, d, r, self.npts, rs, self.shear_points
+        )
         return 0
 
     def modal(self, mass, n_modes: int = 10, nseg: int = 12):
@@ -843,7 +860,12 @@ class BeamAnalysis:
         )
 
     def plot_results(
-        self, show_beam: bool = True, show: bool = True, units=None, figsize=None
+        self,
+        show_beam: bool = True,
+        show: bool = True,
+        units=None,
+        figsize=None,
+        backend=None,
     ):
         """
         Plot bending moment, shear force, and deflection diagrams.
@@ -873,11 +895,19 @@ class BeamAnalysis:
             Figure size in inches. Defaults to 10 wide and ~3 in per subplot
             row (so the diagrams are not squashed), consistent with the other
             PyCBA result plots; pass an explicit tuple to override.
+        backend : {"matplotlib", "plotly"}, optional
+            Plotting backend; defaults to the global default (see
+            :func:`pycba.set_backend`).  With ``"plotly"`` an interactive,
+            hover-to-read figure of the three diagrams (sharing the x-axis) is
+            returned; the ``show_beam``, ``show`` and ``figsize`` arguments do
+            not apply.
 
         Returns
         -------
         matplotlib.figure.Figure
             The figure, or ``None`` if :meth:`analyze` has not been called.
+            With ``backend="plotly"`` a single ``plotly.graph_objects.Figure``
+            is returned instead of the ``(figure, axes)`` pair.
         numpy.ndarray of matplotlib.axes.Axes
             The panel axes (length 4 when ``show_beam`` is ``True``, else 3).
 
@@ -887,10 +917,15 @@ class BeamAnalysis:
         called yet.
         """
         from .units import resolve
+        from .plotting import resolve_backend
 
         if self._beam_results is None:
             print("Nothing to plot - run analysis first")
             return None
+        if resolve_backend(backend) == "plotly":
+            from .plotting import results_figure
+
+            return results_figure(self._beam_results.results, units=units)
         us = resolve(units)
         res = self._beam_results.results
         L = self._beam.length
@@ -938,7 +973,9 @@ class BeamAnalysis:
             plt.show()
         return fig, axs
 
-    def _plot_diagram(self, kind, ax=None, units=None, figsize=None, **kwargs):
+    def _plot_diagram(
+        self, kind, ax=None, units=None, figsize=None, backend=None, **kwargs
+    ):
         """
         Draw a single result diagram (bending moment, shear, or deflection).
 
@@ -969,10 +1006,15 @@ class BeamAnalysis:
             The axes drawn into, or ``None`` if :meth:`analyze` has not run.
         """
         from .units import resolve
+        from .plotting import resolve_backend
 
         if self._beam_results is None:
             print("Nothing to plot - run analysis first")
             return None
+        if resolve_backend(backend) == "plotly":
+            from .plotting import diagram_figure
+
+            return diagram_figure(self._beam_results.results, kind, units=units)
         us = resolve(units)
         res = self._beam_results.results
         L = self._beam.length
@@ -994,7 +1036,7 @@ class BeamAnalysis:
         ax.plot(res.x, y, **kwargs)
         return ax
 
-    def plot_bmd(self, ax=None, units=None, **kwargs):
+    def plot_bmd(self, ax=None, units=None, backend=None, **kwargs):
         """
         Plot the bending-moment diagram.
 
@@ -1009,43 +1051,50 @@ class BeamAnalysis:
             Axes to draw into; a new figure is created if omitted.
         units : str or pycba.units.UnitSystem, optional
             Display unit system (see :func:`pycba.set_units`).
+        backend : {"matplotlib", "plotly"}, optional
+            Plotting backend; defaults to the global default (see
+            :func:`pycba.set_backend`).  With ``"plotly"`` an interactive figure
+            is returned and ``ax``/``**kwargs`` do not apply.
         **kwargs
             Forwarded to the curve plot (``color``, ``ls``, ``lw``, ``label``).
 
         Returns
         -------
         matplotlib.axes.Axes or None
-            The axes drawn into (``None`` before :meth:`analyze`).
+            The axes drawn into (``None`` before :meth:`analyze`), or a
+            ``plotly.graph_objects.Figure`` with ``backend="plotly"``.
         """
-        return self._plot_diagram("M", ax=ax, units=units, **kwargs)
+        return self._plot_diagram("M", ax=ax, units=units, backend=backend, **kwargs)
 
-    def plot_sfd(self, ax=None, units=None, **kwargs):
+    def plot_sfd(self, ax=None, units=None, backend=None, **kwargs):
         """
         Plot the shear-force diagram.
 
         See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,
-        and matplotlib ``**kwargs``).
+        ``backend`` and matplotlib ``**kwargs``).
 
         Returns
         -------
         matplotlib.axes.Axes or None
-            The axes drawn into (``None`` before :meth:`analyze`).
+            The axes drawn into (``None`` before :meth:`analyze`), or a
+            ``plotly.graph_objects.Figure`` with ``backend="plotly"``.
         """
-        return self._plot_diagram("V", ax=ax, units=units, **kwargs)
+        return self._plot_diagram("V", ax=ax, units=units, backend=backend, **kwargs)
 
-    def plot_dsd(self, ax=None, units=None, **kwargs):
+    def plot_dsd(self, ax=None, units=None, backend=None, **kwargs):
         """
         Plot the deflected-shape diagram.
 
         See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,
-        and matplotlib ``**kwargs``).
+        ``backend`` and matplotlib ``**kwargs``).
 
         Returns
         -------
         matplotlib.axes.Axes or None
-            The axes drawn into (``None`` before :meth:`analyze`).
+            The axes drawn into (``None`` before :meth:`analyze`), or a
+            ``plotly.graph_objects.Figure`` with ``backend="plotly"``.
         """
-        return self._plot_diagram("D", ax=ax, units=units, **kwargs)
+        return self._plot_diagram("D", ax=ax, units=units, backend=backend, **kwargs)
 
     def __repr__(self) -> str:
         b = self._beam

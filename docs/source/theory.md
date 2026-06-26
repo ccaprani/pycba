@@ -354,6 +354,61 @@ elements are not currently combined with the nonlinear (plastic-hinge) engine,
 which remains Euler–Bernoulli.
 ```
 
+### Beam on an elastic (Winkler) foundation
+
+A member given a finite foundation modulus $k_f$ (the modulus of subgrade
+reaction per unit length of beam) rests on a continuous Winkler foundation that
+resists deflection with a distributed reaction $q(x) = -k_f\,v(x)$. (Throughout,
+*member* and *span* are used interchangeably for the element between two nodes.)
+The governing equation becomes
+
+$$ EI\,\frac{\mathrm{d}^4 v}{\mathrm{d}x^4} + k_f\,v = w(x), $$
+
+whose homogeneous solutions decay over the characteristic length
+$\lambda = (4EI/k_f)^{1/4}$.
+
+Rather than introduce the exact (hyperbolic) foundation element and re-derive
+the fixed-end forces for every load type, PyCBA models the foundation member as a
+**statically-condensed super-element** (the same internal-meshing idea used by
+the [nonlinear analysis](theory-nonlinear)). The member is meshed into $n$
+ordinary Euler–Bernoulli sub-elements; each receives the standard *consistent*
+foundation stiffness
+
+$$ \mathbf{k}_f^{(e)} = \frac{k_f\,h}{420}
+\begin{bmatrix}
+156 & 22h & 54 & -13h \\
+22h & 4h^2 & 13h & -3h^2 \\
+54 & 13h & 156 & -22h \\
+-13h & -3h^2 & -22h & 4h^2
+\end{bmatrix}, $$
+
+formed from the same cubic Hermite shape functions as the element stiffness
+($h = L/n$ the sub-element length). The internal nodes are removed by static
+condensation, so the member still presents a two-node $4\times4$ stiffness and a
+condensed fixed-end-force vector to the global assembly — reactions, plotting
+and influence lines are inherited unchanged. Member results are recovered by
+reconstructing the internal sub-element displacements and concatenating each
+sub-element's exact Euler–Bernoulli diagrams; accuracy improves with mesh
+refinement, and the mesh defaults to several sub-elements per characteristic
+length $\lambda$. The implementation reproduces the analytic infinite-beam
+deflection $P\beta/2k_f$ and moment $P/4\beta$ (with $\beta = 1/\lambda$) under a
+point load from [Hetényi (1946)](ref-hetenyi-1946), and is used to validate it.
+
+The Winkler model is linear and *bidirectional*: where a member lifts, the
+springs resist by pulling down, so the foundation can carry apparent tension. A
+real soil cannot, and a railway run-on slab in fact spans a settlement trough
+behind the abutment rather than a continuous bed
+([O'Brien, Keogh & O'Connor 2014](ref-obrien-keogh-oconnor-2014), §4.5); the
+linear bed therefore over-estimates effects in any uplift zones. The
+[foundation tutorial](notebooks/foundation.ipynb) shows a worked railway-bridge
+example with ballasted approaches under a moving load.
+
+```{note}
+The foundation super-element currently supports prismatic, fixed-fixed members
+without shear flexibility (`GAv`), carrying UDL, point and partial-UDL loads;
+other combinations raise a clear error.
+```
+
 ## Global stiffness matrix
 
 For an $N$-span beam there are $N+1$ nodes and hence $2(N+1)$ degrees of
