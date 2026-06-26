@@ -10,6 +10,7 @@
 
     pycba.analysis
     pycba.beam
+    pycba.foundation
     pycba.section
     pycba.load
     pycba.load_cases
