@@ -133,8 +133,8 @@ class VehicleLibrary:
 
     Access a vehicle through its region namespace::
 
-        cba.VehicleLibrary.Aus.get_m1600(6.25)     # AS 5100.2 road
-        cba.VehicleLibrary.Aus.get_300la()         # AS 5100.2 rail
+        cba.VehicleLibrary.AU.get_m1600(6.25)     # AS 5100.2 road
+        cba.VehicleLibrary.AU.get_300la()         # AS 5100.2 rail
         cba.VehicleLibrary.US.get_hl93_truck()     # AASHTO LRFD
         cba.VehicleLibrary.EU.get_lm71()           # Eurocode EN 1991-2 rail
         cba.VehicleLibrary.UK.get_hb(units=45)     # BS 5400 / CS 454
@@ -147,7 +147,7 @@ class VehicleLibrary:
 
     Regions
     -------
-    :class:`Aus`
+    :class:`AU`
         AS 5100.2 and the historical NAASRA models (M1600, S1600, A160, W80,
         300LA / LA rail, T44, MS18, ABAG assessment trucks).
     :class:`US`
@@ -165,7 +165,7 @@ class VehicleLibrary:
     # ================================================================== #
     # Australia - AS 5100.2 and the historical NAASRA models
     # ================================================================== #
-    class Aus:
+    class AU:
         """Australian road & rail loads: AS 5100.2 and the historical NAASRA models."""
 
         abag_bdouble_aw = (
@@ -391,7 +391,7 @@ class VehicleLibrary:
         @staticmethod
         def get_300la(axle_group_count=10, axle_group_spacing=12) -> Vehicle:
             """The AS 5100.2 300LA rail load model (:meth:`get_la_rail` with 300 kN axles)."""
-            return VehicleLibrary.Aus.get_la_rail(
+            return VehicleLibrary.AU.get_la_rail(
                 axle_group_count, axle_group_spacing, axle_weight=300.0
             )
 

@@ -84,33 +84,33 @@ def test_china_jtg_vehicle():
 # Australia - AS5100 + historical NAASRA
 # --------------------------------------------------------------------------- #
 def test_as5100_single_axle_wheel():
-    a = VL.Aus.get_a160()
+    a = VL.AU.get_a160()
     assert a.NoAxles == 1 and a.axw[0] == pytest.approx(160.0) and len(a.axs) == 0
-    w = VL.Aus.get_w80()
+    w = VL.AU.get_w80()
     assert w.NoAxles == 1 and w.axw[0] == pytest.approx(80.0)
 
 
 def test_naasra_t44():
-    _check(VL.Aus.get_t44(), [48, 96, 96, 96, 96], [3.7, 1.2, 3.0, 1.2])
+    _check(VL.AU.get_t44(), [48, 96, 96, 96, 96], [3.7, 1.2, 3.0, 1.2])
     _check(
-        VL.Aus.get_t44(variable_spacing=8.0), [48, 96, 96, 96, 96], [3.7, 1.2, 8.0, 1.2]
+        VL.AU.get_t44(variable_spacing=8.0), [48, 96, 96, 96, 96], [3.7, 1.2, 8.0, 1.2]
     )
-    assert VL.Aus.get_t44().W == pytest.approx(432.0)
+    assert VL.AU.get_t44().W == pytest.approx(432.0)
     for bad in (2.9, 8.1):
         with pytest.raises(ValueError):
-            VL.Aus.get_t44(variable_spacing=bad)
+            VL.AU.get_t44(variable_spacing=bad)
 
 
 def test_naasra_ms18():
-    _check(VL.Aus.get_ms18(), [35.6, 142.3, 142.3], [4.27, 4.27])
-    _check(VL.Aus.get_ms18(rear_spacing=9.14), [35.6, 142.3, 142.3], [4.27, 9.14])
+    _check(VL.AU.get_ms18(), [35.6, 142.3, 142.3], [4.27, 4.27])
+    _check(VL.AU.get_ms18(rear_spacing=9.14), [35.6, 142.3, 142.3], [4.27, 9.14])
     with pytest.raises(ValueError):
-        VL.Aus.get_ms18(rear_spacing=10.0)
+        VL.AU.get_ms18(rear_spacing=10.0)
 
 
 def test_as5100_300la_matches_la_rail():
-    a = VL.Aus.get_300la(axle_group_count=3)
-    b = VL.Aus.get_la_rail(axle_group_count=3, axle_weight=300)
+    a = VL.AU.get_300la(axle_group_count=3)
+    b = VL.AU.get_la_rail(axle_group_count=3, axle_weight=300)
     assert np.allclose(a.axw, b.axw) and np.allclose(a.axs, b.axs)
 
 
@@ -128,9 +128,9 @@ def test_models_run_in_a_bridge_analysis():
         VL.EU.get_lm71(),
         VL.CA.get_cl625(),
         VL.CN.get_jtg_vehicle(),
-        VL.Aus.get_t44(),
-        VL.Aus.get_ms18(),
-        VL.Aus.get_a160(),
+        VL.AU.get_t44(),
+        VL.AU.get_ms18(),
+        VL.AU.get_a160(),
     ):
         env = cba.BridgeAnalysis(ba, veh).run_vehicle(2.0)
         assert np.all(np.isfinite(env.Mmax)) and env.Mmax.max() > 0

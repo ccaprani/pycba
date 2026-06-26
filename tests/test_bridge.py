@@ -27,7 +27,7 @@ def test_maxvals():
 
     bridge = cba.BeamAnalysis(L, EI, R)
     bridge.npts = 500  # Use more points along the beam members
-    vehicle = cba.VehicleLibrary.Aus.get_m1600(6.25)
+    vehicle = cba.VehicleLibrary.AU.get_m1600(6.25)
     bridge_analysis = cba.BridgeAnalysis(bridge, vehicle)
     env = bridge_analysis.run_vehicle(0.1)
     cvals = bridge_analysis.critical_values(env)
@@ -54,7 +54,7 @@ def test_la():
 
         bridge = cba.BeamAnalysis(L, EI, R)
         bridge.npts = 500  # Use more points along the beam members
-        vehicle = cba.VehicleLibrary.Aus.get_la_rail()
+        vehicle = cba.VehicleLibrary.AU.get_la_rail()
         bridge_analysis = cba.BridgeAnalysis(bridge, vehicle)
         env = bridge_analysis.run_vehicle(0.1)
         cvals = bridge_analysis.critical_values(env)
@@ -270,7 +270,7 @@ def test_coincident_critical_values():
 
     bridge = cba.BeamAnalysis(L, EI, R)
     bridge.npts = 500
-    vehicle = cba.VehicleLibrary.Aus.get_m1600(6.25)
+    vehicle = cba.VehicleLibrary.AU.get_m1600(6.25)
     bridge_analysis = cba.BridgeAnalysis(bridge, vehicle)
     env = bridge_analysis.run_vehicle(0.1)
     cvals = bridge_analysis.critical_values(env)
