@@ -861,6 +861,39 @@ the non-zero factors of the `LoadCombination`. A target combination such as
 envelope over many target stations is an envelope of (possibly different)
 arrangements.
 
+## Free-vibration (modal) analysis
+
+Beyond static analysis, `PyCBA` provides the natural frequencies and mode shapes
+of the beam. A **consistent mass matrix** is assembled alongside the stiffness
+matrix; for a prismatic Euler–Bernoulli element of mass per unit length
+$\bar m$ it is, from the same cubic Hermite shape functions used for the
+stiffness,
+
+$$ \mathbf{m}^{(e)} = \frac{\bar m\,L}{420}
+\begin{bmatrix}
+156 & 22L & 54 & -13L \\
+22L & 4L^2 & 13L & -3L^2 \\
+54 & 13L & 156 & -22L \\
+-13L & -3L^2 & -22L & 4L^2
+\end{bmatrix}. $$
+
+The natural circular frequencies $\omega$ and mode shapes
+$\boldsymbol\phi$ are the solutions of the generalized eigenproblem
+
+$$ \mathbf{K}\,\boldsymbol\phi = \omega^2\,\mathbf{M}\,\boldsymbol\phi $$
+
+on the free (unrestrained) degrees of freedom, with elastic spring supports
+contributing to $\mathbf{K}$. Because a single element per span resolves only
+the first mode or two, each span is refined into several Euler–Bernoulli
+sub-elements for the eigenanalysis; the lowest frequencies then match the
+classical analytic results (simply-supported $\omega_n = (n\pi/L)^2\sqrt{EI/\bar m}$,
+cantilever, fixed-fixed) to well under a percent.
+
+```{note}
+Modal analysis currently supports prismatic, fixed-fixed spans without shear
+flexibility (`GAv`); other combinations raise a clear error.
+```
+
 (theory-nonlinear)=
 
 ## Nonlinear analysis — Generalized Clough model

@@ -9,10 +9,12 @@ notebooks/intro
 notebooks/envelopes
 notebooks/inf_lines
 notebooks/bridge
+notebooks/vehicle_library
 notebooks/nonlinear
 notebooks/nonprismatic
 notebooks/timoshenko
 notebooks/foundation
 notebooks/creep_shrinkage_thermal
+notebooks/modal
 notebooks/plotly
 ```
