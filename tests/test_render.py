@@ -332,8 +332,8 @@ def test_plot_diagram_before_analyze_returns_none():
 
 def test_repr_beam_and_analysis():
     ba = _make_analysis("P7.5R7.0R", LM=[[1, 1, 20], [2, 2, 50, 3]])
-    assert repr(ba) == "BeamAnalysis(2 spans, 3 supports, 2 loads, not analysed)"
-    assert repr(ba.beam) == "Beam(2 spans, L=14.5, 3 supports, 2 loads)"
+    assert repr(ba) == "BeamAnalysis(2 members, 3 supports, 2 loads, not analysed)"
+    assert repr(ba.beam) == "Beam(2 members, L=14.5, 3 supports, 2 loads)"
     ba.analyze()
     assert "analysed" in repr(ba) and "not analysed" not in repr(ba)
 

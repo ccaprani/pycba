@@ -198,7 +198,7 @@ class BeamAnalysis:
             kf=kf,
         )
 
-        self._n = self._beam.no_spans
+        self._n = self._beam.no_members
         self._no_nodes = self._n + 1
         self._nDOF = 2 * self._no_nodes
         # Beam structure_version at the last successful stability check, so the
@@ -275,37 +275,37 @@ class BeamAnalysis:
         """
         self._beam.loads = LM
 
-    def add_udl(self, i_span: int, w: float):
+    def add_udl(self, i_member: int, w: float):
         """
         Append a full-span uniformly-distributed load.
 
         Parameters
         ----------
-        i_span : int
-            1-based span index.
+        i_member : int
+            1-based member index.
         w : float
             Load intensity.  Positive values act downward.
         """
-        load = [i_span, 1, w]
+        load = [i_member, 1, w]
         self._beam.add_load(load)
 
-    def add_pl(self, i_span: int, p: float, a: float):
+    def add_pl(self, i_member: int, p: float, a: float):
         """
         Append a point load.
 
         Parameters
         ----------
-        i_span : int
-            1-based span index.
+        i_member : int
+            1-based member index.
         p : float
             Load magnitude.  Positive values act downward.
         a : float
             Distance from the left end of the span to the load.
         """
-        load = [i_span, 2, p, a]
+        load = [i_member, 2, p, a]
         self._beam.add_load(load)
 
-    def add_pudl(self, i_span: int, w: float, a: float, c: float):
+    def add_pudl(self, i_member: int, w: float, a: float, c: float):
         """
         Append a partial uniformly-distributed load.
 
@@ -314,8 +314,8 @@ class BeamAnalysis:
 
         Parameters
         ----------
-        i_span : int
-            1-based span index.
+        i_member : int
+            1-based member index.
         w : float
             Load intensity.  Positive values act downward.
         a : float
@@ -323,26 +323,26 @@ class BeamAnalysis:
         c : float
             Length (cover) of the partial UDL.
         """
-        load = [i_span, 3, w, a, c]
+        load = [i_member, 3, w, a, c]
         self._beam.add_load(load)
 
-    def add_ml(self, i_span: int, m: float, a: float):
+    def add_ml(self, i_member: int, m: float, a: float):
         """
         Append a concentrated moment load.
 
         Parameters
         ----------
-        i_span : int
-            1-based span index.
+        i_member : int
+            1-based member index.
         m : float
             Moment magnitude.  Positive values are counter-clockwise.
         a : float
             Distance from the left end of the span to the load.
         """
-        load = [i_span, 4, m, a]
+        load = [i_member, 4, m, a]
         self._beam.add_load(load)
 
-    def add_ic(self, i_span: int, kappa):
+    def add_ic(self, i_member: int, kappa):
         r"""
         Append an imposed-curvature (initial-strain) member load.
 
@@ -355,19 +355,19 @@ class BeamAnalysis:
 
         Parameters
         ----------
-        i_span : int
-            1-based span index.
+        i_member : int
+            1-based member index.
         kappa : float or array_like of float
             Imposed-curvature polynomial coefficients in increasing powers of
             ``x``: ``[k0, k1, k2, ...]``.  A scalar is a uniform curvature.
         """
         coeffs = np.atleast_1d(np.asarray(kappa, dtype=float)).tolist()
-        load = [i_span, 6] + coeffs
+        load = [i_member, 6] + coeffs
         self._beam.add_load(load)
 
     def add_trap(
         self,
-        i_span: int,
+        i_member: int,
         w1: float,
         w2: float,
         a: Optional[float] = None,
@@ -383,8 +383,8 @@ class BeamAnalysis:
 
         Parameters
         ----------
-        i_span : int
-            1-based span index.
+        i_member : int
+            1-based member index.
         w1 : float
             Load intensity at the start of the load.  Positive values act downward.
         w2 : float
@@ -398,9 +398,9 @@ class BeamAnalysis:
         if a is not None and c is None:
             raise ValueError("If 'a' is specified, 'c' must also be provided")
         if a is not None:
-            load = [i_span, 5, w1, w2, a, c]
+            load = [i_member, 5, w1, w2, a, c]
         else:
-            load = [i_span, 5, w1, w2]
+            load = [i_member, 5, w1, w2]
         self._beam.add_load(load)
 
     def analyze(self, npts: Optional[int] = None, check_stability: bool = True) -> int:
@@ -1231,7 +1231,7 @@ class BeamAnalysis:
         n_loads = len(b.LM)
         state = "analysed" if self._beam_results is not None else "not analysed"
         return (
-            f"BeamAnalysis({b.no_spans} span{'' if b.no_spans == 1 else 's'}, "
+            f"BeamAnalysis({b.no_members} member{'' if b.no_members == 1 else 's'}, "
             f"{n_sup} support{'' if n_sup == 1 else 's'}, "
             f"{n_loads} load{'' if n_loads == 1 else 's'}, {state})"
         )
