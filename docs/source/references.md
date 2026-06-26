@@ -288,3 +288,25 @@ top 1200 mm of the superstructure that AS 5100.2 (and US bridge practice) adopt.
 A contemporaneous treatment is *Thermal Stress Analysis of Concrete Bridge
 Superstructures*, Transportation Research Record 607 (1976),
 [PDF](https://onlinepubs.trb.org/Onlinepubs/trr/1976/607/607-003.pdf).
+
+## Beams on elastic foundations
+
+(ref-hetenyi-1946)=
+**Hetényi, M. (1946).** *Beams on Elastic Foundation: Theory with Applications
+in the Fields of Civil and Mechanical Engineering.* University of Michigan
+Press, Ann Arbor.
+[Publisher record](https://doi.org/10.3998/mpub.9904174).
+The classic treatment of the beam on a Winkler foundation; its infinite-beam
+point-load deflection and moment are reproduced by the `pycba.foundation`
+super-element and used to validate it (see the
+[foundation tutorial](notebooks/foundation.ipynb)).
+
+(ref-obrien-keogh-oconnor-2014)=
+**O'Brien, E.J., Keogh, D.L. & O'Connor, A.J. (2014).** *Bridge Deck Analysis*,
+2nd edn. CRC Press, Boca Raton. ISBN 978-1482227239.
+[Publisher record](https://www.routledge.com/Bridge-Deck-Analysis-Second-Edition/Obrien-Keogh-OConnor/p/book/9781482227239).
+Chapter 4 treats integral bridges and soil–structure interaction; **§4.5
+(Run-on slab)** notes that a run-on slab spans a settlement trough behind the
+abutment rather than resting on a continuous bed — the practical caveat to the
+linear Winkler foundation in the
+[foundation tutorial](notebooks/foundation.ipynb).

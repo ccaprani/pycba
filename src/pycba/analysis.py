@@ -76,6 +76,7 @@ class BeamAnalysis:
         D: Optional[list] = None,
         supports: Optional[Sequence] = None,
         GAv: Optional[Union[float, SectionEI, Sequence]] = None,
+        kf: Optional[Union[float, Sequence]] = None,
     ):
         """
         Construct a beam analysis object.
@@ -156,6 +157,14 @@ class BeamAnalysis:
             element.  Broadcasts like ``EI``: a single scalar (or one
             :class:`~pycba.section.SectionEI` for a variable ``GAv(x)``) applies
             to all spans, otherwise one entry per span.
+        kf : float or array_like, optional
+            Winkler foundation modulus (modulus of subgrade reaction per unit
+            beam length).  A span with a finite ``kf`` rests on an elastic
+            (Winkler) foundation, modelled as a statically-condensed
+            beam-on-elastic-foundation super-element.  Like ``EI``: a scalar
+            applies to all spans, otherwise one entry per span (each ``None`` or
+            a modulus).  Supported for prismatic, fixed-fixed spans without
+            ``GAv``, carrying UDL / point / partial-UDL loads.
 
         Raises
         ------
@@ -186,6 +195,7 @@ class BeamAnalysis:
             D=D,
             supports=supports,
             GAv=GAv,
+            kf=kf,
         )
 
         self._n = self._beam.no_spans

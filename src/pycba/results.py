@@ -177,6 +177,14 @@ class BeamResults:
         mbr_GAv = getattr(beam, "mbr_GAv", [])
         GAv = mbr_GAv[i_span] if i_span < len(mbr_GAv) else None
 
+        # Winkler foundation span: recover via the condensed super-element, which
+        # reconstructs the internal sub-element displacements and concatenates
+        # their exact Euler-Bernoulli diagrams.
+        mbr_kf = getattr(beam, "mbr_kf", [])
+        if i_span < len(mbr_kf) and mbr_kf[i_span] is not None:
+            loads = [ld for ld in beam._loads if ld.i_span == i_span]
+            return beam._foundation(i_span).recover(d, loads, self.npts)
+
         dx = L / self.npts
         xr = dx * np.arange(0, self.npts + 1)  # uniform interior stations [0, L]
 

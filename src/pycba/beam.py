@@ -25,6 +25,7 @@ class Beam:
         D: Optional[np.ndarray] = None,
         supports: Optional[Sequence[SupportType]] = None,
         GAv: Optional[Union[float, "SectionEI", Sequence]] = None,
+        kf: Optional[Union[float, Sequence]] = None,
     ):
         """
         Constructs a beam object
@@ -65,6 +66,13 @@ class Beam:
             :class:`~pycba.section.SectionEI` describing ``GAv(x)``) applies to
             all spans, otherwise one entry per span (each ``None``, a scalar, or
             a :class:`~pycba.section.SectionEI`).
+        kf : Optional[float or sequence]
+            Winkler **foundation modulus** (modulus of subgrade reaction per
+            unit beam length).  A span with a finite ``kf`` rests on an elastic
+            (Winkler) foundation, modelled as a statically-condensed
+            beam-on-elastic-foundation super-element; ``None`` (default) leaves
+            the span unsupported by a foundation.  A scalar applies to all spans,
+            otherwise one entry per span.
 
 
         Returns
@@ -77,7 +85,11 @@ class Beam:
         self.mbr_lengths = []
         self.mbr_EIs = []
         self.mbr_GAv = []
+        self.mbr_kf = []
         self.mbr_eletype = []
+        # Cache of foundation super-elements, keyed by span index (rebuilt only
+        # when the structure changes, not when loads change).
+        self._found_cache = {}
         self._restraints = []
         self._prescribed_displacements = []
         self._loads = []
@@ -98,17 +110,18 @@ class Beam:
             R = supports_to_R(supports, n_nodes=len(L) + 1)
 
         if L is not None and eletype is not None:
-            # Normalise GAv to one entry per span (None => Euler-Bernoulli).
+            # Normalise GAv / kf to one entry per span (None => off).
             GAv_list = self._broadcast_GAv(GAv, len(L))
+            kf_list = self._broadcast_kf(kf, len(L))
             # A single rigidity (scalar EI, or one SectionEI) applies to all
             # spans; otherwise one rigidity per span is required.
             if isinstance(EI, (float, int, SectionEI)):
-                for l, et, gav in zip(L, eletype, GAv_list):
-                    self.add_span(l, EI, et, gav)
+                for l, et, gav, k in zip(L, eletype, GAv_list, kf_list):
+                    self.add_span(l, EI, et, gav, k)
             else:
                 if len(L) == len(EI):
-                    for l, ei, et, gav in zip(L, EI, eletype, GAv_list):
-                        self.add_span(l, ei, et, gav)
+                    for l, ei, et, gav, k in zip(L, EI, eletype, GAv_list, kf_list):
+                        self.add_span(l, ei, et, gav, k)
                 else:
                     raise ValueError("Define EI for each span")
             if R is None:
@@ -147,12 +160,31 @@ class Beam:
             raise ValueError("Define GAv for each span (or pass a scalar/None).")
         return GAv
 
+    @staticmethod
+    def _broadcast_kf(kf, n_spans: int) -> list:
+        """
+        Normalise the Winkler foundation modulus ``kf`` to one entry per span.
+
+        ``None`` (the default) marks every span as unsupported by a foundation.
+        A scalar is applied to all spans; a sequence must give one entry per
+        span (each ``None`` or a scalar modulus).
+        """
+        if kf is None:
+            return [None] * n_spans
+        if isinstance(kf, (float, int)):
+            return [kf] * n_spans
+        kf = list(kf)
+        if len(kf) != n_spans:
+            raise ValueError("Define kf for each span (or pass a scalar/None).")
+        return kf
+
     def add_span(
         self,
         L: float,
         EI: float,
         eletype: Union[int, str, MemberType] = 1,
         GAv: Optional[Union[float, "SectionEI"]] = None,
+        kf: Optional[float] = None,
     ):
         """
         Add a span to the continuous beam
@@ -172,6 +204,9 @@ class Beam:
             finite) the member is a shear-deformable **Timoshenko** element;
             ``None`` (default) keeps the exact Euler–Bernoulli element.  A
             :class:`~pycba.section.SectionEI` describes a variable ``GAv(x)``.
+        kf : float, optional
+            Winkler foundation modulus.  When given, the member rests on an
+            elastic (Winkler) foundation (prismatic, fixed-fixed, no ``GAv``).
 
         Returns
         -------
@@ -188,11 +223,13 @@ class Beam:
         self.mbr_lengths.append(L)
         self.mbr_EIs.append(EI)
         self.mbr_GAv.append(GAv)
+        self.mbr_kf.append(kf)
         self.mbr_eletype.append(MemberType.coerce(eletype))
         self._no_spans = len(self.mbr_lengths)
         self._length += L
         self._terminal_coords.append(self._terminal_coords[-1] + L)
         self._structure_version += 1
+        self._found_cache = {}  # invalidate foundation super-elements
 
     def add_member(
         self,
@@ -200,6 +237,7 @@ class Beam:
         EI: float,
         mbr_type: Union[int, str, MemberType] = MemberType.FF,
         GAv: Optional[Union[float, "SectionEI"]] = None,
+        kf: Optional[float] = None,
     ):
         """
         Add a member (span) to the beam, naming its type.
@@ -219,8 +257,11 @@ class Beam:
         GAv : float or pycba.section.SectionEI, optional
             Transverse shear rigidity ``G·A_v``; when given the member is a
             shear-deformable Timoshenko element (see :meth:`add_span`).
+        kf : float, optional
+            Winkler foundation modulus; when given the member rests on an elastic
+            (Winkler) foundation (see :meth:`add_span`).
         """
-        self.add_span(L, EI, mbr_type, GAv)
+        self.add_span(L, EI, mbr_type, GAv, kf)
 
     @property
     def loads(self) -> LoadMatrix:
@@ -619,6 +660,40 @@ class Beam:
             path, compile=compile, **kwargs
         )
 
+    def _foundation(self, i_span: int):
+        """
+        Return the (cached) beam-on-elastic-foundation super-element for a
+        foundation span, after checking the supported restrictions.
+        """
+        elem = self._found_cache.get(i_span)
+        if elem is not None:
+            return elem
+
+        EI = self.mbr_EIs[i_span]
+        GAv = self.mbr_GAv[i_span] if i_span < len(self.mbr_GAv) else None
+        eType = int(np.asarray(self.mbr_eletype[i_span]).item())
+        if isinstance(EI, SectionEI):
+            raise NotImplementedError(
+                "A Winkler foundation currently requires a prismatic (scalar EI) span."
+            )
+        if GAv is not None:
+            raise NotImplementedError(
+                "A Winkler foundation cannot yet be combined with shear "
+                "flexibility (GAv) on the same span."
+            )
+        if eType != 1:
+            raise NotImplementedError(
+                "A Winkler foundation span must be fixed-fixed (the default "
+                "element type); moment releases on a foundation span are not "
+                "yet supported."
+            )
+
+        from .foundation import FoundationElement
+
+        elem = FoundationElement(self.mbr_lengths[i_span], EI, self.mbr_kf[i_span])
+        self._found_cache[i_span] = elem
+        return elem
+
     def get_ref(self, i_span: int) -> LoadCNL:
         """
         Returns Released End Forces for the member; that is, the Consistent Nodal Loads
@@ -640,6 +715,11 @@ class Beam:
         eType = self.mbr_eletype[i_span]
         EI = self.mbr_EIs[i_span]
         GAv = self.mbr_GAv[i_span] if i_span < len(self.mbr_GAv) else None
+
+        # Winkler foundation span: condense the sub-element load vector.
+        if i_span < len(self.mbr_kf) and self.mbr_kf[i_span] is not None:
+            loads = [ld for ld in self._loads if ld.i_span == i_span]
+            return self._foundation(i_span).ref(loads)
 
         for load in self._loads:
             if load.i_span != i_span:
@@ -786,6 +866,11 @@ class Beam:
         L = self.mbr_lengths[i_span]
         eType = self.mbr_eletype[i_span]
         GAv = self.mbr_GAv[i_span] if i_span < len(self.mbr_GAv) else None
+
+        # Winkler foundation: the span is a condensed beam-on-elastic-foundation
+        # super-element (see :meth:`_foundation`).
+        if i_span < len(self.mbr_kf) and self.mbr_kf[i_span] is not None:
+            return self._foundation(i_span).k
 
         # Shear-deformable (Timoshenko) member: opt-in via a finite ``GAv``.  A
         # variable EI and/or GAv goes through the flexibility integrator; the
