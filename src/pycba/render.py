@@ -425,6 +425,77 @@ class BeamPlotter:
         ax.grid(True, axis="x", ls=":", alpha=0.4)
         return ax
 
+    def render_reactions_mpl(
+        self, ax, vert, mom, sh=None, color="tab:green", show_val=True
+    ):
+        """
+        Overlay support-reaction arrows on a schematic already drawn by
+        :meth:`render_mpl` (which must have been called first, so ``self._us``
+        and the axis limits are set).
+
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes
+            The schematic axes to draw onto.
+        vert : dict[int, float]
+            Node index -> vertical reaction (positive **upward**); drawn as a
+            straight arrow pointing in the force direction.
+        mom : dict[int, float]
+            Node index -> moment reaction (positive **counter-clockwise**);
+            drawn as a curved arrow at the support.
+        sh : float, optional
+            The schematic unit height; defaults to ``0.05 * L``.
+        color : str
+            Colour for the reaction arrows and labels.
+        show_val : bool
+            Annotate each reaction with its magnitude.
+        """
+        if sh is None:
+            sh = 0.05 * self.L
+        fvmax = max((abs(v) for v in vert.values()), default=0.0)
+        lmax = 2.2 * sh
+        for node, Rv in vert.items():
+            x = self.node_x[node]
+            length = sh * (2.2 + 1.3 * (abs(Rv) / fvmax if fvmax else 1.0))
+            lmax = max(lmax, length)
+            # Arrow points in the force direction with its head at the beam for
+            # an upward reaction (tail below), and below the beam for a
+            # downward one - in both cases the label sits below the arrow.
+            if Rv >= 0:
+                xy, xytext = (x, 0.0), (x, -length)
+            else:
+                xy, xytext = (x, -length), (x, 0.0)
+            ax.annotate(
+                "",
+                xy=xy,
+                xytext=xytext,
+                arrowprops=dict(
+                    arrowstyle="-|>", color=color, lw=2.2, mutation_scale=16
+                ),
+                zorder=10,
+            )
+            if show_val:
+                ax.text(
+                    x,
+                    -length - 0.3 * sh,
+                    self._us.fmt_force(abs(Rv)),
+                    ha="center",
+                    va="top",
+                    color=color,
+                    fontsize=8,
+                    fontweight="bold",
+                    zorder=11,
+                )
+        for node, Mr in mom.items():
+            ml = MomentLoad(i_span=0, x=self.node_x[node], M=Mr)
+            self._draw_moment_mpl(ax, ml, 1.2 * sh, sh, color, show_val)
+        # Make sure the arrows and their labels are within the view.
+        ymin, ymax = ax.get_ylim()
+        need = -(lmax + 1.0 * sh)
+        if ymin > need:
+            ax.set_ylim(need, ymax)
+        return ax
+
     def _ei_depth_profile(self, sh: float):
         """
         Half-depth profile ``(x, h)`` for a non-prismatic beam, or ``None``.
