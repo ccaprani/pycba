@@ -830,12 +830,12 @@ restraints, and prescribed displacements.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_udl">
-<span class="sig-name descname"><span class="pre">add_udl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_udl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_udl" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_udl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_udl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_udl" title="Link to this definition">#</a></dt>
 <dd><p>Append a full-span uniformly-distributed load.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based span index.</p></li>
+<li><p><strong>i_member</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based member index.</p></li>
 <li><p><strong>w</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Load intensity.  Positive values act downward.</p></li>
 </ul>
 </dd>
@@ -844,12 +844,12 @@ restraints, and prescribed displacements.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_pl">
-<span class="sig-name descname"><span class="pre">add_pl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_pl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_pl" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_pl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_pl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_pl" title="Link to this definition">#</a></dt>
 <dd><p>Append a point load.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based span index.</p></li>
+<li><p><strong>i_member</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based member index.</p></li>
 <li><p><strong>p</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Load magnitude.  Positive values act downward.</p></li>
 <li><p><strong>a</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Distance from the left end of the span to the load.</p></li>
 </ul>
@@ -859,14 +859,14 @@ restraints, and prescribed displacements.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_pudl">
-<span class="sig-name descname"><span class="pre">add_pudl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_pudl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_pudl" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_pudl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_pudl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_pudl" title="Link to this definition">#</a></dt>
 <dd><p>Append a partial uniformly-distributed load.</p>
 <p>Any portion of the load that extends beyond the end of the span is
 silently ignored.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based span index.</p></li>
+<li><p><strong>i_member</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based member index.</p></li>
 <li><p><strong>w</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Load intensity.  Positive values act downward.</p></li>
 <li><p><strong>a</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Distance from the left end of the span to the start of the load.</p></li>
 <li><p><strong>c</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Length (cover) of the partial UDL.</p></li>
@@ -877,12 +877,12 @@ silently ignored.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_ml">
-<span class="sig-name descname"><span class="pre">add_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_ml" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_ml" title="Link to this definition">#</a></dt>
 <dd><p>Append a concentrated moment load.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based span index.</p></li>
+<li><p><strong>i_member</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based member index.</p></li>
 <li><p><strong>m</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Moment magnitude.  Positive values are counter-clockwise.</p></li>
 <li><p><strong>a</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Distance from the left end of the span to the load.</p></li>
 </ul>
@@ -892,7 +892,7 @@ silently ignored.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_ic">
-<span class="sig-name descname"><span class="pre">add_ic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappa</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_ic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_ic" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_ic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappa</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_ic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_ic" title="Link to this definition">#</a></dt>
 <dd><p>Append an imposed-curvature (initial-strain) member load.</p>
 <p>The free curvature field <code class="docutils literal notranslate"><span class="pre">κ(x)</span> <span class="pre">=</span> <span class="pre">k0</span> <span class="pre">+</span> <span class="pre">k1·x</span> <span class="pre">+</span> <span class="pre">k2·x²</span> <span class="pre">+</span> <span class="pre">…</span></code> is imposed
 over the member.  On a simply-supported span it produces no internal
@@ -903,7 +903,7 @@ continuous beam (see <a class="reference internal" href="pycba.load.LoadIC.html#
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based span index.</p></li>
+<li><p><strong>i_member</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based member index.</p></li>
 <li><p><strong>kappa</strong> (<em>float</em><em> or </em><em>array_like</em><em> of </em><em>float</em>) – Imposed-curvature polynomial coefficients in increasing powers of
 <code class="docutils literal notranslate"><span class="pre">x</span></code>: <code class="docutils literal notranslate"><span class="pre">[k0,</span> <span class="pre">k1,</span> <span class="pre">k2,</span> <span class="pre">...]</span></code>.  A scalar is a uniform curvature.</p></li>
 </ul>
@@ -913,7 +913,7 @@ continuous beam (see <a class="reference internal" href="pycba.load.LoadIC.html#
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.add_trap">
-<span class="sig-name descname"><span class="pre">add_trap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_span</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_trap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_trap" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_trap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.add_trap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.add_trap" title="Link to this definition">#</a></dt>
 <dd><p>Append a trapezoidal (linearly varying) distributed load.</p>
 <p>When <em>a</em> and <em>c</em> are omitted the load covers the full span, varying
 from <em>w1</em> at the left end to <em>w2</em> at the right end.  When <em>a</em> and <em>c</em>
@@ -922,7 +922,7 @@ are given the load covers the region from <em>a</em> to <em>a + c</em>, varying 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i_span</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based span index.</p></li>
+<li><p><strong>i_member</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 1-based member index.</p></li>
 <li><p><strong>w1</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Load intensity at the start of the load.  Positive values act downward.</p></li>
 <li><p><strong>w2</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Load intensity at the end of the load.  Positive values act downward.</p></li>
 <li><p><strong>a</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Distance from the left end of the span to the start of the load.

@@ -587,12 +587,21 @@
 <dt class="sig sig-object py" id="pycba.beam.Beam">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class definition</p>
+<p>A continuous beam: its members, supports and loads.</p>
+<p>A beam is built from one or more <strong>members</strong> — each a two-node
+Euler–Bernoulli (or, with <code class="docutils literal notranslate"><span class="pre">GAv</span></code>, Timoshenko) element of given length and
+<code class="docutils literal notranslate"><span class="pre">EI</span></code> — added with <a class="reference internal" href="#pycba.beam.Beam.add_member" title="pycba.beam.Beam.add_member"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_member()</span></code></a> (or the older <a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_span()</span></code></a>).</p>
+<p><strong>Member vs span.</strong> A <em>member</em> is the element between two adjacent nodes; a
+<em>clear span</em> is the distance between two supports. In the common case the
+two coincide, but a clear span may be modelled with several members (e.g. to
+place an intermediate node, a load discontinuity or an internal hinge), so
+<a class="reference internal" href="#pycba.beam.Beam.no_members" title="pycba.beam.Beam.no_members"><code class="xref py py-attr docutils literal notranslate"><span class="pre">no_members</span></code></a> counts the elements, not the supported spans.</p>
 <p>Constructs a beam object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector of span lengths.</p></li>
+<li><p><strong>L</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector of member lengths (one per member; a clear span between
+supports may comprise several members).</p></li>
 <li><p><strong>EI</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector of member flexural rigidities.</p></li>
 <li><p><strong>R</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</span>) – A vector describing the support conditions at each member end (the
 low-level restraint vector).  Provide either <code class="docutils literal notranslate"><span class="pre">R</span></code> or the friendlier
@@ -699,19 +708,22 @@ otherwise one entry per span.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_fixed_restraints" title="pycba.beam.Beam.no_fixed_restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_fixed_restraints</span></code></a></p></td>
 <td><p>Returns the number of fixed restraints of the beam (fully-supported DOFs)</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_restraints" title="pycba.beam.Beam.no_restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_restraints</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_members" title="pycba.beam.Beam.no_members"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_members</span></code></a></p></td>
+<td><p>The number of members in the beam.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_restraints" title="pycba.beam.Beam.no_restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_restraints</span></code></a></p></td>
 <td><p>Returns the number of restraints of the beam</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_spans" title="pycba.beam.Beam.no_spans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_spans</span></code></a></p></td>
-<td><p>Returns the no.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.no_spans" title="pycba.beam.Beam.no_spans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_spans</span></code></a></p></td>
+<td><p>Deprecated alias of <a class="reference internal" href="#pycba.beam.Beam.no_members" title="pycba.beam.Beam.no_members"><code class="xref py py-attr docutils literal notranslate"><span class="pre">no_members</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.prescribed_displacements" title="pycba.beam.Beam.prescribed_displacements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prescribed_displacements</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.prescribed_displacements" title="pycba.beam.Beam.prescribed_displacements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prescribed_displacements</span></code></a></p></td>
 <td><p>Returns the prescribed displacements vector for the beam</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.restraints" title="pycba.beam.Beam.restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restraints</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.restraints" title="pycba.beam.Beam.restraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restraints</span></code></a></p></td>
 <td><p>Returns the restraints vector for the beam</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.beam.Beam.structure_version" title="pycba.beam.Beam.structure_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">structure_version</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.beam.Beam.structure_version" title="pycba.beam.Beam.structure_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">structure_version</span></code></a></p></td>
 <td><p>A counter that increments whenever the beam <em>structure</em> changes.</p></td>
 </tr>
 </tbody>
@@ -836,17 +848,26 @@ check (see <a class="reference internal" href="pycba.analysis.BeamAnalysis.html#
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="pycba.beam.Beam.no_spans">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">no_spans</span></span><a class="headerlink" href="#pycba.beam.Beam.no_spans" title="Link to this definition">#</a></dt>
-<dd><p>Returns the no. of spans in the beam</p>
+<dt class="sig sig-object py" id="pycba.beam.Beam.no_members">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">no_members</span></span><a class="headerlink" href="#pycba.beam.Beam.no_members" title="Link to this definition">#</a></dt>
+<dd><p>The number of members in the beam.</p>
+<p>A <em>member</em> is an element between two nodes; a clear <em>span</em> (the distance
+between two supports) may comprise several members (e.g. to place an
+intermediate node, load discontinuity or internal hinge).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>no_spans</strong> – The number of spans in the beam</p>
+<dd class="field-odd"><p><strong>no_members</strong></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycba.beam.Beam.no_spans">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">no_spans</span></span><a class="headerlink" href="#pycba.beam.Beam.no_spans" title="Link to this definition">#</a></dt>
+<dd><p>Deprecated alias of <a class="reference internal" href="#pycba.beam.Beam.no_members" title="pycba.beam.Beam.no_members"><code class="xref py py-attr docutils literal notranslate"><span class="pre">no_members</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1326,6 +1347,7 @@ reproduces <a class="reference internal" href="#pycba.beam.Beam.k_FF_timo" title
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.restraints"><code class="docutils literal notranslate"><span class="pre">Beam.restraints</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.structure_version"><code class="docutils literal notranslate"><span class="pre">Beam.structure_version</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.prescribed_displacements"><code class="docutils literal notranslate"><span class="pre">Beam.prescribed_displacements</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_members"><code class="docutils literal notranslate"><span class="pre">Beam.no_members</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_spans"><code class="docutils literal notranslate"><span class="pre">Beam.no_spans</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_restraints</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.beam.Beam.no_fixed_restraints"><code class="docutils literal notranslate"><span class="pre">Beam.no_fixed_restraints</span></code></a></li>

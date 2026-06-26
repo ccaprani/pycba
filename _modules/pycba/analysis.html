@@ -634,7 +634,7 @@
             <span class="n">kf</span><span class="o">=</span><span class="n">kf</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">no_spans</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">no_members</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_nodes</span>
         <span class="c1"># Beam structure_version at the last successful stability check, so the</span>
@@ -725,43 +725,43 @@
 
 <div class="viewcode-block" id="BeamAnalysis.add_udl">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_udl">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append a full-span uniformly-distributed load.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        i_span : int</span>
-<span class="sd">            1-based span index.</span>
+<span class="sd">        i_member : int</span>
+<span class="sd">            1-based member index.</span>
 <span class="sd">        w : float</span>
 <span class="sd">            Load intensity.  Positive values act downward.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span>
+        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BeamAnalysis.add_pl">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pl">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append a point load.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        i_span : int</span>
-<span class="sd">            1-based span index.</span>
+<span class="sd">        i_member : int</span>
+<span class="sd">            1-based member index.</span>
 <span class="sd">        p : float</span>
 <span class="sd">            Load magnitude.  Positive values act downward.</span>
 <span class="sd">        a : float</span>
 <span class="sd">            Distance from the left end of the span to the load.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
+        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BeamAnalysis.add_pudl">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pudl">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append a partial uniformly-distributed load.</span>
 
@@ -770,8 +770,8 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        i_span : int</span>
-<span class="sd">            1-based span index.</span>
+<span class="sd">        i_member : int</span>
+<span class="sd">            1-based member index.</span>
 <span class="sd">        w : float</span>
 <span class="sd">            Load intensity.  Positive values act downward.</span>
 <span class="sd">        a : float</span>
@@ -779,32 +779,32 @@
 <span class="sd">        c : float</span>
 <span class="sd">            Length (cover) of the partial UDL.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BeamAnalysis.add_ml">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ml">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append a concentrated moment load.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        i_span : int</span>
-<span class="sd">            1-based span index.</span>
+<span class="sd">        i_member : int</span>
+<span class="sd">            1-based member index.</span>
 <span class="sd">        m : float</span>
 <span class="sd">            Moment magnitude.  Positive values are counter-clockwise.</span>
 <span class="sd">        a : float</span>
 <span class="sd">            Distance from the left end of the span to the load.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
+        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BeamAnalysis.add_ic">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ic">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_ic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_ic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append an imposed-curvature (initial-strain) member load.</span>
 
@@ -817,14 +817,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        i_span : int</span>
-<span class="sd">            1-based span index.</span>
+<span class="sd">        i_member : int</span>
+<span class="sd">            1-based member index.</span>
 <span class="sd">        kappa : float or array_like of float</span>
 <span class="sd">            Imposed-curvature polynomial coefficients in increasing powers of</span>
 <span class="sd">            ``x``: ``[k0, k1, k2, ...]``.  A scalar is a uniform curvature.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kappa</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">coeffs</span>
+        <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">coeffs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
 
@@ -832,7 +832,7 @@
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_trap">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_trap</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">w1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">w2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">a</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -848,8 +848,8 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        i_span : int</span>
-<span class="sd">            1-based span index.</span>
+<span class="sd">        i_member : int</span>
+<span class="sd">            1-based member index.</span>
 <span class="sd">        w1 : float</span>
 <span class="sd">            Load intensity at the start of the load.  Positive values act downward.</span>
 <span class="sd">        w2 : float</span>
@@ -863,9 +863,9 @@
         <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If &#39;a&#39; is specified, &#39;c&#39; must also be provided&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+            <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_span</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">]</span>
+            <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
 
@@ -1724,7 +1724,7 @@
         <span class="n">n_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
         <span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;analysed&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;not analysed&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;BeamAnalysis(</span><span class="si">{</span><span class="n">b</span><span class="o">.</span><span class="n">no_spans</span><span class="si">}</span><span class="s2"> span</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">b</span><span class="o">.</span><span class="n">no_spans</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;BeamAnalysis(</span><span class="si">{</span><span class="n">b</span><span class="o">.</span><span class="n">no_members</span><span class="si">}</span><span class="s2"> member</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">b</span><span class="o">.</span><span class="n">no_members</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_sup</span><span class="si">}</span><span class="s2"> support</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_sup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_loads</span><span class="si">}</span><span class="s2"> load</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_loads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">)&quot;</span>
         <span class="p">)</span></div>
