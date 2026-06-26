@@ -3,10 +3,12 @@
 ## Unreleased
 
 ### Features
+- **Free-vibration (modal) analysis**: `BeamAnalysis.modal(mass, n_modes=...)` returns the natural frequencies and mode shapes, assembling a consistent mass matrix alongside the stiffness matrix and solving the generalized eigenproblem `K φ = ω² M φ`. Each span is refined into Euler–Bernoulli sub-elements so the modes are accurate (validated against the classical simply-supported, cantilever and fixed-fixed frequencies to <0.1%). Returns a `ModalResults` (`omega`, `f`, `periods`, mode shapes, `plot()`); elastic spring supports are included. Prismatic, fixed-fixed spans without `GAv`.
 - **Individual result-diagram plots**: `BeamAnalysis.plot_bmd`, `plot_sfd` and `plot_dsd` draw a single bending-moment, shear-force or deflection diagram (the bending moment sagging-positive, with the y-axis inverted, matching `plot_results`). Each accepts an existing `ax`, so two analyses can be overlaid for comparison, and matplotlib `**kwargs` (`color`, `ls`, `label`, …).
 - **Timoshenko (shear-deformable) beam elements**: a member becomes a shear-deformable Timoshenko element when given a finite transverse shear rigidity `GAv` (a scalar, or a `SectionEI` for a variable `GAv(x)`); with `GAv=None` (the default) the member stays on the exact Euler–Bernoulli path, bit-for-bit unchanged. Shear deformation flows through the element stiffness, the fixed-end forces and the displacement recovery, for prismatic and non-prismatic members and all four release types, routed through the existing flexibility integrator (no per-load closed forms rewritten). Two DOF per node is preserved, so the `supports=` API, reactions, plotting and influence lines are inherited unchanged. `GAv` is accepted by `Beam`, `Beam.add_span`/`add_member`, `BeamAnalysis` and `BridgeAnalysis.add_bridge`. Nonlinear (plastic-hinge) analysis remains Euler–Bernoulli.
 
 ### Documentation
+- Add a free-vibration (modal analysis) tutorial notebook.
 - Add a Timoshenko beam-element tutorial notebook, a Theoretical Basis section on the shear-deformable element, and literature references ([Timoshenko, 1921](https://doi.org/10.1080/14786442108636264); [Cowper, 1966](https://doi.org/10.1115/1.3625046); [Friedman & Kosmatka, 1993](https://doi.org/10.1016/0045-7949(93)90243-7)).
 
 ## 0.8.0 — 2026-06-11

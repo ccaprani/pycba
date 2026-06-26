@@ -416,6 +416,41 @@ class BeamAnalysis:
         self._beam_results = BeamResults(self._beam, d, r, self.npts, rs)
         return 0
 
+    def modal(self, mass, n_modes: int = 10, nseg: int = 12):
+        """
+        Free-vibration (modal) analysis: natural frequencies and mode shapes.
+
+        Assembles a consistent mass matrix alongside the stiffness matrix on a
+        refined mesh (each span split into ``nseg`` Euler-Bernoulli
+        sub-elements) and solves the generalized eigenproblem
+        ``K φ = ω² M φ``.  Supports, including elastic springs, are applied at
+        the original span nodes; the analysis is independent of any applied
+        loads.
+
+        Parameters
+        ----------
+        mass : float or array_like
+            Mass per unit length, a scalar for every span or one value per span
+            (consistent units, e.g. kg/m if EI is in N·m²).
+        n_modes : int, optional
+            Number of lowest modes to return. The default is 10.
+        nseg : int, optional
+            Sub-elements per span for the refined mesh. The default is 12.
+
+        Returns
+        -------
+        pycba.modal.ModalResults
+            The natural frequencies (``omega`` rad/s, ``f`` Hz) and mode shapes.
+
+        Notes
+        -----
+        Supported for prismatic, fixed-fixed spans without shear flexibility
+        (``GAv``); other combinations raise a clear ``NotImplementedError``.
+        """
+        from .modal import solve_modal
+
+        return solve_modal(self._beam, mass, n_modes=n_modes, nseg=nseg)
+
     # Reciprocal-condition-number floor for the free-DOF stiffness partition.
     # True mechanisms sit near machine epsilon (~1e-16); legitimately flexible
     # structures stay well above this, so 1e-12 separates them with margin.

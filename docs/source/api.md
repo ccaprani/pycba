@@ -22,5 +22,6 @@
     pycba.vehicle
     pycba.prestress
     pycba.nonlinear
+    pycba.modal
     pycba.utils
 ```
