@@ -466,6 +466,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.bridge.html">pycba.bridge</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.bridge.resolve_shear_points.html">pycba.bridge.resolve_shear_points</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.bridge.BridgeAnalysis.html">pycba.bridge.BridgeAnalysis</a></li>
 </ul>
 </details></li>
@@ -562,7 +563,7 @@
 <h1>pycba.results.BeamResults<a class="headerlink" href="#pycba-results-beamresults" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycba.results.BeamResults">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">BeamResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#BeamResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.BeamResults" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">BeamResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shear_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#BeamResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.BeamResults" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>BeamResults Class for processing and containing the results for each member</p>
 <p>Initialize member results from global results</p>
@@ -575,6 +576,11 @@
 <li><p><strong>npts</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The number of points along the member at which to calculate the load
 effects. The default is 100.</p></li>
 <li><p><strong>rs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span>) – The vector of spring forces (k_s * u_i) for spring restraints (restraint &gt; 0).</p></li>
+<li><p><strong>shear_points</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]</span>) – Extra “shear point” sections requested per member, as a mapping of
+0-based member index to a vector of member-local coordinates.  Each
+section is sampled by a station pair straddling it, so the shear is
+recovered just-left and just-right of the section.  The default
+(<code class="docutils literal notranslate"><span class="pre">None</span></code>) leaves the uniform evaluation grid bit-for-bit unchanged.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

@@ -1833,6 +1833,146 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 </div>
 </section>
 </section>
+<section id="Example-10---Shear-Points-and-a-Lane-UDL">
+<h2>Example 10 - Shear Points and a Lane UDL<a class="headerlink" href="#Example-10---Shear-Points-and-a-Lane-UDL" title="Link to this heading">#</a></h2>
+<p>Two further features support bridge shear assessment and the code load models that pair a notional truck with a lane UDL.</p>
+<p><strong>Shear points.</strong> The shear force is discontinuous at every axle, so its value at a particular section — for example a distance <span class="math notranslate nohighlight">\(d_v\)</span> (the MCFT critical-shear distance) from a support — has to be taken on the correct side of any nearby axle. Passing <code class="docutils literal notranslate"><span class="pre">dv=</span></code> (which places a section that distance from every vertical support, on each valid side) or <code class="docutils literal notranslate"><span class="pre">shear_points=</span></code> (explicit global coordinates) to <code class="docutils literal notranslate"><span class="pre">run_vehicle()</span></code> or <code class="docutils literal notranslate"><span class="pre">run_load_model()</span></code> evaluates the shear <em>exactly either side</em> of each
+section across the whole traverse. <code class="docutils literal notranslate"><span class="pre">critical_values()</span></code> then reports the governing left- and right-hand shear at each one, tagged with its support and side.</p>
+<p><strong>Lane UDL.</strong> <code class="docutils literal notranslate"><span class="pre">run_load_model()</span></code> sweeps the vehicle along a lane UDL of intensity <code class="docutils literal notranslate"><span class="pre">w_lane</span></code>. By default (<code class="docutils literal notranslate"><span class="pre">clearances=None</span></code>) the UDL is continuous and runs <em>directly beneath the vehicle</em>, as for the AS5100 M1600 — whose 6 kN/m lane UDL accompanies the truck with no break. Models that interrupt the UDL around the vehicle pass <code class="docutils literal notranslate"><span class="pre">clearances=(back,</span> <span class="pre">front)</span></code>, the clear distances measured from the rear and front axles.</p>
+<blockquote>
+<div><p><strong>Watch out:</strong> <code class="docutils literal notranslate"><span class="pre">clearances=None</span></code> is <em>not</em> the same as <code class="docutils literal notranslate"><span class="pre">clearances=(0,</span> <span class="pre">0)</span></code>. <code class="docutils literal notranslate"><span class="pre">None</span></code> (the default) leaves the lane UDL running <em>under</em> the vehicle; <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0)</span></code> removes it over exactly the vehicle’s wheelbase, with no headway. Positive <code class="docutils literal notranslate"><span class="pre">back</span></code> / <code class="docutils literal notranslate"><span class="pre">front</span></code> extend the gap beyond the rear and front axles. (For a single-point vehicle the wheelbase is zero, so the two coincide.)</p>
+</div></blockquote>
+<p>Here we run an M1600 with its 6 kN/m lane UDL over the two-span bridge, and request the critical shear a distance <span class="math notranslate nohighlight">\(d_v = 2\)</span> m from every support:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">1e11</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">))</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">bridge_analysis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BridgeAnalysis</span><span class="p">()</span>
+<span class="n">bridge_analysis</span><span class="o">.</span><span class="n">add_bridge</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+<span class="n">bridge_analysis</span><span class="o">.</span><span class="n">set_vehicle</span><span class="p">(</span><span class="n">cba</span><span class="o">.</span><span class="n">VehicleLibrary</span><span class="o">.</span><span class="n">get_m1600</span><span class="p">(</span><span class="mf">6.25</span><span class="p">))</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">run_load_model</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">w_lane</span><span class="o">=</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">dv</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">plot_env</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_bridge_107_0.png" src="../_images/notebooks_bridge_107_0.png" />
+</div>
+</div>
+<p>The critical-shear sections (a distance <span class="math notranslate nohighlight">\(d_v\)</span> from each support, on every valid side) are reported in the <code class="docutils literal notranslate"><span class="pre">&quot;shear_points&quot;</span></code> entry of the critical values, each tagged with the support it belongs to and the side it lies on:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cvals</span> <span class="o">=</span> <span class="n">bridge_analysis</span><span class="o">.</span><span class="n">critical_values</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+<span class="n">shear_points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cvals</span><span class="p">[</span><span class="s2">&quot;shear_points&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">shear_points</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Section x (m)&quot;</span>
+<span class="n">shear_points</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Vmax</th>
+      <th>Vmin</th>
+      <th>Vmax_left</th>
+      <th>Vmax_right</th>
+      <th>Vmin_left</th>
+      <th>Vmin_right</th>
+      <th>support</th>
+      <th>side</th>
+    </tr>
+    <tr>
+      <th>Section x (m)</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2.0</th>
+      <td>567.19263</td>
+      <td>-28.27236</td>
+      <td>567.19263</td>
+      <td>544.4025</td>
+      <td>-28.27236</td>
+      <td>-28.27236</td>
+      <td>0.0</td>
+      <td>right</td>
+    </tr>
+    <tr>
+      <th>23.0</th>
+      <td>0.0</td>
+      <td>-793.4715</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-769.8675</td>
+      <td>-793.4715</td>
+      <td>25.0</td>
+      <td>left</td>
+    </tr>
+    <tr>
+      <th>27.0</th>
+      <td>777.17721</td>
+      <td>0.0</td>
+      <td>777.17721</td>
+      <td>753.94875</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>25.0</td>
+      <td>right</td>
+    </tr>
+    <tr>
+      <th>48.0</th>
+      <td>32.77038</td>
+      <td>-602.23233</td>
+      <td>32.77038</td>
+      <td>32.77038</td>
+      <td>-575.95875</td>
+      <td>-602.23233</td>
+      <td>50.0</td>
+      <td>left</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
 </section>
 
 
@@ -1902,6 +2042,7 @@ At 20.35 m, Mmax = 7809.3 kNm with coincident V = 61.8 kN
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Loading">Loading</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Example-10---Shear-Points-and-a-Lane-UDL">Example 10 - Shear Points and a Lane UDL</a></li>
 </ul>
   </nav></div>
 

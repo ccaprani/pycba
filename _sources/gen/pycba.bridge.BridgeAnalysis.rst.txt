@@ -24,6 +24,7 @@ pycba.bridge.BridgeAnalysis
       ~BridgeAnalysis.plot_envelopes
       ~BridgeAnalysis.plot_ratios
       ~BridgeAnalysis.plot_static
+      ~BridgeAnalysis.run_load_model
       ~BridgeAnalysis.run_vehicle
       ~BridgeAnalysis.set_bridge
       ~BridgeAnalysis.set_vehicle

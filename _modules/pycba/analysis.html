@@ -601,6 +601,11 @@
 <span class="sd">            differs from ``len(L)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="c1"># Optional per-member &quot;shear point&quot; sections (0-based member index -&gt;</span>
+        <span class="c1"># member-local coordinates) spliced into the evaluation grid so the</span>
+        <span class="c1"># shear is recovered exactly either side of each section.  ``None``</span>
+        <span class="c1"># leaves the uniform grid unchanged; set by a moving-load analysis.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -872,7 +877,9 @@
         <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="p">(</span><span class="n">ksys</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
         <span class="n">r</span><span class="p">,</span> <span class="n">rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reactions</span><span class="p">(</span><span class="n">ksysU</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">fU</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="n">BeamResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="o">=</span> <span class="n">BeamResults</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">,</span> <span class="n">rs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shear_points</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 
 

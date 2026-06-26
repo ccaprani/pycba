@@ -445,6 +445,72 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_LM</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_vertical_support_xs</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Global x-coordinates of the vertical supports (fixed or spring).&quot;&quot;&quot;</span>
+    <span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">restraints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">restraints</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">x0</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x0</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span> <span class="k">if</span> <span class="n">restraints</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="resolve_shear_points">
+<a class="viewcode-back" href="../../gen/pycba.bridge.resolve_shear_points.html#pycba.bridge.resolve_shear_points">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_shear_points</span><span class="p">(</span>
+    <span class="n">beam</span><span class="p">,</span>
+    <span class="n">points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resolve requested &quot;shear point&quot; sections to per-member local coordinates.</span>
+
+<span class="sd">    Shear points are sections at which the shear is recovered exactly (on both</span>
+<span class="sd">    sides), for example the face of a support or the critical-shear section a</span>
+<span class="sd">    distance ``dv`` from a support.  They are specified in global beam</span>
+<span class="sd">    coordinates and are fixed for the analysis, so the evaluation grid stays</span>
+<span class="sd">    consistent across a moving-load traverse.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beam : Beam</span>
+<span class="sd">        The :class:`pycba.beam.Beam` to resolve against.</span>
+<span class="sd">    points : float or array-like, optional</span>
+<span class="sd">        Global coordinate(s), measured from the left end of the beam, at which</span>
+<span class="sd">        shear points are required.</span>
+<span class="sd">    dv : float, optional</span>
+<span class="sd">        The critical-shear distance (e.g. the MCFT effective shear depth</span>
+<span class="sd">        :math:`d_v`).  Adds a shear point at this distance from every vertical</span>
+<span class="sd">        support, on each valid (on-deck) side: two sections at an interior</span>
+<span class="sd">        support, one at an end support.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sp : Dict[int, np.ndarray]</span>
+<span class="sd">        Mapping of 0-based member index to a sorted vector of member-local</span>
+<span class="sd">        coordinates, suitable for ``BeamResults(shear_points=...)``.</span>
+<span class="sd">    points_global : np.ndarray</span>
+<span class="sd">        The sorted vector of global section coordinates actually placed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">globals_</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">globals_</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">points</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">dv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">x0</span> <span class="ow">in</span> <span class="n">_vertical_support_xs</span><span class="p">(</span><span class="n">beam</span><span class="p">):</span>
+            <span class="n">globals_</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">x0</span> <span class="o">-</span> <span class="n">dv</span><span class="p">,</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">dv</span><span class="p">])</span>
+
+    <span class="c1"># Keep only on-deck interior sections, de-duplicated and sorted.</span>
+    <span class="n">points_global</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">globals_</span> <span class="k">if</span> <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="n">g</span> <span class="o">&lt;</span> <span class="n">beam</span><span class="o">.</span><span class="n">length</span><span class="p">}))</span>
+
+    <span class="n">sp</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">points_global</span><span class="p">:</span>
+        <span class="n">ispan</span><span class="p">,</span> <span class="n">pos_in_span</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">get_local_span_coords</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ispan</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">sp</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">ispan</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos_in_span</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sp</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span> <span class="n">points_global</span></div>
+
+
+
 <div class="viewcode-block" id="BridgeAnalysis">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BridgeAnalysis</span><span class="p">:</span>
@@ -482,6 +548,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">veh</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Global coordinates of any shear-point sections placed in the last</span>
+        <span class="c1"># analysis (populated by run_vehicle/static_vehicle when requested).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shear_points_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -594,7 +663,13 @@
 
 <div class="viewcode-block" id="BridgeAnalysis.static_vehicle">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.static_vehicle">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">static_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">plotflag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">static_vehicle</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">plotflag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">shear_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs a single analysis for the vehicle, static at a given position</span>
 
@@ -604,6 +679,13 @@
 <span class="sd">            The location of the front axle of the vehicle in global beam coordinates.</span>
 <span class="sd">        plotflag : bool, optional</span>
 <span class="sd">            Whether or not to plot the results. The default is False.</span>
+<span class="sd">        shear_points : float, array-like or dict, optional</span>
+<span class="sd">            Section(s) at which the shear is recovered exactly on both sides.</span>
+<span class="sd">            Either global coordinate(s) (resolved via :func:`resolve_shear_points`)</span>
+<span class="sd">            or a pre-resolved ``{member_index: local_coords}`` mapping.</span>
+<span class="sd">        dv : float, optional</span>
+<span class="sd">            Critical-shear distance: add a shear point this distance from every</span>
+<span class="sd">            vertical support, on each valid side (see :func:`resolve_shear_points`).</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -617,17 +699,96 @@
 <span class="sd">            The `pycba.Beamresults` object containing the analysis results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_shear_points</span><span class="p">(</span><span class="n">shear_points</span><span class="p">,</span> <span class="n">dv</span><span class="p">)</span>
 
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bridge analysis did not succeed&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bridge analysis did not succeed&quot;</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">plotflag</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">plot_static</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span></div>
 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_shear_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shear_points</span><span class="p">,</span> <span class="n">dv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resolve and arm shear-point sections on the underlying beam analysis.</span>
+
+<span class="sd">        Sets ``self.ba.shear_points`` (consumed by each ``analyze()`` call) and</span>
+<span class="sd">        records the placed global section coordinates in ``self.shear_points_x``</span>
+<span class="sd">        for :meth:`critical_values`.  A pre-resolved ``dict`` is used as-is; any</span>
+<span class="sd">        other spec is resolved with :func:`resolve_shear_points`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shear_points</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">sp</span> <span class="o">=</span> <span class="n">shear_points</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shear_points_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">elif</span> <span class="n">shear_points</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sp</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shear_points_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shear_points_x</span> <span class="o">=</span> <span class="n">resolve_shear_points</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="p">,</span> <span class="n">shear_points</span><span class="p">,</span> <span class="n">dv</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="n">sp</span> <span class="k">if</span> <span class="n">sp</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_axle_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the load-matrix rows for the vehicle axles with the front axle at</span>
+<span class="sd">        ``pos``.  Only axles currently on the deck are included.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pos : float</span>
+<span class="sd">            The location of the front axle in global beam coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[list]</span>
+<span class="sd">            Point-load (type 2) rows for the on-deck axles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">axle_positions</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span>
+
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">iaxle</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">NoAxles</span><span class="p">):</span>
+            <span class="n">load</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axw</span><span class="p">[</span><span class="n">iaxle</span><span class="p">]</span>
+            <span class="n">ispan</span><span class="p">,</span> <span class="n">pos_in_span</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">get_local_span_coords</span><span class="p">(</span>
+                <span class="n">axle_positions</span><span class="p">[</span><span class="n">iaxle</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">ispan</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ispan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">load</span><span class="p">,</span> <span class="n">pos_in_span</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">rows</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_interval_udl_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xa</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">xb</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a global UDL interval ``[xa, xb]`` of intensity ``w`` into</span>
+<span class="sd">        per-span partial-UDL (type 3) load-matrix rows, splitting the interval</span>
+<span class="sd">        at the span boundaries.  Portions off the deck are ignored.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xa, xb : float</span>
+<span class="sd">            Start and end of the loaded interval in global coordinates.</span>
+<span class="sd">        w : float</span>
+<span class="sd">            The UDL intensity.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[list]</span>
+<span class="sd">            Partial-UDL rows ``[span, 3, w, a, c]`` for each loaded span portion.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">beam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span>
+        <span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">no_spans</span><span class="p">):</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">xa</span><span class="p">,</span> <span class="n">node_x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span> <span class="n">node_x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+                <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">lo</span> <span class="o">-</span> <span class="n">node_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">rows</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_single_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -645,21 +806,8 @@
 <span class="sd">            0 if the analysis succeeds.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">axle_positions</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span>
-
-        <span class="c1"># Create the CBA Load Matrix, checking axle positions, etc</span>
-        <span class="n">LM</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">iaxle</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">NoAxles</span><span class="p">):</span>
-            <span class="n">load</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axw</span><span class="p">[</span><span class="n">iaxle</span><span class="p">]</span>
-            <span class="n">ispan</span><span class="p">,</span> <span class="n">pos_in_span</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">get_local_span_coords</span><span class="p">(</span>
-                <span class="n">axle_positions</span><span class="p">[</span><span class="n">iaxle</span><span class="p">]</span>
-            <span class="p">)</span>
-            <span class="k">if</span> <span class="n">ispan</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">LM</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ispan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">load</span><span class="p">,</span> <span class="n">pos_in_span</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-        <span class="c1"># Now add any pre-existing loads on the beam</span>
-        <span class="n">LM</span> <span class="o">=</span> <span class="n">add_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span>
+        <span class="c1"># Superimpose the axle loads on any pre-existing loads on the beam</span>
+        <span class="n">LM</span> <span class="o">=</span> <span class="n">add_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axle_LM</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
@@ -673,6 +821,8 @@
         <span class="n">plot_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">pos_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">pos_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">shear_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Runs the vehicle over the bridge performing a static analysis at each point</span>
@@ -692,6 +842,16 @@
 <span class="sd">        pos_end : Optional[float], optional</span>
 <span class="sd">            The ending position of the front axle. Defaults to beam length plus</span>
 <span class="sd">            vehicle length (front axle past the right end of the beam).</span>
+<span class="sd">        shear_points : float, array-like or dict, optional</span>
+<span class="sd">            Section(s) at which the shear is recovered exactly on both sides for</span>
+<span class="sd">            every vehicle position - e.g. support faces or a distance ``d_v``</span>
+<span class="sd">            from a support, for bridge shear assessment.  Either global</span>
+<span class="sd">            coordinate(s) (resolved via :func:`resolve_shear_points`) or a</span>
+<span class="sd">            pre-resolved ``{member_index: local_coords}`` mapping.  The resulting</span>
+<span class="sd">            sections are reported by :meth:`critical_values`.</span>
+<span class="sd">        dv : float, optional</span>
+<span class="sd">            Critical-shear distance: add a shear point this distance from every</span>
+<span class="sd">            vertical support, on each valid side (see :func:`resolve_shear_points`).</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -708,6 +868,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_shear_points</span><span class="p">(</span><span class="n">shear_points</span><span class="p">,</span> <span class="n">dv</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pos_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">pos_start</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -719,18 +880,171 @@
         <span class="k">if</span> <span class="n">plot_all</span><span class="p">:</span>
             <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
-            <span class="c1"># load position</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="n">pos_start</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">step</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
-            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bridge analysis did not succeed at {pos=}&quot;</span><span class="p">)</span>
-                <span class="k">return</span>
-            <span class="k">if</span> <span class="n">plot_all</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">plot_static</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">axs</span><span class="p">)</span>
-                <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+                <span class="c1"># load position</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">pos_start</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">step</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bridge analysis did not succeed at {pos=}&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">plot_all</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">plot_static</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">axs</span><span class="p">)</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">env</span> <span class="o">=</span> <span class="n">Envelopes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">plot_env</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_envelopes</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">env</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_clearances</span><span class="p">(</span><span class="n">clearances</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate a lane-UDL ``(back, front)`` clearance pair.</span>
+
+<span class="sd">        Returns ``(back, front)`` as floats, or ``(0.0, 0.0)`` when</span>
+<span class="sd">        ``clearances`` is ``None`` (no clear zone).  Raises ``ValueError`` for</span>
+<span class="sd">        anything that is not a finite, non-negative pair.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">clearances</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">back</span><span class="p">,</span> <span class="n">front</span> <span class="o">=</span> <span class="n">clearances</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;clearances must be a (back, front) tuple of two distances, or None&quot;</span>
+            <span class="p">)</span>
+        <span class="n">back</span><span class="p">,</span> <span class="n">front</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">back</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">front</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">back</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">front</span><span class="p">))</span> <span class="ow">or</span> <span class="n">back</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">front</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;clearances (back, front) must be finite and non-negative&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">back</span><span class="p">,</span> <span class="n">front</span>
+
+<div class="viewcode-block" id="BridgeAnalysis.run_load_model">
+<a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.run_load_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_load_model</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">w_lane</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">clearances</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">plot_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">pos_start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pos_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">shear_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a moving load model: the vehicle together with an accompanying lane</span>
+<span class="sd">        UDL, enveloped over the traverse.</span>
+
+<span class="sd">        At each vehicle position the axles are placed as point loads (as in</span>
+<span class="sd">        :meth:`run_vehicle`) and a uniform lane UDL of intensity ``w_lane`` is</span>
+<span class="sd">        applied along the deck while the vehicle sweeps across it.  By default</span>
+<span class="sd">        the UDL is continuous, running *directly beneath the vehicle* - as for</span>
+<span class="sd">        the AS5100 M1600, where the 6 kN/m lane UDL accompanies the truck with</span>
+<span class="sd">        no break.  Load models that interrupt the lane UDL around the vehicle</span>
+<span class="sd">        specify a clear zone via ``clearances`` (see below).</span>
+
+<span class="sd">        The lane UDL is applied over the full deck (outside any clear zone).</span>
+<span class="sd">        For a continuous beam, loading only the same-sign influence-line regions</span>
+<span class="sd">        can be more adverse for a given effect; influence-line patterning of the</span>
+<span class="sd">        lane UDL is a planned refinement.  To pattern manually, combine separate</span>
+<span class="sd">        envelopes with :meth:`Envelopes.sum` / :meth:`Envelopes.augment`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        step : float</span>
+<span class="sd">            The distance increment to move the vehicle.</span>
+<span class="sd">        w_lane : float</span>
+<span class="sd">            The lane UDL intensity (same sign convention as a beam UDL).</span>
+<span class="sd">        clearances : (back, front) tuple, optional</span>
+<span class="sd">            The clear zone over which the lane UDL is removed around the</span>
+<span class="sd">            vehicle, given as ``(back, front)`` distances in metres: ``back`` is</span>
+<span class="sd">            measured rearward from the *rear* axle and ``front`` forward from the</span>
+<span class="sd">            *front* axle, and the wheelbase between the axles is always part of</span>
+<span class="sd">            the cleared zone.  Both values must be finite and non-negative.</span>
+
+<span class="sd">            **Beware:** ``None`` and ``(0.0, 0.0)`` are *not* the same.  ``None``</span>
+<span class="sd">            (the default) means *no* clear zone - the lane UDL is continuous and</span>
+<span class="sd">            runs directly beneath the vehicle (the AS5100 M1600 case).</span>
+<span class="sd">            ``(0.0, 0.0)`` clears exactly the wheelbase (the UDL is removed from</span>
+<span class="sd">            under the vehicle) with no headway either side.  For a single-point</span>
+<span class="sd">            vehicle (``vehicle.L == 0``) the wheelbase has zero length, so</span>
+<span class="sd">            ``(0.0, 0.0)`` then coincides with ``None``.</span>
+<span class="sd">        plot_env : bool, optional</span>
+<span class="sd">            Whether to plot the resulting envelope. The default is False.</span>
+<span class="sd">        pos_start, pos_end : float, optional</span>
+<span class="sd">            The traverse range of the front axle (see :meth:`run_vehicle`).</span>
+<span class="sd">        shear_points : float, array-like or dict, optional</span>
+<span class="sd">            Sections for exact both-sided shear recovery (see</span>
+<span class="sd">            :meth:`run_vehicle`).</span>
+<span class="sd">        dv : float, optional</span>
+<span class="sd">            Critical-shear distance shear points at every vehicle position (see</span>
+<span class="sd">            :meth:`run_vehicle`).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``clearances`` is not a finite, non-negative ``(back, front)``</span>
+<span class="sd">            pair, or if a static beam analysis does not succeed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Envelopes</span>
+<span class="sd">            The load-effect envelopes for the traverse.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">back</span><span class="p">,</span> <span class="n">front</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_clearances</span><span class="p">(</span><span class="n">clearances</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_shear_points</span><span class="p">(</span><span class="n">shear_points</span><span class="p">,</span> <span class="n">dv</span><span class="p">)</span>
+
+        <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">length</span>
+        <span class="k">if</span> <span class="n">pos_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pos_start</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">pos_end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pos_end</span> <span class="o">=</span> <span class="n">length</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">L</span>
+
+        <span class="n">npts</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">pos_end</span> <span class="o">-</span> <span class="n">pos_start</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">pos_start</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">step</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+                <span class="c1"># Lane UDL along the deck.  With no clear zone the UDL is</span>
+                <span class="c1"># continuous (runs under the vehicle).  Otherwise it is removed</span>
+                <span class="c1"># from `back` behind the rear axle to `front` ahead of the</span>
+                <span class="c1"># front axle (front axle at `pos`, rear axle at `pos - veh.L`).</span>
+                <span class="k">if</span> <span class="n">clearances</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">udl_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interval_udl_LM</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">w_lane</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">excl_lo</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="o">-</span> <span class="n">back</span>
+                    <span class="n">excl_hi</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">front</span>
+                    <span class="n">udl_rows</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">if</span> <span class="n">excl_lo</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                        <span class="n">udl_rows</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interval_udl_LM</span><span class="p">(</span>
+                            <span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">excl_lo</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span> <span class="n">w_lane</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">excl_hi</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">:</span>
+                        <span class="n">udl_rows</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interval_udl_LM</span><span class="p">(</span>
+                            <span class="nb">max</span><span class="p">(</span><span class="n">excl_hi</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">length</span><span class="p">,</span> <span class="n">w_lane</span>
+                        <span class="p">)</span>
+
+                <span class="n">LM</span> <span class="o">=</span> <span class="n">add_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axle_LM</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">+</span> <span class="n">udl_rows</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bridge analysis did not succeed at </span><span class="si">{</span><span class="n">pos</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">env</span> <span class="o">=</span> <span class="n">Envelopes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">)</span>
 
@@ -842,6 +1156,38 @@
                 <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
                 <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
             <span class="p">}</span>
+
+        <span class="c1"># Report the corrected critical shears at any requested shear points.</span>
+        <span class="c1"># Each section was sampled by a station pair straddling it, so the</span>
+        <span class="c1"># left- and right-hand shear limits are read from the stations either</span>
+        <span class="c1"># side of the section coordinate.  Each section is tagged with the</span>
+        <span class="c1"># vertical support it is nearest to and the side it lies on, so the end</span>
+        <span class="c1"># supports (at x = 0 and x = L) are identifiable in the results.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shear_points_x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">support_xs</span> <span class="o">=</span> <span class="n">_vertical_support_xs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="p">)</span>
+            <span class="n">sp_block</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">xg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shear_points_x</span><span class="p">:</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">xg</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">xg</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">il</span> <span class="o">=</span> <span class="n">left</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">left</span><span class="p">])]</span>
+                <span class="n">ir</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">right</span><span class="p">])]</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;Vmax&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">il</span><span class="p">],</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">ir</span><span class="p">]),</span>
+                    <span class="s2">&quot;Vmin&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">il</span><span class="p">],</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">ir</span><span class="p">]),</span>
+                    <span class="s2">&quot;Vmax_left&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
+                    <span class="s2">&quot;Vmax_right&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">ir</span><span class="p">],</span>
+                    <span class="s2">&quot;Vmin_left&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
+                    <span class="s2">&quot;Vmin_right&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">ir</span><span class="p">],</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">support_xs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">isup</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">support_xs</span> <span class="o">-</span> <span class="n">xg</span><span class="p">)))</span>
+                    <span class="n">sx</span> <span class="o">=</span> <span class="n">support_xs</span><span class="p">[</span><span class="n">isup</span><span class="p">]</span>
+                    <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;support&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sx</span><span class="p">)</span>
+                    <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;side&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span> <span class="k">if</span> <span class="n">xg</span> <span class="o">&lt;</span> <span class="n">sx</span> <span class="k">else</span> <span class="s2">&quot;right&quot;</span>
+                <span class="n">sp_block</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">xg</span><span class="p">)]</span> <span class="o">=</span> <span class="n">entry</span>
+            <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;shear_points&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp_block</span>
 
         <span class="k">return</span> <span class="n">crit_values</span></div>
 

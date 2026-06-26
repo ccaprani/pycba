@@ -1,0 +1,6 @@
+pycba.bridge.resolve\_shear\_points
+===================================
+
+.. currentmodule:: pycba.bridge
+
+.. autofunction:: resolve_shear_points

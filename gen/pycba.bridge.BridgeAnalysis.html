@@ -47,7 +47,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pycba.vehicle" href="pycba.vehicle.html" />
-    <link rel="prev" title="pycba.bridge" href="pycba.bridge.html" />
+    <link rel="prev" title="pycba.bridge.resolve_shear_points" href="pycba.bridge.resolve_shear_points.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.9.0" />
@@ -466,6 +466,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.bridge.html">pycba.bridge</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pycba.bridge.resolve_shear_points.html">pycba.bridge.resolve_shear_points</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.bridge.BridgeAnalysis</a></li>
 </ul>
 </details></li>
@@ -611,16 +612,19 @@ each vehicle position analysis.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.plot_static" title="pycba.bridge.BridgeAnalysis.plot_static"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_static</span></code></a></p></td>
 <td><p>Draw the bridge with the vehicle at a given position, above the instantaneous bending-moment and shear-force diagrams.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="pycba.bridge.BridgeAnalysis.run_vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_vehicle</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_load_model" title="pycba.bridge.BridgeAnalysis.run_load_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_load_model</span></code></a></p></td>
+<td><p>Run a moving load model: the vehicle together with an accompanying lane UDL, enveloped over the traverse.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="pycba.bridge.BridgeAnalysis.run_vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_vehicle</span></code></a></p></td>
 <td><p>Runs the vehicle over the bridge performing a static analysis at each point</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.set_bridge" title="pycba.bridge.BridgeAnalysis.set_bridge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_bridge</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.set_bridge" title="pycba.bridge.BridgeAnalysis.set_bridge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_bridge</span></code></a></p></td>
 <td><p>Set the bridge for the bridge analysis.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.set_vehicle" title="pycba.bridge.BridgeAnalysis.set_vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_vehicle</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.set_vehicle" title="pycba.bridge.BridgeAnalysis.set_vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_vehicle</span></code></a></p></td>
 <td><p>Set the vehicle for the bridge analysis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.static_vehicle" title="pycba.bridge.BridgeAnalysis.static_vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">static_vehicle</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.bridge.BridgeAnalysis.static_vehicle" title="pycba.bridge.BridgeAnalysis.static_vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">static_vehicle</span></code></a></p></td>
 <td><p>Performs a single analysis for the vehicle, static at a given position</p></td>
 </tr>
 </tbody>
@@ -705,13 +709,18 @@ axle spacings vector.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.static_vehicle">
-<span class="sig-name descname"><span class="pre">static_vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotflag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.static_vehicle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.static_vehicle" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">static_vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotflag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shear_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.static_vehicle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.static_vehicle" title="Link to this definition">#</a></dt>
 <dd><p>Performs a single analysis for the vehicle, static at a given position</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pos</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The location of the front axle of the vehicle in global beam coordinates.</p></li>
 <li><p><strong>plotflag</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether or not to plot the results. The default is False.</p></li>
+<li><p><strong>shear_points</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>) – Section(s) at which the shear is recovered exactly on both sides.
+Either global coordinate(s) (resolved via <a class="reference internal" href="pycba.bridge.resolve_shear_points.html#pycba.bridge.resolve_shear_points" title="pycba.bridge.resolve_shear_points"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_shear_points()</span></code></a>)
+or a pre-resolved <code class="docutils literal notranslate"><span class="pre">{member_index:</span> <span class="pre">local_coords}</span></code> mapping.</p></li>
+<li><p><strong>dv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Critical-shear distance: add a shear point this distance from every
+vertical support, on each valid side (see <a class="reference internal" href="pycba.bridge.resolve_shear_points.html#pycba.bridge.resolve_shear_points" title="pycba.bridge.resolve_shear_points"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_shear_points()</span></code></a>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -729,7 +738,7 @@ axle spacings vector.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.run_vehicle">
-<span class="sig-name descname"><span class="pre">run_vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.run_vehicle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">run_vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shear_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.run_vehicle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="Link to this definition">#</a></dt>
 <dd><p>Runs the vehicle over the bridge performing a static analysis at each point</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -742,6 +751,14 @@ The default is False.</p></li>
 the left end of the beam).</p></li>
 <li><p><strong>pos_end</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – The ending position of the front axle. Defaults to beam length plus
 vehicle length (front axle past the right end of the beam).</p></li>
+<li><p><strong>shear_points</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>) – Section(s) at which the shear is recovered exactly on both sides for
+every vehicle position - e.g. support faces or a distance <code class="docutils literal notranslate"><span class="pre">d_v</span></code>
+from a support, for bridge shear assessment.  Either global
+coordinate(s) (resolved via <a class="reference internal" href="pycba.bridge.resolve_shear_points.html#pycba.bridge.resolve_shear_points" title="pycba.bridge.resolve_shear_points"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_shear_points()</span></code></a>) or a
+pre-resolved <code class="docutils literal notranslate"><span class="pre">{member_index:</span> <span class="pre">local_coords}</span></code> mapping.  The resulting
+sections are reported by <a class="reference internal" href="#pycba.bridge.BridgeAnalysis.critical_values" title="pycba.bridge.BridgeAnalysis.critical_values"><code class="xref py py-meth docutils literal notranslate"><span class="pre">critical_values()</span></code></a>.</p></li>
+<li><p><strong>dv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Critical-shear distance: add a shear point this distance from every
+vertical support, on each valid side (see <a class="reference internal" href="pycba.bridge.resolve_shear_points.html#pycba.bridge.resolve_shear_points" title="pycba.bridge.resolve_shear_points"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_shear_points()</span></code></a>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -750,6 +767,63 @@ vehicle length (front axle past the right end of the beam).</p></li>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The load effect envelopes for the traverse; a <cite>pycba.Envelopes</cite> object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.bridge.BridgeAnalysis.run_load_model">
+<span class="sig-name descname"><span class="pre">run_load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_lane</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clearances</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shear_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/bridge.html#BridgeAnalysis.run_load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.bridge.BridgeAnalysis.run_load_model" title="Link to this definition">#</a></dt>
+<dd><p>Run a moving load model: the vehicle together with an accompanying lane
+UDL, enveloped over the traverse.</p>
+<p>At each vehicle position the axles are placed as point loads (as in
+<a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="pycba.bridge.BridgeAnalysis.run_vehicle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_vehicle()</span></code></a>) and a uniform lane UDL of intensity <code class="docutils literal notranslate"><span class="pre">w_lane</span></code> is
+applied along the deck while the vehicle sweeps across it.  By default
+the UDL is continuous, running <em>directly beneath the vehicle</em> - as for
+the AS5100 M1600, where the 6 kN/m lane UDL accompanies the truck with
+no break.  Load models that interrupt the lane UDL around the vehicle
+specify a clear zone via <code class="docutils literal notranslate"><span class="pre">clearances</span></code> (see below).</p>
+<p>The lane UDL is applied over the full deck (outside any clear zone).
+For a continuous beam, loading only the same-sign influence-line regions
+can be more adverse for a given effect; influence-line patterning of the
+lane UDL is a planned refinement.  To pattern manually, combine separate
+envelopes with <code class="xref py py-meth docutils literal notranslate"><span class="pre">Envelopes.sum()</span></code> / <code class="xref py py-meth docutils literal notranslate"><span class="pre">Envelopes.augment()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The distance increment to move the vehicle.</p></li>
+<li><p><strong>w_lane</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The lane UDL intensity (same sign convention as a beam UDL).</p></li>
+<li><p><strong>clearances</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>]</span>) – <p>The clear zone over which the lane UDL is removed around the
+vehicle, given as <code class="docutils literal notranslate"><span class="pre">(back,</span> <span class="pre">front)</span></code> distances in metres: <code class="docutils literal notranslate"><span class="pre">back</span></code> is
+measured rearward from the <em>rear</em> axle and <code class="docutils literal notranslate"><span class="pre">front</span></code> forward from the
+<em>front</em> axle, and the wheelbase between the axles is always part of
+the cleared zone.  Both values must be finite and non-negative.</p>
+<p><strong>Beware:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code> and <code class="docutils literal notranslate"><span class="pre">(0.0,</span> <span class="pre">0.0)</span></code> are <em>not</em> the same.  <code class="docutils literal notranslate"><span class="pre">None</span></code>
+(the default) means <em>no</em> clear zone - the lane UDL is continuous and
+runs directly beneath the vehicle (the AS5100 M1600 case).
+<code class="docutils literal notranslate"><span class="pre">(0.0,</span> <span class="pre">0.0)</span></code> clears exactly the wheelbase (the UDL is removed from
+under the vehicle) with no headway either side.  For a single-point
+vehicle (<code class="docutils literal notranslate"><span class="pre">vehicle.L</span> <span class="pre">==</span> <span class="pre">0</span></code>) the wheelbase has zero length, so
+<code class="docutils literal notranslate"><span class="pre">(0.0,</span> <span class="pre">0.0)</span></code> then coincides with <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</p></li>
+<li><p><strong>plot_env</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to plot the resulting envelope. The default is False.</p></li>
+<li><p><strong>pos_start</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – The traverse range of the front axle (see <a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="pycba.bridge.BridgeAnalysis.run_vehicle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_vehicle()</span></code></a>).</p></li>
+<li><p><strong>pos_end</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – The traverse range of the front axle (see <a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="pycba.bridge.BridgeAnalysis.run_vehicle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_vehicle()</span></code></a>).</p></li>
+<li><p><strong>shear_points</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>) – Sections for exact both-sided shear recovery (see
+<a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="pycba.bridge.BridgeAnalysis.run_vehicle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_vehicle()</span></code></a>).</p></li>
+<li><p><strong>dv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Critical-shear distance shear points at every vehicle position (see
+<a class="reference internal" href="#pycba.bridge.BridgeAnalysis.run_vehicle" title="pycba.bridge.BridgeAnalysis.run_vehicle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_vehicle()</span></code></a>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">clearances</span></code> is not a finite, non-negative <code class="docutils literal notranslate"><span class="pre">(back,</span> <span class="pre">front)</span></code>
+    pair, or if a static beam analysis does not succeed.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The load-effect envelopes for the traverse.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="pycba.results.Envelopes.html#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Envelopes</span></code></a></span></p>
@@ -942,12 +1016,12 @@ are dimensionless).  See <code class="xref py py-func docutils literal notransla
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.bridge.html"
+       href="pycba.bridge.resolve_shear_points.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.bridge</p>
+        <p class="prev-next-title">pycba.bridge.resolve_shear_points</p>
       </div>
     </a>
     <a class="right-next"
@@ -985,6 +1059,7 @@ are dimensionless).  See <code class="xref py py-func docutils literal notransla
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.bridge.BridgeAnalysis.set_vehicle"><code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.set_vehicle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.bridge.BridgeAnalysis.static_vehicle"><code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.static_vehicle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.bridge.BridgeAnalysis.run_vehicle"><code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.run_vehicle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.bridge.BridgeAnalysis.run_load_model"><code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.run_load_model()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.bridge.BridgeAnalysis.critical_values"><code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.critical_values()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.bridge.BridgeAnalysis.envelopes_ratios"><code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.envelopes_ratios()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.bridge.BridgeAnalysis.plot_static"><code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.plot_static()</span></code></a></li>
