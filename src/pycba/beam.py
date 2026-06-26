@@ -12,7 +12,17 @@ from .utils import supports_to_R, SupportType
 
 class Beam:
     """
-    Class definition
+    A continuous beam: its members, supports and loads.
+
+    A beam is built from one or more **members** — each a two-node
+    Euler–Bernoulli (or, with ``GAv``, Timoshenko) element of given length and
+    ``EI`` — added with :meth:`add_member` (or the older :meth:`add_span`).
+
+    **Member vs span.** A *member* is the element between two adjacent nodes; a
+    *clear span* is the distance between two supports. In the common case the
+    two coincide, but a clear span may be modelled with several members (e.g. to
+    place an intermediate node, a load discontinuity or an internal hinge), so
+    :attr:`no_members` counts the elements, not the supported spans.
     """
 
     def __init__(
@@ -33,7 +43,8 @@ class Beam:
         Parameters
         ----------
         L : np.ndarray
-            A vector of span lengths.
+            A vector of member lengths (one per member; a clear span between
+            supports may comprise several members).
         EI : np.ndarray
             A vector of member flexural rigidities.
         R : np.ndarray
@@ -416,15 +427,23 @@ class Beam:
         raise NotImplementedError("Changing element type not supported")
 
     @property
-    def no_spans(self):
+    def no_members(self):
         """
-        Returns the no. of spans in the beam
+        The number of members in the beam.
+
+        A *member* is an element between two nodes; a clear *span* (the distance
+        between two supports) may comprise several members (e.g. to place an
+        intermediate node, load discontinuity or internal hinge).
 
         Returns
         -------
-        no_spans : int
-            The number of spans in the beam
+        no_members : int
         """
+        return self._no_spans
+
+    @property
+    def no_spans(self):
+        """Deprecated alias of :attr:`no_members`."""
         return self._no_spans
 
     @property
@@ -464,7 +483,7 @@ class Beam:
         n_sup = self._n_supports()
         n_loads = len(self.LM)
         return (
-            f"Beam({self._no_spans} span{'' if self._no_spans == 1 else 's'}, "
+            f"Beam({self._no_spans} member{'' if self._no_spans == 1 else 's'}, "
             f"L={self._length:g}, "
             f"{n_sup} support{'' if n_sup == 1 else 's'}, "
             f"{n_loads} load{'' if n_loads == 1 else 's'})"
