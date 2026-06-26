@@ -1,0 +1,6 @@
+pycba.modal.solve\_modal
+========================
+
+.. currentmodule:: pycba.modal
+
+.. autofunction:: solve_modal

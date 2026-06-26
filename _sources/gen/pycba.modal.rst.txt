@@ -1,0 +1,40 @@
+﻿pycba.modal
+===========
+
+.. automodule:: pycba.modal
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      solve_modal
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      ModalResults
+   
+   
+
+   
+   
+   
+
+
+

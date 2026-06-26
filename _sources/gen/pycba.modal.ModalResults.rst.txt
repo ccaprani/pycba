@@ -1,0 +1,27 @@
+pycba.modal.ModalResults
+========================
+
+.. currentmodule:: pycba.modal
+
+.. autoclass:: ModalResults
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ModalResults.mode_shape
+      ~ModalResults.plot_modes
+      ~ModalResults.plot_results
+   
+   
+
+   
+   
+   

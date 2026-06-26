@@ -1308,6 +1308,37 @@ envelope over many target stations is an envelope of (possibly different)
 arrangements.</p>
 </section>
 </section>
+<section id="free-vibration-modal-analysis">
+<h2>Free-vibration (modal) analysis<a class="headerlink" href="#free-vibration-modal-analysis" title="Link to this heading">#</a></h2>
+<p>Beyond static analysis, <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> provides the natural frequencies and mode shapes
+of the beam. A <strong>consistent mass matrix</strong> is assembled alongside the stiffness
+matrix; for a prismatic Euler–Bernoulli element of mass per unit length
+<span class="math notranslate nohighlight">\(\bar m\)</span> it is, from the same cubic Hermite shape functions used for the
+stiffness,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \mathbf{m}^{(e)} = \frac{\bar m\,L}{420}
+\begin{bmatrix}
+156 &amp; 22L &amp; 54 &amp; -13L \\
+22L &amp; 4L^2 &amp; 13L &amp; -3L^2 \\
+54 &amp; 13L &amp; 156 &amp; -22L \\
+-13L &amp; -3L^2 &amp; -22L &amp; 4L^2
+\end{bmatrix}. \end{split}\]</div>
+<p>The natural circular frequencies <span class="math notranslate nohighlight">\(\omega\)</span> and mode shapes
+<span class="math notranslate nohighlight">\(\boldsymbol\phi\)</span> are the solutions of the generalized eigenproblem</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{K}\,\boldsymbol\phi = \omega^2\,\mathbf{M}\,\boldsymbol\phi \]</div>
+<p>on the free (unrestrained) degrees of freedom, with elastic spring supports
+contributing to <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>. Because a single element per span resolves only
+the first mode or two, each span is refined into several Euler–Bernoulli
+sub-elements for the eigenanalysis; the lowest frequencies then match the
+classical analytic results (simply-supported <span class="math notranslate nohighlight">\(\omega_n = (n\pi/L)^2\sqrt{EI/\bar m}\)</span>,
+cantilever, fixed-fixed) to well under a percent.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Modal analysis currently supports prismatic, fixed-fixed spans without shear
+flexibility (<code class="docutils literal notranslate"><span class="pre">GAv</span></code>); other combinations raise a clear error.</p>
+</div>
+</section>
 <section id="nonlinear-analysis-generalized-clough-model">
 <span id="theory-nonlinear"></span><h2>Nonlinear analysis — Generalized Clough model<a class="headerlink" href="#nonlinear-analysis-generalized-clough-model" title="Link to this heading">#</a></h2>
 <p>Beyond linear elastic analysis, <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> provides an incremental <strong>nonlinear
@@ -1510,6 +1541,7 @@ model — are collected with hyperlinks on the <a class="reference internal" hre
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segmented-load-patterning">Segmented load patterning</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#free-vibration-modal-analysis">Free-vibration (modal) analysis</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-analysis-generalized-clough-model">Nonlinear analysis — Generalized Clough model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concentrated-plasticity-via-stiffness-degradation">Concentrated plasticity via stiffness degradation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#element-stiffness-with-degradation">Element stiffness with degradation</a></li>

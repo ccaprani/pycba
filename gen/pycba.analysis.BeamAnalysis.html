@@ -506,6 +506,11 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.nonlinear.NonlinearResult.html">pycba.nonlinear.NonlinearResult</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.modal.html">pycba.modal</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.modal.solve_modal.html">pycba.modal.solve_modal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.modal.ModalResults.html">pycba.modal.ModalResults</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.utils.html">pycba.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.utils.parse_beam_string.html">pycba.utils.parse_beam_string</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.utils.supports_to_R.html">pycba.utils.supports_to_R</a></li>
@@ -710,22 +715,25 @@ a modulus).  Supported for prismatic, fixed-fixed spans without
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.is_stable" title="pycba.analysis.BeamAnalysis.is_stable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_stable</span></code></a></p></td>
 <td><p>Return whether the structure is stable (not a mechanism).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_beam" title="pycba.analysis.BeamAnalysis.plot_beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beam</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.modal" title="pycba.analysis.BeamAnalysis.modal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modal</span></code></a></p></td>
+<td><p>Free-vibration (modal) analysis: natural frequencies and mode shapes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_beam" title="pycba.analysis.BeamAnalysis.plot_beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beam</span></code></a></p></td>
 <td><p>Draw a structural schematic of the beam.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bmd</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bmd</span></code></a></p></td>
 <td><p>Plot the bending-moment diagram.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="pycba.analysis.BeamAnalysis.plot_dsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_dsd</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="pycba.analysis.BeamAnalysis.plot_dsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_dsd</span></code></a></p></td>
 <td><p>Plot the deflected-shape diagram.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
 <td><p>Plot bending moment, shear force, and deflection diagrams.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="pycba.analysis.BeamAnalysis.plot_sfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sfd</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="pycba.analysis.BeamAnalysis.plot_sfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sfd</span></code></a></p></td>
 <td><p>Plot the shear-force diagram.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
 <td><p>Replace the current load matrix with a new one.</p></td>
 </tr>
 </tbody>
@@ -927,6 +935,37 @@ only the loads.</p></li>
     and <code class="xref py py-meth docutils literal notranslate"><span class="pre">_solver()</span></code>).</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.modal">
+<span class="sig-name descname"><span class="pre">modal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nseg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.modal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.modal" title="Link to this definition">#</a></dt>
+<dd><p>Free-vibration (modal) analysis: natural frequencies and mode shapes.</p>
+<p>Assembles a consistent mass matrix alongside the stiffness matrix on a
+refined mesh (each span split into <code class="docutils literal notranslate"><span class="pre">nseg</span></code> Euler-Bernoulli
+sub-elements) and solves the generalized eigenproblem
+<code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">φ</span> <span class="pre">=</span> <span class="pre">ω²</span> <span class="pre">M</span> <span class="pre">φ</span></code>.  Supports, including elastic springs, are applied at
+the original span nodes; the analysis is independent of any applied
+loads.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mass</strong> (<em>float</em><em> or </em><em>array_like</em>) – Mass per unit length, a scalar for every span or one value per span
+(consistent units, e.g. kg/m if EI is in N·m²).</p></li>
+<li><p><strong>n_modes</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of lowest modes to return. The default is 10.</p></li>
+<li><p><strong>nseg</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Sub-elements per span for the refined mesh. The default is 12.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The natural frequencies (<code class="docutils literal notranslate"><span class="pre">omega</span></code> rad/s, <code class="docutils literal notranslate"><span class="pre">f</span></code> Hz) and mode shapes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycba.modal.ModalResults.html#pycba.modal.ModalResults" title="pycba.modal.ModalResults">pycba.modal.ModalResults</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Supported for prismatic, fixed-fixed spans without shear flexibility
+(<code class="docutils literal notranslate"><span class="pre">GAv</span></code>); other combinations raise a clear <code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1173,6 +1212,7 @@ is returned and <code class="docutils literal notranslate"><span class="pre">ax<
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_ic"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_ic()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_trap"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_trap()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.analyze"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.analyze()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.modal"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.modal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.is_stable"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.is_stable()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_beam"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_beam()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_results"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_results()</span></code></a></li>

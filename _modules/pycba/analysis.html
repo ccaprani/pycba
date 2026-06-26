@@ -893,6 +893,44 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 
 
+<div class="viewcode-block" id="BeamAnalysis.modal">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.modal">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass</span><span class="p">,</span> <span class="n">n_modes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">nseg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Free-vibration (modal) analysis: natural frequencies and mode shapes.</span>
+
+<span class="sd">        Assembles a consistent mass matrix alongside the stiffness matrix on a</span>
+<span class="sd">        refined mesh (each span split into ``nseg`` Euler-Bernoulli</span>
+<span class="sd">        sub-elements) and solves the generalized eigenproblem</span>
+<span class="sd">        ``K φ = ω² M φ``.  Supports, including elastic springs, are applied at</span>
+<span class="sd">        the original span nodes; the analysis is independent of any applied</span>
+<span class="sd">        loads.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mass : float or array_like</span>
+<span class="sd">            Mass per unit length, a scalar for every span or one value per span</span>
+<span class="sd">            (consistent units, e.g. kg/m if EI is in N·m²).</span>
+<span class="sd">        n_modes : int, optional</span>
+<span class="sd">            Number of lowest modes to return. The default is 10.</span>
+<span class="sd">        nseg : int, optional</span>
+<span class="sd">            Sub-elements per span for the refined mesh. The default is 12.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pycba.modal.ModalResults</span>
+<span class="sd">            The natural frequencies (``omega`` rad/s, ``f`` Hz) and mode shapes.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Supported for prismatic, fixed-fixed spans without shear flexibility</span>
+<span class="sd">        (``GAv``); other combinations raise a clear ``NotImplementedError``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.modal</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_modal</span>
+
+        <span class="k">return</span> <span class="n">solve_modal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">mass</span><span class="p">,</span> <span class="n">n_modes</span><span class="o">=</span><span class="n">n_modes</span><span class="p">,</span> <span class="n">nseg</span><span class="o">=</span><span class="n">nseg</span><span class="p">)</span></div>
+
+
     <span class="c1"># Reciprocal-condition-number floor for the free-DOF stiffness partition.</span>
     <span class="c1"># True mechanisms sit near machine epsilon (~1e-16); legitimately flexible</span>
     <span class="c1"># structures stay well above this, so 1e-12 separates them with margin.</span>
