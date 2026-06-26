@@ -64,8 +64,15 @@ def test_mode_shape_and_plot():
     assert np.max(np.abs(v)) == pytest.approx(1.0)  # normalised
     # first SS mode is a single half-sine, peaking mid-span
     assert abs(v[np.argmin(np.abs(x - L / 2))]) == pytest.approx(1.0, abs=1e-3)
-    ax = res.plot([0, 1])
+
+    ax = res.plot_modes([0, 1])
     assert ax.has_data()
+
+    # plot_results: two panels (beam schematic + mode shapes) sharing the x-axis
+    fig, axs = res.plot_results(modes=[0, 1])
+    assert len(axs) == 2
+    assert axs[0].patches or axs[0].lines  # the beam schematic was drawn
+    assert axs[1].has_data()
     plt.close("all")
 
 

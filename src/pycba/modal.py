@@ -72,7 +72,7 @@ class ModalResults:
         Number of modes returned.
     """
 
-    def __init__(self, omega, phi, x):
+    def __init__(self, omega, phi, x, beam=None):
         self.omega = np.asarray(omega)
         self.f = self.omega / (2 * np.pi)
         with np.errstate(divide="ignore"):
@@ -80,6 +80,7 @@ class ModalResults:
         self.phi = np.asarray(phi)
         self.x = np.asarray(x)
         self.n_modes = len(self.omega)
+        self.beam = beam  # for the schematic in :meth:`plot_results`
 
     def mode_shape(self, mode: int = 0):
         """
@@ -95,8 +96,25 @@ class ModalResults:
             v = -v
         return self.x, v
 
-    def plot(self, modes: Union[int, Sequence[int]] = 0, ax=None, units=None):
-        """Plot one or several mode shapes."""
+    def plot_modes(self, modes: Union[int, Sequence[int]] = 0, ax=None, units=None):
+        """
+        Plot one or several mode shapes (normalised to unit amplitude).
+
+        Parameters
+        ----------
+        modes : int or sequence of int, optional
+            The 0-based mode index/indices to draw. The default is the
+            fundamental mode (``0``).
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw into; a new figure is created if omitted.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the distance axis (see
+            :func:`pycba.set_units`).
+
+        Returns
+        -------
+        matplotlib.axes.Axes
+        """
         import matplotlib.pyplot as plt
         from .units import resolve
 
@@ -114,6 +132,57 @@ class ModalResults:
         ax.set_ylabel("Mode shape")
         ax.legend(loc="best", fontsize=8)
         return ax
+
+    def plot_results(
+        self,
+        modes: Union[int, Sequence[int], None] = None,
+        units=None,
+        figsize=None,
+    ):
+        """
+        Two-panel figure: the beam schematic above the mode shapes, sharing the
+        distance axis (mirroring :meth:`pycba.analysis.BeamAnalysis.plot_results`).
+
+        Parameters
+        ----------
+        modes : int or sequence of int, optional
+            Mode index/indices to draw.  Defaults to the first three modes (or
+            all of them if fewer were computed).
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system (see :func:`pycba.set_units`).
+        figsize : tuple(float, float), optional
+            Figure size in inches.
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        numpy.ndarray of matplotlib.axes.Axes
+            The (schematic, mode-shape) panel axes.
+        """
+        import matplotlib.pyplot as plt
+        from .units import resolve
+
+        us = resolve(units)
+        if modes is None:
+            modes = list(range(min(3, self.n_modes)))
+
+        fig, axs = plt.subplots(
+            2,
+            1,
+            sharex=True,
+            figsize=figsize or (10, 4.8),
+            gridspec_kw={"height_ratios": [0.5, 1.0]},
+        )
+        if self.beam is not None:
+            # The bare structure (no loads): supports and any spring/foundation.
+            self.beam.plot(
+                ax=axs[0], loads=[], dimensions=False, equal_aspect=False, units=us
+            )
+            axs[0].set_xlabel("")
+        else:  # pragma: no cover - beam is always provided by BeamAnalysis.modal
+            axs[0].axis("off")
+        self.plot_modes(modes, ax=axs[1], units=units)
+        return fig, axs
 
     def __repr__(self):
         fs = ", ".join(f"{v:.4g}" for v in self.f[: min(5, self.n_modes)])
@@ -208,4 +277,4 @@ def solve_modal(beam, mass, n_modes: int = 10, nseg: int = 12) -> ModalResults:
 
     phi = np.zeros((ndof, nm))
     phi[np.ix_(free, range(nm))] = vecs[:, :nm]
-    return ModalResults(omega[:nm], phi, node_x)
+    return ModalResults(omega[:nm], phi, node_x, beam=beam)
