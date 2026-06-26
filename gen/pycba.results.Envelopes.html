@@ -454,6 +454,15 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.render.Support.html">pycba.render.Support</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.plotting.html">pycba.plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.diagram_figure.html">pycba.plotting.diagram_figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.envelope_figure.html">pycba.plotting.envelope_figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.get_backend.html">pycba.plotting.get_backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.resolve_backend.html">pycba.plotting.resolve_backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.results_figure.html">pycba.plotting.results_figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.set_backend.html">pycba.plotting.set_backend</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.units.html">pycba.units</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.units.get_units.html">pycba.units.get_units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.units.resolve.html">pycba.units.resolve</a></li>
@@ -910,13 +919,18 @@ returns the list of raw chunks.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.results.Envelopes.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">each</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.plot" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">each</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.plot" title="Link to this definition">#</a></dt>
 <dd><p>Plots the envelopes of bending and shear.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>each</strong> (<em>Boolean</em>) – Wether or not to show each BMD and SFD in the enveloping. The default is False</p></li>
 <li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
+<li><p><strong>backend</strong> (<em>{&quot;matplotlib&quot;</em><em>, </em><em>&quot;plotly&quot;}</em><em>, </em><em>optional</em>) – Plotting backend; defaults to the global default (see
+<code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_backend()</span></code>).  With <code class="docutils literal notranslate"><span class="pre">&quot;plotly&quot;</span></code> an interactive,
+hover-to-read envelope figure (a <code class="docutils literal notranslate"><span class="pre">plotly.graph_objects.Figure</span></code>) is
+returned, with the max/min band shaded; <code class="docutils literal notranslate"><span class="pre">each</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> do
+not apply.</p></li>
 <li><p><strong>**kwargs</strong> (<em>Dict</em>) – Matplotlib keyword arguments for plotting.</p></li>
 </ul>
 </dd>

@@ -1,0 +1,36 @@
+﻿pycba.plotting
+==============
+
+.. automodule:: pycba.plotting
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      diagram_figure
+      envelope_figure
+      get_backend
+      resolve_backend
+      results_figure
+      set_backend
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

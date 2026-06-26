@@ -1,0 +1,6 @@
+pycba.plotting.set\_backend
+===========================
+
+.. currentmodule:: pycba.plotting
+
+.. autofunction:: set_backend

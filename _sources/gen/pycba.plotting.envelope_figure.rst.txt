@@ -1,0 +1,6 @@
+pycba.plotting.envelope\_figure
+===============================
+
+.. currentmodule:: pycba.plotting
+
+.. autofunction:: envelope_figure

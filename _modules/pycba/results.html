@@ -1252,7 +1252,7 @@
 
 <div class="viewcode-block" id="Envelopes.plot">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.plot">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">each</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">each</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the envelopes of bending and shear.</span>
 
@@ -1262,6 +1262,12 @@
 <span class="sd">            Wether or not to show each BMD and SFD in the enveloping. The default is False</span>
 <span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
 <span class="sd">            Display unit system for the labels (see :func:`pycba.set_units`).</span>
+<span class="sd">        backend : {&quot;matplotlib&quot;, &quot;plotly&quot;}, optional</span>
+<span class="sd">            Plotting backend; defaults to the global default (see</span>
+<span class="sd">            :func:`pycba.set_backend`).  With ``&quot;plotly&quot;`` an interactive,</span>
+<span class="sd">            hover-to-read envelope figure (a ``plotly.graph_objects.Figure``) is</span>
+<span class="sd">            returned, with the max/min band shaded; ``each`` and ``**kwargs`` do</span>
+<span class="sd">            not apply.</span>
 <span class="sd">        **kwargs : Dict</span>
 <span class="sd">            Matplotlib keyword arguments for plotting.</span>
 
@@ -1271,10 +1277,15 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_backend</span>
 
-        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No results to display&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resolve_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">envelope_figure</span>
+
+            <span class="k">return</span> <span class="n">envelope_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
 
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 

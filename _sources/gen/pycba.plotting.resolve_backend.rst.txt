@@ -1,0 +1,6 @@
+pycba.plotting.resolve\_backend
+===============================
+
+.. currentmodule:: pycba.plotting
+
+.. autofunction:: resolve_backend

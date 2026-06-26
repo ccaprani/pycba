@@ -454,6 +454,15 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.render.Support.html">pycba.render.Support</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.plotting.html">pycba.plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.diagram_figure.html">pycba.plotting.diagram_figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.envelope_figure.html">pycba.plotting.envelope_figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.get_backend.html">pycba.plotting.get_backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.resolve_backend.html">pycba.plotting.resolve_backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.results_figure.html">pycba.plotting.results_figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.plotting.set_backend.html">pycba.plotting.set_backend</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.units.html">pycba.units</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.units.get_units.html">pycba.units.get_units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.units.resolve.html">pycba.units.resolve</a></li>
@@ -981,7 +990,7 @@ produce a PDF (a <code class="docutils literal notranslate"><span class="pre">.p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_results">
-<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
 <dd><p>Plot bending moment, shear force, and deflection diagrams.</p>
 <p>Produces a figure of bending moment, shear force, and deflection along
 the beam.  Bending moment is plotted with the sagging-positive
@@ -1004,11 +1013,18 @@ itself is unit-agnostic and unaffected.</p></li>
 <li><p><strong>figsize</strong> (<em>tuple</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Figure size in inches. Defaults to 10 wide and ~3 in per subplot
 row (so the diagrams are not squashed), consistent with the other
 PyCBA result plots; pass an explicit tuple to override.</p></li>
+<li><p><strong>backend</strong> (<em>{&quot;matplotlib&quot;</em><em>, </em><em>&quot;plotly&quot;}</em><em>, </em><em>optional</em>) – Plotting backend; defaults to the global default (see
+<code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_backend()</span></code>).  With <code class="docutils literal notranslate"><span class="pre">&quot;plotly&quot;</span></code> an interactive,
+hover-to-read figure of the three diagrams (sharing the x-axis) is
+returned; the <code class="docutils literal notranslate"><span class="pre">show_beam</span></code>, <code class="docutils literal notranslate"><span class="pre">show</span></code> and <code class="docutils literal notranslate"><span class="pre">figsize</span></code> arguments do
+not apply.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><em>matplotlib.figure.Figure</em> – The figure, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a> has not been called.</p></li>
+<li><p><em>matplotlib.figure.Figure</em> – The figure, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a> has not been called.
+With <code class="docutils literal notranslate"><span class="pre">backend=&quot;plotly&quot;</span></code> a single <code class="docutils literal notranslate"><span class="pre">plotly.graph_objects.Figure</span></code>
+is returned instead of the <code class="docutils literal notranslate"><span class="pre">(figure,</span> <span class="pre">axes)</span></code> pair.</p></li>
 <li><p><em>numpy.ndarray of matplotlib.axes.Axes</em> – The panel axes (length 4 when <code class="docutils literal notranslate"><span class="pre">show_beam</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, else 3).</p></li>
 </ul>
 </p>
@@ -1021,7 +1037,7 @@ called yet.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_bmd">
-<span class="sig-name descname"><span class="pre">plot_bmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_bmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_bmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_bmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="Link to this definition">#</a></dt>
 <dd><p>Plot the bending-moment diagram.</p>
 <p>Uses the sagging-positive convention (the y-axis is inverted so sagging
 appears below the beam line), matching <a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_results()</span></code></a>.  Pass an
@@ -1032,11 +1048,15 @@ set up only on the first call, so the overlay is not re-inverted.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into; a new figure is created if omitted.</p></li>
 <li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
+<li><p><strong>backend</strong> (<em>{&quot;matplotlib&quot;</em><em>, </em><em>&quot;plotly&quot;}</em><em>, </em><em>optional</em>) – Plotting backend; defaults to the global default (see
+<code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_backend()</span></code>).  With <code class="docutils literal notranslate"><span class="pre">&quot;plotly&quot;</span></code> an interactive figure
+is returned and <code class="docutils literal notranslate"><span class="pre">ax</span></code>/<code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> do not apply.</p></li>
 <li><p><strong>**kwargs</strong> – Forwarded to the curve plot (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">ls</span></code>, <code class="docutils literal notranslate"><span class="pre">lw</span></code>, <code class="docutils literal notranslate"><span class="pre">label</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>).</p>
+<dd class="field-even"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>), or a
+<code class="docutils literal notranslate"><span class="pre">plotly.graph_objects.Figure</span></code> with <code class="docutils literal notranslate"><span class="pre">backend=&quot;plotly&quot;</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>matplotlib.axes.Axes or None</p>
@@ -1046,13 +1066,14 @@ set up only on the first call, so the overlay is not re-inverted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_sfd">
-<span class="sig-name descname"><span class="pre">plot_sfd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_sfd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_sfd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_sfd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="Link to this definition">#</a></dt>
 <dd><p>Plot the shear-force diagram.</p>
 <p>See <a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_bmd()</span></code></a> for the parameters (overlay via <code class="docutils literal notranslate"><span class="pre">ax</span></code>, <code class="docutils literal notranslate"><span class="pre">units</span></code>,
-and matplotlib <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>).</p>
+<code class="docutils literal notranslate"><span class="pre">backend</span></code> and matplotlib <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>).</p>
+<dd class="field-odd"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>), or a
+<code class="docutils literal notranslate"><span class="pre">plotly.graph_objects.Figure</span></code> with <code class="docutils literal notranslate"><span class="pre">backend=&quot;plotly&quot;</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>matplotlib.axes.Axes or None</p>
@@ -1062,13 +1083,14 @@ and matplotlib <code class="docutils literal notranslate"><span class="pre">**kw
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_dsd">
-<span class="sig-name descname"><span class="pre">plot_dsd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_dsd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_dsd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_dsd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="Link to this definition">#</a></dt>
 <dd><p>Plot the deflected-shape diagram.</p>
 <p>See <a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot_bmd()</span></code></a> for the parameters (overlay via <code class="docutils literal notranslate"><span class="pre">ax</span></code>, <code class="docutils literal notranslate"><span class="pre">units</span></code>,
-and matplotlib <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>).</p>
+<code class="docutils literal notranslate"><span class="pre">backend</span></code> and matplotlib <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>).</p>
+<dd class="field-odd"><p>The axes drawn into (<code class="docutils literal notranslate"><span class="pre">None</span></code> before <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>), or a
+<code class="docutils literal notranslate"><span class="pre">plotly.graph_objects.Figure</span></code> with <code class="docutils literal notranslate"><span class="pre">backend=&quot;plotly&quot;</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>matplotlib.axes.Axes or None</p>

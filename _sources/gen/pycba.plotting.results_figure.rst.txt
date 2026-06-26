@@ -1,0 +1,6 @@
+pycba.plotting.results\_figure
+==============================
+
+.. currentmodule:: pycba.plotting
+
+.. autofunction:: results_figure

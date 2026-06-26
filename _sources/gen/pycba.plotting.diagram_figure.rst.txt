@@ -1,0 +1,6 @@
+pycba.plotting.diagram\_figure
+==============================
+
+.. currentmodule:: pycba.plotting
+
+.. autofunction:: diagram_figure
