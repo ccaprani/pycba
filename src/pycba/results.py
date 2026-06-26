@@ -293,6 +293,67 @@ class BeamResults:
 
         return res
 
+    def at(self, x: float, attrs: Tuple[str, ...] = ("M", "V", "R", "D")) -> Dict:
+        """
+        Interpolate the load effects at a global coordinate.
+
+        Parameters
+        ----------
+        x : float
+            Global coordinate measured from the left end of the beam.
+        attrs : tuple of str, optional
+            Which member-result arrays to evaluate: any of ``"M"`` (moment),
+            ``"V"`` (shear), ``"R"`` (rotation) and ``"D"`` (deflection). The
+            default returns all four.
+
+        Returns
+        -------
+        dict
+            Each requested attribute mapped to its interpolated value at ``x``.
+            The station array repeats span-boundary coordinates, so it is
+            de-duplicated first; at a step in the shear (a support or point
+            load) the left-hand value is returned.
+        """
+        res = self.results
+        ux, uidx = np.unique(res.x, return_index=True)
+        out: Dict[str, float] = {}
+        for a in attrs:
+            vals = np.asarray(getattr(res, a))
+            out[a] = float(np.interp(float(x), ux, vals[uidx]))
+        return out
+
+    def to_dataframe(self):
+        """
+        Return the member load effects as a :class:`pandas.DataFrame` with
+        columns ``x``, ``M`` (moment), ``V`` (shear), ``R`` (rotation) and ``D``
+        (deflection).  Requires :mod:`pandas`.
+        """
+        try:
+            import pandas as pd
+        except ImportError as e:  # pragma: no cover - optional dependency
+            raise ImportError(
+                "to_dataframe() requires pandas; install it with `pip install pandas`."
+            ) from e
+        res = self.results
+        return pd.DataFrame(
+            {"x": res.x, "M": res.M, "V": res.V, "R": res.R, "D": res.D}
+        )
+
+    def to_csv(self, path, **kwargs):
+        """
+        Write the member load effects (columns ``x, M, V, R, D``) to a CSV file.
+
+        Uses :func:`numpy.savetxt` so no pandas dependency is needed; any extra
+        keyword arguments are forwarded to it.  Returns ``path``.
+        """
+        res = self.results
+        data = np.column_stack([res.x, res.M, res.V, res.R, res.D])
+        kwargs.setdefault("delimiter", ",")
+        kwargs.setdefault("header", "x,M,V,R,D")
+        kwargs.setdefault("comments", "")
+        np.savetxt(path, data, **kwargs)
+        return path
+
 
 class Envelopes:
     """
@@ -739,6 +800,38 @@ class Envelopes:
             values = np.asarray(getattr(self, attr))
             out[attr] = float(np.interp(float(x), unique_x, values[unique_index]))
         return out
+
+    def to_dataframe(self, attrs: Tuple[str, ...] = ("Mmax", "Mmin", "Vmax", "Vmin")):
+        """
+        Return the envelopes as a :class:`pandas.DataFrame` with an ``x`` column
+        and one column per requested envelope attribute (default the moment and
+        shear extremes).  Requires :mod:`pandas`.
+        """
+        try:
+            import pandas as pd
+        except ImportError as e:  # pragma: no cover - optional dependency
+            raise ImportError(
+                "to_dataframe() requires pandas; install it with `pip install pandas`."
+            ) from e
+        data = {"x": self.x}
+        for a in attrs:
+            data[a] = np.asarray(getattr(self, a))
+        return pd.DataFrame(data)
+
+    def to_csv(
+        self, path, attrs: Tuple[str, ...] = ("Mmax", "Mmin", "Vmax", "Vmin"), **kwargs
+    ):
+        """
+        Write the envelopes (an ``x`` column plus each requested attribute) to a
+        CSV file with :func:`numpy.savetxt` (no pandas needed).  Returns ``path``.
+        """
+        cols = [self.x] + [np.asarray(getattr(self, a)) for a in attrs]
+        data = np.column_stack(cols)
+        kwargs.setdefault("delimiter", ",")
+        kwargs.setdefault("header", ",".join(["x", *attrs]))
+        kwargs.setdefault("comments", "")
+        np.savetxt(path, data, **kwargs)
+        return path
 
     def per_span(self, attr: str = "Mmax", reduce: str = "auto") -> np.ndarray:
         """
