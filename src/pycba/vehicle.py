@@ -384,3 +384,121 @@ class VehicleLibrary:
         # Now scale the weights
         axw = (axle_weight / 300.0) * np.array(axw)
         return Vehicle(np.array(axs), axw)
+
+    # ------------------------------------------------------------------ #
+    # International code load models (axle-based).  The accompanying lane
+    # UDL, where a code pairs the truck with a distributed load, is given in
+    # each docstring for use as ``BridgeAnalysis.run_load_model(..., w_lane=)``.
+    # ------------------------------------------------------------------ #
+
+    @staticmethod
+    def get_hl93_truck(rear_spacing: float = 4.3) -> Vehicle:
+        """
+        AASHTO LRFD HL-93 design truck (Art. 3.6.1.2.2): three axles of 35, 145
+        and 145 kN.  The front-to-middle spacing is fixed at 4.3 m; the rear
+        (middle-to-back) spacing is varied between 4.3 m and 9.0 m to maximise
+        the effect.  HL-93 is the truck *or* the design tandem (whichever
+        governs) combined with the design lane load (use ``w_lane=9.3`` kN/m);
+        the 33% dynamic load allowance applies to the truck only.
+
+        Parameters
+        ----------
+        rear_spacing : float
+            The variable middle-to-rear axle spacing, 4.3-9.0 m (default 4.3).
+        """
+        if not (4.3 <= rear_spacing <= 9.0):
+            raise ValueError("HL-93 rear axle spacing must be between 4.3 and 9.0 m")
+        return Vehicle(np.array([4.3, rear_spacing]), np.array([35.0, 145.0, 145.0]))
+
+    @staticmethod
+    def get_hl93_tandem() -> Vehicle:
+        """
+        AASHTO LRFD HL-93 design tandem (Art. 3.6.1.2.3): two 110 kN axles at
+        1.2 m.  Combined with the design lane load (``w_lane=9.3`` kN/m); the
+        heavier of the truck and tandem governs.
+        """
+        return Vehicle(np.array([1.2]), np.array([110.0, 110.0]))
+
+    @staticmethod
+    def get_lm1(alpha_Q: float = 1.0) -> Vehicle:
+        """
+        Eurocode EN 1991-2 Load Model 1 tandem system (TS), Lane 1 (Table 4.2):
+        two 300 kN axles at 1.2 m.  Accompanied by the Lane-1 UDL of 9 kN/m²,
+        i.e. ``w_lane=27`` kN/m over the 3 m notional lane.
+
+        Parameters
+        ----------
+        alpha_Q : float
+            National-Annex adjustment factor on the axle loads (default 1.0).
+        """
+        Q = 300.0 * alpha_Q
+        return Vehicle(np.array([1.2]), np.array([Q, Q]))
+
+    @staticmethod
+    def get_lm71(alpha: float = 1.0) -> Vehicle:
+        """
+        Eurocode EN 1991-2 rail Load Model 71 (cl 6.3.2): four 250 kN axles at
+        1.6 m centres, with two 80 kN/m distributed loads acting on each side
+        starting 0.8 m beyond the outer axles (use ``w_lane=80`` for the
+        distributed component).
+
+        Parameters
+        ----------
+        alpha : float
+            Classification factor (0.75-1.46; default 1.0 for international lines).
+        """
+        Q = 250.0 * alpha
+        return Vehicle(np.array([1.6, 1.6, 1.6]), np.full(4, Q))
+
+    @staticmethod
+    def get_cl625() -> Vehicle:
+        """
+        CSA S6 CL-625 design truck (cl 3.8.3.1.2): five axles of 50, 125, 125,
+        175 and 150 kN (625 kN total) at spacings 3.6, 1.2, 6.6 and 6.6 m.  The
+        CL-625 lane load is 80% of these axle loads superimposed on a
+        ``w_lane=9`` kN/m UDL.
+        """
+        return Vehicle(
+            np.array([3.6, 1.2, 6.6, 6.6]),
+            np.array([50.0, 125.0, 125.0, 175.0, 150.0]),
+        )
+
+    @staticmethod
+    def get_hb(units: float = 45.0, inner_spacing: float = 6.0) -> Vehicle:
+        """
+        BS 5400-2 / CS 454 HB abnormal vehicle (cl 6.3): a four-axle bogie, each
+        axle ``units × 10`` kN, at spacings 1.8, ``inner_spacing`` and 1.8 m.
+
+        Parameters
+        ----------
+        units : float
+            Number of HB units, typically 25-45 (250-450 kN/axle). Default 45.
+        inner_spacing : float
+            The variable inner spacing; the code uses 6, 11, 16, 21 or 26 m for
+            the worst effect. Default 6 m.
+        """
+        P = units * 10.0
+        return Vehicle(np.array([1.8, inner_spacing, 1.8]), np.full(4, P))
+
+    @staticmethod
+    def get_jtg_vehicle() -> Vehicle:
+        """
+        China JTG D60-2015 standard vehicle load (车辆荷载, cl 4.3.1): five axles
+        of 30, 120, 120, 140 and 140 kN (550 kN total) at spacings 3.0, 1.4, 7.0
+        and 1.4 m.  The companion lane load (车道荷载) is a span-dependent UDL
+        (10.5 kN/m for Highway Class I) plus a concentrated load.
+        """
+        return Vehicle(
+            np.array([3.0, 1.4, 7.0, 1.4]),
+            np.array([30.0, 120.0, 120.0, 140.0, 140.0]),
+        )
+
+    @staticmethod
+    def get_a160() -> Vehicle:
+        """AS 5100.2 A160 individual axle load (cl 7.2): a single 160 kN axle."""
+        return Vehicle(np.array([]), np.array([160.0]))
+
+    @staticmethod
+    def get_w80() -> Vehicle:
+        """AS 5100.2 W80 individual wheel load (cl 7.2): a single 80 kN wheel."""
+        return Vehicle(np.array([]), np.array([80.0]))
