@@ -9,6 +9,7 @@ notebooks/intro
 notebooks/envelopes
 notebooks/inf_lines
 notebooks/bridge
+notebooks/vehicle_library
 notebooks/nonlinear
 notebooks/nonprismatic
 notebooks/timoshenko
