@@ -8,7 +8,7 @@
 - **Timoshenko (shear-deformable) beam elements**: a member becomes a shear-deformable Timoshenko element when given a finite transverse shear rigidity `GAv` (a scalar, or a `SectionEI` for a variable `GAv(x)`); with `GAv=None` (the default) the member stays on the exact Euler–Bernoulli path, bit-for-bit unchanged. Shear deformation flows through the element stiffness, the fixed-end forces and the displacement recovery, for prismatic and non-prismatic members and all four release types, routed through the existing flexibility integrator (no per-load closed forms rewritten). Two DOF per node is preserved, so the `supports=` API, reactions, plotting and influence lines are inherited unchanged. `GAv` is accepted by `Beam`, `Beam.add_span`/`add_member`, `BeamAnalysis` and `BridgeAnalysis.add_bridge`. Nonlinear (plastic-hinge) analysis remains Euler–Bernoulli.
 
 ### Documentation
-- Add a beam-on-elastic-(Winkler)-foundation tutorial notebook and a Theoretical Basis section (the condensed sub-element super-element, validated against Hetényi).
+- Add a beam-on-elastic-(Winkler)-foundation tutorial notebook (Hetényi validation, a strip footing, and a two-span railway bridge with ballasted approaches under a moving 300LA load) and a Theoretical Basis section (the condensed sub-element super-element, validated against Hetényi).
 - Add a Timoshenko beam-element tutorial notebook, a Theoretical Basis section on the shear-deformable element, and literature references ([Timoshenko, 1921](https://doi.org/10.1080/14786442108636264); [Cowper, 1966](https://doi.org/10.1115/1.3625046); [Friedman & Kosmatka, 1993](https://doi.org/10.1016/0045-7949(93)90243-7)).
 
 ## 0.8.0 — 2026-06-11
