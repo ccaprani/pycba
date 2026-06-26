@@ -274,7 +274,7 @@ def test_plot_results_overlay_returns_handles():
     ba.analyze()
     fig, axs = ba.plot_results(show=False)
     assert isinstance(fig, matplotlib.figure.Figure)
-    assert len(axs) == 4  # schematic + M + V + D
+    assert len(axs) == 5  # schematic + M + V + D + reactions
     # top panel carries the schematic (support/load patches)
     assert axs[0].patches
     plt.close(fig)
@@ -283,7 +283,7 @@ def test_plot_results_overlay_returns_handles():
 def test_plot_results_without_beam_is_three_panels():
     ba = _make_analysis()
     ba.analyze()
-    fig, axs = ba.plot_results(show_beam=False, show=False)
+    fig, axs = ba.plot_results(show_beam=False, show_reactions=False, show=False)
     assert len(axs) == 3
     assert not axs[0].patches  # no schematic, just the moment diagram
     plt.close(fig)

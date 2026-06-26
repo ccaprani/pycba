@@ -88,7 +88,8 @@ def test_per_plot_override_beats_global():
     ba = _analysed_beam()
     fig, axs = ba.plot_results(show=False, units="none")
     assert axs[1].get_ylabel() == "Bending Moment"
-    assert axs[3].get_xlabel() == "Distance along beam"
+    # the x-axis label sits on the bottom (reactions) panel
+    assert axs[4].get_xlabel() == "Distance along beam"
     plt.close(fig)
 
 

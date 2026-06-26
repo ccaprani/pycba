@@ -866,6 +866,7 @@ class BeamAnalysis:
         units=None,
         figsize=None,
         backend=None,
+        show_reactions: bool = True,
     ):
         """
         Plot bending moment, shear force, and deflection diagrams.
@@ -930,24 +931,29 @@ class BeamAnalysis:
         res = self._beam_results.results
         L = self._beam.length
 
+        # Slim schematic strips (~0.6) top and/or bottom around the three
+        # ~3-in diagram rows.  The bottom strip carries the reaction arrows.
+        ratios = (
+            ([0.6] if show_beam else [])
+            + [1.0, 1.0, 1.0]
+            + ([0.6] if show_reactions else [])
+        )
+        fig, axs = plt.subplots(
+            len(ratios),
+            1,
+            sharex=True,
+            figsize=figsize or (10, 3.0 * sum(ratios)),
+            gridspec_kw={"height_ratios": ratios},
+        )
+        axs = np.atleast_1d(axs)
+        i0 = 0
         if show_beam:
-            # ~3 in per diagram row, plus a slim strip for the schematic.
-            ratios = [0.6, 1.0, 1.0, 1.0]
-            fig, axs = plt.subplots(
-                4,
-                1,
-                sharex=True,
-                figsize=figsize or (10, 3.0 * sum(ratios)),
-                gridspec_kw={"height_ratios": ratios},
-            )
             # The schematic stretches to fill its panel (equal_aspect=False) so
             # it stays aligned in x with the diagrams below.
             self._beam.plot(ax=axs[0], dimensions=False, equal_aspect=False, units=us)
             axs[0].set_xlabel("")
-            diag = axs[1:]
-        else:
-            fig, axs = plt.subplots(3, 1, sharex=True, figsize=figsize or (10, 9.0))
-            diag = axs
+            i0 = 1
+        diag = axs[i0 : i0 + 3]
 
         ax = diag[0]
         ax.plot([0, L], [0, 0], "k", lw=2)
@@ -967,11 +973,102 @@ class BeamAnalysis:
         ax.plot(res.x, res.D * us.disp_scale, "r")
         ax.grid()
         ax.set_ylabel(us.deflection_axis)
-        ax.set_xlabel(us.distance_axis)
+        if not show_reactions:
+            ax.set_xlabel(us.distance_axis)
+
+        if show_reactions:
+            from .render import BeamPlotter
+
+            rax = axs[i0 + 3]
+            bp = BeamPlotter(self._beam, loads=[])
+            bp.render_mpl(ax=rax, dimensions=False, equal_aspect=False, units=us)
+            vert, mom = self._reactions_by_node()
+            bp.render_reactions_mpl(rax, vert, mom)
+            rax.set_ylabel("Reactions")
 
         if show:
             plt.show()
         return fig, axs
+
+    def _reactions_by_node(self):
+        """
+        Map the fixed-support reactions (``R``) and spring forces (``Rs``) back
+        to per-node vertical and moment reactions.
+
+        Returns
+        -------
+        vert : dict[int, float]
+            Node index -> vertical reaction (positive upward).
+        mom : dict[int, float]
+            Node index -> moment reaction (positive counter-clockwise).
+        """
+        br = self._beam_results
+        restraints = self._beam.restraints
+        nDOF = len(restraints)
+        R = np.asarray(br.R)
+        Rs = np.asarray(br.Rs)
+        full = np.zeros(nDOF)
+        ir = isp = 0
+        for i in range(nDOF):
+            if restraints[i] < 0:
+                full[i] = R[ir]
+                ir += 1
+            elif restraints[i] > 0:
+                full[i] = Rs[isp]
+                isp += 1
+        nnodes = nDOF // 2
+        vert = {n: full[2 * n] for n in range(nnodes) if abs(full[2 * n]) > 1e-6}
+        mom = {n: full[2 * n + 1] for n in range(nnodes) if abs(full[2 * n + 1]) > 1e-6}
+        return vert, mom
+
+    def plot_reactions(
+        self, ax=None, units=None, show=True, figsize=None, color="tab:green"
+    ):
+        """
+        Draw the support reactions as labelled arrows on the beam schematic.
+
+        Vertical reactions are drawn as straight arrows in the force direction
+        (positive upward) and moment reactions (at fixed / encastre supports) as
+        curved arrows, each annotated with its magnitude; elastic spring-support
+        forces are included.  Requires :meth:`analyze` to have been run.
+
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes, optional
+            Axes to draw into; a new figure is created if omitted.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system (see :func:`pycba.set_units`).
+        show : bool
+            Call ``matplotlib.pyplot.show()`` before returning (default True).
+        figsize : tuple(float, float), optional
+            Figure size when a new axes is created.
+        color : str
+            Colour for the reaction arrows and labels.
+
+        Returns
+        -------
+        (matplotlib.figure.Figure, matplotlib.axes.Axes) or None
+            ``None`` (with a message) if the analysis has not been run.
+        """
+        import matplotlib.pyplot as plt
+        from .units import resolve
+        from .render import BeamPlotter
+
+        if self._beam_results is None:
+            print("Nothing to plot - run analysis first")
+            return None
+        us = resolve(units)
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize or (10, 2.8))
+        else:
+            fig = ax.figure
+        bp = BeamPlotter(self._beam, loads=[])
+        bp.render_mpl(ax=ax, dimensions=False, equal_aspect=False, units=us)
+        vert, mom = self._reactions_by_node()
+        bp.render_reactions_mpl(ax, vert, mom, color=color)
+        if show:
+            plt.show()
+        return fig, ax
 
     def _plot_diagram(
         self, kind, ax=None, units=None, figsize=None, backend=None, **kwargs
