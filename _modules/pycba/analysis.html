@@ -512,6 +512,7 @@
         <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">supports</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a beam analysis object.</span>
@@ -592,6 +593,14 @@
 <span class="sd">            element.  Broadcasts like ``EI``: a single scalar (or one</span>
 <span class="sd">            :class:`~pycba.section.SectionEI` for a variable ``GAv(x)``) applies</span>
 <span class="sd">            to all spans, otherwise one entry per span.</span>
+<span class="sd">        kf : float or array_like, optional</span>
+<span class="sd">            Winkler foundation modulus (modulus of subgrade reaction per unit</span>
+<span class="sd">            beam length).  A span with a finite ``kf`` rests on an elastic</span>
+<span class="sd">            (Winkler) foundation, modelled as a statically-condensed</span>
+<span class="sd">            beam-on-elastic-foundation super-element.  Like ``EI``: a scalar</span>
+<span class="sd">            applies to all spans, otherwise one entry per span (each ``None`` or</span>
+<span class="sd">            a modulus).  Supported for prismatic, fixed-fixed spans without</span>
+<span class="sd">            ``GAv``, carrying UDL / point / partial-UDL loads.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -622,6 +631,7 @@
             <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span>
             <span class="n">supports</span><span class="o">=</span><span class="n">supports</span><span class="p">,</span>
             <span class="n">GAv</span><span class="o">=</span><span class="n">GAv</span><span class="p">,</span>
+            <span class="n">kf</span><span class="o">=</span><span class="n">kf</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">no_spans</span>

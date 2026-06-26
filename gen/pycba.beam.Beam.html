@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pycba.section" href="pycba.section.html" />
+    <link rel="next" title="pycba.foundation" href="pycba.foundation.html" />
     <link rel="prev" title="pycba.beam" href="pycba.beam.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -404,6 +404,12 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.beam.Beam</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.foundation.html">pycba.foundation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycba.foundation.auto_subdivisions.html">pycba.foundation.auto_subdivisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.foundation.characteristic_length.html">pycba.foundation.characteristic_length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.foundation.FoundationElement.html">pycba.foundation.FoundationElement</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.section.html">pycba.section</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.section.SectionEI.html">pycba.section.SectionEI</a></li>
 </ul>
@@ -574,7 +580,7 @@
 <h1>pycba.beam.Beam<a class="headerlink" href="#pycba-beam-beam" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycba.beam.Beam">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class definition</p>
 <p>Constructs a beam object</p>
@@ -607,6 +613,12 @@ unchanged.  Like <code class="docutils literal notranslate"><span class="pre">EI
 <a class="reference internal" href="pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a> describing <code class="docutils literal notranslate"><span class="pre">GAv(x)</span></code>) applies to
 all spans, otherwise one entry per span (each <code class="docutils literal notranslate"><span class="pre">None</span></code>, a scalar, or
 a <a class="reference internal" href="pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a>).</p></li>
+<li><p><strong>kf</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>) – Winkler <strong>foundation modulus</strong> (modulus of subgrade reaction per
+unit beam length).  A span with a finite <code class="docutils literal notranslate"><span class="pre">kf</span></code> rests on an elastic
+(Winkler) foundation, modelled as a statically-condensed
+beam-on-elastic-foundation super-element; <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) leaves
+the span unsupported by a foundation.  A scalar applies to all spans,
+otherwise one entry per span.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -702,7 +714,7 @@ a <a class="reference internal" href="pycba.section.SectionEI.html#pycba.section
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.beam.Beam.add_span">
-<span class="sig-name descname"><span class="pre">add_span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_span"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_span" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eletype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_span"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_span" title="Link to this definition">#</a></dt>
 <dd><p>Add a span to the continuous beam</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -716,6 +728,8 @@ case-insensitive name (e.g. <code class="docutils literal notranslate"><span cla
 finite) the member is a shear-deformable <strong>Timoshenko</strong> element;
 <code class="docutils literal notranslate"><span class="pre">None</span></code> (default) keeps the exact Euler–Bernoulli element.  A
 <a class="reference internal" href="pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a> describes a variable <code class="docutils literal notranslate"><span class="pre">GAv(x)</span></code>.</p></li>
+<li><p><strong>kf</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Winkler foundation modulus.  When given, the member rests on an
+elastic (Winkler) foundation (prismatic, fixed-fixed, no <code class="docutils literal notranslate"><span class="pre">GAv</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -726,7 +740,7 @@ finite) the member is a shear-deformable <strong>Timoshenko</strong> element;
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.beam.Beam.add_member">
-<span class="sig-name descname"><span class="pre">add_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mbr_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MemberType.FF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_member" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mbr_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MemberType.FF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GAv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/beam.html#Beam.add_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.beam.Beam.add_member" title="Link to this definition">#</a></dt>
 <dd><p>Add a member (span) to the beam, naming its type.</p>
 <p>A friendlier alias of <a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_span()</span></code></a> whose <code class="docutils literal notranslate"><span class="pre">mbr_type</span></code> accepts a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>, a name string (<code class="docutils literal notranslate"><span class="pre">&quot;FF&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;FP&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;PF&quot;</span></code>/
@@ -739,6 +753,8 @@ finite) the member is a shear-deformable <strong>Timoshenko</strong> element;
 <li><p><strong>mbr_type</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">MemberType</span></code>]</span>) – The member type / moment-release pattern (default <code class="docutils literal notranslate"><span class="pre">FF</span></code>).</p></li>
 <li><p><strong>GAv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <a class="reference internal" href="pycba.section.SectionEI.html#pycba.section.SectionEI" title="pycba.section.SectionEI"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectionEI</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</span>) – Transverse shear rigidity <code class="docutils literal notranslate"><span class="pre">G·A_v</span></code>; when given the member is a
 shear-deformable Timoshenko element (see <a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_span()</span></code></a>).</p></li>
+<li><p><strong>kf</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Winkler foundation modulus; when given the member rests on an elastic
+(Winkler) foundation (see <a class="reference internal" href="#pycba.beam.Beam.add_span" title="pycba.beam.Beam.add_span"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_span()</span></code></a>).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1270,11 +1286,11 @@ reproduces <a class="reference internal" href="#pycba.beam.Beam.k_FF_timo" title
       </div>
     </a>
     <a class="right-next"
-       href="pycba.section.html"
+       href="pycba.foundation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pycba.section</p>
+        <p class="prev-next-title">pycba.foundation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

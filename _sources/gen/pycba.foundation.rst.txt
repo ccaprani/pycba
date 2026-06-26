@@ -1,0 +1,41 @@
+﻿pycba.foundation
+================
+
+.. automodule:: pycba.foundation
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      auto_subdivisions
+      characteristic_length
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      FoundationElement
+   
+   
+
+   
+   
+   
+
+
+

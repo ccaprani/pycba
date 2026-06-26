@@ -461,6 +461,7 @@
         <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">supports</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">SupportType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs a beam object</span>
@@ -501,6 +502,13 @@
 <span class="sd">            :class:`~pycba.section.SectionEI` describing ``GAv(x)``) applies to</span>
 <span class="sd">            all spans, otherwise one entry per span (each ``None``, a scalar, or</span>
 <span class="sd">            a :class:`~pycba.section.SectionEI`).</span>
+<span class="sd">        kf : Optional[float or sequence]</span>
+<span class="sd">            Winkler **foundation modulus** (modulus of subgrade reaction per</span>
+<span class="sd">            unit beam length).  A span with a finite ``kf`` rests on an elastic</span>
+<span class="sd">            (Winkler) foundation, modelled as a statically-condensed</span>
+<span class="sd">            beam-on-elastic-foundation super-element; ``None`` (default) leaves</span>
+<span class="sd">            the span unsupported by a foundation.  A scalar applies to all spans,</span>
+<span class="sd">            otherwise one entry per span.</span>
 
 
 <span class="sd">        Returns</span>
@@ -513,7 +521,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mbr_kf</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Cache of foundation super-elements, keyed by span index (rebuilt only</span>
+        <span class="c1"># when the structure changes, not when loads change).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_found_cache</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prescribed_displacements</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="p">[]</span>
@@ -534,17 +546,18 @@
             <span class="n">R</span> <span class="o">=</span> <span class="n">supports_to_R</span><span class="p">(</span><span class="n">supports</span><span class="p">,</span> <span class="n">n_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Normalise GAv to one entry per span (None =&gt; Euler-Bernoulli).</span>
+            <span class="c1"># Normalise GAv / kf to one entry per span (None =&gt; off).</span>
             <span class="n">GAv_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_broadcast_GAv</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">))</span>
+            <span class="n">kf_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_broadcast_kf</span><span class="p">(</span><span class="n">kf</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">))</span>
             <span class="c1"># A single rigidity (scalar EI, or one SectionEI) applies to all</span>
             <span class="c1"># spans; otherwise one rigidity per span is required.</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)):</span>
-                <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eletype</span><span class="p">,</span> <span class="n">GAv_list</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eletype</span><span class="p">,</span> <span class="n">GAv_list</span><span class="p">,</span> <span class="n">kf_list</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">EI</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">eletype</span><span class="p">,</span> <span class="n">GAv_list</span><span class="p">):</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">eletype</span><span class="p">,</span> <span class="n">GAv_list</span><span class="p">,</span> <span class="n">kf_list</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define EI for each span&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -583,6 +596,24 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define GAv for each span (or pass a scalar/None).&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">GAv</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast_kf</span><span class="p">(</span><span class="n">kf</span><span class="p">,</span> <span class="n">n_spans</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalise the Winkler foundation modulus ``kf`` to one entry per span.</span>
+
+<span class="sd">        ``None`` (the default) marks every span as unsupported by a foundation.</span>
+<span class="sd">        A scalar is applied to all spans; a sequence must give one entry per</span>
+<span class="sd">        span (each ``None`` or a scalar modulus).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kf</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">kf</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
+        <span class="n">kf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kf</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kf</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_spans</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define kf for each span (or pass a scalar/None).&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kf</span>
+
 <div class="viewcode-block" id="Beam.add_span">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_span">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_span</span><span class="p">(</span>
@@ -591,6 +622,7 @@
         <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a span to the continuous beam</span>
@@ -610,6 +642,9 @@
 <span class="sd">            finite) the member is a shear-deformable **Timoshenko** element;</span>
 <span class="sd">            ``None`` (default) keeps the exact Euler–Bernoulli element.  A</span>
 <span class="sd">            :class:`~pycba.section.SectionEI` describes a variable ``GAv(x)``.</span>
+<span class="sd">        kf : float, optional</span>
+<span class="sd">            Winkler foundation modulus.  When given, the member rests on an</span>
+<span class="sd">            elastic (Winkler) foundation (prismatic, fixed-fixed, no ``GAv``).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -626,11 +661,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EI</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GAv</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mbr_kf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kf</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MemberType</span><span class="o">.</span><span class="n">coerce</span><span class="p">(</span><span class="n">eletype</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">+=</span> <span class="n">L</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_terminal_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">L</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">+=</span> <span class="mi">1</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_found_cache</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># invalidate foundation super-elements</span></div>
 
 
 <div class="viewcode-block" id="Beam.add_member">
@@ -641,6 +678,7 @@
         <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">mbr_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="n">MemberType</span><span class="o">.</span><span class="n">FF</span><span class="p">,</span>
         <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a member (span) to the beam, naming its type.</span>
@@ -660,8 +698,11 @@
 <span class="sd">        GAv : float or pycba.section.SectionEI, optional</span>
 <span class="sd">            Transverse shear rigidity ``G·A_v``; when given the member is a</span>
 <span class="sd">            shear-deformable Timoshenko element (see :meth:`add_span`).</span>
+<span class="sd">        kf : float, optional</span>
+<span class="sd">            Winkler foundation modulus; when given the member rests on an elastic</span>
+<span class="sd">            (Winkler) foundation (see :meth:`add_span`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">mbr_type</span><span class="p">,</span> <span class="n">GAv</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">mbr_type</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">kf</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
@@ -1076,6 +1117,40 @@
         <span class="p">)</span></div>
 
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_foundation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the (cached) beam-on-elastic-foundation super-element for a</span>
+<span class="sd">        foundation span, after checking the supported restrictions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">elem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_found_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">elem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">elem</span>
+
+        <span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
+        <span class="n">GAv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">eType</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">])</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;A Winkler foundation currently requires a prismatic (scalar EI) span.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">GAv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;A Winkler foundation cannot yet be combined with shear &quot;</span>
+                <span class="s2">&quot;flexibility (GAv) on the same span.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">eType</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;A Winkler foundation span must be fixed-fixed (the default &quot;</span>
+                <span class="s2">&quot;element type); moment releases on a foundation span are not &quot;</span>
+                <span class="s2">&quot;yet supported.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.foundation</span><span class="w"> </span><span class="kn">import</span> <span class="n">FoundationElement</span>
+
+        <span class="n">elem</span> <span class="o">=</span> <span class="n">FoundationElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">],</span> <span class="n">EI</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_kf</span><span class="p">[</span><span class="n">i_span</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_found_cache</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span>
+        <span class="k">return</span> <span class="n">elem</span>
+
 <div class="viewcode-block" id="Beam.get_ref">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_ref">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
@@ -1099,6 +1174,11 @@
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">GAv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="c1"># Winkler foundation span: condense the sub-element load vector.</span>
+        <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_kf</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_kf</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loads</span> <span class="o">=</span> <span class="p">[</span><span class="n">ld</span> <span class="k">for</span> <span class="n">ld</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="k">if</span> <span class="n">ld</span><span class="o">.</span><span class="n">i_span</span> <span class="o">==</span> <span class="n">i_span</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_foundation</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">loads</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">load</span><span class="o">.</span><span class="n">i_span</span> <span class="o">!=</span> <span class="n">i_span</span><span class="p">:</span>
@@ -1248,6 +1328,11 @@
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">GAv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_GAv</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="c1"># Winkler foundation: the span is a condensed beam-on-elastic-foundation</span>
+        <span class="c1"># super-element (see :meth:`_foundation`).</span>
+        <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_kf</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_kf</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_foundation</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span><span class="o">.</span><span class="n">k</span>
 
         <span class="c1"># Shear-deformable (Timoshenko) member: opt-in via a finite ``GAv``.  A</span>
         <span class="c1"># variable EI and/or GAv goes through the flexibility integrator; the</span>

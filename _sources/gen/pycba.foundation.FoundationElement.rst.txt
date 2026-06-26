@@ -1,0 +1,26 @@
+pycba.foundation.FoundationElement
+==================================
+
+.. currentmodule:: pycba.foundation
+
+.. autoclass:: FoundationElement
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~FoundationElement.recover
+      ~FoundationElement.ref
+   
+   
+
+   
+   
+   

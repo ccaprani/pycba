@@ -1,0 +1,6 @@
+pycba.foundation.characteristic\_length
+=======================================
+
+.. currentmodule:: pycba.foundation
+
+.. autofunction:: characteristic_length

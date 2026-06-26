@@ -804,6 +804,57 @@ elements are not currently combined with the nonlinear (plastic-hinge) engine,
 which remains Euler–Bernoulli.</p>
 </div>
 </section>
+<section id="beam-on-an-elastic-winkler-foundation">
+<h3>Beam on an elastic (Winkler) foundation<a class="headerlink" href="#beam-on-an-elastic-winkler-foundation" title="Link to this heading">#</a></h3>
+<p>A member given a finite foundation modulus <span class="math notranslate nohighlight">\(k_f\)</span> (the modulus of subgrade
+reaction per unit length of beam) rests on a continuous Winkler foundation that
+resists deflection with a distributed reaction <span class="math notranslate nohighlight">\(q(x) = -k_f\,v(x)\)</span>. (Throughout,
+<em>member</em> and <em>span</em> are used interchangeably for the element between two nodes.)
+The governing equation becomes</p>
+<div class="math notranslate nohighlight">
+\[ EI\,\frac{\mathrm{d}^4 v}{\mathrm{d}x^4} + k_f\,v = w(x), \]</div>
+<p>whose homogeneous solutions decay over the characteristic length
+<span class="math notranslate nohighlight">\(\lambda = (4EI/k_f)^{1/4}\)</span>.</p>
+<p>Rather than introduce the exact (hyperbolic) foundation element and re-derive
+the fixed-end forces for every load type, PyCBA models the foundation member as a
+<strong>statically-condensed super-element</strong> (the same internal-meshing idea used by
+the <a class="reference internal" href="#theory-nonlinear"><span class="std std-ref">nonlinear analysis</span></a>). The member is meshed into <span class="math notranslate nohighlight">\(n\)</span>
+ordinary Euler–Bernoulli sub-elements; each receives the standard <em>consistent</em>
+foundation stiffness</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \mathbf{k}_f^{(e)} = \frac{k_f\,h}{420}
+\begin{bmatrix}
+156 &amp; 22h &amp; 54 &amp; -13h \\
+22h &amp; 4h^2 &amp; 13h &amp; -3h^2 \\
+54 &amp; 13h &amp; 156 &amp; -22h \\
+-13h &amp; -3h^2 &amp; -22h &amp; 4h^2
+\end{bmatrix}, \end{split}\]</div>
+<p>formed from the same cubic Hermite shape functions as the element stiffness
+(<span class="math notranslate nohighlight">\(h = L/n\)</span> the sub-element length). The internal nodes are removed by static
+condensation, so the member still presents a two-node <span class="math notranslate nohighlight">\(4\times4\)</span> stiffness and a
+condensed fixed-end-force vector to the global assembly — reactions, plotting
+and influence lines are inherited unchanged. Member results are recovered by
+reconstructing the internal sub-element displacements and concatenating each
+sub-element’s exact Euler–Bernoulli diagrams; accuracy improves with mesh
+refinement, and the mesh defaults to several sub-elements per characteristic
+length <span class="math notranslate nohighlight">\(\lambda\)</span>. The implementation reproduces the analytic infinite-beam
+deflection <span class="math notranslate nohighlight">\(P\beta/2k_f\)</span> and moment <span class="math notranslate nohighlight">\(P/4\beta\)</span> (with <span class="math notranslate nohighlight">\(\beta = 1/\lambda\)</span>) under a
+point load from <a class="reference internal" href="references.html#ref-hetenyi-1946"><span class="std std-ref">Hetényi (1946)</span></a>, and is used to validate it.</p>
+<p>The Winkler model is linear and <em>bidirectional</em>: where a member lifts, the
+springs resist by pulling down, so the foundation can carry apparent tension. A
+real soil cannot, and a railway run-on slab in fact spans a settlement trough
+behind the abutment rather than a continuous bed
+(<a class="reference internal" href="references.html#ref-obrien-keogh-oconnor-2014"><span class="std std-ref">O’Brien, Keogh &amp; O’Connor 2014</span></a>, §4.5); the
+linear bed therefore over-estimates effects in any uplift zones. The
+<a class="reference internal" href="notebooks/foundation.html"><span class="std std-doc">foundation tutorial</span></a> shows a worked railway-bridge
+example with ballasted approaches under a moving load.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The foundation super-element currently supports prismatic, fixed-fixed members
+without shear flexibility (<code class="docutils literal notranslate"><span class="pre">GAv</span></code>), carrying UDL, point and partial-UDL loads;
+other combinations raise a clear error.</p>
+</div>
+</section>
 </section>
 <section id="global-stiffness-matrix">
 <h2>Global stiffness matrix<a class="headerlink" href="#global-stiffness-matrix" title="Link to this heading">#</a></h2>
@@ -1437,6 +1488,7 @@ model — are collected with hyperlinks on the <a class="reference internal" hre
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#element-types-and-moment-releases">Element types and moment releases</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-prismatic-variable-ei-elements">Non-prismatic (variable-<span class="math notranslate nohighlight">\(EI\)</span>) elements</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timoshenko-shear-deformable-elements">Timoshenko (shear-deformable) elements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beam-on-an-elastic-winkler-foundation">Beam on an elastic (Winkler) foundation</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-stiffness-matrix">Global stiffness matrix</a><ul class="nav section-nav flex-column">

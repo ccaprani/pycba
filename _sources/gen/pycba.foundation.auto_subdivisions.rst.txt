@@ -1,0 +1,6 @@
+pycba.foundation.auto\_subdivisions
+===================================
+
+.. currentmodule:: pycba.foundation
+
+.. autofunction:: auto_subdivisions
