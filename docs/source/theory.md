@@ -390,9 +390,18 @@ and influence lines are inherited unchanged. Member results are recovered by
 reconstructing the internal sub-element displacements and concatenating each
 sub-element's exact Euler–Bernoulli diagrams; accuracy improves with mesh
 refinement, and the mesh defaults to several sub-elements per characteristic
-length $\lambda$. The implementation reproduces Hetényi's analytic infinite-beam
+length $\lambda$. The implementation reproduces the analytic infinite-beam
 deflection $P\beta/2k_f$ and moment $P/4\beta$ (with $\beta = 1/\lambda$) under a
-point load.
+point load from [Hetényi (1946)](ref-hetenyi-1946), and is used to validate it.
+
+The Winkler model is linear and *bidirectional*: where a member lifts, the
+springs resist by pulling down, so the foundation can carry apparent tension. A
+real soil cannot, and a railway run-on slab in fact spans a settlement trough
+behind the abutment rather than a continuous bed
+([O'Brien, Keogh & O'Connor 2014](ref-obrien-keogh-oconnor-2014), §4.5); the
+linear bed therefore over-estimates effects in any uplift zones. The
+[foundation tutorial](notebooks/foundation.ipynb) shows a worked railway-bridge
+example with ballasted approaches under a moving load.
 
 ```{note}
 The foundation super-element currently supports prismatic, fixed-fixed members
