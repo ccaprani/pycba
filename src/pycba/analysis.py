@@ -218,6 +218,38 @@ class BeamAnalysis:
         """
         return self._beam_results
 
+    def at(self, x, attrs=("M", "V", "R", "D")):
+        """
+        Interpolate the load effects at a global coordinate ``x`` (convenience
+        for :meth:`pycba.results.BeamResults.at`).  Returns a dict, or ``None``
+        with a message if :meth:`analyze` has not been run.
+        """
+        if self._beam_results is None:
+            print("No results - run analysis first")
+            return None
+        return self._beam_results.at(x, attrs)
+
+    def to_dataframe(self):
+        """
+        Member load effects as a :class:`pandas.DataFrame` (``x, M, V, R, D``);
+        convenience for :meth:`pycba.results.BeamResults.to_dataframe`.
+        """
+        if self._beam_results is None:
+            print("No results - run analysis first")
+            return None
+        return self._beam_results.to_dataframe()
+
+    def to_csv(self, path, **kwargs):
+        """
+        Write the member load effects to a CSV file; convenience for
+        :meth:`pycba.results.BeamResults.to_csv`.  Returns ``path`` (or ``None``
+        if the analysis has not been run).
+        """
+        if self._beam_results is None:
+            print("No results - run analysis first")
+            return None
+        return self._beam_results.to_csv(path, **kwargs)
+
     @property
     def beam(self) -> Beam:
         """
