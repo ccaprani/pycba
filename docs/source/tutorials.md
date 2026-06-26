@@ -14,4 +14,5 @@ notebooks/nonprismatic
 notebooks/timoshenko
 notebooks/foundation
 notebooks/creep_shrinkage_thermal
+notebooks/plotly
 ```

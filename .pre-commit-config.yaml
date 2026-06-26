@@ -1,0 +1,20 @@
+# Pre-commit hooks for PyCBA.
+#
+# Mirrors the CI black check (.github/workflows/lint.yml) so formatting issues
+# are caught locally before pushing, rather than by the psf/black CI bot.
+#
+# The `rev` is pinned to the black version the repository is currently
+# formatted with (2023 stable style). If CI's black is upgraded, bump this
+# `rev` in lockstep so the local hook and CI never disagree.
+#
+# Setup (one-off, per clone):
+#     pip install pre-commit
+#     pre-commit install
+#
+# Run manually against everything:
+#     pre-commit run --all-files
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
