@@ -28,6 +28,7 @@ pycba.analysis.BeamAnalysis
       ~BeamAnalysis.plot_beam
       ~BeamAnalysis.plot_bmd
       ~BeamAnalysis.plot_dsd
+      ~BeamAnalysis.plot_reactions
       ~BeamAnalysis.plot_results
       ~BeamAnalysis.plot_sfd
       ~BeamAnalysis.set_loads

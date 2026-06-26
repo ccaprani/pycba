@@ -17,6 +17,7 @@ pycba.render.BeamPlotter
       :nosignatures:
    
       ~BeamPlotter.render_mpl
+      ~BeamPlotter.render_reactions_mpl
       ~BeamPlotter.render_tikz
       ~BeamPlotter.save_tikz
    

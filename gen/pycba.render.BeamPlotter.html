@@ -616,10 +616,13 @@ analysed.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.render.BeamPlotter.render_mpl" title="pycba.render.BeamPlotter.render_mpl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_mpl</span></code></a></p></td>
 <td><p>Draw the beam schematic with matplotlib.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.render.BeamPlotter.render_tikz" title="pycba.render.BeamPlotter.render_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_tikz</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.render.BeamPlotter.render_reactions_mpl" title="pycba.render.BeamPlotter.render_reactions_mpl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_reactions_mpl</span></code></a></p></td>
+<td><p>Overlay support-reaction arrows on a schematic already drawn by <a class="reference internal" href="#pycba.render.BeamPlotter.render_mpl" title="pycba.render.BeamPlotter.render_mpl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_mpl()</span></code></a> (which must have been called first, so <code class="docutils literal notranslate"><span class="pre">self._us</span></code> and the axis limits are set).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.render.BeamPlotter.render_tikz" title="pycba.render.BeamPlotter.render_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_tikz</span></code></a></p></td>
 <td><p>Generate a TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> representation of the beam.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.render.BeamPlotter.save_tikz" title="pycba.render.BeamPlotter.save_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_tikz</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.render.BeamPlotter.save_tikz" title="pycba.render.BeamPlotter.save_tikz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_tikz</span></code></a></p></td>
 <td><p>Write the TikZ/<code class="docutils literal notranslate"><span class="pre">stanli</span></code> source to <code class="docutils literal notranslate"><span class="pre">path</span></code> (and optionally compile it).</p></td>
 </tr>
 </tbody>
@@ -653,6 +656,28 @@ schematic as a strip above the result diagrams (see
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>matplotlib.axes.Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.render.BeamPlotter.render_reactions_mpl">
+<span class="sig-name descname"><span class="pre">render_reactions_mpl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vert</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:green'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/render.html#BeamPlotter.render_reactions_mpl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.render.BeamPlotter.render_reactions_mpl" title="Link to this definition">#</a></dt>
+<dd><p>Overlay support-reaction arrows on a schematic already drawn by
+<a class="reference internal" href="#pycba.render.BeamPlotter.render_mpl" title="pycba.render.BeamPlotter.render_mpl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_mpl()</span></code></a> (which must have been called first, so <code class="docutils literal notranslate"><span class="pre">self._us</span></code>
+and the axis limits are set).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The schematic axes to draw onto.</p></li>
+<li><p><strong>vert</strong> (<em>dict</em><em>[</em><em>int</em><em>, </em><em>float</em><em>]</em>) – Node index -&gt; vertical reaction (positive <strong>upward</strong>); drawn as a
+straight arrow pointing in the force direction.</p></li>
+<li><p><strong>mom</strong> (<em>dict</em><em>[</em><em>int</em><em>, </em><em>float</em><em>]</em>) – Node index -&gt; moment reaction (positive <strong>counter-clockwise</strong>);
+drawn as a curved arrow at the support.</p></li>
+<li><p><strong>sh</strong> (<em>float</em><em>, </em><em>optional</em>) – The schematic unit height; defaults to <code class="docutils literal notranslate"><span class="pre">0.05</span> <span class="pre">*</span> <span class="pre">L</span></code>.</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – Colour for the reaction arrows and labels.</p></li>
+<li><p><strong>show_val</strong> (<em>bool</em>) – Annotate each reaction with its magnitude.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -760,6 +785,7 @@ PDF.  Requires a LaTeX installation with the <code class="docutils literal notra
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.render.BeamPlotter"><code class="docutils literal notranslate"><span class="pre">BeamPlotter</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.render.BeamPlotter.render_mpl"><code class="docutils literal notranslate"><span class="pre">BeamPlotter.render_mpl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.render.BeamPlotter.render_reactions_mpl"><code class="docutils literal notranslate"><span class="pre">BeamPlotter.render_reactions_mpl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.render.BeamPlotter.render_tikz"><code class="docutils literal notranslate"><span class="pre">BeamPlotter.render_tikz()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.render.BeamPlotter.save_tikz"><code class="docutils literal notranslate"><span class="pre">BeamPlotter.save_tikz()</span></code></a></li>
 </ul>

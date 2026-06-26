@@ -727,13 +727,16 @@ a modulus).  Supported for prismatic, fixed-fixed spans without
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="pycba.analysis.BeamAnalysis.plot_dsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_dsd</span></code></a></p></td>
 <td><p>Plot the deflected-shape diagram.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_reactions" title="pycba.analysis.BeamAnalysis.plot_reactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_reactions</span></code></a></p></td>
+<td><p>Draw the support reactions as labelled arrows on the beam schematic.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
 <td><p>Plot bending moment, shear force, and deflection diagrams.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="pycba.analysis.BeamAnalysis.plot_sfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sfd</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="pycba.analysis.BeamAnalysis.plot_sfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sfd</span></code></a></p></td>
 <td><p>Plot the shear-force diagram.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
 <td><p>Replace the current load matrix with a new one.</p></td>
 </tr>
 </tbody>
@@ -1042,7 +1045,7 @@ produce a PDF (a <code class="docutils literal notranslate"><span class="pre">.p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_results">
-<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_beam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_reactions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_results" title="Link to this definition">#</a></dt>
 <dd><p>Plot bending moment, shear force, and deflection diagrams.</p>
 <p>Produces a figure of bending moment, shear force, and deflection along
 the beam.  Bending moment is plotted with the sagging-positive
@@ -1085,6 +1088,33 @@ is returned instead of the <code class="docutils literal notranslate"><span clas
 <p class="rubric">Notes</p>
 <p>Has no effect and prints a warning if <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a> has not been
 called yet.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.plot_reactions">
+<span class="sig-name descname"><span class="pre">plot_reactions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:green'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.plot_reactions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.plot_reactions" title="Link to this definition">#</a></dt>
+<dd><p>Draw the support reactions as labelled arrows on the beam schematic.</p>
+<p>Vertical reactions are drawn as straight arrows in the force direction
+(positive upward) and moment reactions (at fixed / encastre supports) as
+curved arrows, each annotated with its magnitude; elastic spring-support
+forces are included.  Requires <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a> to have been run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into; a new figure is created if omitted.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – Call <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.show()</span></code> before returning (default True).</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Figure size when a new axes is created.</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – Colour for the reaction arrows and labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (with a message) if the analysis has not been run.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(matplotlib.figure.Figure, matplotlib.axes.Axes) or None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1216,6 +1246,7 @@ is returned and <code class="docutils literal notranslate"><span class="pre">ax<
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.is_stable"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.is_stable()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_beam"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_beam()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_results"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_results()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_reactions"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_reactions()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_bmd"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_bmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_sfd"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_sfd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.plot_dsd"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.plot_dsd()</span></code></a></li>

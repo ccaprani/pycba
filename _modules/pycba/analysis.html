@@ -1337,6 +1337,7 @@
         <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">show_reactions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plot bending moment, shear force, and deflection diagrams.</span>
@@ -1401,24 +1402,29 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">results</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">length</span>
 
+        <span class="c1"># Slim schematic strips (~0.6) top and/or bottom around the three</span>
+        <span class="c1"># ~3-in diagram rows.  The bottom strip carries the reaction arrows.</span>
+        <span class="n">ratios</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">([</span><span class="mf">0.6</span><span class="p">]</span> <span class="k">if</span> <span class="n">show_beam</span> <span class="k">else</span> <span class="p">[])</span>
+            <span class="o">+</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+            <span class="o">+</span> <span class="p">([</span><span class="mf">0.6</span><span class="p">]</span> <span class="k">if</span> <span class="n">show_reactions</span> <span class="k">else</span> <span class="p">[])</span>
+        <span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">ratios</span><span class="p">),</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ratios</span><span class="p">)),</span>
+            <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="n">ratios</span><span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">axs</span><span class="p">)</span>
+        <span class="n">i0</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">show_beam</span><span class="p">:</span>
-            <span class="c1"># ~3 in per diagram row, plus a slim strip for the schematic.</span>
-            <span class="n">ratios</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-                <span class="mi">4</span><span class="p">,</span>
-                <span class="mi">1</span><span class="p">,</span>
-                <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ratios</span><span class="p">)),</span>
-                <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="n">ratios</span><span class="p">},</span>
-            <span class="p">)</span>
             <span class="c1"># The schematic stretches to fill its panel (equal_aspect=False) so</span>
             <span class="c1"># it stays aligned in x with the diagrams below.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span><span class="p">)</span>
             <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">diag</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">))</span>
-            <span class="n">diag</span> <span class="o">=</span> <span class="n">axs</span>
+            <span class="n">i0</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">diag</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i0</span> <span class="p">:</span> <span class="n">i0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -1438,11 +1444,105 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">deflection_axis</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">show_reactions</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show_reactions</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
+
+            <span class="n">rax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="n">bp</span> <span class="o">=</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="p">[])</span>
+            <span class="n">bp</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">rax</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span><span class="p">)</span>
+            <span class="n">vert</span><span class="p">,</span> <span class="n">mom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reactions_by_node</span><span class="p">()</span>
+            <span class="n">bp</span><span class="o">.</span><span class="n">render_reactions_mpl</span><span class="p">(</span><span class="n">rax</span><span class="p">,</span> <span class="n">vert</span><span class="p">,</span> <span class="n">mom</span><span class="p">)</span>
+            <span class="n">rax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Reactions&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reactions_by_node</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Map the fixed-support reactions (``R``) and spring forces (``Rs``) back</span>
+<span class="sd">        to per-node vertical and moment reactions.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vert : dict[int, float]</span>
+<span class="sd">            Node index -&gt; vertical reaction (positive upward).</span>
+<span class="sd">        mom : dict[int, float]</span>
+<span class="sd">            Node index -&gt; moment reaction (positive counter-clockwise).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">br</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span>
+        <span class="n">restraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
+        <span class="n">nDOF</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">restraints</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+        <span class="n">Rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">Rs</span><span class="p">)</span>
+        <span class="n">full</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nDOF</span><span class="p">)</span>
+        <span class="n">ir</span> <span class="o">=</span> <span class="n">isp</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nDOF</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">full</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">ir</span><span class="p">]</span>
+                <span class="n">ir</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">full</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rs</span><span class="p">[</span><span class="n">isp</span><span class="p">]</span>
+                <span class="n">isp</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">nnodes</span> <span class="o">=</span> <span class="n">nDOF</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">vert</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">full</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nnodes</span><span class="p">)</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">full</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">}</span>
+        <span class="n">mom</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">full</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nnodes</span><span class="p">)</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">full</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">vert</span><span class="p">,</span> <span class="n">mom</span>
+
+<div class="viewcode-block" id="BeamAnalysis.plot_reactions">
+<a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_reactions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_reactions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw the support reactions as labelled arrows on the beam schematic.</span>
+
+<span class="sd">        Vertical reactions are drawn as straight arrows in the force direction</span>
+<span class="sd">        (positive upward) and moment reactions (at fixed / encastre supports) as</span>
+<span class="sd">        curved arrows, each annotated with its magnitude; elastic spring-support</span>
+<span class="sd">        forces are included.  Requires :meth:`analyze` to have been run.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">            Axes to draw into; a new figure is created if omitted.</span>
+<span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
+<span class="sd">            Display unit system (see :func:`pycba.set_units`).</span>
+<span class="sd">        show : bool</span>
+<span class="sd">            Call ``matplotlib.pyplot.show()`` before returning (default True).</span>
+<span class="sd">        figsize : tuple(float, float), optional</span>
+<span class="sd">            Figure size when a new axes is created.</span>
+<span class="sd">        color : str</span>
+<span class="sd">            Colour for the reaction arrows and labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        (matplotlib.figure.Figure, matplotlib.axes.Axes) or None</span>
+<span class="sd">            ``None`` (with a message) if the analysis has not been run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span>
+        <span class="n">bp</span> <span class="o">=</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="p">[])</span>
+        <span class="n">bp</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span><span class="p">)</span>
+        <span class="n">vert</span><span class="p">,</span> <span class="n">mom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reactions_by_node</span><span class="p">()</span>
+        <span class="n">bp</span><span class="o">.</span><span class="n">render_reactions_mpl</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">vert</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_plot_diagram</span><span class="p">(</span>
