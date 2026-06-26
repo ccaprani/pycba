@@ -16,6 +16,9 @@ pycba.results.BeamResults
    .. autosummary::
       :nosignatures:
    
+      ~BeamResults.at
+      ~BeamResults.to_csv
+      ~BeamResults.to_dataframe
    
    
 

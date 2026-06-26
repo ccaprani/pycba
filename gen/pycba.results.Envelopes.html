@@ -720,6 +720,12 @@ the other effect (V or M) at the analysis that caused each envelope extreme.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a></p></td>
 <td><p>Adds another compatible set of envelopes to this one element-wise.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.to_csv" title="pycba.results.Envelopes.to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_csv</span></code></a></p></td>
+<td><p>Write the envelopes (an <code class="docutils literal notranslate"><span class="pre">x</span></code> column plus each requested attribute) to a CSV file with <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.savetxt()</span></code> (no pandas needed).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.to_dataframe" title="pycba.results.Envelopes.to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dataframe</span></code></a></p></td>
+<td><p>Return the envelopes as a <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> with an <code class="docutils literal notranslate"><span class="pre">x</span></code> column and one column per requested envelope attribute (default the moment and shear extremes).</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.zero_like" title="pycba.results.Envelopes.zero_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_like</span></code></a></p></td>
 <td><p>Returns a zeroed zet of envelopes like the reference <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a>.</p></td>
 </tr>
@@ -896,6 +902,21 @@ at <code class="docutils literal notranslate"><span class="pre">x</span></code>.
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.to_dataframe">
+<span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Mmax',</span> <span class="pre">'Mmin',</span> <span class="pre">'Vmax',</span> <span class="pre">'Vmin')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.to_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.to_dataframe" title="Link to this definition">#</a></dt>
+<dd><p>Return the envelopes as a <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> with an <code class="docutils literal notranslate"><span class="pre">x</span></code> column
+and one column per requested envelope attribute (default the moment and
+shear extremes).  Requires <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.to_csv">
+<span class="sig-name descname"><span class="pre">to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Mmax',</span> <span class="pre">'Mmin',</span> <span class="pre">'Vmax',</span> <span class="pre">'Vmin')</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.to_csv" title="Link to this definition">#</a></dt>
+<dd><p>Write the envelopes (an <code class="docutils literal notranslate"><span class="pre">x</span></code> column plus each requested attribute) to a
+CSV file with <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.savetxt()</span></code> (no pandas needed).  Returns <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pycba.results.Envelopes.per_span">
 <span class="sig-name descname"><span class="pre">per_span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Mmax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.per_span"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.per_span" title="Link to this definition">#</a></dt>
 <dd><p>Split a station-indexed envelope array into per-span values.</p>
@@ -1015,6 +1036,8 @@ not apply.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.sum"><code class="docutils literal notranslate"><span class="pre">Envelopes.sum()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.__add__"><code class="docutils literal notranslate"><span class="pre">Envelopes.__add__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.at"><code class="docutils literal notranslate"><span class="pre">Envelopes.at()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.to_dataframe"><code class="docutils literal notranslate"><span class="pre">Envelopes.to_dataframe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.to_csv"><code class="docutils literal notranslate"><span class="pre">Envelopes.to_csv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.per_span"><code class="docutils literal notranslate"><span class="pre">Envelopes.per_span()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.plot"><code class="docutils literal notranslate"><span class="pre">Envelopes.plot()</span></code></a></li>
 </ul>

@@ -23,6 +23,7 @@ pycba.analysis.BeamAnalysis
       ~BeamAnalysis.add_trap
       ~BeamAnalysis.add_udl
       ~BeamAnalysis.analyze
+      ~BeamAnalysis.at
       ~BeamAnalysis.is_stable
       ~BeamAnalysis.modal
       ~BeamAnalysis.plot_beam
@@ -32,6 +33,8 @@ pycba.analysis.BeamAnalysis
       ~BeamAnalysis.plot_results
       ~BeamAnalysis.plot_sfd
       ~BeamAnalysis.set_loads
+      ~BeamAnalysis.to_csv
+      ~BeamAnalysis.to_dataframe
    
    
 

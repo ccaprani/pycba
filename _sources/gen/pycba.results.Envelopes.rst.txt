@@ -23,6 +23,8 @@ pycba.results.Envelopes
       ~Envelopes.per_span
       ~Envelopes.plot
       ~Envelopes.sum
+      ~Envelopes.to_csv
+      ~Envelopes.to_dataframe
       ~Envelopes.zero_like
    
    

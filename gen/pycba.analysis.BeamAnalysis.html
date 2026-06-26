@@ -712,32 +712,41 @@ a modulus).  Supported for prismatic, fixed-fixed spans without
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze</span></code></a></p></td>
 <td><p>Execute the direct-stiffness analysis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.is_stable" title="pycba.analysis.BeamAnalysis.is_stable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_stable</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.at" title="pycba.analysis.BeamAnalysis.at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">at</span></code></a></p></td>
+<td><p>Interpolate the load effects at a global coordinate <code class="docutils literal notranslate"><span class="pre">x</span></code> (convenience for <a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults.at" title="pycba.results.BeamResults.at"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.results.BeamResults.at()</span></code></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.is_stable" title="pycba.analysis.BeamAnalysis.is_stable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_stable</span></code></a></p></td>
 <td><p>Return whether the structure is stable (not a mechanism).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.modal" title="pycba.analysis.BeamAnalysis.modal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modal</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.modal" title="pycba.analysis.BeamAnalysis.modal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modal</span></code></a></p></td>
 <td><p>Free-vibration (modal) analysis: natural frequencies and mode shapes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_beam" title="pycba.analysis.BeamAnalysis.plot_beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beam</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_beam" title="pycba.analysis.BeamAnalysis.plot_beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beam</span></code></a></p></td>
 <td><p>Draw a structural schematic of the beam.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bmd</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_bmd" title="pycba.analysis.BeamAnalysis.plot_bmd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bmd</span></code></a></p></td>
 <td><p>Plot the bending-moment diagram.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="pycba.analysis.BeamAnalysis.plot_dsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_dsd</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_dsd" title="pycba.analysis.BeamAnalysis.plot_dsd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_dsd</span></code></a></p></td>
 <td><p>Plot the deflected-shape diagram.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_reactions" title="pycba.analysis.BeamAnalysis.plot_reactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_reactions</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_reactions" title="pycba.analysis.BeamAnalysis.plot_reactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_reactions</span></code></a></p></td>
 <td><p>Draw the support reactions as labelled arrows on the beam schematic.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_results" title="pycba.analysis.BeamAnalysis.plot_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_results</span></code></a></p></td>
 <td><p>Plot bending moment, shear force, and deflection diagrams.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="pycba.analysis.BeamAnalysis.plot_sfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sfd</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.plot_sfd" title="pycba.analysis.BeamAnalysis.plot_sfd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sfd</span></code></a></p></td>
 <td><p>Plot the shear-force diagram.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.set_loads" title="pycba.analysis.BeamAnalysis.set_loads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_loads</span></code></a></p></td>
 <td><p>Replace the current load matrix with a new one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.to_csv" title="pycba.analysis.BeamAnalysis.to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_csv</span></code></a></p></td>
+<td><p>Write the member load effects to a CSV file; convenience for <a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults.to_csv" title="pycba.results.BeamResults.to_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.results.BeamResults.to_csv()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.analysis.BeamAnalysis.to_dataframe" title="pycba.analysis.BeamAnalysis.to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dataframe</span></code></a></p></td>
+<td><p>Member load effects as a <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> (<code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">M,</span> <span class="pre">V,</span> <span class="pre">R,</span> <span class="pre">D</span></code>); convenience for <a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults.to_dataframe" title="pycba.results.BeamResults.to_dataframe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.results.BeamResults.to_dataframe()</span></code></a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -767,6 +776,29 @@ Provides nodal displacements (<code class="docutils literal notranslate"><span c
 <dd class="field-odd"><p><a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults" title="pycba.results.BeamResults">BeamResults</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.at">
+<span class="sig-name descname"><span class="pre">at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('M',</span> <span class="pre">'V',</span> <span class="pre">'R',</span> <span class="pre">'D')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.at" title="Link to this definition">#</a></dt>
+<dd><p>Interpolate the load effects at a global coordinate <code class="docutils literal notranslate"><span class="pre">x</span></code> (convenience
+for <a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults.at" title="pycba.results.BeamResults.at"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.results.BeamResults.at()</span></code></a>).  Returns a dict, or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+with a message if <a class="reference internal" href="#pycba.analysis.BeamAnalysis.analyze" title="pycba.analysis.BeamAnalysis.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a> has not been run.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.to_dataframe">
+<span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.to_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.to_dataframe" title="Link to this definition">#</a></dt>
+<dd><p>Member load effects as a <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> (<code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">M,</span> <span class="pre">V,</span> <span class="pre">R,</span> <span class="pre">D</span></code>);
+convenience for <a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults.to_dataframe" title="pycba.results.BeamResults.to_dataframe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.results.BeamResults.to_dataframe()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.analysis.BeamAnalysis.to_csv">
+<span class="sig-name descname"><span class="pre">to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/analysis.html#BeamAnalysis.to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.analysis.BeamAnalysis.to_csv" title="Link to this definition">#</a></dt>
+<dd><p>Write the member load effects to a CSV file; convenience for
+<a class="reference internal" href="pycba.results.BeamResults.html#pycba.results.BeamResults.to_csv" title="pycba.results.BeamResults.to_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pycba.results.BeamResults.to_csv()</span></code></a>.  Returns <code class="docutils literal notranslate"><span class="pre">path</span></code> (or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if the analysis has not been run).</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1233,6 +1265,9 @@ is returned and <code class="docutils literal notranslate"><span class="pre">ax<
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.beam_results"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.beam_results</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.at"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.at()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.to_dataframe"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.to_dataframe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.to_csv"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.to_csv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.beam"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.beam</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.set_loads"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.set_loads()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.analysis.BeamAnalysis.add_udl"><code class="docutils literal notranslate"><span class="pre">BeamAnalysis.add_udl()</span></code></a></li>
