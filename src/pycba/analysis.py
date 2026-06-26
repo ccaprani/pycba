@@ -165,6 +165,11 @@ class BeamAnalysis:
             differs from ``len(L)``.
         """
         self.npts = 100
+        # Optional per-member "shear point" sections (0-based member index ->
+        # member-local coordinates) spliced into the evaluation grid so the
+        # shear is recovered exactly either side of each section.  ``None``
+        # leaves the uniform grid unchanged; set by a moving-load analysis.
+        self.shear_points = None
         self._beam_results = None
 
         if eletype is None:
@@ -413,7 +418,9 @@ class BeamAnalysis:
         d = self._solver(ksys, f)
         r, rs = self._reactions(ksysU, d, fU)
 
-        self._beam_results = BeamResults(self._beam, d, r, self.npts, rs)
+        self._beam_results = BeamResults(
+            self._beam, d, r, self.npts, rs, self.shear_points
+        )
         return 0
 
     # Reciprocal-condition-number floor for the free-DOF stiffness partition.
