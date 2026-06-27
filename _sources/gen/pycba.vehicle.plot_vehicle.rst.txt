@@ -1,0 +1,6 @@
+pycba.vehicle.plot\_vehicle
+===========================
+
+.. currentmodule:: pycba.vehicle
+
+.. autofunction:: plot_vehicle

@@ -16,6 +16,7 @@
       :nosignatures:
    
       make_train
+      plot_vehicle
    
    
 

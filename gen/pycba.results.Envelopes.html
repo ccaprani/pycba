@@ -487,6 +487,7 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="pycba.vehicle.html">pycba.vehicle</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.make_train.html">pycba.vehicle.make_train</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.plot_vehicle.html">pycba.vehicle.plot_vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.Vehicle.html">pycba.vehicle.Vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.VehicleLibrary.html">pycba.vehicle.VehicleLibrary</a></li>
 </ul>
@@ -717,16 +718,19 @@ the other effect (V or M) at the analysis that caused each envelope extreme.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.plot" title="pycba.results.Envelopes.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
 <td><p>Plots the envelopes of bending and shear.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.plot_coincidents" title="pycba.results.Envelopes.plot_coincidents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coincidents</span></code></a></p></td>
+<td><p>Plot each load-effect envelope together with the <strong>coincident</strong> value of the other effect, grouped by which extreme drives them.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.sum" title="pycba.results.Envelopes.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a></p></td>
 <td><p>Adds another compatible set of envelopes to this one element-wise.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.to_csv" title="pycba.results.Envelopes.to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_csv</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.to_csv" title="pycba.results.Envelopes.to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_csv</span></code></a></p></td>
 <td><p>Write the envelopes (an <code class="docutils literal notranslate"><span class="pre">x</span></code> column plus each requested attribute) to a CSV file with <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.savetxt()</span></code> (no pandas needed).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.to_dataframe" title="pycba.results.Envelopes.to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dataframe</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.to_dataframe" title="pycba.results.Envelopes.to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dataframe</span></code></a></p></td>
 <td><p>Return the envelopes as a <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> with an <code class="docutils literal notranslate"><span class="pre">x</span></code> column and one column per requested envelope attribute (default the moment and shear extremes).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.Envelopes.zero_like" title="pycba.results.Envelopes.zero_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_like</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.Envelopes.zero_like" title="pycba.results.Envelopes.zero_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_like</span></code></a></p></td>
 <td><p>Returns a zeroed zet of envelopes like the reference <a class="reference internal" href="#pycba.results.Envelopes" title="pycba.results.Envelopes"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.results.Envelopes</span></code></a>.</p></td>
 </tr>
 </tbody>
@@ -972,6 +976,42 @@ not apply.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.Envelopes.plot_coincidents">
+<span class="sig-name descname"><span class="pre">plot_coincidents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#Envelopes.plot_coincidents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.Envelopes.plot_coincidents" title="Link to this definition">#</a></dt>
+<dd><p>Plot each load-effect envelope together with the <strong>coincident</strong> value
+of the other effect, grouped by which extreme drives them.</p>
+<p>For combined-action checks at a section you need not the extreme of one
+effect but the value of the <em>other</em> effect at the vehicle position that
+produced it.  Two panels share the distance axis, each with <strong>dual
+y-axes</strong> (so both quantities are solid lines on their own scale):</p>
+<ul class="simple">
+<li><p>the <strong>moment</strong> panel — the moment envelope <code class="docutils literal notranslate"><span class="pre">Mmax</span></code>/<code class="docutils literal notranslate"><span class="pre">Mmin</span></code> (left
+axis) and the shear that coexists with those moment extremes,
+<code class="docutils literal notranslate"><span class="pre">Vco_Mmax</span></code>/<code class="docutils literal notranslate"><span class="pre">Vco_Mmin</span></code> (right axis);</p></li>
+<li><p>the <strong>shear</strong> panel — the shear envelope <code class="docutils literal notranslate"><span class="pre">Vmax</span></code>/<code class="docutils literal notranslate"><span class="pre">Vmin</span></code> (left
+axis) and the moment that coexists with those shear extremes,
+<code class="docutils literal notranslate"><span class="pre">Mco_Vmax</span></code>/<code class="docutils literal notranslate"><span class="pre">Mco_Vmin</span></code> (right axis).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – Call <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.show()</span></code> before returning (default True).</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Figure size in inches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>matplotlib.figure.Figure</em></p></li>
+<li><p><em>numpy.ndarray of matplotlib.axes.Axes</em> – The two primary (left-axis) panel axes; the coincident (right-axis)
+twins are reachable via <code class="docutils literal notranslate"><span class="pre">fig.axes</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1040,6 +1080,7 @@ not apply.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.to_csv"><code class="docutils literal notranslate"><span class="pre">Envelopes.to_csv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.per_span"><code class="docutils literal notranslate"><span class="pre">Envelopes.per_span()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.plot"><code class="docutils literal notranslate"><span class="pre">Envelopes.plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.Envelopes.plot_coincidents"><code class="docutils literal notranslate"><span class="pre">Envelopes.plot_coincidents()</span></code></a></li>
 </ul>
 </li>
 </ul>

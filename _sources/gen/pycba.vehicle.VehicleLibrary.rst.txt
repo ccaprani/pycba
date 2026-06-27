@@ -17,6 +17,7 @@ pycba.vehicle.VehicleLibrary
       :nosignatures:
    
       ~VehicleLibrary.get_validation_truck
+      ~VehicleLibrary.plot_vehicle
    
    
 

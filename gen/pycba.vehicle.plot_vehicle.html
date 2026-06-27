@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.load.factor_LM &#8212; PyCBA 0.9.0 documentation</title>
+    <title>pycba.vehicle.plot_vehicle &#8212; PyCBA 0.9.0 documentation</title>
   
   
   
@@ -42,12 +42,12 @@
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.load.factor_LM';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gen/pycba.vehicle.plot_vehicle';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pycba.load.parse_LM" href="pycba.load.parse_LM.html" />
-    <link rel="prev" title="pycba.load.add_LM" href="pycba.load.add_LM.html" />
+    <link rel="next" title="pycba.vehicle.Vehicle" href="pycba.vehicle.Vehicle.html" />
+    <link rel="prev" title="pycba.vehicle.make_train" href="pycba.vehicle.make_train.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.9.0" />
@@ -412,9 +412,9 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.section.SectionEI.html">pycba.section.SectionEI</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.load.html">pycba.load</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.load.html">pycba.load</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.add_LM.html">pycba.load.add_LM</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.load.factor_LM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.load.factor_LM.html">pycba.load.factor_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.parse_LM.html">pycba.load.parse_LM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.Load.html">pycba.load.Load</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.load.LoadIC.html">pycba.load.LoadIC</a></li>
@@ -485,9 +485,9 @@
 <li class="toctree-l2"><a class="reference internal" href="pycba.bridge.BridgeAnalysis.html">pycba.bridge.BridgeAnalysis</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="pycba.vehicle.html">pycba.vehicle</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.vehicle.html">pycba.vehicle</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.make_train.html">pycba.vehicle.make_train</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.plot_vehicle.html">pycba.vehicle.plot_vehicle</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.vehicle.plot_vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.Vehicle.html">pycba.vehicle.Vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.VehicleLibrary.html">pycba.vehicle.VehicleLibrary</a></li>
 </ul>
@@ -561,9 +561,9 @@
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="pycba.load.html" class="nav-link">pycba.load</a></li>
+    <li class="breadcrumb-item"><a href="pycba.vehicle.html" class="nav-link">pycba.vehicle</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.load.factor_LM</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pycba.vehicle.plot_vehicle</span></li>
   </ul>
 </nav>
 </div>
@@ -580,24 +580,34 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="pycba-load-factor-lm">
-<h1>pycba.load.factor_LM<a class="headerlink" href="#pycba-load-factor-lm" title="Link to this heading">#</a></h1>
+  <section id="pycba-vehicle-plot-vehicle">
+<h1>pycba.vehicle.plot_vehicle<a class="headerlink" href="#pycba-vehicle-plot-vehicle" title="Link to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="pycba.load.factor_LM">
-<span class="sig-name descname"><span class="pre">factor_LM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/load.html#factor_LM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.load.factor_LM" title="Link to this definition">#</a></dt>
-<dd><p>Applies a factor to the loads in a <cite>LoadMatrix</cite> object</p>
+<dt class="sig sig-object py" id="pycba.vehicle.plot_vehicle">
+<span class="sig-name descname"><span class="pre">plot_vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/vehicle.html#plot_vehicle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.vehicle.plot_vehicle" title="Link to this definition">#</a></dt>
+<dd><p>Plot a vehicle’s axles as scaled load arrows along its wheelbase.</p>
+<p>Each axle is an arrow whose height scales with its load and is labelled with
+the load magnitude; the title reports the total axle load and the wheelbase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>LM</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</span>) – The <cite>LoadMatrix</cite> object</p></li>
-<li><p><strong>gamma</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – A factor to apply to the load magnitudes</p></li>
+<li><p><strong>vehicle</strong> (<a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><em>Vehicle</em></a>) – The vehicle to draw (a <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code>).</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into; a new figure is created if omitted.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – A title for the plot.  The total axle load and wheelbase are appended.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).
+<code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is unit-agnostic, so this only <em>relabels</em> the axle loads and
+the axis - the values are not converted (the built-in models are in
+kN, m).</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – Colour of the axle-load arrows.</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – Call <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.show()</span></code> before returning when a new figure is
+created (default <code class="docutils literal notranslate"><span class="pre">True</span></code>).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>LM</strong> – The factored <cite>LoadMatrix</cite> object</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</span></p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – If <code class="docutils literal notranslate"><span class="pre">vehicle</span></code> is not a <a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -615,20 +625,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pycba.load.add_LM.html"
+       href="pycba.vehicle.make_train.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pycba.load.add_LM</p>
+        <p class="prev-next-title">pycba.vehicle.make_train</p>
       </div>
     </a>
     <a class="right-next"
-       href="pycba.load.parse_LM.html"
+       href="pycba.vehicle.Vehicle.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pycba.load.parse_LM</p>
+        <p class="prev-next-title">pycba.vehicle.Vehicle</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -651,7 +661,7 @@
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.load.factor_LM"><code class="docutils literal notranslate"><span class="pre">factor_LM()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.plot_vehicle"><code class="docutils literal notranslate"><span class="pre">plot_vehicle()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -659,7 +669,7 @@
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.load.factor_LM.rst">
+    <a href="https://github.com/ccaprani/pycba/edit/main/docs/source/gen/pycba.vehicle.plot_vehicle.rst">
       <i class="fa-solid fa-pencil"></i>
       
       

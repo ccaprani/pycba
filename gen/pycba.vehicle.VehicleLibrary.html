@@ -487,6 +487,7 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="pycba.vehicle.html">pycba.vehicle</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.make_train.html">pycba.vehicle.make_train</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.plot_vehicle.html">pycba.vehicle.plot_vehicle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pycba.vehicle.Vehicle.html">pycba.vehicle.Vehicle</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pycba.vehicle.VehicleLibrary</a></li>
 </ul>
@@ -621,6 +622,9 @@ getter’s docstring for use as <code class="docutils literal notranslate"><span
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.get_validation_truck" title="pycba.vehicle.VehicleLibrary.get_validation_truck"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_validation_truck</span></code></a></p></td>
 <td><p>A set of moving loads used for validation on a 20 m span against the textbook &quot;Structural and Stress Analysis&quot;, 2nd edn., Megson, p.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.vehicle.VehicleLibrary.plot_vehicle" title="pycba.vehicle.VehicleLibrary.plot_vehicle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_vehicle</span></code></a></p></td>
+<td><p>Plot a vehicle's axles as scaled load arrows along its wheelbase.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1016,6 +1020,36 @@ textbook “Structural and Stress Analysis”, 2nd edn., Megson, p. 579.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.vehicle.VehicleLibrary.plot_vehicle">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">plot_vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab:red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycba.vehicle.VehicleLibrary.plot_vehicle" title="Link to this definition">#</a></dt>
+<dd><p>Plot a vehicle’s axles as scaled load arrows along its wheelbase.</p>
+<p>Each axle is an arrow whose height scales with its load and is labelled with
+the load magnitude; the title reports the total axle load and the wheelbase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vehicle</strong> (<a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><em>Vehicle</em></a>) – The vehicle to draw (a <code class="xref py py-class docutils literal notranslate"><span class="pre">pycba.bridge.Vehicle</span></code>).</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – Axes to draw into; a new figure is created if omitted.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – A title for the plot.  The total axle load and wheelbase are appended.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the labels (see <code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).
+<code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is unit-agnostic, so this only <em>relabels</em> the axle loads and
+the axis - the values are not converted (the built-in models are in
+kN, m).</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – Colour of the axle-load arrows.</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – Call <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.show()</span></code> before returning when a new figure is
+created (default <code class="docutils literal notranslate"><span class="pre">True</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib.axes.Axes</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – If <code class="docutils literal notranslate"><span class="pre">vehicle</span></code> is not a <a class="reference internal" href="pycba.vehicle.Vehicle.html#pycba.vehicle.Vehicle" title="pycba.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </dd></dl>
 
@@ -1109,6 +1143,7 @@ textbook “Structural and Stress Analysis”, 2nd edn., Megson, p. 579.</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.get_validation_truck"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.get_validation_truck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.vehicle.VehicleLibrary.plot_vehicle"><code class="docutils literal notranslate"><span class="pre">VehicleLibrary.plot_vehicle()</span></code></a></li>
 </ul>
 </li>
 </ul>

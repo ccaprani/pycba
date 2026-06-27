@@ -22,6 +22,7 @@ pycba.results.Envelopes
       ~Envelopes.from_beam_analysis
       ~Envelopes.per_span
       ~Envelopes.plot
+      ~Envelopes.plot_coincidents
       ~Envelopes.sum
       ~Envelopes.to_csv
       ~Envelopes.to_dataframe

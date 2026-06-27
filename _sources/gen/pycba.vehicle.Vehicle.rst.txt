@@ -16,6 +16,7 @@ pycba.vehicle.Vehicle
    .. autosummary::
       :nosignatures:
    
+      ~Vehicle.plot
       ~Vehicle.reverse
    
    
