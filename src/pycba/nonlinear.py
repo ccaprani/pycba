@@ -108,6 +108,7 @@ class NonlinearResult:
     support_coords: np.ndarray = field(default_factory=lambda: np.array([]))
     lambda_history: list[float] = field(default_factory=list)
     moment_history: list[np.ndarray] = field(default_factory=list)
+    final_displacements: np.ndarray = field(default_factory=lambda: np.array([]))
 
     def plot_moments(self, Mp=None, ax=None, units=None):
         """Plot the bending moment distribution at collapse.
@@ -328,6 +329,96 @@ class NonlinearResult:
         ax.get_yaxis().set_visible(False)
         ax.legend(loc="lower right", fontsize=8)
 
+        return ax
+
+    def plot_collapse(self, scale=None, ax=None, units=None):
+        """Plot the deformed shape at collapse, with the plastic hinges marked.
+
+        The undeformed beam is drawn in grey and the (exaggerated) collapse
+        deflected shape overlaid, with a large marker at every plastic‑hinge
+        location — the standard collapse‑mechanism picture for a plastic
+        analysis.
+
+        Parameters
+        ----------
+        scale : float, optional
+            Deflection exaggeration factor.  By default the shape is
+            auto‑scaled so the largest deflection spans a sensible fraction of
+            the beam length.
+        ax : matplotlib Axes, optional
+            Axes to plot on; a new figure is created if ``None``.
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the distance axis (see
+            :func:`pycba.set_units`).
+
+        Returns
+        -------
+        ax : matplotlib Axes
+        """
+        from .units import resolve
+
+        us = resolve(units)
+        if ax is None:
+            _, ax = plt.subplots(figsize=(10, 3))
+
+        L = float(self.node_coords[-1])
+        x = np.asarray(self.node_coords, dtype=float)
+        d = np.asarray(self.final_displacements, dtype=float)
+        if d.size >= 2 * len(x):
+            dv = d[0 : 2 * len(x) : 2]  # vertical DOFs (v, theta per node)
+        else:  # displacements not recorded (e.g. moving-load) - flat fallback
+            dv = np.zeros_like(x)
+
+        dmax = float(np.max(np.abs(dv))) if dv.size else 0.0
+        if scale is None:
+            scale = (0.12 * L / dmax) if dmax > 0 else 1.0
+        y = dv * scale
+
+        # undeformed beam (grey) and support triangles
+        ax.plot([0, L], [0, 0], color="0.6", lw=1.5, ls="--", zorder=1)
+        if len(self.support_coords):
+            ax.scatter(
+                self.support_coords,
+                np.zeros(len(self.support_coords)),
+                marker="^",
+                s=90,
+                fc="white",
+                ec="0.4",
+                lw=1.2,
+                zorder=3,
+            )
+
+        # the collapse deflected shape
+        lbl = (
+            f"Collapse (λ = {self.collapse_lambda:.2f})"
+            if self.collapsed
+            else f"Final (λ = {self.collapse_lambda:.2f})"
+        )
+        ax.plot(x, y, "r", lw=2, zorder=2, label=lbl)
+
+        # plastic hinges as big dots on the deflected shape
+        hx = sorted(
+            {h.location for h in self.hinge_events if h.event_type == "plastic_hinge"}
+        )
+        if hx:
+            hy = [float(np.interp(xi, x, y)) for xi in hx]
+            ax.scatter(
+                hx,
+                hy,
+                marker="o",
+                s=140,
+                fc="C3",
+                ec="k",
+                lw=1.0,
+                zorder=5,
+                label="Plastic hinge",
+            )
+
+        ax.set_xlabel(us.distance_axis)
+        ax.set_yticks([])
+        ax.set_xlim(-0.04 * L, 1.04 * L)
+        ax.set_title("Collapse mechanism" if self.collapsed else "Deformed shape")
+        ax.legend(loc="lower right", fontsize=8)
         return ax
 
 
@@ -822,6 +913,7 @@ class NonlinearBeamAnalysis:
         R_elem = np.ones((self.n_elem, 2))
         moments = np.zeros(self.n_nodes)
         gamma_max = np.zeros(self.n_nodes)
+        u_total = np.zeros_like(F_ref)
 
         lam = 0.0
         hinge_events, lam_hist, mom_hist = [], [], []
@@ -850,8 +942,10 @@ class NonlinearBeamAnalysis:
                     self.support_coords,
                     lam_hist,
                     mom_hist,
+                    u_total,
                 )
 
+            u_total = u_total + u
             moments += self._extract_moments(u, R_elem)
             new_h = self._update_R(
                 moments, gamma_max, R_elem, yielded, hinged, hinge_events, lam
@@ -868,6 +962,7 @@ class NonlinearBeamAnalysis:
                     self.support_coords,
                     lam_hist,
                     mom_hist,
+                    u_total,
                 )
 
             if record_every > 0 and step % record_every == 0:
@@ -884,6 +979,7 @@ class NonlinearBeamAnalysis:
             self.support_coords,
             lam_hist,
             mom_hist,
+            u_total,
         )
 
     # ---- Vehicle force vector ----

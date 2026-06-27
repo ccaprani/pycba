@@ -3,6 +3,8 @@
 ## 1.0.0 — 2026-06-27
 
 ### Features
+- **Collapse-mechanism plot**: `NonlinearResult.plot_collapse()` draws the deflected shape at failure with a large marker at each plastic hinge — the standard plastic-collapse picture. The collapse displacement field is now stored on the result.
+- **Rotational springs shown on the schematic**: a vertical support that also carries a rotational spring (e.g. a sub-frame column) is drawn with a spiral, so its moment reaction in `plot_reactions` / `plot_results` is explained rather than appearing unannounced.
 - **`plot_vehicle`**: draw a vehicle's axle loads as scaled, labelled arrows along its wheelbase — `cba.plot_vehicle(vehicle)`, also `vehicle.plot()` and `VehicleLibrary.plot_vehicle(vehicle)`. Respects `set_units` for the labels and raises a clear `TypeError` for non-vehicles.
 - **`Envelopes.plot_coincidents()`**: plot each load-effect envelope together with the *coincident* value of the other effect, grouped by driving extreme and drawn on **dual y-axes** — the moment envelope with the coincident shear, and the shear envelope with the coincident moment (both as solid lines on their own scale).
 - **Shaded result diagrams**: `BeamAnalysis.plot_results` shades the bending-moment and shear-force diagrams with a light fill to the baseline, matching the loading-schematic style — in both the matplotlib and Plotly backends.

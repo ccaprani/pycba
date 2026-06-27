@@ -413,3 +413,20 @@ def test_save_tikz_compiles(tmp_path):
     beam = make_beam("P7.5R7.0R", LM=[[1, 1, 20], [2, 1, 20]])
     pdf = beam.save_tikz(tmp_path / "beam.tex", compile=True)
     assert pdf.suffix == ".pdf" and pdf.exists() and pdf.stat().st_size > 0
+
+
+def test_rotational_spring_inferred_and_drawn():
+    # a pin/roller support that also carries a rotational spring (sub-frame column)
+    beam = cba.Beam(
+        [6.0, 6.0],
+        [3e7, 3e7],
+        [-1, 4.86e11, -1, 4.86e11, -1, 4.86e11],
+        LM=[],
+        eletype=[1, 1],
+    )
+    bp = BeamPlotter(beam)
+    assert [s.kind for s in bp.supports] == [PIN, ROLLER, ROLLER]
+    assert all(s.rot_spring for s in bp.supports)  # each flagged as a rotational spring
+    ax = beam.plot()
+    assert ax.lines  # spiral glyphs drawn
+    plt.close(ax.figure)

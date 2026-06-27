@@ -315,3 +315,37 @@ def test_rejects_nonprismatic_member():
     # A single SectionEI applied to all spans.
     with pytest.raises(TypeError, match="prismatic"):
         NonlinearBeamAnalysis(L=[L_SPAN], EI=sec, R=[-1, 0, -1, 0], Mp=MP)
+
+
+def test_plot_collapse_and_stored_displacements():
+    """plot_collapse draws the deflected mechanism with a marker per hinge."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    L, P = 12.0, 100.0
+    nlba = NonlinearBeamAnalysis(
+        L=[L, L],
+        EI=67035.0,
+        R=[-1, 0, -1, 0, -1, 0],
+        Mp=432.0,
+        My=376.0,
+        q=0.0,
+        mesh_size=0.5,
+    )
+    res = nlba.analyze(LM=[[1, 2, P, L / 2]], lambda_max=5.0)
+    assert res.collapsed
+    # the collapse deflected shape is now stored (2 DOF per node)
+    assert res.final_displacements.size == 2 * len(res.node_coords)
+    assert np.any(res.final_displacements != 0.0)
+
+    ax = res.plot_collapse()
+    # one big dot per distinct plastic hinge (here: load point + interior support)
+    nhinge = len(
+        {h.location for h in res.hinge_events if h.event_type == "plastic_hinge"}
+    )
+    markers = [c for c in ax.collections if c.get_offsets() is not None]
+    assert nhinge == 2
+    assert ax.get_title().lower().startswith("collapse")
+    plt.close("all")

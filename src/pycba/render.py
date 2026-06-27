@@ -63,6 +63,7 @@ class Support:
     node: int
     at_left_end: bool = False
     at_right_end: bool = False
+    rot_spring: bool = False  # a vertical support that also has a rotational spring
 
 
 @dataclass
@@ -216,6 +217,10 @@ class BeamPlotter:
                         node=i,
                         at_left_end=(i == 0),
                         at_right_end=(i == n_nodes - 1),
+                        # a pin/roller that also carries a rotational spring
+                        # (e.g. a sub-frame column) - drawn with a spiral so its
+                        # moment reaction is explained
+                        rot_spring=(v == -1 and r > 0),
                     )
                 )
         return supports
@@ -594,6 +599,8 @@ class BeamPlotter:
                     )
                 self._ground_mpl(ax, x, top - 1.02 * sh, 1.5 * sh)
             self._pin_marker_mpl(ax, x, sh, end)
+            if s.rot_spring:
+                self._rot_spring_mpl(ax, x, sh)
         elif s.kind == FIXED:
             side = 1 if s.at_right_end else -1
             ax.plot([x, x], [-sh, sh], "k-", lw=2, zorder=4)
@@ -626,6 +633,17 @@ class BeamPlotter:
                 zorder=4,
             )
             self._ground_mpl(ax, x, -0.6 * sh, 1.3 * sh)
+
+    def _rot_spring_mpl(self, ax, x: float, sh: float):
+        """A small spiral above a support marking a rotational (torsional)
+        spring - e.g. a sub-frame column modelled as a rotational restraint, so
+        its moment reaction is explained on the schematic."""
+        cy = 0.48 * sh
+        # short stem from the beam node up to the spiral
+        ax.plot([x, x], [0.0, cy - 0.30 * sh], "k-", lw=0.9, zorder=5)
+        t = np.linspace(0.0, 3.0 * 2 * np.pi, 220)  # three turns
+        r = 0.03 * sh + 0.30 * sh * (t / t[-1])
+        ax.plot(x + r * np.cos(t), cy + r * np.sin(t), "k-", lw=0.9, zorder=6)
 
     def _pin_marker_mpl(self, ax, x: float, sh: float, end: bool):
         """Little pin at a pin/roller support: full circle at an end, a
