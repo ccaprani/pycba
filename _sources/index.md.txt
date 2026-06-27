@@ -8,7 +8,7 @@
 ![Python versions](https://img.shields.io/pypi/pyversions/pycba.svg)
 [![Tests](https://github.com/ccaprani/pycba/actions/workflows/pytest.yml/badge.svg)](https://github.com/ccaprani/pycba/actions/workflows/pytest.yml)
 [![codecov](https://codecov.io/gh/ccaprani/pycba/branch/main/graph/badge.svg?token=dUTOmPBnyP)](https://codecov.io/gh/ccaprani/pycba)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Welcome to PyCBA's documentation!
