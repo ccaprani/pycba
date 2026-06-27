@@ -1,9 +1,11 @@
 # Changelog
 
-## 1.0.0 — 2026-06-27
+## 1.0.1 — 2026-06-28
 
 ### Licensing
-- **PyCBA is now licensed under the GNU Affero General Public License v3.0 (AGPL-3.0)**, changed from Apache 2.0. You remain free to *use* PyCBA for any purpose, including commercial and professional work; but software that **incorporates** PyCBA — whether distributed or offered over a network (SaaS) — must in turn be released under the AGPL.
+- **Relicensed to the GNU Affero General Public License v3.0 (AGPL-3.0)** (from Apache 2.0). Version 1.0.0 was inadvertently published under Apache 2.0 before the relicense landed, so **1.0.1 is the first AGPL release** — please use it. You remain free to *use* PyCBA for any purpose, including commercial and professional work; but software that **incorporates** PyCBA — whether distributed or offered over a network (SaaS) — must in turn be released under the AGPL. Functionally identical to 1.0.0 otherwise.
+
+## 1.0.0 — 2026-06-27
 
 ### Features
 - **Collapse-mechanism plot**: `NonlinearResult.plot_collapse()` draws the deflected shape at failure with a large marker at each plastic hinge — the standard plastic-collapse picture. The collapse displacement field is now stored on the result.
