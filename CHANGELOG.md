@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.0 — 2026-06-27
 
 ### Features
 - **`plot_vehicle`**: draw a vehicle's axle loads as scaled, labelled arrows along its wheelbase — `cba.plot_vehicle(vehicle)`, also `vehicle.plot()` and `VehicleLibrary.plot_vehicle(vehicle)`. Respects `set_units` for the labels and raises a clear `TypeError` for non-vehicles.
