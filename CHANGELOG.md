@@ -2,6 +2,9 @@
 
 ## 1.0.0 — 2026-06-27
 
+### Licensing
+- **PyCBA is now licensed under the GNU Affero General Public License v3.0 (AGPL-3.0)**, changed from Apache 2.0. You remain free to *use* PyCBA for any purpose, including commercial and professional work; but software that **incorporates** PyCBA — whether distributed or offered over a network (SaaS) — must in turn be released under the AGPL.
+
 ### Features
 - **Collapse-mechanism plot**: `NonlinearResult.plot_collapse()` draws the deflected shape at failure with a large marker at each plastic hinge — the standard plastic-collapse picture. The collapse displacement field is now stored on the result.
 - **Rotational springs shown on the schematic**: a vertical support that also carries a rotational spring (e.g. a sub-frame column) is drawn with a spiral, so its moment reaction in `plot_reactions` / `plot_results` is explained rather than appearing unannounced.

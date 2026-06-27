@@ -15,7 +15,7 @@
   <a href="https://github.com/ccaprani/pycba/actions/workflows/pytest.yml"><img src="https://github.com/ccaprani/pycba/actions/workflows/pytest.yml/badge.svg" alt="Tests"></a>
   <a href="https://codecov.io/gh/ccaprani/pycba"><img src="https://codecov.io/gh/ccaprani/pycba/branch/main/graph/badge.svg?token=dUTOmPBnyP" alt="codecov"></a>
   <a href="https://ccaprani.github.io/pycba/"><img src="https://img.shields.io/badge/docs-ccaprani.github.io%2Fpycba-blue" alt="Documentation"></a>
-  <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache 2.0"></a>
+  <a href="https://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL v3"></a>
   <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
 </p>
 
@@ -87,5 +87,8 @@ starting point into the toolkit above — but the spirit is unchanged: fast, exa
 
 ## 📄 License
 
-Released under the **Apache 2.0** license. Contributions and issues are welcome on
-[GitHub](https://github.com/ccaprani/pycba).
+`PyCBA` is released under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. In short:
+you are free to **use** PyCBA for any purpose — including professional and commercial work — but
+if you **incorporate** it into your own software, or **offer it over a network** (e.g. a hosted
+or SaaS tool), that software must in turn be released under the AGPL. Contributions and issues
+are welcome on [GitHub](https://github.com/ccaprani/pycba).
