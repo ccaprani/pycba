@@ -43,6 +43,17 @@ GUIDED = "guided"
 TORSION_SPRING = "torsion_spring"
 
 
+def _round_sig(value: float, sig: int = 4) -> float:
+    """Round to ``sig`` significant figures for a tidy reaction label (e.g.
+    ``62.8429 -> 62.84``); unit-agnostic, and avoids scientific notation for
+    the magnitudes seen in practice."""
+    import math
+
+    if value == 0 or not math.isfinite(value):
+        return value
+    return round(value, -int(math.floor(math.log10(abs(value)))) + (sig - 1))
+
+
 @dataclass
 class Support:
     """A support inferred from the restraint vector, in global coordinates."""
@@ -481,7 +492,7 @@ class BeamPlotter:
                 ax.text(
                     x,
                     -y0 - length - 0.3 * sh,
-                    self._us.fmt_force(abs(Rv)),
+                    self._us.fmt_force(_round_sig(abs(Rv))),
                     ha="center",
                     va="top",
                     color=color,
@@ -490,7 +501,7 @@ class BeamPlotter:
                     zorder=11,
                 )
         for node, Mr in mom.items():
-            ml = MomentLoad(i_span=0, x=self.node_x[node], M=Mr)
+            ml = MomentLoad(i_span=0, x=self.node_x[node], M=_round_sig(Mr))
             self._draw_moment_mpl(ax, ml, 1.2 * sh, sh, color, show_val)
         # Make sure the arrows and their labels are within the view.
         ymin, ymax = ax.get_ylim()
