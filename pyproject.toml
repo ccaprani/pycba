@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 name = "PyCBA"
 dynamic = ["version"]
 description = "Python Continuous Beam Analysis"
-license = {text = "Apache 2.0"}
+license = {text = "AGPL-3.0-or-later"}
 keywords = ["beam","bridge","vehicle"]
 authors = [{name = "Colin Caprani", email = "colin.caprani@monash.edu"}]
 classifiers = [
@@ -16,7 +16,7 @@ classifiers = [
     "Environment :: Console",
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3 :: Only",
-    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Natural Language :: English",
     "Operating System :: POSIX :: Linux",
     "Operating System :: MacOS :: MacOS X",
