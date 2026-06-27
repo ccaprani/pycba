@@ -4,35 +4,37 @@
 :scale: 50
 ```
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![GitHub issues](https://img.shields.io/github/issues/ccaprani/ospgrillage?logoColor=yellowgreen)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ccaprani/ospgrillage?color=yellowgreen)
-![PyPI](https://img.shields.io/pypi/v/ospgrillage)
+[![PyPI](https://img.shields.io/pypi/v/pycba.svg?color=blue)](https://pypi.org/project/pycba/)
+![Python versions](https://img.shields.io/pypi/pyversions/pycba.svg)
+[![Tests](https://github.com/ccaprani/pycba/actions/workflows/pytest.yml/badge.svg)](https://github.com/ccaprani/pycba/actions/workflows/pytest.yml)
 [![codecov](https://codecov.io/gh/ccaprani/pycba/branch/main/graph/badge.svg?token=dUTOmPBnyP)](https://codecov.io/gh/ccaprani/pycba)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Welcome to PyCBA's documentation!
 
-`PyCBA` is a python implementation of the Continuous Beam Analysis program,
-[originally coded in Matlab](http://www.colincaprani.com/programming/matlab/) and
-subsequently [ported to C++](http://cbeam.sourceforge.net/) (by Pierrot).
+`PyCBA` is a focused, dependable **1-D continuous-beam engine** built on the matrix (direct)
+stiffness method — fast, exact, and a pleasure to use, with light dependencies (numpy / scipy /
+matplotlib). It is deliberately *not* a general 2-D/3-D FE package; instead its analysis core
+powers a surprisingly broad toolkit for the **design, assessment and teaching** of buildings and
+bridges.
 
-`PyCBA` is for fast linear elastic analysis of general beam configurations.
-It uses the matrix stiffness method to determine the displacements at each node.
-These are then used to determine the member end forces.
-Exact expressions are then used to determine the distribution of shear, moment, and rotation along each member.
-Cumulative trapezoidal integration is then used to determine the rotations and deflections along each member.
-The program features:
+**Analysis.** Continuous beams of any number of spans with pin / roller / fixed / spring and
+rotational-spring supports, prescribed settlements and internal hinges; an element library of
+Euler–Bernoulli, **Timoshenko** (shear-deformable), **non-prismatic** (variable `EI`) and
+**Winkler-foundation** members; **nonlinear** elasto-plastic analysis to collapse; and
+**free-vibration (modal)** analysis.
 
-- Multiple load types: point load; uniformly distributed load; patch load, and; moment load;
-- Spring supports, both vertical and rotational, enabling it to be used as part of a subframe analysis;
-- Results are output at 100 (user can change) positions along each span, enable accurate deflection estimation.
+**Loads & bridges.** UDL, point, partial, trapezoidal, moment and **imposed-curvature**
+(creep / shrinkage / thermal) loads, load cases and combinations; **moving-load bridge
+assessment** with influence lines, envelopes, coincident effects and shear points; and built-in
+**code load models, road & rail, from six nations** (HL-93, LM1 / LM71, HB, CL-625, JTG,
+Cooper E, M1600 / 300LA, T44 / MS18).
 
-One of the main functions of `PyCBA` is that the basic analysis engine forms the basis for higher-level analysis.
-Current `PyCBA` includes modules for:
-
-- Influence line generation
-- Moving load analysis for bridges, targeted at bridge access assessments
+**Visualisation.** Beam and load schematics (matplotlib *and* publication-quality TikZ /
+`stanli`), shaded result diagrams, reaction / coincident-effect / mode-shape /
+collapse-mechanism / vehicle plots, an interactive **Plotly** backend, and selectable display
+unit systems.
 
 ```{toctree}
 :maxdepth: 2
