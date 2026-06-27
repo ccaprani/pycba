@@ -1172,7 +1172,7 @@ class BeamAnalysis:
             }[kind]
 
         if ax is None:
-            _, ax = plt.subplots(figsize=figsize or (8, 3.2))
+            _, ax = plt.subplots(figsize=figsize or (10, 3))
             ax.plot([0, L], [0, 0], "k", lw=2)
             ax.grid()
             ax.set_ylabel(ylabel)
