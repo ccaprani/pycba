@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.plotting.results_figure &#8212; PyCBA 0.9.0 documentation</title>
+    <title>pycba.plotting.results_figure &#8212; PyCBA 1.0.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+    <script src="../_static/documentation_options.js?v=8d563738"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="pycba.plotting.resolve_backend" href="pycba.plotting.resolve_backend.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.9.0" />
+  <meta name="docsearch:version" content="1.0.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.9.0 documentation - Home"/>
-    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.9.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 1.0.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 1.0.0 documentation - Home"/>
   
   
 </a></div>
@@ -584,10 +584,12 @@
 <h1>pycba.plotting.results_figure<a class="headerlink" href="#pycba-plotting-results-figure" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pycba.plotting.results_figure">
-<span class="sig-name descname"><span class="pre">results_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/plotting.html#results_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.plotting.results_figure" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">results_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/plotting.html#results_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.plotting.results_figure" title="Link to this definition">#</a></dt>
 <dd><p>Build the combined interactive bending-moment / shear / deflection figure
 (three stacked panels sharing the x-axis) from a member-results object.</p>
-<p>A single hover reports all three effects at the same section.</p>
+<p>A single hover reports all three effects at the same section.  The moment
+and shear diagrams are shaded to the baseline; <code class="docutils literal notranslate"><span class="pre">defl</span></code> (the de-padded
+<code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">D)</span></code> deflected shape) is used for the deflection panel when given.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>plotly.graph_objects.Figure</p>

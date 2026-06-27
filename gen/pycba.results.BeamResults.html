@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pycba.results.BeamResults &#8212; PyCBA 0.9.0 documentation</title>
+    <title>pycba.results.BeamResults &#8212; PyCBA 1.0.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+    <script src="../_static/documentation_options.js?v=8d563738"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="pycba.results" href="pycba.results.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.9.0" />
+  <meta name="docsearch:version" content="1.0.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.9.0 documentation - Home"/>
-    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.9.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 1.0.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 1.0.0 documentation - Home"/>
   
   
 </a></div>
@@ -614,10 +614,13 @@ recovered just-left and just-right of the section.  The default
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.BeamResults.at" title="pycba.results.BeamResults.at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">at</span></code></a></p></td>
 <td><p>Interpolate the load effects at a global coordinate.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.BeamResults.to_csv" title="pycba.results.BeamResults.to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_csv</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.BeamResults.deflection_curve" title="pycba.results.BeamResults.deflection_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deflection_curve</span></code></a></p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">D)</span></code> for the continuous deflected shape.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.BeamResults.to_csv" title="pycba.results.BeamResults.to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_csv</span></code></a></p></td>
 <td><p>Write the member load effects (columns <code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">M,</span> <span class="pre">V,</span> <span class="pre">R,</span> <span class="pre">D</span></code>) to a CSV file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.results.BeamResults.to_dataframe" title="pycba.results.BeamResults.to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dataframe</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.results.BeamResults.to_dataframe" title="pycba.results.BeamResults.to_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dataframe</span></code></a></p></td>
 <td><p>Return the member load effects as a <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> with columns <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">M</span></code> (moment), <code class="docutils literal notranslate"><span class="pre">V</span></code> (shear), <code class="docutils literal notranslate"><span class="pre">R</span></code> (rotation) and <code class="docutils literal notranslate"><span class="pre">D</span></code> (deflection).</p></td>
 </tr>
 </tbody>
@@ -644,6 +647,26 @@ load) the left-hand value is returned.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.results.BeamResults.deflection_curve">
+<span class="sig-name descname"><span class="pre">deflection_curve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/results.html#BeamResults.deflection_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.results.BeamResults.deflection_curve" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">D)</span></code> for the continuous deflected shape.</p>
+<p>Each member’s result grid duplicates its end stations so the
+bending-moment and shear diagrams <em>close</em> to the baseline; for the
+deflected shape those closure points would otherwise draw spurious
+vertical lines at member ends (e.g. dropping to zero at a cantilever
+tip).  This drops the closure padding, giving the continuous
+deflection along the beam.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The coordinate and deflection arrays (native units, unscaled).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.ndarray, numpy.ndarray)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -717,6 +740,7 @@ keyword arguments are forwarded to it.  Returns <code class="docutils literal no
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.BeamResults"><code class="docutils literal notranslate"><span class="pre">BeamResults</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.BeamResults.at"><code class="docutils literal notranslate"><span class="pre">BeamResults.at()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.BeamResults.deflection_curve"><code class="docutils literal notranslate"><span class="pre">BeamResults.deflection_curve()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.BeamResults.to_dataframe"><code class="docutils literal notranslate"><span class="pre">BeamResults.to_dataframe()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.results.BeamResults.to_csv"><code class="docutils literal notranslate"><span class="pre">BeamResults.to_csv()</span></code></a></li>
 </ul>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Non-prismatic Elements &#8212; PyCBA 0.9.0 documentation</title>
+    <title>Non-prismatic Elements &#8212; PyCBA 1.0.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+    <script src="../_static/documentation_options.js?v=8d563738"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -53,7 +53,7 @@
     <link rel="prev" title="Nonlinear Beam Analysis" href="nonlinear.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.9.0" />
+  <meta name="docsearch:version" content="1.0.0" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.9.0 documentation - Home"/>
-    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.9.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 1.0.0 documentation - Home"/>
+    <img src="../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 1.0.0 documentation - Home"/>
   
   
 </a></div>
@@ -557,27 +557,21 @@
 <span class="n">ba_h</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 <span class="n">ba_h</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 <span class="n">ba_h</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">npts</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">M_pier_h</span> <span class="o">=</span> <span class="n">ba_h</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
 <span class="n">ba_p</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">([</span><span class="n">Lsp</span><span class="p">,</span> <span class="n">Lsp</span><span class="p">],</span> <span class="p">[</span><span class="n">EI_const</span><span class="p">,</span> <span class="n">EI_const</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="n">ba_p</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 <span class="n">ba_p</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 <span class="n">ba_p</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">npts</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">M_pier_p</span> <span class="o">=</span> <span class="n">ba_p</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prismatic pier moment = </span><span class="si">{</span><span class="n">M_pier_p</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> kNm  (closed form -wL^2/8 = </span><span class="si">{</span><span class="o">-</span><span class="n">w</span><span class="o">*</span><span class="n">Lsp</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">8</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Haunched  pier moment = </span><span class="si">{</span><span class="n">M_pier_h</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> kNm  &quot;</span>
-      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">M_pier_h</span><span class="p">)</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">M_pier_p</span><span class="p">))</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">M_pier_p</span><span class="p">)</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2">% -- haunch draws hogging to the pier)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Prismatic pier moment =   -375.0 kNm  (closed form -wL^2/8 = -375.0)
-Haunched  pier moment =   -501.0 kNm  (+34% -- haunch draws hogging to the pier)
+0
 </pre></div></div>
 </div>
 <p>The two-span beam and its loading (the schematic shows the supports and loads; the varying <code class="docutils literal notranslate"><span class="pre">EI</span></code> is not depicted):</p>
@@ -600,31 +594,10 @@ Haunched  pier moment =   -501.0 kNm  (+34% -- haunch draws hogging to the pier)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># EI(x) elevation and the resulting BMD (haunched vs prismatic).</span>
-<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Lsp</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">EI_prof</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">sec1</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="n">sec2</span><span class="p">(</span><span class="n">xx</span><span class="p">)])</span> <span class="o">/</span> <span class="mf">1e6</span>          <span class="c1"># MNm^2</span>
-<span class="n">x_prof</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">xx</span><span class="p">,</span> <span class="n">Lsp</span> <span class="o">+</span> <span class="n">xx</span><span class="p">])</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_prof</span><span class="p">,</span> <span class="n">EI_prof</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;haunched $EI(x)$&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">EI_const</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;prismatic $EI$&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">Lsp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$EI$  (MNm$^2$)&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Two-span beam: parabolic haunch at the interior support&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ba_p</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ba_p</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;prismatic (pier </span><span class="si">{</span><span class="n">M_pier_p</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kNm)&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ba_h</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ba_h</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;haunched (pier </span><span class="si">{</span><span class="n">M_pier_h</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kNm)&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending moment (kNm)&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance along beam (m)&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bending moment: haunched vs prismatic, via the built-in plotter (overlaid)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">ba_h</span><span class="o">.</span><span class="n">plot_bmd</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;haunched&quot;</span><span class="p">)</span>
+<span class="n">ba_p</span><span class="o">.</span><span class="n">plot_bmd</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;prismatic&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -634,6 +607,30 @@ Haunched  pier moment =   -501.0 kNm  (+34% -- haunch draws hogging to the pier)
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_nonprismatic_8_0.png" src="../_images/notebooks_nonprismatic_8_0.png" />
 </div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the interior-support (pier) moment with the .at() point query</span>
+<span class="n">M_pier_h</span> <span class="o">=</span> <span class="n">ba_h</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">Lsp</span><span class="p">)[</span><span class="s2">&quot;M&quot;</span><span class="p">]</span>
+<span class="n">M_pier_p</span> <span class="o">=</span> <span class="n">ba_p</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">Lsp</span><span class="p">)[</span><span class="s2">&quot;M&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prismatic pier moment = </span><span class="si">{</span><span class="n">M_pier_p</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> kNm  (closed form -wL^2/8 = </span><span class="si">{</span><span class="o">-</span><span class="n">w</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Lsp</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Haunched  pier moment = </span><span class="si">{</span><span class="n">M_pier_h</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> kNm  &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">M_pier_h</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">M_pier_p</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">M_pier_p</span><span class="p">)</span><span class="si">:</span><span class="s2">+.0f</span><span class="si">}</span><span class="s2">% — haunch draws hogging to the pier)&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Prismatic pier moment =   -375.0 kNm  (closed form -wL^2/8 = -375.0)
+Haunched  pier moment =   -501.0 kNm  (+34% — haunch draws hogging to the pier)
+</pre></div></div>
 </div>
 </section>
 </section>

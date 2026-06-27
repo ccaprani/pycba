@@ -17,6 +17,7 @@ pycba.results.BeamResults
       :nosignatures:
    
       ~BeamResults.at
+      ~BeamResults.deflection_curve
       ~BeamResults.to_csv
       ~BeamResults.to_dataframe
    

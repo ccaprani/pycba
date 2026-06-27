@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pycba.plotting &#8212; PyCBA 0.9.0 documentation</title>
+    <title>pycba.plotting &#8212; PyCBA 1.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../../_static/documentation_options.js?v=39bb1c6d"></script>
+    <script src="../../_static/documentation_options.js?v=8d563738"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.9.0" />
+  <meta name="docsearch:version" content="1.0.0" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 0.9.0 documentation - Home"/>
-    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 0.9.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-light" alt="PyCBA 1.0.0 documentation - Home"/>
+    <img src="../../_static/pycba_logo.png" class="logo__image only-dark pst-js-only" alt="PyCBA 1.0.0 documentation - Home"/>
   
   
 </a></div>
@@ -467,6 +467,8 @@
 <span class="n">_RED</span> <span class="o">=</span> <span class="s2">&quot;#d62728&quot;</span>
 <span class="n">_BLUE</span> <span class="o">=</span> <span class="s2">&quot;#1f77b4&quot;</span>
 <span class="n">_BAND</span> <span class="o">=</span> <span class="s2">&quot;rgba(120,120,120,0.15)&quot;</span>
+<span class="c1"># Light-red diagram fill, matching the matplotlib BMD/SFD shading.</span>
+<span class="n">_FILL</span> <span class="o">=</span> <span class="s2">&quot;rgba(214,39,40,0.12)&quot;</span>
 
 
 <div class="viewcode-block" id="set_backend">
@@ -551,7 +553,7 @@
 
 <div class="viewcode-block" id="diagram_figure">
 <a class="viewcode-back" href="../../gen/pycba.plotting.diagram_figure.html#pycba.plotting.diagram_figure">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">diagram_figure</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">diagram_figure</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">defl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build an interactive single result diagram (bending moment, shear or</span>
 <span class="sd">    deflection) from a :class:`pycba.MemberResults`-like object.</span>
@@ -567,6 +569,10 @@
 <span class="sd">        Display unit system (see :func:`pycba.set_units`).</span>
 <span class="sd">    title : str, optional</span>
 <span class="sd">        Figure title.</span>
+<span class="sd">    defl : (array, array), optional</span>
+<span class="sd">        The de-padded ``(x, D)`` deflected shape (native units); when given and</span>
+<span class="sd">        ``kind == &quot;D&quot;`` it is used instead of ``mr.D`` so the closure padding</span>
+<span class="sd">        does not draw spurious verticals at member ends.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -575,17 +581,28 @@
     <span class="n">go</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_require_plotly</span><span class="p">()</span>
     <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">axis_label</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">,</span> <span class="s2">&quot;Bending moment&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">M</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">moment</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
-        <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">,</span> <span class="s2">&quot;Shear force&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">V</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="n">axis_label</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">invert</span><span class="p">,</span> <span class="n">do_fill</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">,</span>
+            <span class="s2">&quot;Bending moment&quot;</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">M</span><span class="p">),</span>
+            <span class="n">us</span><span class="o">.</span><span class="n">moment</span><span class="p">,</span>
+            <span class="kc">True</span><span class="p">,</span>
+            <span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">,</span> <span class="s2">&quot;Shear force&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">V</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
         <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="p">(</span>
             <span class="n">us</span><span class="o">.</span><span class="n">deflection_axis</span><span class="p">,</span>
             <span class="s2">&quot;Deflection&quot;</span><span class="p">,</span>
             <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">D</span><span class="p">)</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span><span class="p">,</span>
             <span class="n">us</span><span class="o">.</span><span class="n">disp_label</span><span class="p">,</span>
             <span class="kc">False</span><span class="p">,</span>
+            <span class="kc">False</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}[</span><span class="n">kind</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span> <span class="ow">and</span> <span class="n">defl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">defl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">defl</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
@@ -595,6 +612,8 @@
             <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">_RED</span><span class="p">),</span>
+            <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;tozeroy&quot;</span> <span class="k">if</span> <span class="n">do_fill</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">fillcolor</span><span class="o">=</span><span class="n">_FILL</span><span class="p">,</span>
             <span class="n">hovertemplate</span><span class="o">=</span><span class="n">_hovertemplate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">unit</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="p">)</span>
@@ -609,12 +628,14 @@
 
 <div class="viewcode-block" id="results_figure">
 <a class="viewcode-back" href="../../gen/pycba.plotting.results_figure.html#pycba.plotting.results_figure">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">results_figure</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">results_figure</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">defl</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build the combined interactive bending-moment / shear / deflection figure</span>
 <span class="sd">    (three stacked panels sharing the x-axis) from a member-results object.</span>
 
-<span class="sd">    A single hover reports all three effects at the same section.</span>
+<span class="sd">    A single hover reports all three effects at the same section.  The moment</span>
+<span class="sd">    and shear diagrams are shaded to the baseline; ``defl`` (the de-padded</span>
+<span class="sd">    ``(x, D)`` deflected shape) is used for the deflection panel when given.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -623,26 +644,28 @@
     <span class="n">go</span><span class="p">,</span> <span class="n">make_subplots</span> <span class="o">=</span> <span class="n">_require_plotly</span><span class="p">()</span>
     <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">defl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xD</span><span class="p">,</span> <span class="n">yD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">defl</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">defl</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">xD</span><span class="p">,</span> <span class="n">yD</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">D</span><span class="p">)</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">,</span> <span class="s2">&quot;Bending moment&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">M</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">moment</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
-        <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">,</span> <span class="s2">&quot;Shear force&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">V</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-        <span class="p">(</span>
-            <span class="n">us</span><span class="o">.</span><span class="n">deflection_axis</span><span class="p">,</span>
-            <span class="s2">&quot;Deflection&quot;</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">D</span><span class="p">)</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span><span class="p">,</span>
-            <span class="n">us</span><span class="o">.</span><span class="n">disp_label</span><span class="p">,</span>
-            <span class="kc">False</span><span class="p">,</span>
-        <span class="p">),</span>
+        <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">,</span> <span class="s2">&quot;Bending moment&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">M</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">moment</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">,</span> <span class="s2">&quot;Shear force&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">V</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">deflection_axis</span><span class="p">,</span> <span class="s2">&quot;Deflection&quot;</span><span class="p">,</span> <span class="n">xD</span><span class="p">,</span> <span class="n">yD</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_label</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
     <span class="p">]</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shared_xaxes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vertical_spacing</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">axis_label</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">invert</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">axis_label</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">xrow</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">invert</span><span class="p">,</span> <span class="n">do_fill</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">):</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
             <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-                <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">xrow</span><span class="p">,</span>
                 <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
                 <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">_RED</span><span class="p">),</span>
+                <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;tozeroy&quot;</span> <span class="k">if</span> <span class="n">do_fill</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">fillcolor</span><span class="o">=</span><span class="n">_FILL</span><span class="p">,</span>
                 <span class="n">hovertemplate</span><span class="o">=</span><span class="n">_hovertemplate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">unit</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="n">row</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
