@@ -958,7 +958,11 @@ class BeamAnalysis:
         if resolve_backend(backend) == "plotly":
             from .plotting import results_figure
 
-            return results_figure(self._beam_results.results, units=units)
+            return results_figure(
+                self._beam_results.results,
+                units=units,
+                defl=self._beam_results.deflection_curve(),
+            )
         us = resolve(units)
         res = self._beam_results.results
         L = self._beam.length
@@ -1004,7 +1008,8 @@ class BeamAnalysis:
 
         ax = diag[2]
         ax.plot([0, L], [0, 0], "k", lw=2)
-        ax.plot(res.x, res.D * us.disp_scale, "r")
+        xd, dd = self._beam_results.deflection_curve()
+        ax.plot(xd, dd * us.disp_scale, "r")
         ax.grid()
         ax.set_ylabel(us.deflection_axis)
         if not show_reactions:
@@ -1145,18 +1150,29 @@ class BeamAnalysis:
         if resolve_backend(backend) == "plotly":
             from .plotting import diagram_figure
 
-            return diagram_figure(self._beam_results.results, kind, units=units)
+            return diagram_figure(
+                self._beam_results.results,
+                kind,
+                units=units,
+                defl=self._beam_results.deflection_curve(),
+            )
         us = resolve(units)
         res = self._beam_results.results
         L = self._beam.length
-        y, ylabel, invert = {
-            "M": (res.M, us.moment_axis, True),
-            "V": (res.V, us.shear_axis, False),
-            "D": (res.D * us.disp_scale, us.deflection_axis, False),
-        }[kind]
+        if kind == "D":
+            # the continuous deflected shape, without the diagram-closure
+            # padding that would draw spurious verticals at member ends
+            xplot, dvals = self._beam_results.deflection_curve()
+            y, ylabel, invert = dvals * us.disp_scale, us.deflection_axis, False
+        else:
+            xplot = res.x
+            y, ylabel, invert = {
+                "M": (res.M, us.moment_axis, True),
+                "V": (res.V, us.shear_axis, False),
+            }[kind]
 
         if ax is None:
-            _, ax = plt.subplots(figsize=figsize or (8, 3.2))
+            _, ax = plt.subplots(figsize=figsize or (10, 3))
             ax.plot([0, L], [0, 0], "k", lw=2)
             ax.grid()
             ax.set_ylabel(ylabel)
@@ -1164,7 +1180,7 @@ class BeamAnalysis:
             if invert:
                 ax.invert_yaxis()
         kwargs.setdefault("color", "r")
-        ax.plot(res.x, y, **kwargs)
+        ax.plot(xplot, y, **kwargs)
         return ax
 
     def plot_bmd(self, ax=None, units=None, backend=None, **kwargs):

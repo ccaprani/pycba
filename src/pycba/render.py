@@ -43,6 +43,17 @@ GUIDED = "guided"
 TORSION_SPRING = "torsion_spring"
 
 
+def _round_sig(value: float, sig: int = 4) -> float:
+    """Round to ``sig`` significant figures for a tidy reaction label (e.g.
+    ``62.8429 -> 62.84``); unit-agnostic, and avoids scientific notation for
+    the magnitudes seen in practice."""
+    import math
+
+    if value == 0 or not math.isfinite(value):
+        return value
+    return round(value, -int(math.floor(math.log10(abs(value)))) + (sig - 1))
+
+
 @dataclass
 class Support:
     """A support inferred from the restraint vector, in global coordinates."""
@@ -452,19 +463,22 @@ class BeamPlotter:
         """
         if sh is None:
             sh = 0.05 * self.L
+        # The support glyphs hang to about -1.5*sh, so start the reaction arrows
+        # just below them (at -y0) to avoid overlapping the supports.
+        y0 = 1.7 * sh
         fvmax = max((abs(v) for v in vert.values()), default=0.0)
         lmax = 2.2 * sh
         for node, Rv in vert.items():
             x = self.node_x[node]
             length = sh * (2.2 + 1.3 * (abs(Rv) / fvmax if fvmax else 1.0))
             lmax = max(lmax, length)
-            # Arrow points in the force direction with its head at the beam for
-            # an upward reaction (tail below), and below the beam for a
-            # downward one - in both cases the label sits below the arrow.
+            # The arrow points in the force direction and sits below the support:
+            # an upward reaction's head is just under the support glyph (tail
+            # lower), a downward one points further down.  The label sits below.
             if Rv >= 0:
-                xy, xytext = (x, 0.0), (x, -length)
+                xy, xytext = (x, -y0), (x, -y0 - length)
             else:
-                xy, xytext = (x, -length), (x, 0.0)
+                xy, xytext = (x, -y0 - length), (x, -y0)
             ax.annotate(
                 "",
                 xy=xy,
@@ -477,8 +491,8 @@ class BeamPlotter:
             if show_val:
                 ax.text(
                     x,
-                    -length - 0.3 * sh,
-                    self._us.fmt_force(abs(Rv)),
+                    -y0 - length - 0.3 * sh,
+                    self._us.fmt_force(_round_sig(abs(Rv))),
                     ha="center",
                     va="top",
                     color=color,
@@ -487,11 +501,11 @@ class BeamPlotter:
                     zorder=11,
                 )
         for node, Mr in mom.items():
-            ml = MomentLoad(i_span=0, x=self.node_x[node], M=Mr)
+            ml = MomentLoad(i_span=0, x=self.node_x[node], M=_round_sig(Mr))
             self._draw_moment_mpl(ax, ml, 1.2 * sh, sh, color, show_val)
         # Make sure the arrows and their labels are within the view.
         ymin, ymax = ax.get_ylim()
-        need = -(lmax + 1.0 * sh)
+        need = -(y0 + lmax + 1.0 * sh)
         if ymin > need:
             ax.set_ylim(need, ymax)
         return ax
