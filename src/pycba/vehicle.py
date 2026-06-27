@@ -75,6 +75,92 @@ class Vehicle:
         else:
             return Vehicle(np.copy(self.axs[::-1]), np.copy(self.axw[::-1]))
 
+    def plot(self, ax=None, title=None, units=None, color="tab:red", show=True):
+        """
+        Draw this vehicle's axles as scaled load arrows along its wheelbase.
+
+        Convenience wrapper for :func:`pycba.plot_vehicle`; see it for the
+        parameters.
+        """
+        return plot_vehicle(
+            self, ax=ax, title=title, units=units, color=color, show=show
+        )
+
+
+def plot_vehicle(vehicle, ax=None, title=None, units=None, color="tab:red", show=True):
+    """
+    Plot a vehicle's axles as scaled load arrows along its wheelbase.
+
+    Each axle is an arrow whose height scales with its load and is labelled with
+    the load magnitude; the title reports the total axle load and the wheelbase.
+
+    Parameters
+    ----------
+    vehicle : Vehicle
+        The vehicle to draw (a :class:`pycba.bridge.Vehicle`).
+    ax : matplotlib.axes.Axes, optional
+        Axes to draw into; a new figure is created if omitted.
+    title : str, optional
+        A title for the plot.  The total axle load and wheelbase are appended.
+    units : str or pycba.units.UnitSystem, optional
+        Display unit system for the labels (see :func:`pycba.set_units`).
+        ``PyCBA`` is unit-agnostic, so this only *relabels* the axle loads and
+        the axis - the values are not converted (the built-in models are in
+        kN, m).
+    color : str
+        Colour of the axle-load arrows.
+    show : bool
+        Call ``matplotlib.pyplot.show()`` before returning when a new figure is
+        created (default ``True``).
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+
+    Raises
+    ------
+    TypeError
+        If ``vehicle`` is not a :class:`Vehicle`.
+    """
+    import matplotlib.pyplot as plt
+    from .units import resolve
+
+    if not isinstance(vehicle, Vehicle):
+        raise TypeError(
+            "plot_vehicle() expects a pycba.Vehicle, got "
+            f"{type(vehicle).__name__!r}."
+        )
+    us = resolve(units)
+    created = ax is None
+    if created:
+        _, ax = plt.subplots(figsize=(8, 1.9))
+
+    x = np.atleast_1d(vehicle.axle_coords)
+    axw = np.atleast_1d(vehicle.axw)
+    wmax = float(np.max(np.abs(axw))) if len(axw) else 1.0
+    for xi, wi in zip(x, axw):
+        h = 0.4 + 0.6 * (abs(wi) / wmax if wmax else 1.0)
+        ax.annotate(
+            "",
+            xy=(xi, 0.0),
+            xytext=(xi, h),
+            arrowprops=dict(arrowstyle="-|>", color=color, lw=2),
+        )
+        ax.text(xi, h + 0.05, us.fmt_force(wi), ha="center", va="bottom", fontsize=7)
+
+    x0, x1 = float(np.min(x)), float(np.max(x))
+    ax.plot([x0, max(x1, x0 + 0.1)], [0, 0], "k", lw=2.5)
+
+    wb = f"{vehicle.L:g}" + (f" {us.length}" if us.length else "")
+    caption = f"ΣW = {us.fmt_force(vehicle.W)}, wheelbase = {wb}"
+    ax.set_title(f"{title}   ({caption})" if title else caption, fontsize=10)
+    ax.set_ylim(-0.25, 1.95)
+    ax.set_yticks([])
+    ax.set_xlabel(us.length_axis("Position along vehicle"))
+    if created and show:
+        plt.show()
+    return ax
+
 
 def make_train(vehicles: List[Vehicle], spacings: np.ndarray):
     """
@@ -617,3 +703,7 @@ class VehicleLibrary:
         textbook "Structural and Stress Analysis", 2nd edn., Megson, p. 579.
         """
         return Vehicle(np.array([4, 4]), np.array([5, 4, 3]))
+
+
+# Also expose the plotter on the library namespace: VehicleLibrary.plot_vehicle(veh)
+VehicleLibrary.plot_vehicle = staticmethod(plot_vehicle)
