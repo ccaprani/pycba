@@ -27,6 +27,7 @@ pycba.render.Support
    
       ~Support.at_left_end
       ~Support.at_right_end
+      ~Support.rot_spring
       ~Support.x
       ~Support.kind
       ~Support.node

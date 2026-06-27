@@ -17,6 +17,7 @@ pycba.nonlinear.NonlinearResult
       :nosignatures:
    
       ~NonlinearResult.plot_beam_state
+      ~NonlinearResult.plot_collapse
       ~NonlinearResult.plot_hinge_history
       ~NonlinearResult.plot_moments
    
@@ -37,5 +38,6 @@ pycba.nonlinear.NonlinearResult
       ~NonlinearResult.support_coords
       ~NonlinearResult.lambda_history
       ~NonlinearResult.moment_history
+      ~NonlinearResult.final_displacements
    
    

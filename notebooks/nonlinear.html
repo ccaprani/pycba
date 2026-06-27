@@ -558,6 +558,22 @@ Collapsed       = True
 <img alt="../_images/notebooks_nonlinear_6_0.png" src="../_images/notebooks_nonlinear_6_0.png" />
 </div>
 </div>
+<p>And the <strong>collapse mechanism</strong> itself — the deflected shape at failure, with a marker at each plastic hinge — is drawn directly with <code class="docutils literal notranslate"><span class="pre">plot_collapse()</span></code>. Span 1 sags into the point load while span 2 lifts, hinging over the interior support:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">plot_collapse</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_nonlinear_8_0.png" src="../_images/notebooks_nonlinear_8_0.png" />
+</div>
+</div>
 <p>Yield initiates at the interior support, the support hinge forms first, then the midspan hinge completes the mechanism. Moments at hinge locations are at <span class="math notranslate nohighlight">\(M_p\)</span>, confirming equilibrium.</p>
 </section>
 <section id="Example-2-—-UDL-on-One-Span">
@@ -570,7 +586,7 @@ Collapsed       = True
 <p>Minimising over <span class="math notranslate nohighlight">\(a\)</span> gives <span class="math notranslate nohighlight">\(a^* = L(\sqrt{2}-1) \approx 0.414\,L\)</span>.</p>
 <p><strong>Note on mesh sensitivity:</strong> The concentrated-plasticity model requires a hinge to form at a mesh node. For UDL, the theoretical hinge at <span class="math notranslate nohighlight">\(a^* = 4.97\)</span> m generally doesn’t coincide with a mesh node, so accuracy depends on which nearby node captures the hinge.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="mf">20.0</span>
@@ -616,7 +632,7 @@ Theoretical λ = 1.7485
 <p>The <code class="docutils literal notranslate"><span class="pre">record_every</span></code> parameter captures moment distributions at regular intervals. This visualises how moments redistribute as hinges form.</p>
 <p>Repeating Example 1 with snapshots every 50 increments:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nlba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">NonlinearBeamAnalysis</span><span class="p">(</span>
@@ -636,7 +652,7 @@ Theoretical λ = 1.7485
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_nonlinear_12_0.png" src="../_images/notebooks_nonlinear_12_0.png" />
+<img alt="../_images/notebooks_nonlinear_14_0.png" src="../_images/notebooks_nonlinear_14_0.png" />
 </div>
 </div>
 <p>The hogging moment at the interior support reaches <span class="math notranslate nohighlight">\(M_p\)</span> first. Further load is redistributed to the sagging region until the midspan hinge forms and collapse occurs.</p>
@@ -646,7 +662,7 @@ Theoretical λ = 1.7485
 <p>The strain-hardening ratio <span class="math notranslate nohighlight">\(q\)</span> controls post-yield stiffness. With <span class="math notranslate nohighlight">\(q = 0\)</span> (elastic-perfectly-plastic) the moment is capped at <span class="math notranslate nohighlight">\(M_p\)</span>. A positive <span class="math notranslate nohighlight">\(q\)</span> allows the moment to exceed <span class="math notranslate nohighlight">\(M_p\)</span>, which increases the collapse load.</p>
 <p>Comparing three values of <span class="math notranslate nohighlight">\(q\)</span> for the same beam and loading as Example 1:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
@@ -685,7 +701,7 @@ q = 0.05: collapse at λ = 2.893  (+33.9% vs q=0 theory)
 <li><p>Centre span: <span class="math notranslate nohighlight">\(\lambda_{\text{centre}} = 16\,M_p\,/\,(w\,L^2)\)</span></p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L_s</span> <span class="o">=</span> <span class="mf">10.0</span>
@@ -737,7 +753,7 @@ Hinge sequence:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
@@ -757,7 +773,7 @@ Hinge sequence:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_nonlinear_18_0.png" src="../_images/notebooks_nonlinear_18_0.png" />
+<img alt="../_images/notebooks_nonlinear_20_0.png" src="../_images/notebooks_nonlinear_20_0.png" />
 </div>
 </div>
 </section>
@@ -765,7 +781,7 @@ Hinge sequence:
 <h2>Example 6 — Validation Summary<a class="headerlink" href="#Example-6-—-Validation-Summary" title="Link to this heading">#</a></h2>
 <p>We collect all closed-form validation cases into a summary table. Each theoretical result is derived from virtual work (upper-bound plastic analysis) and is exact for elastic-perfectly-plastic material (<span class="math notranslate nohighlight">\(q = 0\)</span>).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cases</span> <span class="o">=</span> <span class="p">[]</span>
@@ -826,7 +842,7 @@ Two point loads                  1.5709     1.5740    0.20%
 \[P_{\text{static}} = \frac{3\,M_p}{L/2} = \frac{3 \times 2694}{7.5} = 1077.6 \text{ kN}\]</div>
 <p>We run the analysis at twice this load to guarantee collapse during the traverse:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Mp_bridge</span> <span class="o">=</span> <span class="mf">2694.0</span>
@@ -865,7 +881,7 @@ Front axle at collapse: x = 2.0 m
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
@@ -885,7 +901,7 @@ Front axle at collapse: x = 2.0 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_nonlinear_24_0.png" src="../_images/notebooks_nonlinear_24_0.png" />
+<img alt="../_images/notebooks_nonlinear_26_0.png" src="../_images/notebooks_nonlinear_26_0.png" />
 </div>
 </div>
 </section>
@@ -893,7 +909,7 @@ Front axle at collapse: x = 2.0 m
 <h2>Example 8 — Multi-Axle Vehicle Collapse<a class="headerlink" href="#Example-8-—-Multi-Axle-Vehicle-Collapse" title="Link to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">analyze_moving</span></code> method also accepts a <code class="docutils literal notranslate"><span class="pre">pycba.Vehicle</span></code> object for multi-axle vehicles. Here we define a heavy 3-axle truck and run it across the same bridge. The axle weights are scaled up to ensure collapse occurs during the traverse:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">truck</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Vehicle</span><span class="p">(</span><span class="n">axle_weights</span><span class="o">=</span><span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">],</span> <span class="n">axle_spacings</span><span class="o">=</span><span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
@@ -933,7 +949,7 @@ Front axle at collapse: x = 24.0 m
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">plot_beam_state</span><span class="p">(</span><span class="n">vehicle</span><span class="o">=</span><span class="n">truck</span><span class="p">)</span>
@@ -945,7 +961,7 @@ Front axle at collapse: x = 24.0 m
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_nonlinear_27_0.png" src="../_images/notebooks_nonlinear_27_0.png" />
+<img alt="../_images/notebooks_nonlinear_29_0.png" src="../_images/notebooks_nonlinear_29_0.png" />
 </div>
 </div>
 </section>

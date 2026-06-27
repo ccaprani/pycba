@@ -584,7 +584,7 @@
 <h1>pycba.nonlinear.NonlinearResult<a class="headerlink" href="#pycba-nonlinear-nonlinearresult" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycba.nonlinear.NonlinearResult">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">NonlinearResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collapse_lambda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapsed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hinge_events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_moments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">support_coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">NonlinearResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collapse_lambda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collapsed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hinge_events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_moments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">support_coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_displacements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Results container for a nonlinear beam analysis.</p>
 <dl class="py attribute">
@@ -695,10 +695,13 @@ final value reached.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.nonlinear.NonlinearResult.plot_beam_state" title="pycba.nonlinear.NonlinearResult.plot_beam_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beam_state</span></code></a></p></td>
 <td><p>Plot the beam with hinge locations and optional vehicle position.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycba.nonlinear.NonlinearResult.plot_hinge_history" title="pycba.nonlinear.NonlinearResult.plot_hinge_history"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hinge_history</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.nonlinear.NonlinearResult.plot_collapse" title="pycba.nonlinear.NonlinearResult.plot_collapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_collapse</span></code></a></p></td>
+<td><p>Plot the deformed shape at collapse, with the plastic hinges marked.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.nonlinear.NonlinearResult.plot_hinge_history" title="pycba.nonlinear.NonlinearResult.plot_hinge_history"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hinge_history</span></code></a></p></td>
 <td><p>Plot the hinge formation sequence along the beam.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycba.nonlinear.NonlinearResult.plot_moments" title="pycba.nonlinear.NonlinearResult.plot_moments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_moments</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycba.nonlinear.NonlinearResult.plot_moments" title="pycba.nonlinear.NonlinearResult.plot_moments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_moments</span></code></a></p></td>
 <td><p>Plot the bending moment distribution at collapse.</p></td>
 </tr>
 </tbody>
@@ -732,6 +735,9 @@ final value reached.</p>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycba.nonlinear.NonlinearResult.moment_history" title="pycba.nonlinear.NonlinearResult.moment_history"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moment_history</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">final_displacements</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -815,6 +821,34 @@ position (<code class="docutils literal notranslate"><span class="pre">collapse_
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pycba.nonlinear.NonlinearResult.plot_collapse">
+<span class="sig-name descname"><span class="pre">plot_collapse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycba/nonlinear.html#NonlinearResult.plot_collapse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycba.nonlinear.NonlinearResult.plot_collapse" title="Link to this definition">#</a></dt>
+<dd><p>Plot the deformed shape at collapse, with the plastic hinges marked.</p>
+<p>The undeformed beam is drawn in grey and the (exaggerated) collapse
+deflected shape overlaid, with a large marker at every plastic‑hinge
+location — the standard collapse‑mechanism picture for a plastic
+analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – Deflection exaggeration factor.  By default the shape is
+auto‑scaled so the largest deflection spans a sensible fraction of
+the beam length.</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib Axes</em><em>, </em><em>optional</em>) – Axes to plot on; a new figure is created if <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>units</strong> (<em>str</em><em> or </em><a class="reference internal" href="pycba.units.UnitSystem.html#pycba.units.UnitSystem" title="pycba.units.UnitSystem"><em>pycba.units.UnitSystem</em></a><em>, </em><em>optional</em>) – Display unit system for the distance axis (see
+<code class="xref py py-func docutils literal notranslate"><span class="pre">pycba.set_units()</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ax</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -879,6 +913,7 @@ position (<code class="docutils literal notranslate"><span class="pre">collapse_
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.nonlinear.NonlinearResult.plot_moments"><code class="docutils literal notranslate"><span class="pre">NonlinearResult.plot_moments()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.nonlinear.NonlinearResult.plot_hinge_history"><code class="docutils literal notranslate"><span class="pre">NonlinearResult.plot_hinge_history()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.nonlinear.NonlinearResult.plot_beam_state"><code class="docutils literal notranslate"><span class="pre">NonlinearResult.plot_beam_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pycba.nonlinear.NonlinearResult.plot_collapse"><code class="docutils literal notranslate"><span class="pre">NonlinearResult.plot_collapse()</span></code></a></li>
 </ul>
 </li>
 </ul>
