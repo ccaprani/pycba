@@ -45,7 +45,7 @@ Source = "https://github.com/ccaprani/pycba/"
 Tracker = "https://github.com/ccaprani/pycba/issues/"
 
 [project.optional-dependencies]
-test = ["pytest >= 6.2.2"]
+test = ["pytest >= 6.2.2", "pandas"]
 plotly = ["plotly >= 5.0"]
 
 [tool.setuptools]

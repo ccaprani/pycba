@@ -36,6 +36,7 @@ def test_at_before_analysis_returns_none():
 
 
 def test_to_dataframe_columns_and_length():
+    pytest.importorskip("pandas")  # to_dataframe() needs the optional pandas
     ba = _ss_udl()
     df = ba.to_dataframe()
     assert list(df.columns) == ["x", "M", "V", "R", "D"]
@@ -62,6 +63,7 @@ def test_to_csv_roundtrip(tmp_path):
 
 
 def test_envelopes_export(tmp_path):
+    pytest.importorskip("pandas")  # to_dataframe() needs the optional pandas
     ba = cba.BeamAnalysis([20.0, 20.0], 1e8, [-1, 0, -1, 0, -1, 0])
     veh = cba.VehicleLibrary.US.get_hl93_truck()
     env = cba.BridgeAnalysis(ba, veh).run_vehicle(2.0)
