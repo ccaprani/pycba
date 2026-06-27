@@ -950,3 +950,100 @@ class Envelopes:
                 axs[1].plot(self.x, res.results.V, "b", lw=0.5)
 
         return fig, ax
+
+    def plot_coincidents(self, units=None, show=True, figsize=(10, 6)):
+        """
+        Plot each load-effect envelope together with the **coincident** value
+        of the other effect, grouped by which extreme drives them.
+
+        For combined-action checks at a section you need not the extreme of one
+        effect but the value of the *other* effect at the vehicle position that
+        produced it.  Two panels share the distance axis, each with **dual
+        y-axes** (so both quantities are solid lines on their own scale):
+
+        * the **moment** panel — the moment envelope ``Mmax``/``Mmin`` (left
+          axis) and the shear that coexists with those moment extremes,
+          ``Vco_Mmax``/``Vco_Mmin`` (right axis);
+        * the **shear** panel — the shear envelope ``Vmax``/``Vmin`` (left
+          axis) and the moment that coexists with those shear extremes,
+          ``Mco_Vmax``/``Mco_Vmin`` (right axis).
+
+        Parameters
+        ----------
+        units : str or pycba.units.UnitSystem, optional
+            Display unit system for the labels (see :func:`pycba.set_units`).
+        show : bool
+            Call ``matplotlib.pyplot.show()`` before returning (default True).
+        figsize : tuple(float, float), optional
+            Figure size in inches.
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        numpy.ndarray of matplotlib.axes.Axes
+            The two primary (left-axis) panel axes; the coincident (right-axis)
+            twins are reachable via ``fig.axes``.
+        """
+        from .units import resolve
+
+        if self.nres < 1:
+            raise ValueError("No results to display")
+        us = resolve(units)
+        L = self.x[-1]
+        # max-related are warm (red/orange), min-related cool (blue/green);
+        # the primary envelope is the stronger line, the coincident the lighter.
+        c_max, c_min, c_comax, c_comin = (
+            "tab:red",
+            "tab:blue",
+            "tab:orange",
+            "tab:green",
+        )
+
+        fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=figsize)
+
+        # --- moment envelope (left) + coincident shear (right) ----------- #
+        ax1.plot([0, L], [0, 0], "k", lw=0.8)
+        h = [
+            ax1.plot(self.x, self.Mmax, c_max, lw=1.8, label="Mmax")[0],
+            ax1.plot(self.x, self.Mmin, c_min, lw=1.8, label="Mmin")[0],
+        ]
+        ax1.invert_yaxis()  # sagging-positive
+        ax1.set_ylabel(us.moment_axis)
+        ax1.grid()
+        ax1c = ax1.twinx()
+        h += [
+            ax1c.plot(
+                self.x, self.Vco_Mmax, c_comax, lw=1.2, label="V coincident @ Mmax"
+            )[0],
+            ax1c.plot(
+                self.x, self.Vco_Mmin, c_comin, lw=1.2, label="V coincident @ Mmin"
+            )[0],
+        ]
+        ax1c.set_ylabel("Coincident " + us.shear_axis)
+        ax1.legend(handles=h, loc="best", fontsize=8)
+
+        # --- shear envelope (left) + coincident moment (right) ----------- #
+        ax2.plot([0, L], [0, 0], "k", lw=0.8)
+        h = [
+            ax2.plot(self.x, self.Vmax, c_max, lw=1.8, label="Vmax")[0],
+            ax2.plot(self.x, self.Vmin, c_min, lw=1.8, label="Vmin")[0],
+        ]
+        ax2.set_ylabel(us.shear_axis)
+        ax2.grid()
+        ax2.set_xlabel(us.distance_axis)
+        ax2c = ax2.twinx()
+        h += [
+            ax2c.plot(
+                self.x, self.Mco_Vmax, c_comax, lw=1.2, label="M coincident @ Vmax"
+            )[0],
+            ax2c.plot(
+                self.x, self.Mco_Vmin, c_comin, lw=1.2, label="M coincident @ Vmin"
+            )[0],
+        ]
+        ax2c.invert_yaxis()  # sagging-positive moment on the right axis too
+        ax2c.set_ylabel("Coincident " + us.moment_axis)
+        ax2.legend(handles=h, loc="best", fontsize=8)
+
+        if show:
+            plt.show()
+        return fig, np.array([ax1, ax2])

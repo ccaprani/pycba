@@ -990,6 +990,7 @@ class BeamAnalysis:
         ax = diag[0]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(res.x, res.M, "r")
+        ax.fill_between(res.x, 0, res.M, color="r", alpha=0.12)
         ax.invert_yaxis()
         ax.grid()
         ax.set_ylabel(us.moment_axis)
@@ -997,6 +998,7 @@ class BeamAnalysis:
         ax = diag[1]
         ax.plot([0, L], [0, 0], "k", lw=2)
         ax.plot(res.x, res.V, "r")
+        ax.fill_between(res.x, 0, res.V, color="r", alpha=0.12)
         ax.grid()
         ax.set_ylabel(us.shear_axis)
 
