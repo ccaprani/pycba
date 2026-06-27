@@ -990,13 +990,13 @@ class Envelopes:
             raise ValueError("No results to display")
         us = resolve(units)
         L = self.x[-1]
-        # max-related are warm (red/orange), min-related cool (blue/green);
-        # the primary envelope is the stronger line, the coincident the lighter.
+        # max effects in red, min in blue; the primary envelope is the strong
+        # shade and the coincident value the light shade of the same colour.
         c_max, c_min, c_comax, c_comin = (
             "tab:red",
             "tab:blue",
-            "tab:orange",
-            "tab:green",
+            "lightcoral",
+            "lightskyblue",
         )
 
         fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=figsize)
