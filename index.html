@@ -414,34 +414,33 @@
                   
   <a class="reference internal image-reference" href="_images/pycba_logo.png"><img alt="PyCBA logo" class="align-center" height="88" src="_images/pycba_logo.png" width="343" />
 </a>
-<p><a class="reference external" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
-<a class="reference external" href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
-<img alt="GitHub issues" src="https://img.shields.io/github/issues/ccaprani/ospgrillage?logoColor=yellowgreen" />
-<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/ccaprani/ospgrillage?color=yellowgreen" />
-<img alt="PyPI" src="https://img.shields.io/pypi/v/ospgrillage" />
-<a class="reference external" href="https://codecov.io/gh/ccaprani/pycba"><img alt="codecov" src="https://codecov.io/gh/ccaprani/pycba/branch/main/graph/badge.svg?token=dUTOmPBnyP" /></a></p>
+<p><a class="reference external" href="https://pypi.org/project/pycba/"><img alt="PyPI" src="https://img.shields.io/pypi/v/pycba.svg?color=blue" /></a>
+<img alt="Python versions" src="https://img.shields.io/pypi/pyversions/pycba.svg" />
+<a class="reference external" href="https://github.com/ccaprani/pycba/actions/workflows/pytest.yml"><img alt="Tests" src="https://github.com/ccaprani/pycba/actions/workflows/pytest.yml/badge.svg" /></a>
+<a class="reference external" href="https://codecov.io/gh/ccaprani/pycba"><img alt="codecov" src="https://codecov.io/gh/ccaprani/pycba/branch/main/graph/badge.svg?token=dUTOmPBnyP" /></a>
+<a class="reference external" href="https://opensource.org/licenses/Apache-2.0"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" /></a>
+<a class="reference external" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a></p>
 <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-pycba-s-documentation">
 <h1>Welcome to PyCBA’s documentation!<a class="headerlink" href="#welcome-to-pycba-s-documentation" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is a python implementation of the Continuous Beam Analysis program,
-<a class="reference external" href="http://www.colincaprani.com/programming/matlab/">originally coded in Matlab</a> and
-subsequently <a class="reference external" href="http://cbeam.sourceforge.net/">ported to C++</a> (by Pierrot).</p>
-<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is for fast linear elastic analysis of general beam configurations.
-It uses the matrix stiffness method to determine the displacements at each node.
-These are then used to determine the member end forces.
-Exact expressions are then used to determine the distribution of shear, moment, and rotation along each member.
-Cumulative trapezoidal integration is then used to determine the rotations and deflections along each member.
-The program features:</p>
-<ul class="simple">
-<li><p>Multiple load types: point load; uniformly distributed load; patch load, and; moment load;</p></li>
-<li><p>Spring supports, both vertical and rotational, enabling it to be used as part of a subframe analysis;</p></li>
-<li><p>Results are output at 100 (user can change) positions along each span, enable accurate deflection estimation.</p></li>
-</ul>
-<p>One of the main functions of <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is that the basic analysis engine forms the basis for higher-level analysis.
-Current <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> includes modules for:</p>
-<ul class="simple">
-<li><p>Influence line generation</p></li>
-<li><p>Moving load analysis for bridges, targeted at bridge access assessments</p></li>
-</ul>
+<p><code class="docutils literal notranslate"><span class="pre">PyCBA</span></code> is a focused, dependable <strong>1-D continuous-beam engine</strong> built on the matrix (direct)
+stiffness method — fast, exact, and a pleasure to use, with light dependencies (numpy / scipy /
+matplotlib). It is deliberately <em>not</em> a general 2-D/3-D FE package; instead its analysis core
+powers a surprisingly broad toolkit for the <strong>design, assessment and teaching</strong> of buildings and
+bridges.</p>
+<p><strong>Analysis.</strong> Continuous beams of any number of spans with pin / roller / fixed / spring and
+rotational-spring supports, prescribed settlements and internal hinges; an element library of
+Euler–Bernoulli, <strong>Timoshenko</strong> (shear-deformable), <strong>non-prismatic</strong> (variable <code class="docutils literal notranslate"><span class="pre">EI</span></code>) and
+<strong>Winkler-foundation</strong> members; <strong>nonlinear</strong> elasto-plastic analysis to collapse; and
+<strong>free-vibration (modal)</strong> analysis.</p>
+<p><strong>Loads &amp; bridges.</strong> UDL, point, partial, trapezoidal, moment and <strong>imposed-curvature</strong>
+(creep / shrinkage / thermal) loads, load cases and combinations; <strong>moving-load bridge
+assessment</strong> with influence lines, envelopes, coincident effects and shear points; and built-in
+<strong>code load models, road &amp; rail, from six nations</strong> (HL-93, LM1 / LM71, HB, CL-625, JTG,
+Cooper E, M1600 / 300LA, T44 / MS18).</p>
+<p><strong>Visualisation.</strong> Beam and load schematics (matplotlib <em>and</em> publication-quality TikZ /
+<code class="docutils literal notranslate"><span class="pre">stanli</span></code>), shaded result diagrams, reaction / coincident-effect / mode-shape /
+collapse-mechanism / vehicle plots, an interactive <strong>Plotly</strong> backend, and selectable display
+unit systems.</p>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
