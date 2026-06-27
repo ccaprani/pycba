@@ -33,6 +33,8 @@ _default_backend = "matplotlib"
 _RED = "#d62728"
 _BLUE = "#1f77b4"
 _BAND = "rgba(120,120,120,0.15)"
+# Light-red diagram fill, matching the matplotlib BMD/SFD shading.
+_FILL = "rgba(214,39,40,0.12)"
 
 
 def set_backend(name: str) -> None:
@@ -106,7 +108,7 @@ def _layout(fig, us, title, *, bottom_row=None):
     return fig
 
 
-def diagram_figure(mr, kind: str, units=None, title: Optional[str] = None):
+def diagram_figure(mr, kind: str, units=None, title: Optional[str] = None, defl=None):
     """
     Build an interactive single result diagram (bending moment, shear or
     deflection) from a :class:`pycba.MemberResults`-like object.
@@ -122,6 +124,10 @@ def diagram_figure(mr, kind: str, units=None, title: Optional[str] = None):
         Display unit system (see :func:`pycba.set_units`).
     title : str, optional
         Figure title.
+    defl : (array, array), optional
+        The de-padded ``(x, D)`` deflected shape (native units); when given and
+        ``kind == "D"`` it is used instead of ``mr.D`` so the closure padding
+        does not draw spurious verticals at member ends.
 
     Returns
     -------
@@ -130,17 +136,28 @@ def diagram_figure(mr, kind: str, units=None, title: Optional[str] = None):
     go, _ = _require_plotly()
     us = resolve(units)
     x = np.asarray(mr.x)
-    axis_label, name, y, unit, invert = {
-        "M": (us.moment_axis, "Bending moment", np.asarray(mr.M), us.moment, True),
-        "V": (us.shear_axis, "Shear force", np.asarray(mr.V), us.force, False),
+    axis_label, name, y, unit, invert, do_fill = {
+        "M": (
+            us.moment_axis,
+            "Bending moment",
+            np.asarray(mr.M),
+            us.moment,
+            True,
+            True,
+        ),
+        "V": (us.shear_axis, "Shear force", np.asarray(mr.V), us.force, False, True),
         "D": (
             us.deflection_axis,
             "Deflection",
             np.asarray(mr.D) * us.disp_scale,
             us.disp_label,
             False,
+            False,
         ),
     }[kind]
+    if kind == "D" and defl is not None:
+        x = np.asarray(defl[0])
+        y = np.asarray(defl[1]) * us.disp_scale
 
     fig = go.Figure()
     fig.add_trace(
@@ -150,6 +167,8 @@ def diagram_figure(mr, kind: str, units=None, title: Optional[str] = None):
             mode="lines",
             name=name,
             line=dict(color=_RED),
+            fill="tozeroy" if do_fill else None,
+            fillcolor=_FILL,
             hovertemplate=_hovertemplate(name, unit),
         )
     )
@@ -161,12 +180,14 @@ def diagram_figure(mr, kind: str, units=None, title: Optional[str] = None):
     return _layout(fig, us, title)
 
 
-def results_figure(mr, units=None, title: Optional[str] = None):
+def results_figure(mr, units=None, title: Optional[str] = None, defl=None):
     """
     Build the combined interactive bending-moment / shear / deflection figure
     (three stacked panels sharing the x-axis) from a member-results object.
 
-    A single hover reports all three effects at the same section.
+    A single hover reports all three effects at the same section.  The moment
+    and shear diagrams are shaded to the baseline; ``defl`` (the de-padded
+    ``(x, D)`` deflected shape) is used for the deflection panel when given.
 
     Returns
     -------
@@ -175,26 +196,28 @@ def results_figure(mr, units=None, title: Optional[str] = None):
     go, make_subplots = _require_plotly()
     us = resolve(units)
     x = np.asarray(mr.x)
+    if defl is not None:
+        xD, yD = np.asarray(defl[0]), np.asarray(defl[1]) * us.disp_scale
+    else:
+        xD, yD = x, np.asarray(mr.D) * us.disp_scale
     rows = [
-        (us.moment_axis, "Bending moment", np.asarray(mr.M), us.moment, True),
-        (us.shear_axis, "Shear force", np.asarray(mr.V), us.force, False),
-        (
-            us.deflection_axis,
-            "Deflection",
-            np.asarray(mr.D) * us.disp_scale,
-            us.disp_label,
-            False,
-        ),
+        (us.moment_axis, "Bending moment", x, np.asarray(mr.M), us.moment, True, True),
+        (us.shear_axis, "Shear force", x, np.asarray(mr.V), us.force, False, True),
+        (us.deflection_axis, "Deflection", xD, yD, us.disp_label, False, False),
     ]
     fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.05)
-    for i, (axis_label, name, y, unit, invert) in enumerate(rows, start=1):
+    for i, (axis_label, name, xrow, y, unit, invert, do_fill) in enumerate(
+        rows, start=1
+    ):
         fig.add_trace(
             go.Scatter(
-                x=x,
+                x=xrow,
                 y=y,
                 mode="lines",
                 name=name,
                 line=dict(color=_RED),
+                fill="tozeroy" if do_fill else None,
+                fillcolor=_FILL,
                 hovertemplate=_hovertemplate(name, unit),
             ),
             row=i,

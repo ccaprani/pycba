@@ -322,6 +322,26 @@ class BeamResults:
             out[a] = float(np.interp(float(x), ux, vals[uidx]))
         return out
 
+    def deflection_curve(self):
+        """
+        Return ``(x, D)`` for the continuous deflected shape.
+
+        Each member's result grid duplicates its end stations so the
+        bending-moment and shear diagrams *close* to the baseline; for the
+        deflected shape those closure points would otherwise draw spurious
+        vertical lines at member ends (e.g. dropping to zero at a cantilever
+        tip).  This drops the closure padding, giving the continuous
+        deflection along the beam.
+
+        Returns
+        -------
+        (numpy.ndarray, numpy.ndarray)
+            The coordinate and deflection arrays (native units, unscaled).
+        """
+        x = np.concatenate([m.x[1:-1] for m in self.vRes])
+        d = np.concatenate([m.D[1:-1] for m in self.vRes])
+        return x, d
+
     def to_dataframe(self):
         """
         Return the member load effects as a :class:`pandas.DataFrame` with
