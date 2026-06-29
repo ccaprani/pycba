@@ -6,6 +6,7 @@ The easiest way to get started with `PyCBA` is to jump straight in and have a lo
 :maxdepth: 1
 
 notebooks/intro
+notebooks/visualisation
 notebooks/envelopes
 notebooks/inf_lines
 notebooks/bridge
@@ -16,5 +17,4 @@ notebooks/timoshenko
 notebooks/foundation
 notebooks/creep_shrinkage_thermal
 notebooks/modal
-notebooks/plotly
 ```
