@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.2 — 2026-09-05
+
+### Fixed
+- Correct both-end moment-release load condensation (element type 4) in the
+  prismatic, non-prismatic and Timoshenko paths. The shear redistribution had
+  reversed signs, giving incorrect reactions for asymmetric loading. Existing
+  affected analyses and derived envelopes must be recalculated; saved results
+  are not automatically migrated. Added analytical equilibrium and independent
+  matrix-condensation regressions, including variable EI and signed loads.
+
 ## 1.0.1 — 2026-06-28
 
 ### Licensing

@@ -116,9 +116,10 @@ class Load:
             ref[2] = -fm * cnl.Ma
             ref[3] = 0.5 * cnl.Ma
         elif eType == 4:  # keep only vertical, remove moments
-            ref[0] = -(cnl.Ma + cnl.Mb) / L
+            # Static condensation transfers the end-moment couple to shear.
+            ref[0] = (cnl.Ma + cnl.Mb) / L
             ref[1] = 1.0 * cnl.Ma
-            ref[2] = (cnl.Ma + cnl.Mb) / L
+            ref[2] = -(cnl.Ma + cnl.Mb) / L
             ref[3] = 1.0 * cnl.Mb
         else:
             # no nothing if it is FF

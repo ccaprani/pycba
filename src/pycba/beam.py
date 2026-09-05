@@ -847,14 +847,11 @@ class Beam:
         )
 
         if eType == 4:
-            # Pinned-pinned: release both end moments.  Mirror the prismatic
-            # :meth:`pycba.load.Load.get_ref` convention exactly (the vertical
-            # correction is ``(Ma + Mb)/L`` applied to the fixed-fixed CNL),
-            # so the constant-EI limit is reproduced.
-            Va_ff, Vb_ff = ref[0], ref[2]
-            ref[0] = Va_ff + (Ma + Mb) / L
+            # Both rotations are free: reactions follow statics, independent
+            # of the stiffness distribution and its fixed-end moments.
+            ref[0] = Va_ss
             ref[1] = 0.0
-            ref[2] = Vb_ff - (Ma + Mb) / L
+            ref[2] = Vb_ss
             ref[3] = 0.0
         elif eType in (2, 3):
             # Single moment release: condense the released rotational DOF so
@@ -1605,11 +1602,11 @@ class Beam:
         )
 
         if eType == 4:
-            # Pinned-pinned: release both end moments (mirror _ref_nonprismatic).
-            Va_ff, Vb_ff = ref[0], ref[2]
-            ref[0] = Va_ff + (Ma + Mb) / L
+            # Both-end releases leave the simply-supported reactions;
+            # shear flexibility must not change this statically determinate case.
+            ref[0] = Va_ss
             ref[1] = 0.0
-            ref[2] = Vb_ff - (Ma + Mb) / L
+            ref[2] = Vb_ss
             ref[3] = 0.0
         elif eType in (2, 3):
             # Single moment release: condense the released rotational DOF using
