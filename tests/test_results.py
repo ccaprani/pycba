@@ -81,3 +81,28 @@ def test_sum_incompatible_envelopes():
     env_sum = cba.Envelopes.zero_like(env1)
     with pytest.raises(ValueError, match="Cannot sum with an inconsistent envelope"):
         env_sum.sum(env2)
+
+
+def test_at_rotation_at_supports_matches_analytical():
+    """Regression test for at() returning the wrong rotation at a member's
+    end stations. A simply supported beam with a central point load has a
+    well known closed form support rotation of P*L**2 / (16*EI).
+    """
+    L = 10.0
+    P = 100.0
+    EI = 30 * 10e9 * 1e-6
+
+    beam_analysis = cba.BeamAnalysis([L], EI, supports=["pinned", "roller"])
+    beam_analysis.set_loads([[1, 2, P, L / 2, 0]])
+    beam_analysis.analyze()
+
+    theta = P * L**2 / (16 * EI)
+
+    assert beam_analysis.at(0.0)["R"] == pytest.approx(-theta)
+    assert beam_analysis.at(L)["R"] == pytest.approx(theta)
+
+    # The padding stations at a member's ends duplicate the true end
+    # stations, so both copies should agree.
+    r = beam_analysis.beam_results.results
+    assert r.R[0] == pytest.approx(r.R[1])
+    assert r.R[-2] == pytest.approx(r.R[-1])
