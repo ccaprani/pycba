@@ -27,16 +27,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="_static/documentation_options.js?v=292eb321"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
@@ -384,7 +384,8 @@
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
     <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
   </svg>
   <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
@@ -473,9 +474,9 @@ are added head-to-tail with <code class="docutils literal notranslate"><span cla
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
 <span class="c1"># Straight haunch -&gt; flat soffit -&gt; straight haunch over a 12 m span:</span>
 <span class="n">sec</span> <span class="o">=</span> <span class="p">(</span><span class="n">cba</span><span class="o">.</span><span class="n">SectionEI</span><span class="p">()</span>
-       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0e5</span><span class="p">,</span> <span class="mf">1.2e5</span><span class="p">])</span>
-       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">&quot;const&quot;</span><span class="p">,</span>  <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">],</span> <span class="mf">1.2e5</span><span class="p">)</span>
-       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.2e5</span><span class="p">,</span> <span class="mf">3.0e5</span><span class="p">]))</span>
+       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">"linear"</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0e5</span><span class="p">,</span> <span class="mf">1.2e5</span><span class="p">])</span>
+       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">"const"</span><span class="p">,</span>  <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">],</span> <span class="mf">1.2e5</span><span class="p">)</span>
+       <span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="s2">"linear"</span><span class="p">,</span> <span class="p">[</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.2e5</span><span class="p">,</span> <span class="mf">3.0e5</span><span class="p">]))</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">seg_type</span></code> is one of:</p>
@@ -552,7 +553,7 @@ distinguish them); both names are kept for readability. The same vocabulary
 drives <code class="docutils literal notranslate"><span class="pre">parse_beam_string</span></code> (described under <em>Element Types</em>, below), so the two
 entry points stay in lockstep.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># These two beams are identical:</span>
-<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">])</span>
+<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="p">[</span><span class="s2">"p"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">])</span>
 <span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -560,7 +561,7 @@ entry points stay in lockstep.</p>
 that node a raw <code class="docutils literal notranslate"><span class="pre">[vertical,</span> <span class="pre">rotation]</span></code> pair instead — this is also the general
 escape hatch back to the <code class="docutils literal notranslate"><span class="pre">R</span></code> convention:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vertical spring (k = 5e4) at the middle node, rotation free:</span>
-<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5e4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;p&quot;</span><span class="p">])</span>
+<span class="n">ba</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">],</span> <span class="n">EI</span><span class="o">=</span><span class="mf">30e4</span><span class="p">,</span> <span class="n">supports</span><span class="o">=</span><span class="p">[</span><span class="s2">"p"</span><span class="p">,</span> <span class="p">[</span><span class="mf">5e4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"p"</span><span class="p">])</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">supports</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span></code> are mutually exclusive (pass one or the other), and
@@ -678,24 +679,24 @@ you choose.</p>
 helpers:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_cases</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
 
-<span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
-<span class="n">load_cases</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="s2">&quot;Q1&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
-<span class="n">load_cases</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="s2">&quot;Q2&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">"G"</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="s2">"Q1"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="s2">"Q2"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="c1"># A UDL over global beam coordinates is split at span boundaries.</span>
-<span class="n">load_cases</span><span class="o">.</span><span class="n">add_segment_udl</span><span class="p">(</span><span class="s2">&quot;Q3&quot;</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">8.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_segment_udl</span><span class="p">(</span><span class="s2">"Q3"</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">8.0</span><span class="p">)</span>
 
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combine</span><span class="p">({</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">},</span> <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">combine</span><span class="p">({</span><span class="s2">"G"</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">"Q1"</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">},</span> <span class="n">response</span><span class="o">=</span><span class="s2">"M"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Use a <code class="docutils literal notranslate"><span class="pre">LoadCombination</span></code> when a named factor set is useful:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">combo</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCombination</span><span class="p">(</span><span class="s2">&quot;1.2G + 1.5Q1&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">combo</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">load_cases</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">combo</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCombination</span><span class="p">(</span><span class="s2">"1.2G + 1.5Q1"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"G"</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">"Q1"</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">combo</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">load_cases</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="s2">"M"</span><span class="p">)</span>
 <span class="n">LM</span> <span class="o">=</span> <span class="n">combo</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">load_cases</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To inspect or plot one factored combination as a normal beam analysis, use
 <code class="docutils literal notranslate"><span class="pre">analyze_combination</span></code> and then the standard <code class="docutils literal notranslate"><span class="pre">BeamAnalysis</span></code> methods:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">({</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">load_cases</span><span class="o">.</span><span class="n">analyze_combination</span><span class="p">({</span><span class="s2">"G"</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">"Q1"</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
 <span class="n">analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -704,10 +705,10 @@ creates one basis load case per span segment. A target combination then selects
 the segments that increase one selected load effect:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">udl_basis</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">make_patterned_udl</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">hogging</span> <span class="o">=</span> <span class="n">udl_basis</span><span class="o">.</span><span class="n">target_combination</span><span class="p">(</span>
-    <span class="s2">&quot;Hogging at first internal support&quot;</span><span class="p">,</span>
+    <span class="s2">"Hogging at first internal support"</span><span class="p">,</span>
     <span class="n">x</span><span class="o">=</span><span class="n">beam</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">sense</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span>
-    <span class="n">response</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+    <span class="n">sense</span><span class="o">=</span><span class="s2">"min"</span><span class="p">,</span>
+    <span class="n">response</span><span class="o">=</span><span class="s2">"M"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">hogging</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
 <span class="n">LM</span> <span class="o">=</span> <span class="n">hogging</span><span class="o">.</span><span class="n">to_LM</span><span class="p">(</span><span class="n">udl_basis</span><span class="p">)</span>
@@ -730,8 +731,8 @@ a <code class="docutils literal notranslate"><span class="pre">LoadPattern</span
 passed to <code class="docutils literal notranslate"><span class="pre">LoadPattern.set_dead_loads</span></code> or <code class="docutils literal notranslate"><span class="pre">LoadPattern.set_live_loads</span></code> where a
 raw load matrix would otherwise be used:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadPattern</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
-<span class="n">lp</span><span class="o">.</span><span class="n">set_dead_loads</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">),</span> <span class="mf">1.35</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
-<span class="n">lp</span><span class="o">.</span><span class="n">set_live_loads</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;Q1&quot;</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">lp</span><span class="o">.</span><span class="n">set_dead_loads</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">"G"</span><span class="p">),</span> <span class="mf">1.35</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+<span class="n">lp</span><span class="o">.</span><span class="n">set_live_loads</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">"Q1"</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
 <span class="n">pattern_cases</span> <span class="o">=</span> <span class="n">lp</span><span class="o">.</span><span class="n">to_load_cases</span><span class="p">()</span>
 <span class="n">pattern_LM</span> <span class="o">=</span> <span class="n">lp</span><span class="o">.</span><span class="n">to_LM</span><span class="p">()</span>
@@ -776,13 +777,13 @@ equivalent:</p>
 <span class="c1"># a two-span beam with a fixed-pinned then a pinned-fixed member</span>
 <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="p">[</span><span class="n">MemberType</span><span class="o">.</span><span class="n">FP</span><span class="p">,</span> <span class="n">MemberType</span><span class="o">.</span><span class="n">PF</span><span class="p">])</span>
-<span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FP&quot;</span><span class="p">,</span> <span class="s2">&quot;PF&quot;</span><span class="p">])</span>
+<span class="n">cba</span><span class="o">.</span><span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="p">[</span><span class="s2">"FP"</span><span class="p">,</span> <span class="s2">"PF"</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>When assembling a beam member by member, <code class="docutils literal notranslate"><span class="pre">Beam.add_member</span></code> names the type
 directly:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">beam</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Beam</span><span class="p">()</span>
-<span class="n">beam</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">)</span>          <span class="c1"># or MemberType.FP, or 2</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="s2">"FP"</span><span class="p">)</span>          <span class="c1"># or MemberType.FP, or 2</span>
 <span class="n">beam</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">MemberType</span><span class="o">.</span><span class="n">PF</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -810,7 +811,7 @@ hinge (<code class="docutils literal notranslate"><span class="pre">H</span></co
 UDL, a point load, a partial UDL and a moment:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycba</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cba</span>
 
-<span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">parse_beam_string</span><span class="p">(</span><span class="s2">&quot;E6R6H6R6R&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">parse_beam_string</span><span class="p">(</span><span class="s2">"E6R6H6R6R"</span><span class="p">)</span>
 <span class="n">R</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2000.0</span>  <span class="c1"># node 3: vertical spring support (stiffness in kN/m)</span>
 <span class="n">beam</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">Beam</span><span class="p">(</span>
     <span class="n">L</span><span class="p">,</span>
@@ -844,8 +845,8 @@ package, and <code class="docutils literal notranslate"><span class="pre">Beam.s
 rendered straight to PDF with <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> (which must be available, with the
 <code class="docutils literal notranslate"><span class="pre">stanli</span></code> package installed):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tex</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">to_tikz</span><span class="p">()</span>                     <span class="c1"># LaTeX source as a string</span>
-<span class="n">beam</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="s2">&quot;beam.tex&quot;</span><span class="p">)</span>               <span class="c1"># write the .tex</span>
-<span class="n">beam</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="s2">&quot;beam.tex&quot;</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># also produce beam.pdf</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="s2">"beam.tex"</span><span class="p">)</span>               <span class="c1"># write the .tex</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="s2">"beam.tex"</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># also produce beam.pdf</span>
 </pre></div>
 </div>
 <img alt="TikZ/stanli beam schematic" class="align-center" src="_images/beam_render_tikz.png" />
@@ -857,17 +858,17 @@ embedding in a larger document.</p>
 <p>By default the beam’s own load matrix is drawn. The <code class="docutils literal notranslate"><span class="pre">loads</span></code> argument (accepted
 by <code class="docutils literal notranslate"><span class="pre">plot</span></code>, <code class="docutils literal notranslate"><span class="pre">to_tikz</span></code> and <code class="docutils literal notranslate"><span class="pre">save_tikz</span></code>) selects a different source, so the same
 beam structure can be drawn with any loading — or none:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>                 <span class="c1"># the beam&#39;s own load matrix (default)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>                 <span class="c1"># the beam's own load matrix (default)</span>
 <span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loads</span><span class="o">=</span><span class="p">[])</span>         <span class="c1"># the bare structure only</span>
 <span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loads</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>  <span class="c1"># an explicit load matrix</span>
 
 <span class="c1"># A high-level load case or factored combination</span>
 <span class="n">load_cases</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
-<span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
-<span class="n">load_cases</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="s2">&quot;Q&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">))</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_case</span><span class="p">(</span><span class="s2">"G"</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">add_udl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+<span class="n">load_cases</span><span class="o">.</span><span class="n">add_pl</span><span class="p">(</span><span class="s2">"Q"</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">load_cases</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="s2">"G"</span><span class="p">))</span>
 
-<span class="n">combo</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCombination</span><span class="p">(</span><span class="s2">&quot;ULS&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">1.35</span><span class="p">,</span> <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
+<span class="n">combo</span> <span class="o">=</span> <span class="n">cba</span><span class="o">.</span><span class="n">LoadCombination</span><span class="p">(</span><span class="s2">"ULS"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"G"</span><span class="p">:</span> <span class="mf">1.35</span><span class="p">,</span> <span class="s2">"Q"</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
 <span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">combo</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span>   <span class="c1"># draws the factored loads</span>
 </pre></div>
 </div>
@@ -885,15 +886,15 @@ and these are governed by a <strong>display unit system</strong>.</p>
 <p>The default is SI with kN and m, matching <code class="docutils literal notranslate"><span class="pre">PyCBA</span></code>’s historical labels, so
 nothing changes unless you ask for it. Choose a different system globally with
 <code class="docutils literal notranslate"><span class="pre">set_units</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cba</span><span class="o">.</span><span class="n">set_units</span><span class="p">(</span><span class="s2">&quot;US-ft&quot;</span><span class="p">)</span>   <span class="c1"># kip, ft, kip·ft; deflection shown in inches</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cba</span><span class="o">.</span><span class="n">set_units</span><span class="p">(</span><span class="s2">"US-ft"</span><span class="p">)</span>   <span class="c1"># kip, ft, kip·ft; deflection shown in inches</span>
 </pre></div>
 </div>
 <p>or override it for a single figure with the <code class="docutils literal notranslate"><span class="pre">units=</span></code> argument accepted by every
 plotting method (<code class="docutils literal notranslate"><span class="pre">plot_results</span></code>, <code class="docutils literal notranslate"><span class="pre">Beam.plot</span></code>, <code class="docutils literal notranslate"><span class="pre">BridgeAnalysis.plot_static</span></code>,
 <code class="docutils literal notranslate"><span class="pre">animate</span></code>, …):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s2">&quot;N-mm&quot;</span><span class="p">)</span>
-<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s2">&quot;US-in&quot;</span><span class="p">)</span>
-<span class="n">bridge_analysis</span><span class="o">.</span><span class="n">plot_static</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;US-ft&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">beam_analysis</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s2">"N-mm"</span><span class="p">)</span>
+<span class="n">beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s2">"US-in"</span><span class="p">)</span>
+<span class="n">bridge_analysis</span><span class="o">.</span><span class="n">plot_static</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">"US-ft"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The built-in presets are:</p>
@@ -946,8 +947,8 @@ preset name is accepted:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pycba.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnitSystem</span>
 
 <span class="n">mn_m</span> <span class="o">=</span> <span class="n">UnitSystem</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MN, m&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="s2">&quot;MN&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="s2">&quot;MN·m&quot;</span><span class="p">,</span>
-    <span class="n">distributed</span><span class="o">=</span><span class="s2">&quot;MN/m&quot;</span><span class="p">,</span> <span class="n">disp_label</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">,</span> <span class="n">disp_scale</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"MN, m"</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="s2">"MN"</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="s2">"m"</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="s2">"MN·m"</span><span class="p">,</span>
+    <span class="n">distributed</span><span class="o">=</span><span class="s2">"MN/m"</span><span class="p">,</span> <span class="n">disp_label</span><span class="o">=</span><span class="s2">"mm"</span><span class="p">,</span> <span class="n">disp_scale</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">cba</span><span class="o">.</span><span class="n">set_units</span><span class="p">(</span><span class="n">mn_m</span><span class="p">)</span>
 </pre></div>
@@ -1142,8 +1143,8 @@ but not for the equivalent loads or <code class="docutils literal notranslate"><
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1177,7 +1178,7 @@ but not for the equivalent loads or <code class="docutils literal notranslate"><
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,9 +432,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Utility functions for interacting with PyCBA</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
@@ -447,28 +447,28 @@
 <span class="c1"># identical in a beam (no horizontal DOF distinguishes them); both names are kept</span>
 <span class="c1"># for readability and visualisation intent.</span>
 <span class="n">_SUPPORT_DOF</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;pin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;pinned&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;roller&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-    <span class="s2">&quot;encastre&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-    <span class="s2">&quot;fixed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-    <span class="s2">&quot;clamped&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;free&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"pin"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"pinned"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"r"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"roller"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"e"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">"encastre"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">"fixed"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">"clamped"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">"f"</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"free"</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
 <span class="p">}</span>
 
 <span class="c1"># Support type that is *not* a ground restraint but an internal moment release;</span>
 <span class="c1"># only meaningful inside a beam string (where it also pins the previous member).</span>
-<span class="n">_HINGE_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;hinge&quot;</span><span class="p">}</span>
+<span class="n">_HINGE_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"h"</span><span class="p">,</span> <span class="s2">"hinge"</span><span class="p">}</span>
 
 <span class="n">SupportType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_support_pair</span><span class="p">(</span><span class="n">entry</span><span class="p">:</span> <span class="n">SupportType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Lower a single per-node support to its ``[vertical, rotation]`` DOF pair.</span>
 
 <span class="sd">    Parameters</span>
@@ -486,28 +486,28 @@
 <span class="sd">        If a name is unknown, names an internal hinge (which is a member</span>
 <span class="sd">        release, not a support), or a numeric pair does not have exactly two</span>
 <span class="sd">        entries.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_HINGE_NAMES</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;A hinge is an internal moment release, not a support; do not &quot;</span>
-                <span class="s2">&quot;list it in `supports`. Release the moment on the adjacent &quot;</span>
-                <span class="s2">&quot;member via its element type instead (e.g. eletype &#39;FP&#39;/&#39;PF&#39;).&quot;</span>
+                <span class="s2">"A hinge is an internal moment release, not a support; do not "</span>
+                <span class="s2">"list it in `supports`. Release the moment on the adjacent "</span>
+                <span class="s2">"member via its element type instead (e.g. eletype 'FP'/'PF')."</span>
             <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_SUPPORT_DOF</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">_SUPPORT_DOF</span><span class="p">))</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">_SUPPORT_DOF</span><span class="p">))</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Unknown support </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">; use one of: </span><span class="si">{</span><span class="n">names</span><span class="si">}</span><span class="s2">; or a raw &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;[vertical, rotation] DOF pair (e.g. [5e4, 0] for a spring).&quot;</span>
+                <span class="sa">f</span><span class="s2">"Unknown support </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">; use one of: </span><span class="si">{</span><span class="n">names</span><span class="si">}</span><span class="s2">; or a raw "</span>
+                <span class="sa">f</span><span class="s2">"[vertical, rotation] DOF pair (e.g. [5e4, 0] for a spring)."</span>
             <span class="p">)</span>
     <span class="n">pair</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;A support DOF pair must have exactly 2 entries &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;[vertical, rotation], got </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"A support DOF pair must have exactly 2 entries "</span>
+            <span class="sa">f</span><span class="s2">"[vertical, rotation], got </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">."</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">pair</span>
 
@@ -517,7 +517,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">supports_to_R</span><span class="p">(</span>
     <span class="n">supports</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">SupportType</span><span class="p">],</span> <span class="n">n_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Lower a per-node list of named supports to a raw restraint vector ``R``.</span>
 
 <span class="sd">    This is the friendly front-end to the low-level ``R`` vector used throughout</span>
@@ -529,11 +529,11 @@
 
 <span class="sd">    Recognised names (case-insensitive):</span>
 
-<span class="sd">    * ``&quot;p&quot;`` / ``&quot;pin&quot;`` / ``&quot;pinned&quot;`` and ``&quot;r&quot;`` / ``&quot;roller&quot;`` -&gt; ``[-1, 0]``</span>
+<span class="sd">    * ``"p"`` / ``"pin"`` / ``"pinned"`` and ``"r"`` / ``"roller"`` -&gt; ``[-1, 0]``</span>
 <span class="sd">      (vertical held, rotation free).</span>
-<span class="sd">    * ``&quot;e&quot;`` / ``&quot;encastre&quot;`` / ``&quot;fixed&quot;`` / ``&quot;clamped&quot;`` -&gt; ``[-1, -1]``</span>
+<span class="sd">    * ``"e"`` / ``"encastre"`` / ``"fixed"`` / ``"clamped"`` -&gt; ``[-1, -1]``</span>
 <span class="sd">      (fully fixed).</span>
-<span class="sd">    * ``&quot;f&quot;`` / ``&quot;free&quot;`` -&gt; ``[0, 0]`` (unrestrained, e.g. a cantilever tip).</span>
+<span class="sd">    * ``"f"`` / ``"free"`` -&gt; ``[0, 0]`` (unrestrained, e.g. a cantilever tip).</span>
 
 <span class="sd">    Elastic springs are given as a raw pair, e.g. ``[5e4, 0]`` for a vertical</span>
 <span class="sd">    spring (stiffness ``5e4``) with the rotation free.</span>
@@ -560,10 +560,10 @@
 <span class="sd">    ValueError</span>
 <span class="sd">        If ``n_nodes`` is given and does not match ``len(supports)``, or any</span>
 <span class="sd">        entry is not a recognised name or valid ``[vertical, rotation]`` pair.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">n_nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">supports</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_nodes</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">n_nodes</span><span class="si">}</span><span class="s2"> supports (one per node), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">supports</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Expected </span><span class="si">{</span><span class="n">n_nodes</span><span class="si">}</span><span class="s2"> supports (one per node), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">supports</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
     <span class="n">R</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">supports</span><span class="p">:</span>
@@ -577,7 +577,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_beam_string</span><span class="p">(</span>
     <span class="n">beam_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This function parses a beam descriptor string and returns CBA input vectors.</span>
 
 <span class="sd">    The beam descriptor string uses a specific format: spans lengths in float are</span>
@@ -624,25 +624,25 @@
 <span class="sd">    This example creates a four-span beam with fixed extreme supports and</span>
 <span class="sd">    an internal hinge. ::</span>
 
-<span class="sd">        beam_str = &quot;E30R30H30R30E&quot;</span>
+<span class="sd">        beam_str = "E30R30H30R30E"</span>
 <span class="sd">        (L, EI, R, eType) = cba.parse_beam_string(beam_str)</span>
 <span class="sd">        ils = cba.InfluenceLines(L, EI, R, eType)</span>
 <span class="sd">        ils.create_ils(step=0.1)</span>
-<span class="sd">        ils.plot_il(0.0, &quot;R&quot;)</span>
+<span class="sd">        ils.plot_il(0.0, "R")</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">beam_string</span> <span class="o">=</span> <span class="n">beam_string</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="n">terminals</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[efhpr]&quot;</span><span class="p">,</span> <span class="n">beam_string</span><span class="p">)</span>
-    <span class="n">spans_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">end</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[efhpr]&quot;</span><span class="p">,</span> <span class="n">beam_string</span><span class="p">)]</span>
+    <span class="n">terminals</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[efhpr]"</span><span class="p">,</span> <span class="n">beam_string</span><span class="p">)</span>
+    <span class="n">spans_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">end</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[efhpr]"</span><span class="p">,</span> <span class="n">beam_string</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">terminals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two terminals must be defined&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">terminals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;h&quot;</span> <span class="ow">or</span> <span class="n">terminals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;h&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot have a hinge at an extremity&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"At least two terminals must be defined"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">terminals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"h"</span> <span class="ow">or</span> <span class="n">terminals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"h"</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot have a hinge at an extremity"</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">terminals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;f&quot;</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;e&quot;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terminals</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Do not define internal free or encastre terminals&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="s2">"f"</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">"e"</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terminals</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Do not define internal free or encastre terminals"</span><span class="p">)</span>
 
     <span class="c1"># Get and check the span lengths</span>
     <span class="n">L</span> <span class="o">=</span> <span class="p">[</span>
@@ -650,13 +650,13 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spans_str</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">terminals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inconsistent terminal count and span count&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Inconsistent terminal count and span count"</span><span class="p">)</span>
 
     <span class="n">EI</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">1e10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1e-6</span>  <span class="c1"># kNm2 - arbitrary value</span>
     <span class="n">R</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">eType</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">L</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">terminals</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;h&quot;</span><span class="p">:</span>  <span class="c1"># internal hinge: unsupported node + release of prev member</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s2">"h"</span><span class="p">:</span>  <span class="c1"># internal hinge: unsupported node + release of prev member</span>
             <span class="n">R</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
             <span class="n">eType</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># p / r / e / f map via the shared support vocabulary</span>
@@ -693,8 +693,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -728,7 +728,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

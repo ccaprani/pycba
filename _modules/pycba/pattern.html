@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,9 +432,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.pattern</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Continuous Beam Analysis - Design Load Patterning</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
@@ -451,18 +451,18 @@
 <span class="p">)</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LoadPattern&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"LoadPattern"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="LoadPattern">
 <a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadPattern</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Automatically patterns dead and live loads to achieve critical load effects.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize the LoadPattern class with the beam.</span>
 
 <span class="sd">        Parameters</span>
@@ -473,7 +473,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">ba</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LMg</span> <span class="o">=</span> <span class="kc">None</span>
@@ -488,7 +488,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">set_dead_loads</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCase</span><span class="p">],</span> <span class="n">gamma_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gamma_min</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set the nominal dead loads acting on the beam, and the maximum and</span>
 <span class="sd">        minimum load factor.</span>
 
@@ -505,7 +505,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">LMg</span> <span class="o">=</span> <span class="n">_load_case_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_g_max</span> <span class="o">=</span> <span class="n">gamma_max</span>
@@ -517,7 +517,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">set_live_loads</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LoadCase</span><span class="p">],</span> <span class="n">gamma_max</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gamma_min</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set the nominal live loads acting on the beam, and the maximum and</span>
 <span class="sd">        minimum load factor.</span>
 
@@ -534,7 +534,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">LMq</span> <span class="o">=</span> <span class="n">_load_case_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_q_max</span> <span class="o">=</span> <span class="n">gamma_max</span>
@@ -544,7 +544,7 @@
 <div class="viewcode-block" id="LoadPattern.analyze">
 <a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.analyze">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Conduct the load patterning analysis.</span>
 
 <span class="sd">        Parameters</span>
@@ -556,7 +556,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Envelopes : `pycba.Envelopes`</span>
 <span class="sd">            The load effect envelopes from the patterning.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">load_case</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_load_cases</span><span class="p">():</span>
@@ -573,7 +573,7 @@
 <div class="viewcode-block" id="LoadPattern.to_load_cases">
 <a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.to_load_cases">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_load_cases</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCases</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate the factored load arrangements used by :meth:`analyze`.</span>
 
 <span class="sd">        Returns</span>
@@ -581,10 +581,10 @@
 <span class="sd">        LoadCases</span>
 <span class="sd">            A collection containing one generated factored load case for each</span>
 <span class="sd">            design load pattern.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">LMg</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">LMq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Dead and live loads must be set before patterning.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Dead and live loads must be set before patterning."</span><span class="p">)</span>
 
         <span class="n">wmax</span> <span class="o">=</span> <span class="n">_factor_load_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LMg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_g_max</span><span class="p">)</span> <span class="o">+</span> <span class="n">_factor_load_matrix</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">LMq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_q_max</span>
@@ -601,37 +601,37 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_max_hog</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">adjacent_spans</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">load_cases</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Max hogging spans </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Max hogging spans </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">loads</span><span class="o">=</span><span class="n">_choose_max_by_span</span><span class="p">(</span><span class="n">wmin</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">adjacent_spans</span><span class="p">),</span>
                 <span class="n">loaded_spans</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">span</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">adjacent_spans</span><span class="p">),</span>
-                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;load_pattern&quot;</span><span class="p">,</span> <span class="s2">&quot;max_spans&quot;</span><span class="p">:</span> <span class="n">adjacent_spans</span><span class="p">},</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"load_pattern"</span><span class="p">,</span> <span class="s2">"max_spans"</span><span class="p">:</span> <span class="n">adjacent_spans</span><span class="p">},</span>
             <span class="p">)</span>
 
         <span class="c1"># Odd numbered spans loaded with MAX for maximum sagging moments</span>
         <span class="n">odd_spans</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">load_cases</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Max odd spans&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"Max odd spans"</span><span class="p">,</span>
             <span class="n">loads</span><span class="o">=</span><span class="n">_choose_max_by_span</span><span class="p">(</span><span class="n">wmin</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">odd_spans</span><span class="p">),</span>
             <span class="n">loaded_spans</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">span</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">odd_spans</span><span class="p">),</span>
-            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;load_pattern&quot;</span><span class="p">,</span> <span class="s2">&quot;max_spans&quot;</span><span class="p">:</span> <span class="n">odd_spans</span><span class="p">},</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"load_pattern"</span><span class="p">,</span> <span class="s2">"max_spans"</span><span class="p">:</span> <span class="n">odd_spans</span><span class="p">},</span>
         <span class="p">)</span>
 
         <span class="c1"># Even numbered spans loaded with MAX for maximum sagging moments</span>
         <span class="n">even_spans</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">load_cases</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Max even spans&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"Max even spans"</span><span class="p">,</span>
             <span class="n">loads</span><span class="o">=</span><span class="n">_choose_max_by_span</span><span class="p">(</span><span class="n">wmin</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">even_spans</span><span class="p">),</span>
             <span class="n">loaded_spans</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">span</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">even_spans</span><span class="p">),</span>
-            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;load_pattern&quot;</span><span class="p">,</span> <span class="s2">&quot;max_spans&quot;</span><span class="p">:</span> <span class="n">even_spans</span><span class="p">},</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"load_pattern"</span><span class="p">,</span> <span class="s2">"max_spans"</span><span class="p">:</span> <span class="n">even_spans</span><span class="p">},</span>
         <span class="p">)</span>
 
         <span class="c1"># All spans loaded with MAX</span>
         <span class="n">all_spans</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">load_cases</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;All spans max&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"All spans max"</span><span class="p">,</span>
             <span class="n">loads</span><span class="o">=</span><span class="n">wmax</span><span class="p">,</span>
             <span class="n">loaded_spans</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">span</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">all_spans</span><span class="p">),</span>
-            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;load_pattern&quot;</span><span class="p">,</span> <span class="s2">&quot;max_spans&quot;</span><span class="p">:</span> <span class="n">all_spans</span><span class="p">},</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"load_pattern"</span><span class="p">,</span> <span class="s2">"max_spans"</span><span class="p">:</span> <span class="n">all_spans</span><span class="p">},</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">load_cases</span></div>
@@ -640,7 +640,7 @@
 <div class="viewcode-block" id="LoadPattern.to_LM">
 <a class="viewcode-back" href="../../gen/pycba.pattern.LoadPattern.html#pycba.pattern.LoadPattern.to_LM">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">LoadMatrix</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate the factored load matrices used by :meth:`analyze`.</span>
 
 <span class="sd">        This is a debugging convenience for users who want to inspect the</span>
@@ -652,7 +652,7 @@
 <span class="sd">        dict[str, LoadMatrix]</span>
 <span class="sd">            Mapping from generated load-pattern name to its factored load</span>
 <span class="sd">            matrix. The dictionary preserves the analysis order.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_load_cases</span><span class="p">()</span><span class="o">.</span><span class="n">to_LM</span><span class="p">()</span></div>
 </div>
@@ -686,8 +686,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -721,7 +721,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,7 +432,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.section</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Variable (non-prismatic) section properties</span>
 <span class="sd">====================================================</span>
 
@@ -456,7 +456,7 @@
 
 <span class="sd">Segments and breakpoints</span>
 <span class="sd">------------------------</span>
-<span class="sd">Segments are added head-to-tail and must be **contiguous**: each new segment&#39;s</span>
+<span class="sd">Segments are added head-to-tail and must be **contiguous**: each new segment's</span>
 <span class="sd">``x[0]`` must equal the running end coordinate (the first segment starts at</span>
 <span class="sd">``0``).  A coincident ``x`` carrying a *different* ``EI`` across a join is an</span>
 <span class="sd">allowed **step** (a genuine discontinuity in ``EI``).  The</span>
@@ -468,7 +468,7 @@
 <span class="sd">The total coverage (the running end coordinate of the last segment) is</span>
 <span class="sd">validated against the span length when the section is attached to a</span>
 <span class="sd">:class:`~pycba.beam.Beam`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -478,19 +478,19 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1">#: Supported segment types.</span>
-<span class="n">_SEG_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;pwl&quot;</span><span class="p">,</span> <span class="s2">&quot;poly&quot;</span><span class="p">)</span>
+<span class="n">_SEG_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"const"</span><span class="p">,</span> <span class="s2">"linear"</span><span class="p">,</span> <span class="s2">"pwl"</span><span class="p">,</span> <span class="s2">"poly"</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_Piece</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A single linear or polynomial piece of ``EI(x)`` over ``[x0, x1]``.</span>
+<span class="w">    </span><span class="sd">"""A single linear or polynomial piece of ``EI(x)`` over ``[x0, x1]``.</span>
 
 <span class="sd">    Internally every segment is reduced to one or more such pieces, each with</span>
 <span class="sd">    its own polynomial coefficients (highest order first, as ``numpy.polyval``</span>
 <span class="sd">    expects) and the polynomial degree, so the breakpoint-aware integrator can</span>
 <span class="sd">    pick a Gauss order sufficient for the piece.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;coeffs&quot;</span><span class="p">,</span> <span class="s2">&quot;degree&quot;</span><span class="p">)</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"x0"</span><span class="p">,</span> <span class="s2">"x1"</span><span class="p">,</span> <span class="s2">"coeffs"</span><span class="p">,</span> <span class="s2">"degree"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">degree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
@@ -505,7 +505,7 @@
 <div class="viewcode-block" id="SectionEI">
 <a class="viewcode-back" href="../../gen/pycba.section.SectionEI.html#pycba.section.SectionEI">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SectionEI</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Segment-built, piecewise variable flexural rigidity over one span.</span>
 
 <span class="sd">    A member assigned a :class:`SectionEI` is analysed with the</span>
@@ -517,10 +517,10 @@
 
 <span class="sd">    The section is built by chaining :meth:`add_segment` calls, or in one line</span>
 <span class="sd">    by passing a list of segment specs to the constructor.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">segments</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Construct a (possibly empty) variable-rigidity section.</span>
 
 <span class="sd">        Parameters</span>
@@ -538,18 +538,18 @@
 <span class="sd">        One-liner (a straight haunch then a flat soffit)::</span>
 
 <span class="sd">            sec = SectionEI([</span>
-<span class="sd">                (&quot;linear&quot;, [0.0, 3.0], [3.0e5, 1.2e5]),</span>
-<span class="sd">                (&quot;const&quot;, [3.0, 9.0], 1.2e5),</span>
-<span class="sd">                (&quot;linear&quot;, [9.0, 12.0], [1.2e5, 3.0e5]),</span>
+<span class="sd">                ("linear", [0.0, 3.0], [3.0e5, 1.2e5]),</span>
+<span class="sd">                ("const", [3.0, 9.0], 1.2e5),</span>
+<span class="sd">                ("linear", [9.0, 12.0], [1.2e5, 3.0e5]),</span>
 <span class="sd">            ])</span>
 
 <span class="sd">        Chained::</span>
 
 <span class="sd">            sec = (SectionEI()</span>
-<span class="sd">                   .add_segment(&quot;linear&quot;, [0.0, 3.0], [3.0e5, 1.2e5])</span>
-<span class="sd">                   .add_segment(&quot;const&quot;, [3.0, 9.0], 1.2e5)</span>
-<span class="sd">                   .add_segment(&quot;linear&quot;, [9.0, 12.0], [1.2e5, 3.0e5]))</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">                   .add_segment("linear", [0.0, 3.0], [3.0e5, 1.2e5])</span>
+<span class="sd">                   .add_segment("const", [3.0, 9.0], 1.2e5)</span>
+<span class="sd">                   .add_segment("linear", [9.0, 12.0], [1.2e5, 3.0e5]))</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_Piece</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joins</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># segment-join coordinates (running ends)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_kinks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># interior pwl kink coordinates</span>
@@ -560,10 +560,10 @@
             <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">add_segment</span><span class="p">(</span>
-                        <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;seg_type&quot;</span><span class="p">],</span>
-                        <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
-                        <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;ei&quot;</span><span class="p">],</span>
-                        <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">),</span>
+                        <span class="n">spec</span><span class="p">[</span><span class="s2">"seg_type"</span><span class="p">],</span>
+                        <span class="n">spec</span><span class="p">[</span><span class="s2">"x"</span><span class="p">],</span>
+                        <span class="n">spec</span><span class="p">[</span><span class="s2">"ei"</span><span class="p">],</span>
+                        <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"degree"</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">add_segment</span><span class="p">(</span><span class="o">*</span><span class="n">spec</span><span class="p">)</span>
@@ -579,25 +579,25 @@
         <span class="n">x</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">ei</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Callable</span><span class="p">],</span>
         <span class="n">degree</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"SectionEI"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a contiguous segment to the section.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        seg_type : {&#39;const&#39;, &#39;linear&#39;, &#39;pwl&#39;, &#39;poly&#39;}</span>
+<span class="sd">        seg_type : {'const', 'linear', 'pwl', 'poly'}</span>
 <span class="sd">            The kind of variation over the segment:</span>
 
-<span class="sd">            * ``&#39;const&#39;`` -- constant ``EI`` over ``[x0, x1]``.  ``x = [x0, x1]``</span>
+<span class="sd">            * ``'const'`` -- constant ``EI`` over ``[x0, x1]``.  ``x = [x0, x1]``</span>
 <span class="sd">              and ``ei`` is a scalar.</span>
-<span class="sd">            * ``&#39;linear&#39;`` -- a single linear piece.  ``x = [x0, x1]`` and</span>
+<span class="sd">            * ``'linear'`` -- a single linear piece.  ``x = [x0, x1]`` and</span>
 <span class="sd">              ``ei = [ei0, ei1]``.</span>
-<span class="sd">            * ``&#39;pwl&#39;`` -- piecewise-linear.  ``x = [x0, x1, ..., xn]`` with</span>
+<span class="sd">            * ``'pwl'`` -- piecewise-linear.  ``x = [x0, x1, ..., xn]`` with</span>
 <span class="sd">              ``n &gt;= 2`` strictly-increasing stations and ``ei`` of the same</span>
 <span class="sd">              length; ``n - 1`` linear pieces with kinks at the interior</span>
-<span class="sd">              stations.  (``&#39;linear&#39;`` is the two-point case; ``&#39;const&#39;`` a</span>
+<span class="sd">              stations.  (``'linear'`` is the two-point case; ``'const'`` a</span>
 <span class="sd">              flat run.)</span>
-<span class="sd">            * ``&#39;poly&#39;`` -- a single polynomial piece over ``[x[0], x[-1]]``.</span>
+<span class="sd">            * ``'poly'`` -- a single polynomial piece over ``[x[0], x[-1]]``.</span>
 <span class="sd">              ``ei`` is either a list of sample values (same length as ``x``;</span>
 <span class="sd">              a polynomial of order ``degree``, default ``len(x) - 1``, is</span>
 <span class="sd">              fitted) **or** a ``callable`` ``ei(x_local)`` evaluated in the</span>
@@ -608,9 +608,9 @@
 <span class="sd">            The segment station(s) in span-local physical coordinates, strictly</span>
 <span class="sd">            increasing.</span>
 <span class="sd">        ei : float, array_like of float, or callable</span>
-<span class="sd">            The rigidity value(s) or, for ``&#39;poly&#39;``, optionally a callable.</span>
+<span class="sd">            The rigidity value(s) or, for ``'poly'``, optionally a callable.</span>
 <span class="sd">        degree : int, optional</span>
-<span class="sd">            Polynomial order for a ``&#39;poly&#39;`` segment.  Ignored for the other</span>
+<span class="sd">            Polynomial order for a ``'poly'`` segment.  Ignored for the other</span>
 <span class="sd">            types.</span>
 
 <span class="sd">        Returns</span>
@@ -625,17 +625,17 @@
 <span class="sd">            lengths of ``x`` and ``ei`` are inconsistent; any rigidity is</span>
 <span class="sd">            non-positive; or the segment is not contiguous with the running</span>
 <span class="sd">            end of the section (a gap or an overlap).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">seg_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_SEG_TYPES</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Unknown seg_type </span><span class="si">{</span><span class="n">seg_type</span><span class="si">!r}</span><span class="s2">; expected one of </span><span class="si">{</span><span class="n">_SEG_TYPES</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Unknown seg_type </span><span class="si">{</span><span class="n">seg_type</span><span class="si">!r}</span><span class="s2">; expected one of </span><span class="si">{</span><span class="n">_SEG_TYPES</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;x must list at least the segment start and end&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"x must list at least the segment start and end"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;x positions within a segment must be strictly increasing&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"x positions within a segment must be strictly increasing"</span><span class="p">)</span>
 
         <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
@@ -643,32 +643,32 @@
         <span class="n">anchor</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">anchor</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-9</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">anchor</span><span class="p">))):</span>
             <span class="n">kind</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;first segment must start at x = 0&quot;</span>
+                <span class="s2">"first segment must start at x = 0"</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span>
-                <span class="k">else</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;segment must start at the running end x = </span><span class="si">{</span><span class="n">anchor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"segment must start at the running end x = </span><span class="si">{</span><span class="n">anchor</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Non-contiguous segment: </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">, got x[0] = </span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;(gaps and overlaps are not allowed)&quot;</span>
+                <span class="sa">f</span><span class="s2">"Non-contiguous segment: </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">, got x[0] = </span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"(gaps and overlaps are not allowed)"</span>
             <span class="p">)</span>
 
         <span class="n">new_pieces</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_Piece</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">new_kinks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">if</span> <span class="n">seg_type</span> <span class="o">==</span> <span class="s2">&quot;const&quot;</span><span class="p">:</span>
-            <span class="n">ei_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scalar</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">seg_type</span> <span class="o">==</span> <span class="s2">"const"</span><span class="p">:</span>
+            <span class="n">ei_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scalar</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="s2">"const"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_positive</span><span class="p">([</span><span class="n">ei_val</span><span class="p">])</span>
             <span class="n">new_pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_Piece</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ei_val</span><span class="p">]),</span> <span class="n">degree</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
-        <span class="k">elif</span> <span class="n">seg_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;pwl&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">seg_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"linear"</span><span class="p">,</span> <span class="s2">"pwl"</span><span class="p">):</span>
             <span class="n">ei_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">seg_type</span><span class="si">!r}</span><span class="s2"> segment needs len(ei) == len(x) &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">seg_type</span><span class="si">!r}</span><span class="s2"> segment needs len(ei) == len(x) "</span>
+                    <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
                 <span class="p">)</span>
-            <span class="k">if</span> <span class="n">seg_type</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;linear&#39; segment requires exactly 2 stations&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">seg_type</span> <span class="o">==</span> <span class="s2">"linear"</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'linear' segment requires exactly 2 stations"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_positive</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
                 <span class="n">xa</span><span class="p">,</span> <span class="n">xb</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
@@ -680,7 +680,7 @@
                 <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">new_kinks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xa</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">seg_type</span> <span class="o">==</span> <span class="s2">&quot;poly&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">seg_type</span> <span class="o">==</span> <span class="s2">"poly"</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">ei</span><span class="p">):</span>
                 <span class="n">deg</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">if</span> <span class="n">degree</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">degree</span><span class="p">)</span>
                 <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">deg</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
@@ -692,8 +692,8 @@
                 <span class="n">ei_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">&quot;&#39;poly&#39; segment with sample values needs len(ei) == len(x) &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                        <span class="s2">"'poly' segment with sample values needs len(ei) == len(x) "</span>
+                        <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
                     <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_check_positive</span><span class="p">(</span><span class="n">ei_arr</span><span class="p">)</span>
                 <span class="n">deg</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">degree</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">degree</span><span class="p">)</span>
@@ -718,32 +718,32 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_scalar</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">seg_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">seg_type</span><span class="si">}</span><span class="s2">&#39; segment requires a scalar ei&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">seg_type</span><span class="si">}</span><span class="s2">' segment requires a scalar ei"</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_positive</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;EI values must be strictly positive&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"EI values must be strictly positive"</span><span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1">#  Geometry / query</span>
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;float : total covered length (running end of the last segment).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""float : total covered length (running end of the last segment)."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x0</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">breakpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        np.ndarray : sorted span-local breakpoint coordinates.</span>
 
 <span class="sd">        Includes the section start, every segment join, and every interior</span>
 <span class="sd">        ``pwl`` kink.  Coincident coordinates (e.g. a step at a join) are</span>
 <span class="sd">        collapsed to a single value.  The flexibility integration is split at</span>
 <span class="sd">        these breakpoints so kinks and steps are captured exactly.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">bps</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_x0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_joins</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kinks</span><span class="p">)</span>
         <span class="n">bps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">bps</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -754,12 +754,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">pieces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;list of :class:`_Piece` : the internal linear/poly pieces.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""list of :class:`_Piece` : the internal linear/poly pieces."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;bool : ``True`` when ``EI(x)`` is a single constant value.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""bool : ``True`` when ``EI(x)`` is a single constant value."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">degree</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">):</span>
@@ -770,8 +770,8 @@
 <div class="viewcode-block" id="SectionEI.validate_length">
 <a class="viewcode-back" href="../../gen/pycba.section.SectionEI.html#pycba.section.SectionEI.validate_length">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">atol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check that the section&#39;s total coverage equals the span length ``L``.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Check that the section's total coverage equals the span length ``L``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -784,21 +784,21 @@
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the section is empty, or its coverage differs from ``L``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;SectionEI has no segments&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"SectionEI has no segments"</span><span class="p">)</span>
         <span class="n">tol</span> <span class="o">=</span> <span class="n">atol</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">L</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;SectionEI coverage </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2"> does not match the span &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;length </span><span class="si">{</span><span class="n">L</span><span class="si">}</span><span class="s2">; add segments so the pieces span the full length&quot;</span>
+                <span class="sa">f</span><span class="s2">"SectionEI coverage </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2"> does not match the span "</span>
+                <span class="sa">f</span><span class="s2">"length </span><span class="si">{</span><span class="n">L</span><span class="si">}</span><span class="s2">; add segments so the pieces span the full length"</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SectionEI.__call__">
 <a class="viewcode-back" href="../../gen/pycba.section.SectionEI.html#pycba.section.SectionEI.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Evaluate ``EI(x)`` piecewise in the span-local physical coordinate.</span>
 
 <span class="sd">        At an internal step (coincident ``x`` with differing ``EI``) the value</span>
@@ -814,16 +814,16 @@
 <span class="sd">        -------</span>
 <span class="sd">        float or np.ndarray</span>
 <span class="sd">            The rigidity ``EI(x)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;SectionEI has no segments to evaluate&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"SectionEI has no segments to evaluate"</span><span class="p">)</span>
 
         <span class="n">scalar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">xv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">xv</span><span class="p">)</span>
         <span class="c1"># x0..x1 boundaries of each piece; assign each query to the first piece</span>
         <span class="c1"># whose [x0, x1] contains it (left-to-right, so a step takes the left</span>
-        <span class="c1"># piece&#39;s value at the shared coordinate).</span>
+        <span class="c1"># piece's value at the shared coordinate).</span>
         <span class="n">assigned</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">xv</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">:</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">assigned</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xv</span> <span class="o">&gt;=</span> <span class="n">p</span><span class="o">.</span><span class="n">x0</span> <span class="o">-</span> <span class="mf">1e-12</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xv</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)</span>
@@ -856,10 +856,10 @@
         <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot ``EI(x)`` over the whole span as an input-verification figure.</span>
 
-<span class="sd">        The rigidity is drawn **piece by piece** over each piece&#39;s own</span>
+<span class="sd">        The rigidity is drawn **piece by piece** over each piece's own</span>
 <span class="sd">        ``[x0, x1]`` interval, so the curve faithfully reflects what was</span>
 <span class="sd">        entered:</span>
 
@@ -883,7 +883,7 @@
 <span class="sd">            axes (and its parent figure) are used and ``**kwargs`` is ignored.</span>
 <span class="sd">        n : int, optional</span>
 <span class="sd">            Total number of sample points distributed across the pieces</span>
-<span class="sd">            (proportional to each piece&#39;s length, at least 2 per piece).  Used</span>
+<span class="sd">            (proportional to each piece's length, at least 2 per piece).  Used</span>
 <span class="sd">            for smooth sampling of polynomial pieces; default ``200``.</span>
 <span class="sd">        show_breakpoints : bool, optional</span>
 <span class="sd">            When ``True`` (default) mark the segment boundaries and ``pwl``</span>
@@ -900,9 +900,9 @@
 <span class="sd">        (matplotlib.figure.Figure, matplotlib.axes.Axes)</span>
 <span class="sd">            The figure and axes, matching the PyCBA plotting convention.</span>
 <span class="sd">            ``plt.show()`` is never called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;SectionEI has no segments to plot&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"SectionEI has no segments to plot"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -911,7 +911,7 @@
 
         <span class="c1"># Human-readable label for a piece, by polynomial degree.</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">_kind</span><span class="p">(</span><span class="n">degree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;poly (deg </span><span class="si">{</span><span class="n">degree</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">"const"</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">"linear"</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"poly (deg </span><span class="si">{</span><span class="n">degree</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 
         <span class="c1"># Distribute the sample budget across pieces by length (&gt;= 2 each).</span>
         <span class="n">total_len</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x1</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">)</span>
@@ -919,7 +919,7 @@
 
         <span class="c1"># Colour each piece by its *kind* so pieces of the same kind share a</span>
         <span class="c1"># colour; the by-kind legend then faithfully represents every piece.</span>
-        <span class="c1"># (A section like linear/const/linear shows a single &quot;linear&quot; entry that</span>
+        <span class="c1"># (A section like linear/const/linear shows a single "linear" entry that</span>
         <span class="c1"># covers both haunches, rather than dropping the repeated kind and</span>
         <span class="c1"># leaving the second linear piece unrepresented.)</span>
         <span class="n">prev_x1</span> <span class="o">=</span> <span class="kc">None</span>
@@ -931,46 +931,46 @@
 
             <span class="c1"># A grey region under EI(x) with a black top outline reads as a beam</span>
             <span class="c1"># elevation; pieces of any kind share the same fill.</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;0.82&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"0.82"</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
                     <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">x1</span><span class="p">),</span>
                     <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ys</span><span class="p">)),</span>
                     <span class="n">_kind</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">degree</span><span class="p">),</span>
-                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-                    <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="p">,</span>
-                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.35&quot;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
+                    <span class="n">fontsize</span><span class="o">=</span><span class="s2">"small"</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">"0.35"</span><span class="p">,</span>
                 <span class="p">)</span>
 
-            <span class="c1"># A step: this piece starts at the previous piece&#39;s end x but with a</span>
+            <span class="c1"># A step: this piece starts at the previous piece's end x but with a</span>
             <span class="c1"># different value.  Draw a vertical riser so the jump reads clearly.</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">prev_x1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">prev_x1</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-9</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">))</span>
                 <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">prev_y1</span><span class="p">),</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
             <span class="p">):</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="p">],</span> <span class="p">[</span><span class="n">prev_y1</span><span class="p">,</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="p">],</span> <span class="p">[</span><span class="n">prev_y1</span><span class="p">,</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
             <span class="n">prev_x1</span><span class="p">,</span> <span class="n">prev_y1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">show_breakpoints</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">bp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.7"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;distance along span (local)&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;EI&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Section rigidity, $EI(x)$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"distance along span (local)"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"EI"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Section rigidity, $EI(x)$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">segs</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">x1</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">] deg</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">degree</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;SectionEI(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">)</span><span class="si">}</span><span class="s2"> pieces: </span><span class="si">{</span><span class="n">segs</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+        <span class="n">segs</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">x0</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">x1</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">] deg</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">degree</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"SectionEI(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pieces</span><span class="p">)</span><span class="si">}</span><span class="s2"> pieces: </span><span class="si">{</span><span class="n">segs</span><span class="si">}</span><span class="s2">)"</span></div>
 
 </pre></div>
 
@@ -1001,8 +1001,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1036,7 +1036,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

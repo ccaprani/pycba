@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,11 +432,11 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.prestress</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Post-tensioning equivalent-load preprocessor.</span>
 
 <span class="sd">A **preprocessor** (not an analysis object): it turns a draped post-tensioning</span>
-<span class="sd">tendon into the equivalent (&quot;balanced&quot;) loads the tendon exerts on the concrete,</span>
+<span class="sd">tendon into the equivalent ("balanced") loads the tendon exerts on the concrete,</span>
 <span class="sd">returned as an ordinary PyCBA load matrix that you apply to a :class:`Beam` /</span>
 <span class="sd">:class:`BeamAnalysis` like any other loading.</span>
 
@@ -451,21 +451,21 @@
 <span class="sd">are generated from first principles from the piecewise tendon profile ``e(x)``</span>
 <span class="sd">(parabolic or straight segments):</span>
 
-<span class="sd">* a parabolic segment of constant curvature ``e&#39;&#39;`` contributes a uniform</span>
-<span class="sd">  transverse load ``w = F·e&#39;&#39;`` over its length;</span>
-<span class="sd">* a slope change ``Δe&#39;`` at an interior kink contributes a point load</span>
-<span class="sd">  ``P = F·Δe&#39;`` there (slope changes *at* a support are reacted directly and</span>
+<span class="sd">* a parabolic segment of constant curvature ``e''`` contributes a uniform</span>
+<span class="sd">  transverse load ``w = F·e''`` over its length;</span>
+<span class="sd">* a slope change ``Δe'`` at an interior kink contributes a point load</span>
+<span class="sd">  ``P = F·Δe'`` there (slope changes *at* a support are reacted directly and</span>
 <span class="sd">  are not applied to the beam);</span>
 <span class="sd">* the tendon eccentricity at each end **anchorage** contributes a moment</span>
 <span class="sd">  ``M = F·e`` there.</span>
 
-<span class="sd">With the eccentricity-positive-below convention and PyCBA&#39;s downward-positive</span>
+<span class="sd">With the eccentricity-positive-below convention and PyCBA's downward-positive</span>
 <span class="sd">loads, a tendon sagging ``a`` below the chord of a simply-supported span gives an</span>
 <span class="sd">upward ``w = -8 F a / L²`` and a midspan moment ``-F a``; a constant eccentricity</span>
 <span class="sd">``e`` gives a uniform ``-F e``.  Applying the returned matrix and analysing gives</span>
 <span class="sd">the **balanced** moment ``M_bal``; the secondary (parasitic) moment is</span>
 <span class="sd">``M₂ = M_bal − F·e``.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -478,12 +478,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.load</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMatrix</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;Parabola&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CompoundParabola&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Harp&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DoubleHarp&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;equivalent_loads&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;plot_tendon&quot;</span><span class="p">,</span>
+    <span class="s2">"Parabola"</span><span class="p">,</span>
+    <span class="s2">"CompoundParabola"</span><span class="p">,</span>
+    <span class="s2">"Harp"</span><span class="p">,</span>
+    <span class="s2">"DoubleHarp"</span><span class="p">,</span>
+    <span class="s2">"equivalent_loads"</span><span class="p">,</span>
+    <span class="s2">"plot_tendon"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">_TOL</span> <span class="o">=</span> <span class="mf">1e-9</span>
@@ -491,20 +491,20 @@
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">_Seg</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A tendon profile piece over span-local ``[x1, x2]`` (eccentricity +down).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A tendon profile piece over span-local ``[x1, x2]`` (eccentricity +down)."""</span>
 
     <span class="n">x1</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">x2</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">e1</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">e2</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">epp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># constant second derivative e&#39;&#39; (0 =&gt; straight)</span>
+    <span class="n">epp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># constant second derivative e'' (0 =&gt; straight)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">slope_start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="c1"># e(x2) = e1 + e&#39;(x1) L + 1/2 e&#39;&#39; L^2  -&gt;  e&#39;(x1)</span>
+        <span class="c1"># e(x2) = e1 + e'(x1) L + 1/2 e'' L^2  -&gt;  e'(x1)</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">e1</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epp</span> <span class="o">*</span> <span class="n">L</span>
 
@@ -513,7 +513,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parabola_through</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">em</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Constant ``e&#39;&#39;`` of the parabola through three points (xm interior).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Constant ``e''`` of the parabola through three points (xm interior)."""</span>
     <span class="c1"># second divided difference * 2</span>
     <span class="n">f01</span> <span class="o">=</span> <span class="p">(</span><span class="n">em</span> <span class="o">-</span> <span class="n">e1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xm</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span>
     <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">e2</span> <span class="o">-</span> <span class="n">em</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">xm</span><span class="p">)</span>
@@ -527,7 +527,7 @@
 <a class="viewcode-back" href="../../gen/pycba.prestress.Parabola.html#pycba.prestress.Parabola">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Parabola</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Parabolic tendon in a span (RAPT/PT-Designer Types 1, 2; 8, 9 on cantilevers).</span>
 
 <span class="sd">    A single parabola between the two **high points**.  With ``c_left = c_right</span>
@@ -544,7 +544,7 @@
 <span class="sd">        point, the parabola mid-point (low point), and the right high point.</span>
 <span class="sd">    c_left, c_right : float, optional</span>
 <span class="sd">        Distance of each high point inside its support centreline (default 0).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">e_left</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">e_mid</span><span class="p">:</span> <span class="nb">float</span>
@@ -554,7 +554,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">segments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cantilever</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_Seg</span><span class="p">]:</span>
         <span class="n">cl</span><span class="p">,</span> <span class="n">cr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_right</span>
-        <span class="k">if</span> <span class="n">cantilever</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>  <span class="c1"># support at x=0 (high point, zero slope), tip at L</span>
+        <span class="k">if</span> <span class="n">cantilever</span> <span class="o">==</span> <span class="s2">"right"</span><span class="p">:</span>  <span class="c1"># support at x=0 (high point, zero slope), tip at L</span>
             <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">cl</span><span class="p">,</span> <span class="n">L</span>
             <span class="n">Le</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
             <span class="n">epp</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e_right</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_left</span><span class="p">)</span> <span class="o">/</span> <span class="n">Le</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># zero slope at x1</span>
@@ -562,7 +562,7 @@
             <span class="k">if</span> <span class="n">cl</span> <span class="o">&gt;</span> <span class="n">_TOL</span><span class="p">:</span>
                 <span class="n">segs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">_Seg</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_left</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">segs</span>
-        <span class="k">if</span> <span class="n">cantilever</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>  <span class="c1"># tip at x=0, support at x=L (zero slope at L)</span>
+        <span class="k">if</span> <span class="n">cantilever</span> <span class="o">==</span> <span class="s2">"left"</span><span class="p">:</span>  <span class="c1"># tip at x=0, support at x=L (zero slope at L)</span>
             <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">L</span> <span class="o">-</span> <span class="n">cr</span>
             <span class="n">Le</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
             <span class="n">epp</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e_left</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_right</span><span class="p">)</span> <span class="o">/</span> <span class="n">Le</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># zero slope at x2</span>
@@ -573,7 +573,7 @@
         <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">cl</span><span class="p">,</span> <span class="n">L</span> <span class="o">-</span> <span class="n">cr</span>
         <span class="n">Le</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
         <span class="k">if</span> <span class="n">Le</span> <span class="o">&lt;=</span> <span class="n">_TOL</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parabola: high points overlap (c_left + c_right &gt;= L)&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Parabola: high points overlap (c_left + c_right &gt;= L)"</span><span class="p">)</span>
         <span class="n">xm</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span>
         <span class="n">epp</span> <span class="o">=</span> <span class="n">_parabola_through</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_left</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_right</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_mid</span><span class="p">)</span>
         <span class="n">segs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -590,7 +590,7 @@
 <a class="viewcode-back" href="../../gen/pycba.prestress.CompoundParabola.html#pycba.prestress.CompoundParabola">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CompoundParabola</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compound parabola (RAPT/PT-Designer Type 3): four parabolas - concave down</span>
 <span class="sd">    over each support and concave up between - with points of contraflexure.</span>
 
@@ -605,7 +605,7 @@
 <span class="sd">    c : float</span>
 <span class="sd">        Low-point location measured from the left support centreline</span>
 <span class="sd">        (``b &lt; c &lt; L - a`` is required so the four pieces are well formed).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">e_left</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">e_mid</span><span class="p">:</span> <span class="nb">float</span>
@@ -617,17 +617,17 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">segments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cantilever</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_Seg</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">cantilever</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">&quot;CompoundParabola is not supported on a cantilever span (RAPT &quot;</span>
-                <span class="s2">&quot;Type 12); use Parabola for a cantilever tendon.&quot;</span>
+                <span class="s2">"CompoundParabola is not supported on a cantilever span (RAPT "</span>
+                <span class="s2">"Type 12); use Parabola for a cantilever tendon."</span>
             <span class="p">)</span>
         <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="n">b</span>  <span class="c1"># right contraflexure measured from the left</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">L</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;CompoundParabola: require 0 &lt; a &lt; c &lt; (L-b) &lt; L (check a, b, c)&quot;</span>
+                <span class="s2">"CompoundParabola: require 0 &lt; a &lt; c &lt; (L-b) &lt; L (check a, b, c)"</span>
             <span class="p">)</span>
         <span class="c1"># The four parabolas join with matching slope at the contraflexures a, d</span>
-        <span class="c1"># and at the low point c. Reproduce PT Designer&#39;s sub-sags:</span>
+        <span class="c1"># and at the low point c. Reproduce PT Designer's sub-sags:</span>
         <span class="n">el</span><span class="p">,</span> <span class="n">em</span><span class="p">,</span> <span class="n">er</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_mid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_right</span>
         <span class="n">a1</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">em</span> <span class="o">-</span> <span class="n">el</span><span class="p">)</span>
         <span class="n">a2</span> <span class="o">=</span> <span class="p">(</span><span class="n">em</span> <span class="o">-</span> <span class="n">el</span><span class="p">)</span> <span class="o">-</span> <span class="n">a1</span>
@@ -638,7 +638,7 @@
         <span class="c1"># piece 3 [c,d] concave up, piece 4 [d,L] concave down.</span>
         <span class="n">e_a</span> <span class="o">=</span> <span class="n">el</span> <span class="o">+</span> <span class="n">a1</span>  <span class="c1"># eccentricity at contraflexure a</span>
         <span class="n">e_d</span> <span class="o">=</span> <span class="n">er</span> <span class="o">+</span> <span class="n">a4</span>  <span class="c1"># eccentricity at contraflexure d</span>
-        <span class="n">epp1</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">a1</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># concave down near support -&gt; e&#39;&#39; &lt; 0? sign via sag</span>
+        <span class="n">epp1</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">a1</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># concave down near support -&gt; e'' &lt; 0? sign via sag</span>
         <span class="n">epp2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">a2</span> <span class="o">/</span> <span class="p">((</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">epp3</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">a3</span> <span class="o">/</span> <span class="p">((</span><span class="n">d</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">epp4</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">a4</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
@@ -655,7 +655,7 @@
 <a class="viewcode-back" href="../../gen/pycba.prestress.Harp.html#pycba.prestress.Harp">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Harp</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Single-point harped tendon (RAPT/PT-Designer Types 4, 5; 10, 11 cantilever):</span>
 <span class="sd">    straight segments with one bend.</span>
 
@@ -669,7 +669,7 @@
 <span class="sd">    c_left, c_right : float, optional</span>
 <span class="sd">        High points inside the supports (Type 5) instead of at the centrelines</span>
 <span class="sd">        (Type 4).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">e_left</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">e_mid</span><span class="p">:</span> <span class="nb">float</span>
@@ -683,7 +683,7 @@
         <span class="n">xb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
         <span class="n">xl</span><span class="p">,</span> <span class="n">xr</span> <span class="o">=</span> <span class="n">cl</span><span class="p">,</span> <span class="n">L</span> <span class="o">-</span> <span class="n">cr</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">xl</span> <span class="o">&lt;</span> <span class="n">xb</span> <span class="o">&lt;</span> <span class="n">xr</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Harp: require c_left &lt; a &lt; L - c_right&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Harp: require c_left &lt; a &lt; L - c_right"</span><span class="p">)</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">cantilever</span>  <span class="c1"># straight-segment profile is identical on a cantilever</span>
         <span class="n">segs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_Seg</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">cl</span> <span class="o">&gt;</span> <span class="n">_TOL</span><span class="p">:</span>
@@ -700,7 +700,7 @@
 <a class="viewcode-back" href="../../gen/pycba.prestress.DoubleHarp.html#pycba.prestress.DoubleHarp">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">DoubleHarp</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Double-point harped tendon (RAPT/PT-Designer Types 6, 7): straight segments</span>
 <span class="sd">    with two bends.</span>
 
@@ -714,7 +714,7 @@
 <span class="sd">    c_left, c_right : float, optional</span>
 <span class="sd">        High points inside the supports (Type 7) instead of at the centrelines</span>
 <span class="sd">        (Type 6).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">e_left</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">e_1</span><span class="p">:</span> <span class="nb">float</span>
@@ -730,7 +730,7 @@
         <span class="n">xa</span><span class="p">,</span> <span class="n">xb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
         <span class="n">xl</span><span class="p">,</span> <span class="n">xr</span> <span class="o">=</span> <span class="n">cl</span><span class="p">,</span> <span class="n">L</span> <span class="o">-</span> <span class="n">cr</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">xl</span> <span class="o">&lt;</span> <span class="n">xa</span> <span class="o">&lt;</span> <span class="n">xb</span> <span class="o">&lt;</span> <span class="n">xr</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DoubleHarp: require c_left &lt; a &lt; b &lt; L - c_right&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"DoubleHarp: require c_left &lt; a &lt; b &lt; L - c_right"</span><span class="p">)</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">cantilever</span>  <span class="c1"># straight-segment profile is identical on a cantilever</span>
         <span class="n">segs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_Seg</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">cl</span> <span class="o">&gt;</span> <span class="n">_TOL</span><span class="p">:</span>
@@ -751,9 +751,9 @@
 <span class="c1"># Equivalent-load assembly</span>
 <span class="c1"># --------------------------------------------------------------------------- #</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_span_lengths</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-    <span class="n">beam</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">beam</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;beam&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span>
+    <span class="n">beam</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">beam</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"beam"</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">Beam</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;equivalent_loads needs a Beam or BeamAnalysis&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"equivalent_loads needs a Beam or BeamAnalysis"</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">)</span>
 
 
@@ -764,7 +764,7 @@
     <span class="n">force</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
     <span class="n">profiles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Profile</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Build the post-tensioning equivalent-load matrix for a draped tendon.</span>
 
 <span class="sd">    Parameters</span>
@@ -783,16 +783,16 @@
 <span class="sd">    LoadMatrix</span>
 <span class="sd">        A PyCBA load matrix (UDLs, partial UDLs, point loads and the two end</span>
 <span class="sd">        anchorage moments) ready to pass to ``set_loads``/``add`` and analyse.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">beam</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">beam</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;beam&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span>
+<span class="sd">    """</span>
+    <span class="n">beam</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">beam</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"beam"</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span>
     <span class="n">R</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">restraints</span><span class="p">)</span>
     <span class="n">L</span> <span class="o">=</span> <span class="n">_span_lengths</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">profiles</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;expected </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> profiles (one per span), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">profiles</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"expected </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> profiles (one per span), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">profiles</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">F</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">force</span><span class="p">)]</span> <span class="o">*</span> <span class="n">n</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">force</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">force</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">F</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;expected </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> force values, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">F</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"expected </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> force values, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">F</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">first_e</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -807,9 +807,9 @@
         <span class="n">Li</span><span class="p">,</span> <span class="n">Fi</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="c1"># a span with a free end node is a cantilever (tendon anchored at the tip)</span>
         <span class="k">if</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">cant</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span>
+            <span class="n">cant</span> <span class="o">=</span> <span class="s2">"left"</span>
         <span class="k">elif</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">cant</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span>
+            <span class="n">cant</span> <span class="o">=</span> <span class="s2">"right"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cant</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">segs</span> <span class="o">=</span> <span class="n">prof</span><span class="o">.</span><span class="n">segments</span><span class="p">(</span><span class="n">Li</span><span class="p">,</span> <span class="n">cant</span><span class="p">)</span>
@@ -837,7 +837,7 @@
         <span class="n">last_e</span><span class="p">,</span> <span class="n">last_F</span> <span class="o">=</span> <span class="n">segs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">e2</span><span class="p">,</span> <span class="n">Fi</span>
         <span class="n">last_slope</span> <span class="o">=</span> <span class="n">segs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">slope_end</span><span class="p">()</span>
 
-    <span class="c1"># Anchorage actions  M = F e (couple) and V = F e&#39; (vertical).  At the left</span>
+    <span class="c1"># Anchorage actions  M = F e (couple) and V = F e' (vertical).  At the left</span>
     <span class="c1"># end +F e; at the right end -F e, so the moment pair is self-equilibrating</span>
     <span class="c1"># (a constant eccentricity gives the correct uniform -F e).  The vertical</span>
     <span class="c1"># anchorage force is reacted directly by any support there, so it is applied</span>
@@ -858,7 +858,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_eval_e</span><span class="p">(</span><span class="n">segs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_Seg</span><span class="p">],</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tendon eccentricity at span-local ``x`` from its segments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Tendon eccentricity at span-local ``x`` from its segments."""</span>
     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segs</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">x1</span> <span class="o">-</span> <span class="n">_TOL</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">x2</span> <span class="o">+</span> <span class="n">_TOL</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">e1</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">slope_start</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="n">epp</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
@@ -867,9 +867,9 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_cantilever_side</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+        <span class="k">return</span> <span class="s2">"left"</span>
     <span class="k">if</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+        <span class="k">return</span> <span class="s2">"right"</span>
     <span class="k">return</span> <span class="kc">None</span>
 
 
@@ -881,16 +881,16 @@
     <span class="n">profiles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Profile</span><span class="p">]],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tab:red&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tab:red"</span><span class="p">,</span>
     <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Draw the tendon and its equivalent loads in three stacked, x-aligned panels.</span>
 
 <span class="sd">    (a) the beam with its supports (no loads); (b) the specified cable drape -</span>
 <span class="sd">    the tendon eccentricity profile, on its own (exaggerated) vertical scale,</span>
-<span class="sd">    measured positive below the centroid; and (c) the equivalent (&quot;balanced&quot;)</span>
+<span class="sd">    measured positive below the centroid; and (c) the equivalent ("balanced")</span>
 <span class="sd">    loads the tendon exerts, drawn on the bare beam (no support symbols).  Read</span>
 <span class="sd">    top to bottom, this shows how the drape becomes the balancing loads.</span>
 
@@ -914,14 +914,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.figure.Figure, tuple(matplotlib.axes.Axes)</span>
 <span class="sd">        The figure and its three axes (beam, drape, loads).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
     <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
-    <span class="n">beam</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">beam</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;beam&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span>
+    <span class="n">beam</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">beam</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"beam"</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span>
     <span class="n">Ls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">)</span>
     <span class="n">R</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">restraints</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Ls</span><span class="p">)</span>
@@ -935,45 +935,45 @@
         <span class="mi">1</span><span class="p">,</span>
         <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ratios</span><span class="p">)),</span>
-        <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="n">ratios</span><span class="p">,</span> <span class="s2">&quot;hspace&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">},</span>
+        <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"height_ratios"</span><span class="p">:</span> <span class="n">ratios</span><span class="p">,</span> <span class="s2">"hspace"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">},</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_strip_xaxis</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>  <span class="c1"># no x ticks / no bottom spine; the vertical grid stays</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;bottom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">"bottom"</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># (a) beam + supports, no loads -- no x-axis, keep the vertical grid</span>
     <span class="n">BeamPlotter</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">ax_a</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span>
     <span class="p">)</span>
-    <span class="n">ax_a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">ax_a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Beam&quot;</span><span class="p">)</span>
+    <span class="n">ax_a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="n">ax_a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Beam"</span><span class="p">)</span>
     <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">ax_a</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>  <span class="c1"># trim the empty height above the beam (keep supports)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">y1</span><span class="p">)</span>
-    <span class="n">ax_a</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax_a</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
     <span class="n">_strip_xaxis</span><span class="p">(</span><span class="n">ax_a</span><span class="p">)</span>
 
     <span class="c1"># (b) the cable drape e(x), exaggerated (its own y-scale), + below centroid</span>
-    <span class="n">ax_b</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">total</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># the beam (centroid)</span>
+    <span class="n">ax_b</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">total</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># the beam (centroid)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># a supported node</span>
-            <span class="n">ax_b</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">offs</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.35&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">ax_b</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">offs</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"^"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.35"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">prof</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">profiles</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">prof</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="n">segs</span> <span class="o">=</span> <span class="n">prof</span><span class="o">.</span><span class="n">segments</span><span class="p">(</span><span class="n">Ls</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">_cantilever_side</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
         <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Ls</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">80</span><span class="p">)</span>
         <span class="n">es</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">_eval_e</span><span class="p">(</span><span class="n">segs</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">])</span>
-        <span class="n">ax_b</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">offs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">xs</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">ax_b</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.6&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax_b</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">offs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">xs</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax_b</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.6"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">ax_b</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>  <span class="c1"># positive e (below centroid) drawn downward</span>
-    <span class="n">lu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">ax_b</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tendon eccentricity</span><span class="si">{</span><span class="n">lu</span><span class="si">}</span><span class="se">\n</span><span class="s2">(+ve below centroid)&quot;</span><span class="p">)</span>
-    <span class="n">ax_b</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">ax_b</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Cable drape (exaggerated)&quot;</span><span class="p">)</span>
-    <span class="n">ax_b</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">lu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" (</span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="s2">""</span>
+    <span class="n">ax_b</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tendon eccentricity</span><span class="si">{</span><span class="n">lu</span><span class="si">}</span><span class="se">\n</span><span class="s2">(+ve below centroid)"</span><span class="p">)</span>
+    <span class="n">ax_b</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="n">ax_b</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Cable drape (exaggerated)"</span><span class="p">)</span>
+    <span class="n">ax_b</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
     <span class="c1"># keep the y-axis (and its label) but drop the surrounding box and the x-axis</span>
-    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"top"</span><span class="p">,</span> <span class="s2">"right"</span><span class="p">,</span> <span class="s2">"bottom"</span><span class="p">):</span>
         <span class="n">ax_b</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">sp</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">_strip_xaxis</span><span class="p">(</span><span class="n">ax_b</span><span class="p">)</span>
 
@@ -981,8 +981,8 @@
     <span class="n">BeamPlotter</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">LM</span><span class="p">)</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">ax_c</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_supports</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span>
     <span class="p">)</span>
-    <span class="n">ax_c</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Equivalent (balanced) loads&quot;</span><span class="p">)</span>
-    <span class="n">ax_c</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">ax_c</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Equivalent (balanced) loads"</span><span class="p">)</span>
+    <span class="n">ax_c</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1017,8 +1017,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1052,7 +1052,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

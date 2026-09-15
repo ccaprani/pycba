@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,9 +432,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.beam</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Beam Class definition</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
@@ -447,7 +447,7 @@
 <div class="viewcode-block" id="Beam">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Beam</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A continuous beam: its members, supports and loads.</span>
 
 <span class="sd">    A beam is built from one or more **members** — each a two-node</span>
@@ -459,7 +459,7 @@
 <span class="sd">    two coincide, but a clear span may be modelled with several members (e.g. to</span>
 <span class="sd">    place an intermediate node, a load discontinuity or an internal hinge), so</span>
 <span class="sd">    :attr:`no_members` counts the elements, not the supported spans.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -470,10 +470,10 @@
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">D</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">supports</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">SupportType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Constructs a beam object</span>
 
 <span class="sd">        Parameters</span>
@@ -492,16 +492,16 @@
 <span class="sd">            parameters.</span>
 <span class="sd">        eletype : Optional[np.ndarray]</span>
 <span class="sd">            A vector of the member types, each an integer code ``1-4``, a</span>
-<span class="sd">            :class:`~pycba.MemberType`, or a name string (``&quot;FF&quot;``/``&quot;FP&quot;``/</span>
-<span class="sd">            ``&quot;PF&quot;``/``&quot;PP&quot;``). Defaults to a fixed-fixed element.</span>
+<span class="sd">            :class:`~pycba.MemberType`, or a name string (``"FF"``/``"FP"``/</span>
+<span class="sd">            ``"PF"``/``"PP"``). Defaults to a fixed-fixed element.</span>
 <span class="sd">        D : Optional[np.ndarray]</span>
 <span class="sd">            A vector of prescribed displacements. Must have same length as R.</span>
 <span class="sd">            Use None for DOFs without prescribed displacement.</span>
 <span class="sd">        supports : Optional[Sequence[str or [float, float]]]</span>
 <span class="sd">            A friendlier alternative to ``R``: one entry per node (left to</span>
-<span class="sd">            right), each a support name (``&quot;p&quot;``/``&quot;pin&quot;``/``&quot;pinned&quot;``,</span>
-<span class="sd">            ``&quot;r&quot;``/``&quot;roller&quot;``, ``&quot;e&quot;``/``&quot;encastre&quot;``/``&quot;fixed&quot;``,</span>
-<span class="sd">            ``&quot;f&quot;``/``&quot;free&quot;``) or a raw ``[vertical, rotation]`` DOF pair (e.g.</span>
+<span class="sd">            right), each a support name (``"p"``/``"pin"``/``"pinned"``,</span>
+<span class="sd">            ``"r"``/``"roller"``, ``"e"``/``"encastre"``/``"fixed"``,</span>
+<span class="sd">            ``"f"``/``"free"``) or a raw ``[vertical, rotation]`` DOF pair (e.g.</span>
 <span class="sd">            ``[5e4, 0]`` for a vertical spring).  Lowered to ``R`` via</span>
 <span class="sd">            :func:`~pycba.supports_to_R`.  Mutually exclusive with ``R``.</span>
 <span class="sd">        GAv : Optional[float, SectionEI, or sequence]</span>
@@ -525,7 +525,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_no_restraints</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">=</span> <span class="mi">0</span>
@@ -551,9 +551,9 @@
         <span class="c1"># lower it here so the rest of the constructor is unchanged.</span>
         <span class="k">if</span> <span class="n">supports</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pass either R or supports, not both.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Pass either R or supports, not both."</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;supports requires L to set the node count.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"supports requires L to set the node count."</span><span class="p">)</span>
             <span class="n">R</span> <span class="o">=</span> <span class="n">supports_to_R</span><span class="p">(</span><span class="n">supports</span><span class="p">,</span> <span class="n">n_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eletype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -570,17 +570,17 @@
                     <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">eletype</span><span class="p">,</span> <span class="n">GAv_list</span><span class="p">,</span> <span class="n">kf_list</span><span class="p">):</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ei</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">gav</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define EI for each span&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Define EI for each span"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Provide support conditions via R or supports.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Provide support conditions via R or supports."</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="n">R</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Insufficient restraints defined&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Insufficient restraints defined"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">D</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;D must have same length as R (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="si">}</span><span class="s2">), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"D must have same length as R (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="si">}</span><span class="s2">), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_prescribed_displacements</span> <span class="o">=</span> <span class="n">D</span>
             <span class="k">else</span><span class="p">:</span>
@@ -590,39 +590,39 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast_GAv</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">n_spans</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Normalise the ``GAv`` argument to one entry per span.</span>
 
 <span class="sd">        ``None`` (the default) marks every span as Euler–Bernoulli.  A scalar</span>
 <span class="sd">        or single :class:`~pycba.section.SectionEI` is applied to all spans; a</span>
 <span class="sd">        sequence must give one entry per span (each ``None``, a scalar, or a</span>
 <span class="sd">        :class:`~pycba.section.SectionEI`).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">GAv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)):</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">GAv</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
         <span class="n">GAv</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">GAv</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">GAv</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_spans</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define GAv for each span (or pass a scalar/None).&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Define GAv for each span (or pass a scalar/None)."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">GAv</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast_kf</span><span class="p">(</span><span class="n">kf</span><span class="p">,</span> <span class="n">n_spans</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Normalise the Winkler foundation modulus ``kf`` to one entry per span.</span>
 
 <span class="sd">        ``None`` (the default) marks every span as unsupported by a foundation.</span>
 <span class="sd">        A scalar is applied to all spans; a sequence must give one entry per</span>
 <span class="sd">        span (each ``None`` or a scalar modulus).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">kf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kf</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">kf</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_spans</span>
         <span class="n">kf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kf</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kf</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n_spans</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Define kf for each span (or pass a scalar/None).&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Define kf for each span (or pass a scalar/None)."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">kf</span>
 
 <div class="viewcode-block" id="Beam.add_span">
@@ -632,10 +632,10 @@
         <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Add a span to the continuous beam</span>
 
 <span class="sd">        Parameters</span>
@@ -647,7 +647,7 @@
 <span class="sd">        eletype : int, str, or pycba.MemberType</span>
 <span class="sd">            The element type for the member, as the integer code ``1-4``, a</span>
 <span class="sd">            :class:`~pycba.MemberType` (e.g. ``MemberType.FP``), or its</span>
-<span class="sd">            case-insensitive name (e.g. ``&quot;FP&quot;``).  See :class:`~pycba.MemberType`.</span>
+<span class="sd">            case-insensitive name (e.g. ``"FP"``).  See :class:`~pycba.MemberType`.</span>
 <span class="sd">        GAv : float or pycba.section.SectionEI, optional</span>
 <span class="sd">            Transverse shear rigidity ``G·A_v`` of the member.  When given (and</span>
 <span class="sd">            finite) the member is a shear-deformable **Timoshenko** element;</span>
@@ -661,7 +661,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
             <span class="c1"># A non-prismatic section must span the full member length so its</span>
             <span class="c1"># piecewise EI(x) covers the element exactly.</span>
@@ -688,15 +688,15 @@
         <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">mbr_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">MemberType</span><span class="p">]</span> <span class="o">=</span> <span class="n">MemberType</span><span class="o">.</span><span class="n">FF</span><span class="p">,</span>
-        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Add a member (span) to the beam, naming its type.</span>
 
 <span class="sd">        A friendlier alias of :meth:`add_span` whose ``mbr_type`` accepts a</span>
-<span class="sd">        :class:`~pycba.MemberType`, a name string (``&quot;FF&quot;``/``&quot;FP&quot;``/``&quot;PF&quot;``/</span>
-<span class="sd">        ``&quot;PP&quot;``), or the integer code ``1-4``.</span>
+<span class="sd">        :class:`~pycba.MemberType`, a name string (``"FF"``/``"FP"``/``"PF"``/</span>
+<span class="sd">        ``"PP"``), or the integer code ``1-4``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -712,13 +712,13 @@
 <span class="sd">        kf : float, optional</span>
 <span class="sd">            Winkler foundation modulus; when given the member rests on an elastic</span>
 <span class="sd">            (Winkler) foundation (see :meth:`add_span`).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_span</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">mbr_type</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">kf</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the load matrix for the beam</span>
 
 <span class="sd">        Returns</span>
@@ -726,12 +726,12 @@
 <span class="sd">        LM : LoadMatrix</span>
 <span class="sd">            The load matrix for the beam</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LM</span>
 
     <span class="nd">@loads</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Sets the load matrix for the beam</span>
 
 <span class="sd">        Parameters</span>
@@ -743,15 +743,15 @@
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">LM</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Beam.add_load">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.add_load">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load</span><span class="p">:</span> <span class="n">LoadType</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds a new load to the beam&#39;s load matrix</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Adds a new load to the beam's load matrix</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -761,14 +761,14 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">load</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Explicit internal setter for loads</span>
 
 <span class="sd">        Parameters</span>
@@ -780,7 +780,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loads</span> <span class="o">=</span> <span class="n">parse_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
         <span class="c1"># Imposed-curvature loads need the member rigidity to evaluate their</span>
         <span class="c1"># fixed-end forces; supply it from the span definition.</span>
@@ -790,7 +790,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the restraints vector for the beam</span>
 
 <span class="sd">        Returns</span>
@@ -798,12 +798,12 @@
 <span class="sd">        _restraints : np.ndarray</span>
 <span class="sd">            The restraints vector for the beam</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span>
 
     <span class="nd">@restraints</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stores support conditions</span>
 
 <span class="sd">        Parameters</span>
@@ -815,24 +815,24 @@
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span> <span class="o">=</span> <span class="n">r</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">structure_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        int : A counter that increments whenever the beam *structure* changes.</span>
 
 <span class="sd">        Bumped by changes to geometry, rigidity, restraints or prescribed</span>
 <span class="sd">        displacements (but not loads).  Used to invalidate a cached stability</span>
 <span class="sd">        check (see :meth:`pycba.analysis.BeamAnalysis.is_stable`).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">prescribed_displacements</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the prescribed displacements vector for the beam</span>
 
 <span class="sd">        Returns</span>
@@ -840,12 +840,12 @@
 <span class="sd">        _prescribed_displacements : list</span>
 <span class="sd">            The prescribed displacements vector for the beam</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prescribed_displacements</span>
 
     <span class="nd">@prescribed_displacements</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">prescribed_displacements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stores prescribed displacements</span>
 
 <span class="sd">        Parameters</span>
@@ -857,23 +857,23 @@
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;D must have same length as R (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span><span class="si">}</span><span class="s2">), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"D must have same length as R (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span><span class="si">}</span><span class="s2">), got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prescribed_displacements</span> <span class="o">=</span> <span class="n">d</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_structure_version</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_element_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stores element type for a span based on support conditions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Changing element type not supported&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Changing element type not supported"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">no_members</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The number of members in the beam.</span>
 
 <span class="sd">        A *member* is an element between two nodes; a clear *span* (the distance</span>
@@ -883,40 +883,40 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        no_members : int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">no_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deprecated alias of :attr:`no_members`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Deprecated alias of :attr:`no_members`."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">no_restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the number of restraints of the beam</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        no_restraints : int</span>
 <span class="sd">            The number of restraints in the beam</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">no_fixed_restraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the number of fixed restraints of the beam (fully-supported DOFs)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        no_fixed_restraints : int</span>
 <span class="sd">            The number of fixed restraints in the beam</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_n_supports</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of nodes carrying any restraint (fixed or spring).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Number of nodes carrying any restraint (fixed or spring)."""</span>
         <span class="n">R</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_restraints</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
             <span class="mi">1</span>
@@ -928,26 +928,26 @@
         <span class="n">n_sup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_supports</span><span class="p">()</span>
         <span class="n">n_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Beam(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span><span class="si">}</span><span class="s2"> member</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;L=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_length</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_sup</span><span class="si">}</span><span class="s2"> support</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_sup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_loads</span><span class="si">}</span><span class="s2"> load</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_loads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"Beam(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span><span class="si">}</span><span class="s2"> member</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_no_spans</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'s'</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"L=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_length</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_sup</span><span class="si">}</span><span class="s2"> support</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_sup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'s'</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_loads</span><span class="si">}</span><span class="s2"> load</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_loads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'s'</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        length : float</span>
 <span class="sd">            The total length of the beam</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span>
 
 <div class="viewcode-block" id="Beam.get_local_span_coords">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_local_span_coords">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_local_span_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the span index and position in span for a position given in global</span>
 <span class="sd">        coordinates on the beam</span>
 
@@ -963,7 +963,7 @@
 <span class="sd">        pos_in_span : float</span>
 <span class="sd">            The local coordinate along the member of the point of interest</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">:</span>
             <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
         <span class="k">try</span><span class="p">:</span>
@@ -988,7 +988,7 @@
         <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Draw a structural schematic of the beam.</span>
 
 <span class="sd">        By default this renders with matplotlib; saving to a ``.tex`` path (or</span>
@@ -997,7 +997,7 @@
 <span class="sd">        hinges) is always drawn; the loads layer is optional and its source is</span>
 <span class="sd">        selected with ``loads``:</span>
 
-<span class="sd">        * ``None`` (default) - the beam&#39;s own load matrix ``self.LM``.</span>
+<span class="sd">        * ``None`` (default) - the beam's own load matrix ``self.LM``.</span>
 <span class="sd">        * ``[]`` - draw the bare structure only.</span>
 <span class="sd">        * a PyCBA load matrix, a :class:`~pycba.load_cases.LoadCase`, or a</span>
 <span class="sd">          :class:`~pycba.load_cases.LoadCombination` (supply its</span>
@@ -1050,7 +1050,7 @@
 <span class="sd">        pathlib.Path</span>
 <span class="sd">            The written file, when the TikZ backend is selected with ``save``</span>
 <span class="sd">            (the ``.tex`` path, or the ``.pdf`` when compiled).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
 
@@ -1058,27 +1058,27 @@
         <span class="k">if</span> <span class="n">use_tikz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Infer the backend from the output file: a ``.tex`` target means</span>
             <span class="c1"># TikZ, anything else (or no ``save``) means matplotlib.</span>
-            <span class="n">use_tikz</span> <span class="o">=</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;.tex&quot;</span>
+            <span class="n">use_tikz</span> <span class="o">=</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">".tex"</span>
 
         <span class="n">plotter</span> <span class="o">=</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">use_tikz</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># A .pdf target implies the compiled figure is wanted.</span>
-                <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;.pdf&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">".pdf"</span><span class="p">:</span>
                     <span class="nb">compile</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">return</span> <span class="n">plotter</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">plotter</span><span class="o">.</span><span class="n">render_tikz</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ax</span></div>
 
 
 <div class="viewcode-block" id="Beam.to_tikz">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.to_tikz">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_tikz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generate a TikZ/``stanli`` representation of the beam.</span>
 
 <span class="sd">        Loads are selected with ``loads`` exactly as for :meth:`plot`.</span>
@@ -1098,7 +1098,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            The LaTeX source.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
 
         <span class="k">return</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">render_tikz</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -1107,7 +1107,7 @@
 <div class="viewcode-block" id="Beam.save_tikz">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.save_tikz">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_tikz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">loads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write the TikZ/``stanli`` source to ``path`` (and optionally compile it).</span>
 
 <span class="sd">        Loads are selected with ``loads`` exactly as for :meth:`plot`.</span>
@@ -1128,7 +1128,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        pathlib.Path</span>
 <span class="sd">            The ``.tex`` path, or the produced ``.pdf`` when ``compile=True``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
 
         <span class="k">return</span> <span class="n">BeamPlotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">load_cases</span><span class="o">=</span><span class="n">load_cases</span><span class="p">)</span><span class="o">.</span><span class="n">save_tikz</span><span class="p">(</span>
@@ -1137,10 +1137,10 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_foundation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return the (cached) beam-on-elastic-foundation super-element for a</span>
 <span class="sd">        foundation span, after checking the supported restrictions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">elem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_found_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">elem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">elem</span>
@@ -1150,18 +1150,18 @@
         <span class="n">eType</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">])</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">&quot;A Winkler foundation currently requires a prismatic (scalar EI) span.&quot;</span>
+                <span class="s2">"A Winkler foundation currently requires a prismatic (scalar EI) span."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">GAv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">&quot;A Winkler foundation cannot yet be combined with shear &quot;</span>
-                <span class="s2">&quot;flexibility (GAv) on the same span.&quot;</span>
+                <span class="s2">"A Winkler foundation cannot yet be combined with shear "</span>
+                <span class="s2">"flexibility (GAv) on the same span."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">eType</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">&quot;A Winkler foundation span must be fixed-fixed (the default &quot;</span>
-                <span class="s2">&quot;element type); moment releases on a foundation span are not &quot;</span>
-                <span class="s2">&quot;yet supported.&quot;</span>
+                <span class="s2">"A Winkler foundation span must be fixed-fixed (the default "</span>
+                <span class="s2">"element type); moment releases on a foundation span are not "</span>
+                <span class="s2">"yet supported."</span>
             <span class="p">)</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">.foundation</span><span class="w"> </span><span class="kn">import</span> <span class="n">FoundationElement</span>
@@ -1173,7 +1173,7 @@
 <div class="viewcode-block" id="Beam.get_ref">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_ref">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns Released End Forces for the member; that is, the Consistent Nodal Loads</span>
 <span class="sd">        modified for the element type (i.e. releases)</span>
 
@@ -1187,7 +1187,7 @@
 <span class="sd">        ref : LoadCNL</span>
 <span class="sd">            The totalled CNL object for the member, considering all loads.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
@@ -1214,13 +1214,13 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_ref_nonprismatic</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">load</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Released end forces of a single load on a non-prismatic member.</span>
 
 <span class="sd">        The fixed-end moments are obtained by the same flexibility integration</span>
 <span class="sd">        used for the element stiffness.  On the simply-supported released</span>
 <span class="sd">        element the load produces the moment diagram ``M(x)`` (taken from the</span>
-<span class="sd">        load&#39;s :meth:`~pycba.load.Load.get_mbr_results`), and the primary end</span>
+<span class="sd">        load's :meth:`~pycba.load.Load.get_mbr_results`), and the primary end</span>
 <span class="sd">        rotations are</span>
 
 <span class="sd">        .. math::</span>
@@ -1229,7 +1229,7 @@
 
 <span class="sd">        with ``m_i = 1 − x/L`` and ``m_j = −x/L`` (the same unit-moment</span>
 <span class="sd">        diagrams used for the element flexibility).  The fixed-end moments</span>
-<span class="sd">        follow directly as ``[M_a, M_b] = K_θ θ_0`` in PyCBA&#39;s nodal-moment</span>
+<span class="sd">        follow directly as ``[M_a, M_b] = K_θ θ_0`` in PyCBA's nodal-moment</span>
 <span class="sd">        sign convention, and the corresponding end shears are the</span>
 <span class="sd">        simply-supported reactions plus the ``(M_a + M_b)/L`` couple.  Moment</span>
 <span class="sd">        releases are then imposed by static condensation, mirroring</span>
@@ -1253,7 +1253,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray, shape (4,)</span>
 <span class="sd">            Released end force vector ``[Va, Ma, Vb, Mb]``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">eType</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
         <span class="c1"># Primary (simply-supported) end rotations from flexibility integration.</span>
         <span class="c1"># For ordinary loads the integrand is the flexural curvature M(x)/EI(x);</span>
@@ -1290,7 +1290,7 @@
         <span class="n">Ma</span> <span class="o">=</span> <span class="n">FEM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">Mb</span> <span class="o">=</span> <span class="n">FEM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="c1"># Simply-supported reactions: recover from the load&#39;s prismatic CNL by</span>
+        <span class="c1"># Simply-supported reactions: recover from the load's prismatic CNL by</span>
         <span class="c1"># removing the (prismatic) end-moment couple, leaving pure SS shears.</span>
         <span class="n">cnl_p</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">Va_ss</span> <span class="o">=</span> <span class="n">cnl_p</span><span class="o">.</span><span class="n">Va</span> <span class="o">-</span> <span class="p">(</span><span class="n">cnl_p</span><span class="o">.</span><span class="n">Ma</span> <span class="o">+</span> <span class="n">cnl_p</span><span class="o">.</span><span class="n">Mb</span><span class="p">)</span> <span class="o">/</span> <span class="n">L</span>
@@ -1329,7 +1329,7 @@
 <div class="viewcode-block" id="Beam.get_span_k">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.get_span_k">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_span_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the stiffness matrix for the ith span</span>
 
 <span class="sd">        Parameters</span>
@@ -1342,7 +1342,7 @@
 <span class="sd">        kb : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">EI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
@@ -1383,7 +1383,7 @@
 <div class="viewcode-block" id="Beam.k_FF">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_FF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stiffness matrix for a fixed-fixed element</span>
 
 <span class="sd">        Parameters</span>
@@ -1397,7 +1397,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        k : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
 
@@ -1422,7 +1422,7 @@
 <div class="viewcode-block" id="Beam.k_FP">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FP">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_FP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stiffness matrix for a fixed-pinned element</span>
 
 <span class="sd">        Parameters</span>
@@ -1436,7 +1436,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        k : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
 
@@ -1460,7 +1460,7 @@
 <div class="viewcode-block" id="Beam.k_PF">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PF">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_PF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stiffness matrix for a pinned-fixed element</span>
 
 <span class="sd">        Parameters</span>
@@ -1474,7 +1474,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        k : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
 
@@ -1498,7 +1498,7 @@
 <div class="viewcode-block" id="Beam.k_PP">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_PP">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stiffness matrix for a pinned-pinned element</span>
 
 <span class="sd">        Parameters</span>
@@ -1512,7 +1512,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        k : np.ndarray</span>
 <span class="sd">            The stiffness matrix for the member</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
@@ -1523,8 +1523,8 @@
     <span class="c1">#  Non-prismatic (variable-EI) element</span>
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_gauss_nodes</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gauss_nodes</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="s2">"SectionEI"</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Breakpoint-aware Gauss-Legendre nodes/weights over the span ``[0, L]``.</span>
 
 <span class="sd">        The flexibility integrals are evaluated **piece-by-piece between</span>
@@ -1534,7 +1534,7 @@
 <span class="sd">        (a discontinuous ``EI`` at a shared coordinate) exact.</span>
 
 <span class="sd">        The per-piece integrand is ``m_a(x) m_b(x) / EI(x)``: an (at most)</span>
-<span class="sd">        quadratic numerator over the piece&#39;s polynomial rigidity ``EI(x)``.</span>
+<span class="sd">        quadratic numerator over the piece's polynomial rigidity ``EI(x)``.</span>
 <span class="sd">        For a **constant** piece this is a pure quadratic polynomial, integrated</span>
 <span class="sd">        *exactly* by a 2-point Gauss rule -- so a single ``const`` segment (the</span>
 <span class="sd">        prismatic limit) reproduces the closed-form stiffness to machine</span>
@@ -1554,7 +1554,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        x, w : np.ndarray</span>
 <span class="sd">            The concatenated Gauss nodes and weights mapped onto ``[0, L]``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">ws</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">EI</span><span class="o">.</span><span class="n">pieces</span><span class="p">:</span>
@@ -1570,7 +1570,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Rotational flexibility matrix of the simply-supported released element.</span>
 
 <span class="sd">        Using the force (flexibility) method, the released (simply-supported)</span>
@@ -1579,7 +1579,7 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            m_i(x) = 1 - x/L, \\qquad m_j(x) = -x/L</span>
 
-<span class="sd">        (the ``j``-end diagram carries the sign required by PyCBA&#39;s</span>
+<span class="sd">        (the ``j``-end diagram carries the sign required by PyCBA's</span>
 <span class="sd">        counter-clockwise-positive nodal-moment convention, so that the</span>
 <span class="sd">        resulting stiffness reproduces :meth:`k_FF` exactly for constant</span>
 <span class="sd">        ``EI``) and the 2x2 rotational flexibility about the two end DOFs is</span>
@@ -1609,7 +1609,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        F : np.ndarray, shape (2, 2)</span>
 <span class="sd">            The end-rotation flexibility matrix.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">Beam</span><span class="o">.</span><span class="n">_gauss_nodes</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
 
         <span class="n">EIx</span> <span class="o">=</span> <span class="n">EI</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -1626,7 +1626,7 @@
 <div class="viewcode-block" id="Beam.k_theta">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_theta">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        2x2 moment-rotation stiffness of the (chord-relative) element ends.</span>
 
 <span class="sd">        This is the inverse of the rotational flexibility matrix</span>
@@ -1644,14 +1644,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray, shape (2, 2)</span>
 <span class="sd">            The end moment-rotation stiffness matrix ``K_theta = F^-1``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Beam.k_nonprismatic">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_nonprismatic">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_nonprismatic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        4x4 stiffness matrix of a non-prismatic (variable-EI) element.</span>
 
 <span class="sd">        The 2x2 moment-rotation stiffness ``K_theta`` from flexibility</span>
@@ -1671,7 +1671,7 @@
 
 <span class="sd">        so the element stiffness is ``k = T^T K_theta T``.  The end shears</span>
 <span class="sd">        emerge automatically as ``(M_i + M_j)/L`` from this transformation,</span>
-<span class="sd">        matching PyCBA&#39;s DOF order ``[v_i, theta_i, v_j, theta_j]`` and sign</span>
+<span class="sd">        matching PyCBA's DOF order ``[v_i, theta_i, v_j, theta_j]`` and sign</span>
 <span class="sd">        convention.</span>
 
 <span class="sd">        Moment releases (element types 2, 3, 4) are imposed by static</span>
@@ -1696,7 +1696,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        k : np.ndarray, shape (4, 4)</span>
 <span class="sd">            The element stiffness matrix.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">Kth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_theta</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
         <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
             <span class="p">[</span>
@@ -1715,7 +1715,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_condense</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">released</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Statically condense released DOF(s) out of a 4x4 element stiffness.</span>
 
 <span class="sd">        The released rows/columns are zeroed (as in the prismatic released</span>
@@ -1733,7 +1733,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray, shape (4, 4)</span>
 <span class="sd">            Condensed stiffness with released rows/columns zeroed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">kept</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">released</span><span class="p">]</span>
         <span class="n">Kkk</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">kept</span><span class="p">,</span> <span class="n">kept</span><span class="p">)]</span>
         <span class="n">Krr</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">released</span><span class="p">)]</span>
@@ -1751,7 +1751,7 @@
 <div class="viewcode-block" id="Beam.k_FF_timo">
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_FF_timo">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_FF_timo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">GAv</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Stiffness matrix for a prismatic fixed-fixed Timoshenko element.</span>
 
 <span class="sd">        The standard two-node shear-flexible element introduces the</span>
@@ -1789,7 +1789,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        k : np.ndarray, shape (4, 4)</span>
 <span class="sd">            The element stiffness matrix.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="mi">3</span>
         <span class="n">phi</span> <span class="o">=</span> <span class="mf">12.0</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="p">(</span><span class="n">GAv</span> <span class="o">*</span> <span class="n">L2</span><span class="p">)</span>
@@ -1811,8 +1811,8 @@
         <span class="k">return</span> <span class="n">k</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_shear_flexibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_shear_flexibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Shear contribution to the end-rotation flexibility.</span>
 
 <span class="sd">        On the released (simply-supported) element a unit end moment produces a</span>
@@ -1838,7 +1838,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
 <span class="sd">            The scalar shear-flexibility term added to all entries of ``F``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
             <span class="n">xg</span><span class="p">,</span> <span class="n">wg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gauss_nodes</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
             <span class="n">integral</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">wg</span> <span class="o">/</span> <span class="n">GAv</span><span class="p">(</span><span class="n">xg</span><span class="p">)))</span>
@@ -1847,9 +1847,9 @@
         <span class="k">return</span> <span class="n">integral</span> <span class="o">/</span> <span class="p">(</span><span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_timo_flexibility</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span> <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span> <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        2x2 end moment-rotation flexibility of a Timoshenko element.</span>
 
 <span class="sd">        This is the Euler–Bernoulli flexural flexibility (closed-form for a</span>
@@ -1873,7 +1873,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray, shape (2, 2)</span>
 <span class="sd">            The end moment-rotation flexibility matrix.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
             <span class="n">F</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1889,12 +1889,12 @@
 <a class="viewcode-back" href="../../gen/pycba.beam.Beam.html#pycba.beam.Beam.k_timoshenko">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">k_timoshenko</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
-        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span>
         <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        4x4 Timoshenko element stiffness for scalar or variable ``EI``/``GAv``.</span>
 
 <span class="sd">        The 2x2 moment-rotation stiffness ``K_theta`` (the inverse of the</span>
@@ -1922,7 +1922,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        k : np.ndarray, shape (4, 4)</span>
 <span class="sd">            The element stiffness matrix.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">Kth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timo_flexibility</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">GAv</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
         <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
             <span class="p">[</span>
@@ -1941,14 +1941,14 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_timo_theta0</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">load</span><span class="p">,</span>
-        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
-        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span>
         <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Primary end rotations of a load on a released Timoshenko span.</span>
 
-<span class="sd">        The released (simply-supported) span carries the load&#39;s moment diagram</span>
+<span class="sd">        The released (simply-supported) span carries the load's moment diagram</span>
 <span class="sd">        ``M(x)`` and shear ``V(x)`` (from :meth:`~pycba.load.Load.get_mbr_results`).</span>
 <span class="sd">        The end rotations work-conjugate to the end moments combine the</span>
 <span class="sd">        flexural and shear contributions,</span>
@@ -1980,7 +1980,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray, shape (2,)</span>
 <span class="sd">            The primary end rotations ``[theta_0a, theta_0b]``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">bps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
             <span class="n">bps</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">EI</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>
@@ -2017,12 +2017,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_ref_timoshenko</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">load</span><span class="p">,</span>
-        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
-        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;SectionEI&quot;</span><span class="p">],</span>
+        <span class="n">EI</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span>
+        <span class="n">GAv</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">"SectionEI"</span><span class="p">],</span>
         <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Released end forces of a single load on a Timoshenko member.</span>
 
 <span class="sd">        The fixed-end moments are the Timoshenko moment-rotation stiffness</span>
@@ -2061,7 +2061,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray, shape (4,)</span>
 <span class="sd">            Released end force vector ``[Va, Ma, Vb, Mb]``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">eType</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">eType</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
         <span class="n">prismatic</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span>
         <span class="n">cnl</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># fixed-fixed Euler-Bernoulli CNL</span>
@@ -2137,8 +2137,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -2172,7 +2172,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

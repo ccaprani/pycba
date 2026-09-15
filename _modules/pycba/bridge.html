@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,9 +432,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.bridge</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Continuous Beam Analysis - Bridge Crossing Module</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -446,7 +446,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_vertical_support_xs</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Global x-coordinates of the vertical supports (fixed or spring).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Global x-coordinates of the vertical supports (fixed or spring)."""</span>
     <span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
     <span class="n">restraints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">restraints</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -461,8 +461,8 @@
     <span class="n">points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Resolve requested &quot;shear point&quot; sections to per-member local coordinates.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Resolve requested "shear point" sections to per-member local coordinates.</span>
 
 <span class="sd">    Shear points are sections at which the shear is recovered exactly (on both</span>
 <span class="sd">    sides), for example the face of a support or the critical-shear section a</span>
@@ -490,7 +490,7 @@
 <span class="sd">        coordinates, suitable for ``BeamResults(shear_points=...)``.</span>
 <span class="sd">    points_global : np.ndarray</span>
 <span class="sd">        The sorted vector of global section coordinates actually placed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">globals_</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">globals_</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">points</span><span class="p">))</span>
@@ -514,19 +514,19 @@
 <div class="viewcode-block" id="BridgeAnalysis">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BridgeAnalysis</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Performs a bridge crossing analysis for a defined vehicle. The vehicle is moved</span>
 <span class="sd">    from the zero global x-coordinate of the beam until it has left the beam at the</span>
 <span class="sd">    far end.</span>
 
 <span class="sd">    Any loads already defined on the `BeamAnalysis` object are retained and</span>
 <span class="sd">    superimposed in each vehicle position analysis.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BeamAnalysis</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">veh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Vehicle</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Can instantiate with nothing and later add or define the objects, or</span>
 <span class="sd">        with instantiate with pre-defined bridge and vehicle objects.</span>
 
@@ -543,7 +543,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">ba</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">veh</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="p">[]</span>
@@ -567,7 +567,7 @@
         <span class="n">eletype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Create and add a beam to a bridge analysis</span>
 
 <span class="sd">        Parameters</span>
@@ -589,7 +589,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        ba : BeamAnalysis</span>
 <span class="sd">            A :class:`pycba.analysis.BeamAnalysis` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">BeamAnalysis</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="n">EI</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">eletype</span><span class="o">=</span><span class="n">eletype</span><span class="p">,</span> <span class="n">GAv</span><span class="o">=</span><span class="n">GAv</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">loads</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span></div>
@@ -598,7 +598,7 @@
 <div class="viewcode-block" id="BridgeAnalysis.set_bridge">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_bridge">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_bridge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ba</span><span class="p">:</span> <span class="n">BeamAnalysis</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set the bridge for the bridge analysis.</span>
 
 <span class="sd">        Any loads already defined on the `BeamAnalysis` object are retained in</span>
@@ -613,7 +613,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span> <span class="o">=</span> <span class="n">ba</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">loads</span></div>
 
@@ -621,7 +621,7 @@
 <div class="viewcode-block" id="BridgeAnalysis.add_vehicle">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.add_vehicle">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axle_spacings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Create and add the vehicle to the analysis</span>
 
 <span class="sd">        Parameters</span>
@@ -637,7 +637,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        veh : Vehicle</span>
 <span class="sd">            A :class:`pycba.bridge.Vehicle` object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">axle_spacings</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span></div>
 
@@ -645,7 +645,7 @@
 <div class="viewcode-block" id="BridgeAnalysis.set_vehicle">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.set_vehicle">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">veh</span><span class="p">:</span> <span class="n">Vehicle</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set the vehicle for the bridge analysis.</span>
 
 <span class="sd">        Parameters</span>
@@ -657,7 +657,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">veh</span> <span class="o">=</span> <span class="n">veh</span></div>
 
 
@@ -670,7 +670,7 @@
         <span class="n">shear_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Performs a single analysis for the vehicle, static at a given position</span>
 
 <span class="sd">        Parameters</span>
@@ -697,14 +697,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        ba: BeamResults</span>
 <span class="sd">            The `pycba.Beamresults` object containing the analysis results.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_apply_shear_points</span><span class="p">(</span><span class="n">shear_points</span><span class="p">,</span> <span class="n">dv</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bridge analysis did not succeed&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Bridge analysis did not succeed"</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -715,14 +715,14 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_shear_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shear_points</span><span class="p">,</span> <span class="n">dv</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Resolve and arm shear-point sections on the underlying beam analysis.</span>
 
 <span class="sd">        Sets ``self.ba.shear_points`` (consumed by each ``analyze()`` call) and</span>
 <span class="sd">        records the placed global section coordinates in ``self.shear_points_x``</span>
 <span class="sd">        for :meth:`critical_values`.  A pre-resolved ``dict`` is used as-is; any</span>
 <span class="sd">        other spec is resolved with :func:`resolve_shear_points`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shear_points</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">sp</span> <span class="o">=</span> <span class="n">shear_points</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shear_points_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
@@ -736,7 +736,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="n">sp</span> <span class="k">if</span> <span class="n">sp</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_axle_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build the load-matrix rows for the vehicle axles with the front axle at</span>
 <span class="sd">        ``pos``.  Only axles currently on the deck are included.</span>
 
@@ -749,7 +749,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        List[list]</span>
 <span class="sd">            Point-load (type 2) rows for the on-deck axles.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">axle_positions</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span>
 
         <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
@@ -763,7 +763,7 @@
         <span class="k">return</span> <span class="n">rows</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_interval_udl_LM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xa</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">xb</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert a global UDL interval ``[xa, xb]`` of intensity ``w`` into</span>
 <span class="sd">        per-span partial-UDL (type 3) load-matrix rows, splitting the interval</span>
 <span class="sd">        at the span boundaries.  Portions off the deck are ignored.</span>
@@ -779,7 +779,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        List[list]</span>
 <span class="sd">            Partial-UDL rows ``[span, 3, w, a, c]`` for each loaded span portion.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">beam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam</span>
         <span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
         <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
@@ -791,7 +791,7 @@
         <span class="k">return</span> <span class="n">rows</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_single_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Internal function for efficiency in run_vehicle - assumes Bridge and</span>
 <span class="sd">        Vehicle are already defined/checked in UI functions</span>
 
@@ -805,7 +805,7 @@
 <span class="sd">        int</span>
 <span class="sd">            0 if the analysis succeeds.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Superimpose the axle loads on any pre-existing loads on the beam</span>
         <span class="n">LM</span> <span class="o">=</span> <span class="n">add_LM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_LM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axle_LM</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
 
@@ -824,7 +824,7 @@
         <span class="n">shear_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Runs the vehicle over the bridge performing a static analysis at each point</span>
 
 <span class="sd">        Parameters</span>
@@ -864,7 +864,7 @@
 <span class="sd">        Envelopes</span>
 <span class="sd">            The load effect envelopes for the traverse; a `pycba.Envelopes` object.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="p">[]</span>
@@ -887,7 +887,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
                 <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_analysis</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bridge analysis did not succeed at {pos=}&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Bridge analysis did not succeed at {pos=}"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">plot_all</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">plot_static</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">axs</span><span class="p">)</span>
                     <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
@@ -905,24 +905,24 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_clearances</span><span class="p">(</span><span class="n">clearances</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Validate a lane-UDL ``(back, front)`` clearance pair.</span>
 
 <span class="sd">        Returns ``(back, front)`` as floats, or ``(0.0, 0.0)`` when</span>
 <span class="sd">        ``clearances`` is ``None`` (no clear zone).  Raises ``ValueError`` for</span>
 <span class="sd">        anything that is not a finite, non-negative pair.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">clearances</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">back</span><span class="p">,</span> <span class="n">front</span> <span class="o">=</span> <span class="n">clearances</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;clearances must be a (back, front) tuple of two distances, or None&quot;</span>
+                <span class="s2">"clearances must be a (back, front) tuple of two distances, or None"</span>
             <span class="p">)</span>
         <span class="n">back</span><span class="p">,</span> <span class="n">front</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">back</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">front</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">back</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">front</span><span class="p">))</span> <span class="ow">or</span> <span class="n">back</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">front</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;clearances (back, front) must be finite and non-negative&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"clearances (back, front) must be finite and non-negative"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">back</span><span class="p">,</span> <span class="n">front</span>
 
 <div class="viewcode-block" id="BridgeAnalysis.run_load_model">
@@ -938,7 +938,7 @@
         <span class="n">shear_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">dv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Run a moving load model: the vehicle together with an accompanying lane</span>
 <span class="sd">        UDL, enveloped over the traverse.</span>
 
@@ -997,7 +997,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Envelopes</span>
 <span class="sd">            The load-effect envelopes for the traverse.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">back</span><span class="p">,</span> <span class="n">front</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_clearances</span><span class="p">(</span><span class="n">clearances</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_objects</span><span class="p">()</span>
@@ -1041,7 +1041,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">set_loads</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
                 <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">out</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bridge analysis did not succeed at </span><span class="si">{</span><span class="n">pos</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bridge analysis did not succeed at </span><span class="si">{</span><span class="n">pos</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1059,13 +1059,13 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">critical_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        From the envelopes output, returns the extreme values, their locations,</span>
 <span class="sd">        and the position of the vehicle for each in a dictionary of dictionaries.</span>
 
-<span class="sd">        Each moment entry (``Mmax``, ``Mmin``) also contains a ``&quot;Vco&quot;`` key with</span>
+<span class="sd">        Each moment entry (``Mmax``, ``Mmin``) also contains a ``"Vco"`` key with</span>
 <span class="sd">        the coincident shear at the critical location. Each shear entry (``Vmax``,</span>
-<span class="sd">        ``Vmin``) contains a ``&quot;Mco&quot;`` key with the coincident moment.</span>
+<span class="sd">        ``Vmin``) contains a ``"Mco"`` key with the coincident moment.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1085,7 +1085,7 @@
 <span class="sd">            A dictionary of dictionaries containing the critical values (i.e. extremes)</span>
 <span class="sd">            of each of the load effects, both maximum and minimum, along with</span>
 <span class="sd">            coincident values of the other effect.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">crit_values</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">indx</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1096,22 +1096,22 @@
         <span class="n">Vmin</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
         <span class="c1"># Find the indices of the critical vehicle positions</span>
-        <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Mmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">indx</span><span class="p">[</span><span class="s2">"Mmax"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">i</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Mmax</span><span class="p">)</span>
         <span class="p">]</span>
-        <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Mmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">indx</span><span class="p">[</span><span class="s2">"Mmin"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">i</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Mmin</span><span class="p">)</span>
         <span class="p">]</span>
-        <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">indx</span><span class="p">[</span><span class="s2">"Vmax"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">i</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Vmax</span><span class="p">)</span>
         <span class="p">]</span>
-        <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Vmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">indx</span><span class="p">[</span><span class="s2">"Vmin"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">i</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Vmin</span><span class="p">)</span>
@@ -1119,42 +1119,42 @@
 
         <span class="c1"># Now check for any errors</span>
         <span class="k">if</span> <span class="p">[]</span> <span class="ow">in</span> <span class="n">indx</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Envelope not from the current bridge analysis&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Envelope not from the current bridge analysis"</span><span class="p">)</span>
 
         <span class="c1"># Good to proceed</span>
-        <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;Mmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Mmax</span><span class="p">,</span>
-            <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
-            <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Mmax&quot;</span><span class="p">]],</span>
-            <span class="s2">&quot;Vco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
+        <span class="n">crit_values</span><span class="p">[</span><span class="s2">"Mmax"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"val"</span><span class="p">:</span> <span class="n">Mmax</span><span class="p">,</span>
+            <span class="s2">"at"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
+            <span class="s2">"pos"</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">"Mmax"</span><span class="p">]],</span>
+            <span class="s2">"Vco"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
         <span class="p">}</span>
-        <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;Mmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Mmin</span><span class="p">,</span>
-            <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
-            <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Mmin&quot;</span><span class="p">]],</span>
-            <span class="s2">&quot;Vco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
+        <span class="n">crit_values</span><span class="p">[</span><span class="s2">"Mmin"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"val"</span><span class="p">:</span> <span class="n">Mmin</span><span class="p">,</span>
+            <span class="s2">"at"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
+            <span class="s2">"pos"</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">"Mmin"</span><span class="p">]],</span>
+            <span class="s2">"Vco"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
         <span class="p">}</span>
-        <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;Vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Vmax</span><span class="p">,</span>
-            <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
-            <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Vmax&quot;</span><span class="p">]],</span>
-            <span class="s2">&quot;Mco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
+        <span class="n">crit_values</span><span class="p">[</span><span class="s2">"Vmax"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"val"</span><span class="p">:</span> <span class="n">Vmax</span><span class="p">,</span>
+            <span class="s2">"at"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
+            <span class="s2">"pos"</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">"Vmax"</span><span class="p">]],</span>
+            <span class="s2">"Mco"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
         <span class="p">}</span>
-        <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;Vmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">Vmin</span><span class="p">,</span>
-            <span class="s2">&quot;at&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
-            <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">&quot;Vmin&quot;</span><span class="p">]],</span>
-            <span class="s2">&quot;Mco&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
+        <span class="n">crit_values</span><span class="p">[</span><span class="s2">"Vmin"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"val"</span><span class="p">:</span> <span class="n">Vmin</span><span class="p">,</span>
+            <span class="s2">"at"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
+            <span class="s2">"pos"</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">[</span><span class="s2">"Vmin"</span><span class="p">]],</span>
+            <span class="s2">"Mco"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
         <span class="p">}</span>
-        <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;nsup&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span>
+        <span class="n">crit_values</span><span class="p">[</span><span class="s2">"nsup"</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">):</span>
-            <span class="n">crit_values</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Rmax</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
-                <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
+            <span class="n">crit_values</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Rmax</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"val"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span>
             <span class="p">}</span>
-            <span class="n">crit_values</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Rmin</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
-                <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
+            <span class="n">crit_values</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Rmin</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"val"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmin</span><span class="p">()],</span>
             <span class="p">}</span>
 
         <span class="c1"># Report the corrected critical shears at any requested shear points.</span>
@@ -1174,20 +1174,20 @@
                 <span class="n">il</span> <span class="o">=</span> <span class="n">left</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">left</span><span class="p">])]</span>
                 <span class="n">ir</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">right</span><span class="p">])]</span>
                 <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;Vmax&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">il</span><span class="p">],</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">ir</span><span class="p">]),</span>
-                    <span class="s2">&quot;Vmin&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">il</span><span class="p">],</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">ir</span><span class="p">]),</span>
-                    <span class="s2">&quot;Vmax_left&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
-                    <span class="s2">&quot;Vmax_right&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">ir</span><span class="p">],</span>
-                    <span class="s2">&quot;Vmin_left&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
-                    <span class="s2">&quot;Vmin_right&quot;</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">ir</span><span class="p">],</span>
+                    <span class="s2">"Vmax"</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">il</span><span class="p">],</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">ir</span><span class="p">]),</span>
+                    <span class="s2">"Vmin"</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">il</span><span class="p">],</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">ir</span><span class="p">]),</span>
+                    <span class="s2">"Vmax_left"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
+                    <span class="s2">"Vmax_right"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">[</span><span class="n">ir</span><span class="p">],</span>
+                    <span class="s2">"Vmin_left"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
+                    <span class="s2">"Vmin_right"</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">[</span><span class="n">ir</span><span class="p">],</span>
                 <span class="p">}</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">support_xs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">isup</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">support_xs</span> <span class="o">-</span> <span class="n">xg</span><span class="p">)))</span>
                     <span class="n">sx</span> <span class="o">=</span> <span class="n">support_xs</span><span class="p">[</span><span class="n">isup</span><span class="p">]</span>
-                    <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;support&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sx</span><span class="p">)</span>
-                    <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;side&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span> <span class="k">if</span> <span class="n">xg</span> <span class="o">&lt;</span> <span class="n">sx</span> <span class="k">else</span> <span class="s2">&quot;right&quot;</span>
+                    <span class="n">entry</span><span class="p">[</span><span class="s2">"support"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sx</span><span class="p">)</span>
+                    <span class="n">entry</span><span class="p">[</span><span class="s2">"side"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"left"</span> <span class="k">if</span> <span class="n">xg</span> <span class="o">&lt;</span> <span class="n">sx</span> <span class="k">else</span> <span class="s2">"right"</span>
                 <span class="n">sp_block</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">xg</span><span class="p">)]</span> <span class="o">=</span> <span class="n">entry</span>
-            <span class="n">crit_values</span><span class="p">[</span><span class="s2">&quot;shear_points&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp_block</span>
+            <span class="n">crit_values</span><span class="p">[</span><span class="s2">"shear_points"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp_block</span>
 
         <span class="k">return</span> <span class="n">crit_values</span></div>
 
@@ -1197,7 +1197,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">envelopes_ratios</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">trial_env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">,</span> <span class="n">ref_env</span><span class="p">:</span> <span class="n">Envelopes</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the ratios of two sets of envelopes considering zero values and</span>
 <span class="sd">        reactions. Note that ratios are only meaningful for any one location on the</span>
 <span class="sd">        beam, and so reaction envelopes ratios reduce to a scalar value. Ratios are</span>
@@ -1223,15 +1223,15 @@
 <span class="sd">        Dict[str,np.ndarray]</span>
 <span class="sd">            A dictionary of ratios between the two envelopes, considering the</span>
 <span class="sd">            maximum and minimum of each load effect.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">npts</span> <span class="o">!=</span> <span class="n">trial_env</span><span class="o">.</span><span class="n">npts</span> <span class="ow">or</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">nsup</span> <span class="o">!=</span> <span class="n">trial_env</span><span class="o">.</span><span class="n">nsup</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Ratios can only be found for compatible envelopes&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Ratios can only be found for compatible envelopes"</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">get_ratio</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">"""</span>
 <span class="sd">            Zeroes infinities when a ref load effect is zero. b is reference vector</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+<span class="sd">            """</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
                     <span class="n">a</span><span class="p">,</span>
@@ -1242,18 +1242,18 @@
             <span class="p">)</span>
 
         <span class="n">env_ratios</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">x</span>
-        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Mmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">)</span>
-        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Mmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">)</span>
-        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">)</span>
-        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Vmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">)</span>
-        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;nsup&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">nsup</span>
+        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Mmax"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">)</span>
+        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Mmin"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">)</span>
+        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Vmax"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">)</span>
+        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Vmin"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">)</span>
+        <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"nsup"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">nsup</span>
 
         <span class="n">maxvals</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Rmaxval</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Rmaxval</span><span class="p">)</span>
         <span class="n">minvals</span> <span class="o">=</span> <span class="n">get_ratio</span><span class="p">(</span><span class="n">trial_env</span><span class="o">.</span><span class="n">Rminval</span><span class="p">,</span> <span class="n">ref_env</span><span class="o">.</span><span class="n">Rminval</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ref_env</span><span class="o">.</span><span class="n">nsup</span><span class="p">):</span>
-            <span class="n">env_ratios</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Rmax</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">env_ratios</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Rmin</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">minvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">env_ratios</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Rmax</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">env_ratios</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Rmin</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">minvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">env_ratios</span></div>
 
@@ -1261,7 +1261,7 @@
 <div class="viewcode-block" id="BridgeAnalysis.plot_static">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_static">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_static</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Draw the bridge with the vehicle at a given position, above the</span>
 <span class="sd">        instantaneous bending-moment and shear-force diagrams.</span>
 
@@ -1270,7 +1270,7 @@
 <span class="sd">        small truck on the deck at ``pos`` (a wheel at each axle and a</span>
 <span class="sd">        downward load arrow, labelled with its weight, for every axle that is</span>
 <span class="sd">        currently on the bridge).  The two panels below show the bending</span>
-<span class="sd">        moment and shear force for that single (&quot;stationary&quot;) position; faint</span>
+<span class="sd">        moment and shear force for that single ("stationary") position; faint</span>
 <span class="sd">        vertical lines mark the axle positions so the load effects can be</span>
 <span class="sd">        related to the loads that cause them.</span>
 
@@ -1292,7 +1292,7 @@
 <span class="sd">        tuple(matplotlib.figure.Figure, numpy.ndarray) or None</span>
 <span class="sd">            The figure and its axes when a new figure is created, otherwise</span>
 <span class="sd">            ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
@@ -1306,7 +1306,7 @@
                 <span class="mi">1</span><span class="p">,</span>
                 <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-                <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]},</span>
+                <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"height_ratios"</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]},</span>
             <span class="p">)</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="o">.</span><span class="n">beam_results</span><span class="o">.</span><span class="n">results</span>
@@ -1322,17 +1322,17 @@
         <span class="n">axle_x</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span>
         <span class="n">on_deck</span> <span class="o">=</span> <span class="n">axle_x</span><span class="p">[(</span><span class="n">axle_x</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">axle_x</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">)]</span>
 
-        <span class="n">m_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">m_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">m_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">m_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">on_deck</span><span class="p">:</span>
-            <span class="n">m_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">m_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.7"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">m_ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">m_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
 
-        <span class="n">v_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">v_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">on_deck</span><span class="p">:</span>
-            <span class="n">v_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">v_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.7"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">v_ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">v_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
         <span class="n">v_ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
@@ -1342,10 +1342,10 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_draw_deck_and_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">us</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Draw the deck schematic (supports + permanent loads) with the vehicle</span>
 <span class="sd">        rendered as a small truck at ``pos`` on the given axes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">Circle</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
@@ -1364,7 +1364,7 @@
             <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">units</span><span class="o">=</span><span class="n">us</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 
         <span class="n">axle_x</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axle_coords</span>
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">axw</span>
@@ -1382,8 +1382,8 @@
                 <span class="p">(</span><span class="n">x_lo</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">body_y0</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">x_hi</span> <span class="o">-</span> <span class="n">x_lo</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span><span class="p">,</span>
                 <span class="n">body_h</span><span class="p">,</span>
-                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.82&quot;</span><span class="p">,</span>
-                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.35&quot;</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">"0.82"</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">"0.35"</span><span class="p">,</span>
                 <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
@@ -1395,8 +1395,8 @@
                 <span class="p">(</span><span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">-</span> <span class="n">cab_w</span><span class="p">,</span> <span class="n">body_top</span><span class="p">),</span>
                 <span class="n">cab_w</span><span class="p">,</span>
                 <span class="mf">0.5</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span>
-                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.82&quot;</span><span class="p">,</span>
-                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.35&quot;</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">"0.82"</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">"0.35"</span><span class="p">,</span>
                 <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
@@ -1408,33 +1408,33 @@
                 <span class="n">Circle</span><span class="p">(</span>
                     <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rw</span><span class="p">),</span>
                     <span class="n">rw</span><span class="p">,</span>
-                    <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.15&quot;</span><span class="p">,</span>
-                    <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+                    <span class="n">fc</span><span class="o">=</span><span class="s2">"0.15"</span><span class="p">,</span>
+                    <span class="n">ec</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
                     <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                     <span class="n">zorder</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-                    <span class="n">gid</span><span class="o">=</span><span class="s2">&quot;vehicle_wheel&quot;</span><span class="p">,</span>
+                    <span class="n">gid</span><span class="o">=</span><span class="s2">"vehicle_wheel"</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">rw</span><span class="p">),</span> <span class="mf">0.32</span> <span class="o">*</span> <span class="n">rw</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">rw</span><span class="p">),</span> <span class="mf">0.32</span> <span class="o">*</span> <span class="n">rw</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">"0.7"</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
 
         <span class="c1"># Downward load arrow for each on-deck axle (off-deck axles apply none)</span>
         <span class="n">arr_top</span> <span class="o">=</span> <span class="n">body_top</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">u</span>
         <span class="n">on_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">axle_x</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">axle_x</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axle_x</span><span class="p">[</span><span class="n">on_mask</span><span class="p">]:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="s2">""</span><span class="p">,</span>
                 <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.03</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
                 <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">arr_top</span><span class="p">),</span>
-                <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">),</span>
+                <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-|&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">),</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Travel-direction arrow ahead of the leading axle</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">""</span><span class="p">,</span>
             <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">+</span> <span class="mf">1.6</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span> <span class="n">body_top</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
             <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span> <span class="n">body_top</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
-            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.4&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">),</span>
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-|&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.4"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">),</span>
         <span class="p">)</span>
 
         <span class="c1"># Fit the glyph and keep the deck aligned in x with the diagrams below</span>
@@ -1443,7 +1443,7 @@
             <span class="nb">min</span><span class="p">(</span><span class="o">-</span><span class="mf">0.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">x_lo</span> <span class="o">-</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
             <span class="nb">max</span><span class="p">(</span><span class="mf">1.06</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">x_hi</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">+</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="n">u</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
 
         <span class="c1"># Axle weights are summarised once in a caption (per-axle labels would</span>
@@ -1451,18 +1451,18 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
             <span class="mf">0.012</span><span class="p">,</span>
             <span class="mf">0.98</span><span class="p">,</span>
-            <span class="s2">&quot;Vehicle: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_spec</span><span class="p">(</span><span class="n">us</span><span class="p">),</span>
+            <span class="s2">"Vehicle: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_spec</span><span class="p">(</span><span class="n">us</span><span class="p">),</span>
             <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
-            <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
-            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span>
             <span class="n">fontsize</span><span class="o">=</span><span class="mf">8.5</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.15&quot;</span><span class="p">,</span>
-            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">&quot;round,pad=0.3&quot;</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">),</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">"0.15"</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">"round,pad=0.3"</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">"0.7"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">),</span>
             <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_vehicle_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">us</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A compact axle-group summary, e.g. ``3x150 + 2x120 + 40 kN``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""A compact axle-group summary, e.g. ``3x150 + 2x120 + 40 kN``."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">us</span><span class="p">)</span>
@@ -1474,10 +1474,10 @@
             <span class="k">while</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
                 <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">×</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">×</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">fu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot; + &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fu</span><span class="si">}</span><span class="s2">  (ΣW = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">W</span><span class="si">:</span><span class="s2">g</span><span class="si">}{</span><span class="n">fu</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="n">fu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span> <span class="k">else</span> <span class="s2">""</span>
+        <span class="k">return</span> <span class="s2">" + "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fu</span><span class="si">}</span><span class="s2">  (ΣW = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="o">.</span><span class="n">W</span><span class="si">:</span><span class="s2">g</span><span class="si">}{</span><span class="n">fu</span><span class="si">}</span><span class="s2">)"</span>
 
 <div class="viewcode-block" id="BridgeAnalysis.animate">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.animate">[docs]</a>
@@ -1491,7 +1491,7 @@
         <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span>
         <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Animate the vehicle crossing the bridge.</span>
 
 <span class="sd">        Steps the vehicle across the bridge and animates three stacked,</span>
@@ -1527,7 +1527,7 @@
 <span class="sd">            The animation.  In a notebook, display it with</span>
 <span class="sd">            ``HTML(anim.to_jshtml())`` (or ``anim.to_html5_video()``); the</span>
 <span class="sd">            ``FuncAnimation`` must be kept referenced while it plays.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.animation</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuncAnimation</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
@@ -1561,15 +1561,15 @@
             <span class="mi">3</span><span class="p">,</span>
             <span class="mi">1</span><span class="p">,</span>
             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-            <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]},</span>
+            <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"height_ratios"</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]},</span>
         <span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_draw_effect</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">ylo</span><span class="p">,</span> <span class="n">yhi</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.82&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.55&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.55&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.82"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.55"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.55"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">deck_xlim</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylo</span><span class="p">,</span> <span class="n">yhi</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -1583,8 +1583,8 @@
             <span class="c1"># Deck + moving truck (fixed deck view; the truck clips in/out)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_draw_deck_and_vehicle</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">us</span><span class="p">)</span>
             <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">deck_xlim</span><span class="p">)</span>
-            <span class="n">lu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Front axle at x = </span><span class="si">{</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}{</span><span class="n">lu</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">lu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="s2">""</span>
+            <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Front axle at x = </span><span class="si">{</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}{</span><span class="n">lu</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
             <span class="n">_draw_effect</span><span class="p">(</span>
                 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">bmd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
@@ -1611,7 +1611,7 @@
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">writer</span> <span class="o">=</span> <span class="s2">&quot;pillow&quot;</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.gif&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;ffmpeg&quot;</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="s2">"pillow"</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">save</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".gif"</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"ffmpeg"</span>
             <span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save</span><span class="p">),</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">anim</span></div>
@@ -1620,7 +1620,7 @@
 <div class="viewcode-block" id="BridgeAnalysis.plot_envelopes">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_envelopes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_envelopes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plots the envelopes of load effects from a vehicle traverse analysis</span>
 
 <span class="sd">        Parameters</span>
@@ -1634,7 +1634,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
@@ -1646,94 +1646,94 @@
         <span class="n">subfigs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subfigures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.07</span><span class="p">)</span>
 
         <span class="c1"># Shear and moment in left panel</span>
-        <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Stress Resultants&quot;</span><span class="p">)</span>
+        <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"Stress Resultants"</span><span class="p">)</span>
         <span class="n">axsLeft</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axsLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axsLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
 
         <span class="c1"># Reactions in right panel</span>
-        <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Support Reactions&quot;</span><span class="p">)</span>
+        <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"Support Reactions"</span><span class="p">)</span>
 
         <span class="c1"># Reactions may be force or moment; show both unit labels.</span>
-        <span class="n">react_u</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">moment</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span> <span class="ow">and</span> <span class="n">us</span><span class="o">.</span><span class="n">moment</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">react_u</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" (</span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">force</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">moment</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">force</span> <span class="ow">and</span> <span class="n">us</span><span class="o">.</span><span class="n">moment</span> <span class="k">else</span> <span class="s2">""</span>
         <span class="c1"># Check if consistent envelope</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span> <span class="o">==</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">axsRight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nreactions</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
             <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axsRight</span><span class="p">):</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">"r"</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">"b"</span><span class="p">)</span>
                 <span class="c1"># Mark and label the governing (extreme) reaction values so the</span>
                 <span class="c1"># critical magnitude is readable directly off the plot.</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_mark_reaction_extreme</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_mark_reaction_extreme</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_mark_reaction_extreme</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_mark_reaction_extreme</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Rmin</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="s2">"b"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reaction </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}{</span><span class="n">react_u</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">axsRight</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">length_axis</span><span class="p">(</span><span class="s2">&quot;Position of Front Axle&quot;</span><span class="p">))</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Reaction </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}{</span><span class="n">react_u</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">axsRight</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">length_axis</span><span class="p">(</span><span class="s2">"Position of Front Axle"</span><span class="p">))</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># Otherwise envelope of envelopes</span>
             <span class="n">axsRight</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">le</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-                <span class="nb">zip</span><span class="p">(</span><span class="n">axsRight</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
+                <span class="nb">zip</span><span class="p">(</span><span class="n">axsRight</span><span class="p">,</span> <span class="p">[</span><span class="s2">"max"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"r"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">])</span>
             <span class="p">):</span>
-                <span class="n">r</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;env.R</span><span class="si">{</span><span class="n">le</span><span class="si">}</span><span class="s2">val&quot;</span><span class="p">)</span>  <span class="c1"># kinda yuk!</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">"env.R</span><span class="si">{</span><span class="n">le</span><span class="si">}</span><span class="s2">val"</span><span class="p">)</span>  <span class="c1"># kinda yuk!</span>
                 <span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">),</span> <span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
                 <span class="c1"># Label each bar with its governing reaction value.</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%.3g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"</span><span class="si">%.3g</span><span class="s2">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">))</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;R</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">)])</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reactions [</span><span class="si">{</span><span class="n">le</span><span class="si">}</span><span class="s2">]</span><span class="si">{</span><span class="n">react_u</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">"R</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">)])</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Reactions [</span><span class="si">{</span><span class="n">le</span><span class="si">}</span><span class="s2">]</span><span class="si">{</span><span class="n">react_u</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-            <span class="n">axsRight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reaction ID&quot;</span><span class="p">)</span></div>
+            <span class="n">axsRight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Reaction ID"</span><span class="p">)</span></div>
 
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_mark_reaction_extreme</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">series</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">arg_fn</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Mark and annotate the extreme of a reaction time-history on ``ax``.</span>
 
 <span class="sd">        ``arg_fn`` is :func:`numpy.argmax` (governing maximum, ``r`` line) or</span>
 <span class="sd">        :func:`numpy.argmin` (governing minimum, ``b`` line); a marker is drawn</span>
 <span class="sd">        at the extreme and labelled with its value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">series</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">series</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg_fn</span><span class="p">(</span><span class="n">series</span><span class="p">))</span>
         <span class="n">xv</span><span class="p">,</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">series</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xv</span><span class="p">],</span> <span class="p">[</span><span class="n">yv</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xv</span><span class="p">],</span> <span class="p">[</span><span class="n">yv</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
         <span class="n">above</span> <span class="o">=</span> <span class="n">arg_fn</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">yv</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">yv</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">(</span><span class="n">xv</span><span class="p">,</span> <span class="n">yv</span><span class="p">),</span>
-            <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span>
+            <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span>
             <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="k">if</span> <span class="n">above</span> <span class="k">else</span> <span class="o">-</span><span class="mi">5</span><span class="p">),</span>
-            <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span> <span class="k">if</span> <span class="n">above</span> <span class="k">else</span> <span class="s2">&quot;top&quot;</span><span class="p">,</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">"bottom"</span> <span class="k">if</span> <span class="n">above</span> <span class="k">else</span> <span class="s2">"top"</span><span class="p">,</span>
             <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-            <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span>
+            <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="BridgeAnalysis.plot_ratios">
 <a class="viewcode-back" href="../../gen/pycba.bridge.BridgeAnalysis.html#pycba.bridge.BridgeAnalysis.plot_ratios">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plots the output of :meth:`pycba.bridge.BridgeAnalysis.envelopes_ratios`.</span>
 
 <span class="sd">        Parameters</span>
@@ -1752,61 +1752,61 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="c1"># Set of keys we want to confirm are present</span>
         <span class="n">check_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;Mmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Mmin&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmin&quot;</span><span class="p">,</span> <span class="s2">&quot;nsup&quot;</span><span class="p">,</span> <span class="s2">&quot;Rmax0&quot;</span><span class="p">,</span> <span class="s2">&quot;Rmin0&quot;</span><span class="p">]</span>
+            <span class="p">[</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"Mmax"</span><span class="p">,</span> <span class="s2">"Mmin"</span><span class="p">,</span> <span class="s2">"Vmax"</span><span class="p">,</span> <span class="s2">"Vmin"</span><span class="p">,</span> <span class="s2">"nsup"</span><span class="p">,</span> <span class="s2">"Rmax0"</span><span class="p">,</span> <span class="s2">"Rmin0"</span><span class="p">]</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">check_keys</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">env_ratios</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Dictionary argument does not contain sufficient ratios information&quot;</span>
+                <span class="s2">"Dictionary argument does not contain sufficient ratios information"</span>
             <span class="p">)</span>
 
-        <span class="n">x</span> <span class="o">=</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span>
         <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">nsup</span> <span class="o">=</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;nsup&quot;</span><span class="p">]</span>
+        <span class="n">nsup</span> <span class="o">=</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"nsup"</span><span class="p">]</span>
 
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
         <span class="n">subfigs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subfigures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.07</span><span class="p">)</span>
 
         <span class="c1"># Shear and moment in left panel</span>
-        <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Stress Resultants&quot;</span><span class="p">)</span>
+        <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"Stress Resultants"</span><span class="p">)</span>
         <span class="n">axsLeft</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axsLeft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Mmax&quot;</span><span class="p">],</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Mmin&quot;</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Mmax"</span><span class="p">],</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Mmin"</span><span class="p">],</span> <span class="s2">"b"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bending Moment Ratio&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Bending Moment Ratio"</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axsLeft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Vmax&quot;</span><span class="p">],</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">&quot;Vmin&quot;</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Vmax"</span><span class="p">],</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">env_ratios</span><span class="p">[</span><span class="s2">"Vmin"</span><span class="p">],</span> <span class="s2">"b"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Shear Force Ratio&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Shear Force Ratio"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
 
         <span class="c1"># Reactions in right panel</span>
-        <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Support Reactions&quot;</span><span class="p">)</span>
+        <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"Support Reactions"</span><span class="p">)</span>
         <span class="n">axsRight</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">le</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axsRight</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])):</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">env_ratios</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;R</span><span class="si">{</span><span class="n">le</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsup</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">le</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axsRight</span><span class="p">,</span> <span class="p">[</span><span class="s2">"max"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"r"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">])):</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">env_ratios</span><span class="p">[</span><span class="sa">f</span><span class="s2">"R</span><span class="si">{</span><span class="n">le</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsup</span><span class="p">)])</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nsup</span><span class="p">),</span> <span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nsup</span><span class="p">))</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;R</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsup</span><span class="p">)])</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reaction Ratio [</span><span class="si">{</span><span class="n">le</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">"R</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsup</span><span class="p">)])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Reaction Ratio [</span><span class="si">{</span><span class="n">le</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">axsRight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reaction ID&quot;</span><span class="p">)</span></div>
+        <span class="n">axsRight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Reaction ID"</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Check that suitable objects are defined before an analysis is run.</span>
 
 <span class="sd">        Parameters</span>
@@ -1816,11 +1816,11 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ba</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A bridge must be defined in advance&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"A bridge must be defined in advance"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">veh</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A vehicle must be defined in advance&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"A vehicle must be defined in advance"</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -1851,8 +1851,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1886,7 +1886,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

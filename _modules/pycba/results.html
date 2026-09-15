@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,9 +432,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.results</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Beam Results module</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># https://bit.ly/3KYiL2o</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
@@ -448,7 +448,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 
 
-<span class="c1"># Relative half-spacing of the paired &quot;shear point&quot; stations placed either side</span>
+<span class="c1"># Relative half-spacing of the paired "shear point" stations placed either side</span>
 <span class="c1"># of a requested section.  The pair straddles the section (at ``xs - off`` and</span>
 <span class="c1"># ``xs + off``) so the closed-form shear is sampled just-left and just-right of</span>
 <span class="c1"># it; this captures the shear discontinuity when a point load (e.g. an axle)</span>
@@ -458,16 +458,16 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_shear_point_offset</span><span class="p">(</span><span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Absolute half-spacing of a shear-point station pair on a member of length ``L``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Absolute half-spacing of a shear-point station pair on a member of length ``L``."""</span>
     <span class="k">return</span> <span class="n">_SHEAR_POINT_REL_OFFSET</span> <span class="o">*</span> <span class="n">L</span>
 
 
 <div class="viewcode-block" id="BeamResults">
 <a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BeamResults</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    BeamResults Class for processing and containing the results for each member</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -478,7 +478,7 @@
         <span class="n">rs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">shear_points</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize member results from global results</span>
 
 <span class="sd">        Parameters</span>
@@ -495,7 +495,7 @@
 <span class="sd">        rs : np.ndarray, optional</span>
 <span class="sd">            The vector of spring forces (k_s * u_i) for spring restraints (restraint &gt; 0).</span>
 <span class="sd">        shear_points : Optional[Dict[int, np.ndarray]], optional</span>
-<span class="sd">            Extra &quot;shear point&quot; sections requested per member, as a mapping of</span>
+<span class="sd">            Extra "shear point" sections requested per member, as a mapping of</span>
 <span class="sd">            0-based member index to a vector of member-local coordinates.  Each</span>
 <span class="sd">            section is sampled by a station pair straddling it, so the shear is</span>
 <span class="sd">            recovered just-left and just-right of the section.  The default</span>
@@ -504,7 +504,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="n">npts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shear_points</span> <span class="o">=</span> <span class="n">shear_points</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vRes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_member_analysis</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
@@ -514,7 +514,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concatenate_results</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_concatenate_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Assemble the vector of results by member into a long vector of each result</span>
 <span class="sd">        and store in a :class:`pycba.MemberResults` object.</span>
 
@@ -528,7 +528,7 @@
 <span class="sd">            Stores all results along the whole beam as if it were a notional</span>
 <span class="sd">            member.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># global coordinate along member</span>
         <span class="n">M</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># bending moment</span>
         <span class="n">V</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># shear force</span>
@@ -550,7 +550,7 @@
         <span class="k">return</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_member_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Establish the results for each member from the stiffness method results.</span>
 
 <span class="sd">        Parameters</span>
@@ -564,7 +564,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        List[MemberResults]</span>
 <span class="sd">            A list of the :class:`pycba.MemberResults` objects for each member.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">vRes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">sumL</span> <span class="o">=</span> <span class="mi">0</span>
@@ -586,7 +586,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_member_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="n">Beam</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Calculate the load effects along a single member given its nodal</span>
 <span class="sd">        displacements and forces.</span>
 
@@ -605,18 +605,18 @@
 <span class="sd">        -------</span>
 <span class="sd">        MemberResults</span>
 <span class="sd">            The load effects values along the member.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">L</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_lengths</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">EI</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_EIs</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
         <span class="n">etype</span> <span class="o">=</span> <span class="n">beam</span><span class="o">.</span><span class="n">mbr_eletype</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span>
-        <span class="n">mbr_GAv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="s2">&quot;mbr_GAv&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">mbr_GAv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="s2">"mbr_GAv"</span><span class="p">,</span> <span class="p">[])</span>
         <span class="n">GAv</span> <span class="o">=</span> <span class="n">mbr_GAv</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">mbr_GAv</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
         <span class="c1"># Winkler foundation span: recover via the condensed super-element, which</span>
         <span class="c1"># reconstructs the internal sub-element displacements and concatenates</span>
         <span class="c1"># their exact Euler-Bernoulli diagrams.</span>
-        <span class="n">mbr_kf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="s2">&quot;mbr_kf&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">mbr_kf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="s2">"mbr_kf"</span><span class="p">,</span> <span class="p">[])</span>
         <span class="k">if</span> <span class="n">i_span</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">mbr_kf</span><span class="p">)</span> <span class="ow">and</span> <span class="n">mbr_kf</span><span class="p">[</span><span class="n">i_span</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">loads</span> <span class="o">=</span> <span class="p">[</span><span class="n">ld</span> <span class="k">for</span> <span class="n">ld</span> <span class="ow">in</span> <span class="n">beam</span><span class="o">.</span><span class="n">_loads</span> <span class="k">if</span> <span class="n">ld</span><span class="o">.</span><span class="n">i_span</span> <span class="o">==</span> <span class="n">i_span</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">beam</span><span class="o">.</span><span class="n">_foundation</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span><span class="o">.</span><span class="n">recover</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
@@ -624,7 +624,7 @@
         <span class="n">dx</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span>
         <span class="n">xr</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># uniform interior stations [0, L]</span>
 
-        <span class="c1"># Optionally splice in paired &quot;shear point&quot; stations either side of each</span>
+        <span class="c1"># Optionally splice in paired "shear point" stations either side of each</span>
         <span class="c1"># requested section so the closed-form shear is sampled just-left and</span>
         <span class="c1"># just-right of it (capturing the jump when a point load sits exactly</span>
         <span class="c1"># there).  The points are fixed per member, so the station grid stays</span>
@@ -649,7 +649,7 @@
 
         <span class="c1"># Non-uniform integration is needed only when the grid was augmented;</span>
         <span class="c1"># the default path keeps ``dx`` so results are bit-for-bit unchanged.</span>
-        <span class="n">int_kw</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]}</span> <span class="k">if</span> <span class="n">augmented</span> <span class="k">else</span> <span class="p">{</span><span class="s2">&quot;dx&quot;</span><span class="p">:</span> <span class="n">dx</span><span class="p">}</span>
+        <span class="n">int_kw</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]}</span> <span class="k">if</span> <span class="n">augmented</span> <span class="k">else</span> <span class="p">{</span><span class="s2">"dx"</span><span class="p">:</span> <span class="n">dx</span><span class="p">}</span>
 
         <span class="c1"># Get the results for the end moments alone</span>
         <span class="n">MaMb</span> <span class="o">=</span> <span class="n">LoadMaMb</span><span class="p">(</span><span class="n">i_span</span><span class="o">=</span><span class="n">i_span</span><span class="p">,</span> <span class="n">Ma</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Mb</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
@@ -688,7 +688,7 @@
         <span class="c1"># bit-for-bit identical to the previous behaviour.</span>
         <span class="k">if</span> <span class="n">GAv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">GAv_x</span> <span class="o">=</span> <span class="n">GAv</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">GAv</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">)</span> <span class="k">else</span> <span class="n">GAv</span>
-            <span class="c1"># PyCBA&#39;s shear sign is opposite to the (dw/dx = psi + gamma)</span>
+            <span class="c1"># PyCBA's shear sign is opposite to the (dw/dx = psi + gamma)</span>
             <span class="c1"># convention, so the shear slope enters with a leading minus.</span>
             <span class="n">gamma</span> <span class="o">=</span> <span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">GAv_x</span>
         <span class="k">else</span><span class="p">:</span>
@@ -731,8 +731,8 @@
 
 <div class="viewcode-block" id="BeamResults.at">
 <a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults.at">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"M"</span><span class="p">,</span> <span class="s2">"V"</span><span class="p">,</span> <span class="s2">"R"</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Interpolate the load effects at a global coordinate.</span>
 
 <span class="sd">        Parameters</span>
@@ -740,8 +740,8 @@
 <span class="sd">        x : float</span>
 <span class="sd">            Global coordinate measured from the left end of the beam.</span>
 <span class="sd">        attrs : tuple of str, optional</span>
-<span class="sd">            Which member-result arrays to evaluate: any of ``&quot;M&quot;`` (moment),</span>
-<span class="sd">            ``&quot;V&quot;`` (shear), ``&quot;R&quot;`` (rotation) and ``&quot;D&quot;`` (deflection). The</span>
+<span class="sd">            Which member-result arrays to evaluate: any of ``"M"`` (moment),</span>
+<span class="sd">            ``"V"`` (shear), ``"R"`` (rotation) and ``"D"`` (deflection). The</span>
 <span class="sd">            default returns all four.</span>
 
 <span class="sd">        Returns</span>
@@ -751,7 +751,7 @@
 <span class="sd">            The station array repeats span-boundary coordinates, so it is</span>
 <span class="sd">            de-duplicated first; at a step in the shear (a support or point</span>
 <span class="sd">            load) the left-hand value is returned.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span>
         <span class="n">ux</span><span class="p">,</span> <span class="n">uidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">out</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -764,10 +764,10 @@
 <div class="viewcode-block" id="BeamResults.deflection_curve">
 <a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults.deflection_curve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">deflection_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return ``(x, D)`` for the continuous deflected shape.</span>
 
-<span class="sd">        Each member&#39;s result grid duplicates its end stations so the</span>
+<span class="sd">        Each member's result grid duplicates its end stations so the</span>
 <span class="sd">        bending-moment and shear diagrams *close* to the baseline; for the</span>
 <span class="sd">        deflected shape those closure points would otherwise draw spurious</span>
 <span class="sd">        vertical lines at member ends (e.g. dropping to zero at a cantilever</span>
@@ -778,7 +778,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        (numpy.ndarray, numpy.ndarray)</span>
 <span class="sd">            The coordinate and deflection arrays (native units, unscaled).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vRes</span><span class="p">])</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">m</span><span class="o">.</span><span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vRes</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">d</span></div>
@@ -787,37 +787,37 @@
 <div class="viewcode-block" id="BeamResults.to_dataframe">
 <a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults.to_dataframe">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return the member load effects as a :class:`pandas.DataFrame` with</span>
 <span class="sd">        columns ``x``, ``M`` (moment), ``V`` (shear), ``R`` (rotation) and ``D``</span>
 <span class="sd">        (deflection).  Requires :mod:`pandas`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pragma: no cover - optional dependency</span>
             <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-                <span class="s2">&quot;to_dataframe() requires pandas; install it with `pip install pandas`.&quot;</span>
+                <span class="s2">"to_dataframe() requires pandas; install it with `pip install pandas`."</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">}</span>
+            <span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="s2">"M"</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">"V"</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">"R"</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">}</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BeamResults.to_csv">
 <a class="viewcode-back" href="../../gen/pycba.results.BeamResults.html#pycba.results.BeamResults.to_csv">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write the member load effects (columns ``x, M, V, R, D``) to a CSV file.</span>
 
 <span class="sd">        Uses :func:`numpy.savetxt` so no pandas dependency is needed; any extra</span>
 <span class="sd">        keyword arguments are forwarded to it.  Returns ``path``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">])</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;x,M,V,R,D&quot;</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;comments&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"delimiter"</span><span class="p">,</span> <span class="s2">","</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"header"</span><span class="p">,</span> <span class="s2">"x,M,V,R,D"</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"comments"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path</span></div>
 </div>
@@ -827,7 +827,7 @@
 <div class="viewcode-block" id="Envelopes">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Envelopes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Envelopes load effects from a vector of BeamResults.</span>
 
 <span class="sd">    Attributes</span>
@@ -850,10 +850,10 @@
 <span class="sd">        Reaction history matrices (nsup x nres).</span>
 <span class="sd">    Rmaxval, Rminval : np.ndarray</span>
 <span class="sd">        Maximum and minimum reaction per support.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vResults</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Constructs the envelope of each load effect given a vector of results for</span>
 <span class="sd">        the beam. Also tracks coincident (co-existing) load effects: the value of</span>
 <span class="sd">        the other effect (V or M) at the analysis that caused each envelope extreme.</span>
@@ -867,7 +867,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span> <span class="o">=</span> <span class="n">vResults</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
@@ -900,7 +900,7 @@
         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates the envelopes for shear and moment, and tracks the coincident</span>
 <span class="sd">        (co-existing) value of the other effect at the truck position that</span>
 <span class="sd">        caused each extreme.</span>
@@ -915,7 +915,7 @@
 <span class="sd">            Shear coincident with the moment extreme at each point.</span>
 <span class="sd">        Mco_Vmax, Mco_Vmin : np.ndarray</span>
 <span class="sd">            Moment coincident with the shear extreme at each point.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">Mmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
@@ -949,7 +949,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">Vmin</span><span class="p">,</span> <span class="n">Mmax</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">,</span> <span class="n">Vco_Mmax</span><span class="p">,</span> <span class="n">Vco_Mmin</span><span class="p">,</span> <span class="n">Mco_Vmax</span><span class="p">,</span> <span class="n">Mco_Vmin</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_envelope_R</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates the envelopes for reaction. Strictly this is not an envelope but</span>
 <span class="sd">        the history of reaction as the vehicle traverses the bridge.</span>
 
@@ -968,7 +968,7 @@
 <span class="sd">            The matrix of enveloped maximum values.</span>
 <span class="sd">        Rmin : np.ndarray</span>
 <span class="sd">            The matrix of enveloped minimum values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">Rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span>
         <span class="n">Rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span><span class="p">))</span>
         <span class="n">zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nsup</span><span class="p">)</span>
@@ -982,7 +982,7 @@
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.zero_like">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">zero_like</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns a zeroed zet of envelopes like the reference :class:`pycba.results.Envelopes`.</span>
 <span class="sd">        This is necessary since a :class:`pycba.results.Envelopes` object stores information</span>
 <span class="sd">        about the beam from which it came. This facilitates the creation of an</span>
@@ -998,7 +998,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Envelopes</span>
 <span class="sd">            A :class:`pycba.results.Envelopes` object of zero-valued envelopes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">zero_env</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
         <span class="n">zero_env</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">zero_env</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">npts</span><span class="p">)</span>
@@ -1019,8 +1019,8 @@
 <div class="viewcode-block" id="Envelopes.combine">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.combine">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">combine</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">envs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Envelopes</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;envelope&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">combine</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">envs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Envelopes</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"envelope"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Merge several compatible envelopes into a new :class:`Envelopes`.</span>
 
 <span class="sd">        This is a one-call replacement for the</span>
@@ -1033,9 +1033,9 @@
 <span class="sd">            One or more compatible :class:`pycba.results.Envelopes` objects (same</span>
 <span class="sd">            ``npts`` and ``nsup``). All must come from the same beam geometry.</span>
 <span class="sd">        mode : str, optional</span>
-<span class="sd">            ``&quot;envelope&quot;`` (default) takes the governing maxima/minima of moment</span>
+<span class="sd">            ``"envelope"`` (default) takes the governing maxima/minima of moment</span>
 <span class="sd">            and shear (plus coincident effects and reaction extremes) by calling</span>
-<span class="sd">            :meth:`augment` for each input. ``&quot;sum&quot;`` superimposes the envelopes</span>
+<span class="sd">            :meth:`augment` for each input. ``"sum"`` superimposes the envelopes</span>
 <span class="sd">            element-wise by calling :meth:`sum` for each input.</span>
 
 <span class="sd">        Returns</span>
@@ -1046,7 +1046,7 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If ``envs`` is empty or ``mode`` is not ``&quot;envelope&quot;`` or ``&quot;sum&quot;``.</span>
+<span class="sd">            If ``envs`` is empty or ``mode`` is not ``"envelope"`` or ``"sum"``.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -1054,17 +1054,17 @@
 <span class="sd">        results (``nres``), only the reaction extremes (``Rmaxval``/``Rminval``)</span>
 <span class="sd">        are retained; the per-analysis reaction history is zeroed. This is the</span>
 <span class="sd">        pre-existing behaviour of :meth:`augment`/:meth:`sum`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">envs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">envs</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">envs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;combine requires at least one envelope.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;envelope&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;mode must be &#39;envelope&#39; or &#39;sum&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"combine requires at least one envelope."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"envelope"</span><span class="p">,</span> <span class="s2">"sum"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"mode must be 'envelope' or 'sum'."</span><span class="p">)</span>
 
         <span class="n">out</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">zero_like</span><span class="p">(</span><span class="n">envs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">env</span> <span class="ow">in</span> <span class="n">envs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;envelope&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"envelope"</span><span class="p">:</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">augment</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
@@ -1075,7 +1075,7 @@
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.from_beam_analysis">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_beam_analysis</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ba</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build a single-result :class:`Envelopes` from one analysed beam.</span>
 
 <span class="sd">        This is the discoverable adapter that lifts an ordinary</span>
@@ -1098,13 +1098,13 @@
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If ``ba`` has not been analysed (``ba.beam_results`` is ``None``).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
-        <span class="n">beam_results</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span> <span class="s2">&quot;beam_results&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">beam_results</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ba</span><span class="p">,</span> <span class="s2">"beam_results"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;BeamAnalysis has no results; call analyze() before &quot;</span>
-                <span class="s2">&quot;Envelopes.from_beam_analysis().&quot;</span>
+                <span class="s2">"BeamAnalysis has no results; call analyze() before "</span>
+                <span class="s2">"Envelopes.from_beam_analysis()."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">([</span><span class="n">beam_results</span><span class="p">])</span></div>
 
@@ -1112,7 +1112,7 @@
 <div class="viewcode-block" id="Envelopes.augment">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.augment">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Augments this set of envelopes with another compatible set, making this the</span>
 <span class="sd">        envelopes of the two sets of envelopes. Coincident values are updated to</span>
 <span class="sd">        match whichever envelope governs at each point.</span>
@@ -1136,10 +1136,10 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">npts</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsup</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot augment with an inconsistent envelope&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot augment with an inconsistent envelope"</span><span class="p">)</span>
 
         <span class="c1"># Track where envelope values will change BEFORE updating them</span>
         <span class="n">vmax_update</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span>
@@ -1173,7 +1173,7 @@
 <div class="viewcode-block" id="Envelopes.sum">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.sum">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Adds another compatible set of envelopes to this one element-wise. This is</span>
 <span class="sd">        useful for superimposing load effects from different sources, e.g. a patterned</span>
 <span class="sd">        UDL envelope with a moving vehicle envelope.</span>
@@ -1197,10 +1197,10 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">npts</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsup</span> <span class="o">!=</span> <span class="n">env</span><span class="o">.</span><span class="n">nsup</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot sum with an inconsistent envelope&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot sum with an inconsistent envelope"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmax</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">Vmin</span><span class="p">)</span>
 
@@ -1220,38 +1220,38 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Enclosing envelope of ``self`` and ``other`` (non-mutating).</span>
 
-<span class="sd">        ``a | b`` is sugar for ``Envelopes.combine([a, b], mode=&quot;envelope&quot;)`` and</span>
+<span class="sd">        ``a | b`` is sugar for ``Envelopes.combine([a, b], mode="envelope")`` and</span>
 <span class="sd">        returns a new :class:`Envelopes` taking the governing maxima/minima of the</span>
 <span class="sd">        two operands. Neither operand is mutated.</span>
 
 <span class="sd">        Note that this differs from :meth:`augment`, which mutates in place and</span>
 <span class="sd">        returns ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
-        <span class="k">return</span> <span class="n">Envelopes</span><span class="o">.</span><span class="n">combine</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;envelope&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Envelopes</span><span class="o">.</span><span class="n">combine</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"envelope"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Envelopes.__add__">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.__add__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Envelopes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Envelopes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Superposition of ``self`` and ``other`` (non-mutating).</span>
 
-<span class="sd">        ``a + b`` is sugar for ``Envelopes.combine([a, b], mode=&quot;sum&quot;)`` and</span>
+<span class="sd">        ``a + b`` is sugar for ``Envelopes.combine([a, b], mode="sum")`` and</span>
 <span class="sd">        returns a new :class:`Envelopes` with the two operands summed</span>
 <span class="sd">        element-wise. Neither operand is mutated.</span>
 
 <span class="sd">        Note that this differs from :meth:`sum`, which mutates in place and</span>
 <span class="sd">        returns ``None``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
-        <span class="k">return</span> <span class="n">Envelopes</span><span class="o">.</span><span class="n">combine</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">Envelopes</span><span class="o">.</span><span class="n">combine</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_unique_x</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the de-duplicated station coordinates and their indices.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the de-duplicated station coordinates and their indices."""</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -1260,9 +1260,9 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Mmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Mmin&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmin&quot;</span><span class="p">),</span>
+        <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Mmax"</span><span class="p">,</span> <span class="s2">"Mmin"</span><span class="p">,</span> <span class="s2">"Vmax"</span><span class="p">,</span> <span class="s2">"Vmin"</span><span class="p">),</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return envelope values at a global coordinate by interpolation.</span>
 
 <span class="sd">        The station array ``self.x`` repeats span-boundary coordinates (each span</span>
@@ -1283,7 +1283,7 @@
 <span class="sd">        dict</span>
 <span class="sd">            Mapping from each requested attribute name to its interpolated value</span>
 <span class="sd">            at ``x``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">unique_x</span><span class="p">,</span> <span class="n">unique_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_x</span><span class="p">()</span>
         <span class="n">out</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1295,19 +1295,19 @@
 
 <div class="viewcode-block" id="Envelopes.to_dataframe">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.to_dataframe">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Mmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Mmin&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmin&quot;</span><span class="p">)):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Mmax"</span><span class="p">,</span> <span class="s2">"Mmin"</span><span class="p">,</span> <span class="s2">"Vmax"</span><span class="p">,</span> <span class="s2">"Vmin"</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return the envelopes as a :class:`pandas.DataFrame` with an ``x`` column</span>
 <span class="sd">        and one column per requested envelope attribute (default the moment and</span>
 <span class="sd">        shear extremes).  Requires :mod:`pandas`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pragma: no cover - optional dependency</span>
             <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-                <span class="s2">&quot;to_dataframe() requires pandas; install it with `pip install pandas`.&quot;</span>
+                <span class="s2">"to_dataframe() requires pandas; install it with `pip install pandas`."</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
@@ -1316,58 +1316,58 @@
 <div class="viewcode-block" id="Envelopes.to_csv">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.to_csv">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_csv</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Mmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Mmin&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Vmin&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Mmax"</span><span class="p">,</span> <span class="s2">"Mmin"</span><span class="p">,</span> <span class="s2">"Vmax"</span><span class="p">,</span> <span class="s2">"Vmin"</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write the envelopes (an ``x`` column plus each requested attribute) to a</span>
 <span class="sd">        CSV file with :func:`numpy.savetxt` (no pandas needed).  Returns ``path``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">attrs</span><span class="p">]))</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;comments&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"delimiter"</span><span class="p">,</span> <span class="s2">","</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"header"</span><span class="p">,</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">*</span><span class="n">attrs</span><span class="p">]))</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"comments"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path</span></div>
 
 
 <div class="viewcode-block" id="Envelopes.per_span">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.per_span">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">per_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Mmax&quot;</span><span class="p">,</span> <span class="n">reduce</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">per_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Mmax"</span><span class="p">,</span> <span class="n">reduce</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"auto"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Split a station-indexed envelope array into per-span values.</span>
 
-<span class="sd">        The station array concatenates each member&#39;s stations, so this method</span>
+<span class="sd">        The station array concatenates each member's stations, so this method</span>
 <span class="sd">        chunks the requested attribute using the per-member station counts read</span>
-<span class="sd">        from ``self.vResults[0].vRes`` (each member&#39;s ``x`` length, i.e.</span>
+<span class="sd">        from ``self.vResults[0].vRes`` (each member's ``x`` length, i.e.</span>
 <span class="sd">        ``npts + 3``) rather than a hard-coded constant. It replaces the manual</span>
 <span class="sd">        ``env.Vmax[i * (n + 3):(i + 1) * (n + 3)]`` slicing.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        attr : str, optional</span>
-<span class="sd">            Envelope attribute name to split (default ``&quot;Mmax&quot;``).</span>
+<span class="sd">            Envelope attribute name to split (default ``"Mmax"``).</span>
 <span class="sd">        reduce : str, optional</span>
-<span class="sd">            How to reduce each per-span chunk. ``&quot;auto&quot;`` (default) takes the</span>
+<span class="sd">            How to reduce each per-span chunk. ``"auto"`` (default) takes the</span>
 <span class="sd">            maximum for ``*max`` attributes and the minimum for ``*min``</span>
-<span class="sd">            attributes; ``&quot;max&quot;``/``&quot;min&quot;`` force the reduction; ``&quot;none&quot;``</span>
+<span class="sd">            attributes; ``"max"``/``"min"`` force the reduction; ``"none"``</span>
 <span class="sd">            returns the list of raw chunks.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        numpy.ndarray or list of numpy.ndarray</span>
 <span class="sd">            One reduced value per span, or the list of raw chunks when</span>
-<span class="sd">            ``reduce=&quot;none&quot;``.</span>
+<span class="sd">            ``reduce="none"``.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If ``reduce`` is not one of ``&quot;auto&quot;``, ``&quot;max&quot;``, ``&quot;min&quot;``,</span>
-<span class="sd">            ``&quot;none&quot;``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            If ``reduce`` is not one of ``"auto"``, ``"max"``, ``"min"``,</span>
+<span class="sd">            ``"none"``.</span>
+<span class="sd">        """</span>
 
-        <span class="k">if</span> <span class="n">reduce</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;reduce must be &#39;auto&#39;, &#39;max&#39;, &#39;min&#39;, or &#39;none&#39;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reduce</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"auto"</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">,</span> <span class="s2">"min"</span><span class="p">,</span> <span class="s2">"none"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"reduce must be 'auto', 'max', 'min', or 'none'."</span><span class="p">)</span>
 
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
         <span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">vRes</span><span class="p">]</span>
@@ -1378,13 +1378,13 @@
             <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">count</span><span class="p">])</span>
             <span class="n">start</span> <span class="o">+=</span> <span class="n">count</span>
 
-        <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">"none"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">chunks</span>
 
-        <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
-            <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span>
+        <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"min"</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span> <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span> <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s2">"max"</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">op</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">])</span></div>
 
@@ -1392,7 +1392,7 @@
 <div class="viewcode-block" id="Envelopes.plot">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">each</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plots the envelopes of bending and shear.</span>
 
 <span class="sd">        Parameters</span>
@@ -1401,9 +1401,9 @@
 <span class="sd">            Wether or not to show each BMD and SFD in the enveloping. The default is False</span>
 <span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
 <span class="sd">            Display unit system for the labels (see :func:`pycba.set_units`).</span>
-<span class="sd">        backend : {&quot;matplotlib&quot;, &quot;plotly&quot;}, optional</span>
+<span class="sd">        backend : {"matplotlib", "plotly"}, optional</span>
 <span class="sd">            Plotting backend; defaults to the global default (see</span>
-<span class="sd">            :func:`pycba.set_backend`).  With ``&quot;plotly&quot;`` an interactive,</span>
+<span class="sd">            :func:`pycba.set_backend`).  With ``"plotly"`` an interactive,</span>
 <span class="sd">            hover-to-read envelope figure (a ``plotly.graph_objects.Figure``) is</span>
 <span class="sd">            returned, with the max/min band shaded; ``each`` and ``**kwargs`` do</span>
 <span class="sd">            not apply.</span>
@@ -1414,13 +1414,13 @@
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_backend</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No results to display&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">resolve_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No results to display"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resolve_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"plotly"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">envelope_figure</span>
 
             <span class="k">return</span> <span class="n">envelope_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
@@ -1428,29 +1428,29 @@
 
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;figsize&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"figsize"</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">each</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vResults</span><span class="p">:</span>
-                <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-                <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
 
@@ -1458,7 +1458,7 @@
 <div class="viewcode-block" id="Envelopes.plot_coincidents">
 <a class="viewcode-back" href="../../gen/pycba.results.Envelopes.html#pycba.results.Envelopes.plot_coincidents">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_coincidents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot each load-effect envelope together with the **coincident** value</span>
 <span class="sd">        of the other effect, grouped by which extreme drives them.</span>
 
@@ -1489,29 +1489,29 @@
 <span class="sd">        numpy.ndarray of matplotlib.axes.Axes</span>
 <span class="sd">            The two primary (left-axis) panel axes; the coincident (right-axis)</span>
 <span class="sd">            twins are reachable via ``fig.axes``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nres</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No results to display&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No results to display"</span><span class="p">)</span>
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># max effects in red, min in blue; the primary envelope is the strong</span>
         <span class="c1"># shade and the coincident value the light shade of the same colour.</span>
         <span class="n">c_max</span><span class="p">,</span> <span class="n">c_min</span><span class="p">,</span> <span class="n">c_comax</span><span class="p">,</span> <span class="n">c_comin</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;tab:red&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;lightcoral&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;lightskyblue&quot;</span><span class="p">,</span>
+            <span class="s2">"tab:red"</span><span class="p">,</span>
+            <span class="s2">"tab:blue"</span><span class="p">,</span>
+            <span class="s2">"lightcoral"</span><span class="p">,</span>
+            <span class="s2">"lightskyblue"</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
 
         <span class="c1"># --- moment envelope (left) + coincident shear (right) ----------- #</span>
-        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">c_max</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mmax&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">c_min</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mmin&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmax</span><span class="p">,</span> <span class="n">c_max</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Mmax"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mmin</span><span class="p">,</span> <span class="n">c_min</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Mmin"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">]</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>  <span class="c1"># sagging-positive</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
@@ -1519,20 +1519,20 @@
         <span class="n">ax1c</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
         <span class="n">h</span> <span class="o">+=</span> <span class="p">[</span>
             <span class="n">ax1c</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">,</span> <span class="n">c_comax</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;V coincident @ Mmax&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmax</span><span class="p">,</span> <span class="n">c_comax</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"V coincident @ Mmax"</span>
             <span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">ax1c</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">,</span> <span class="n">c_comin</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;V coincident @ Mmin&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vco_Mmin</span><span class="p">,</span> <span class="n">c_comin</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"V coincident @ Mmin"</span>
             <span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">]</span>
-        <span class="n">ax1c</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Coincident &quot;</span> <span class="o">+</span> <span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
-        <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">ax1c</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Coincident "</span> <span class="o">+</span> <span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"best"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
         <span class="c1"># --- shear envelope (left) + coincident moment (right) ----------- #</span>
-        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">c_max</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Vmax&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">c_min</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Vmin&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmax</span><span class="p">,</span> <span class="n">c_max</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Vmax"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vmin</span><span class="p">,</span> <span class="n">c_min</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Vmin"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">]</span>
         <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
         <span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
@@ -1540,15 +1540,15 @@
         <span class="n">ax2c</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
         <span class="n">h</span> <span class="o">+=</span> <span class="p">[</span>
             <span class="n">ax2c</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">,</span> <span class="n">c_comax</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;M coincident @ Vmax&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmax</span><span class="p">,</span> <span class="n">c_comax</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"M coincident @ Vmax"</span>
             <span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">ax2c</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">,</span> <span class="n">c_comin</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;M coincident @ Vmin&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mco_Vmin</span><span class="p">,</span> <span class="n">c_comin</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"M coincident @ Vmin"</span>
             <span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">]</span>
         <span class="n">ax2c</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>  <span class="c1"># sagging-positive moment on the right axis too</span>
-        <span class="n">ax2c</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Coincident &quot;</span> <span class="o">+</span> <span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
-        <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">ax2c</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Coincident "</span> <span class="o">+</span> <span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"best"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1584,8 +1584,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1619,7 +1619,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,7 +432,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.load</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Load module</span>
 
 <span class="sd">The load matrix is a ``List[List]`` of load descriptors.  Each entry</span>
@@ -458,7 +458,7 @@
 
 <span class="sd">.. autodata:: LoadMatrix</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
@@ -470,19 +470,19 @@
 <div class="viewcode-block" id="Load">
 <a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Load</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Beam load container and processor</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize the loads from the Load Matrix</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        i_span : int</span>
 <span class="sd">            The index of the span (or member), 1-based</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i_span</span> <span class="o">=</span> <span class="n">i_span</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
@@ -495,21 +495,21 @@
 <div class="viewcode-block" id="Load.MB">
 <a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.MB">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">MB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Macaulay bracket: clipping values less than zero to zero.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        v : np.ndarray</span>
 <span class="sd">            The vector to which the Macaulay Bracket will be applied</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Load.H">
 <a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.H">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Heaviside step function: values less than zero are clipped to zero;</span>
 <span class="sd">        values greater than zero are clipped to unity; zeros are retained.</span>
 
@@ -520,14 +520,14 @@
 <span class="sd">        value : float</span>
 <span class="sd">            The value of the Heaviside function at zero, usually 0, but sometimes</span>
 <span class="sd">            0.5 (average of adjacent values) or 1.0.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">heaviside</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Load.get_ref">
 <a class="viewcode-back" href="../../gen/pycba.load.Load.html#pycba.load.Load.get_ref">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the Released End Forces for a span of length L of element eType:</span>
 <span class="sd">        converts the Consistent Nodal Loads of the applied loading to the correct nodal</span>
 <span class="sd">        loading depending on the element type.</span>
@@ -544,7 +544,7 @@
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Released End Forces for this load type: the nodal loads to be applied in</span>
 <span class="sd">            the analysis, consistent with the element type.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">cnl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cnl</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span>
         <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">fm</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>  <span class="c1"># flexibility coeff for moment</span>
@@ -581,12 +581,12 @@
 <div class="viewcode-block" id="LoadUDL">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadUDL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Uniformly Distributed Load: CNLs and member results</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates a UDL for the member</span>
 
 <span class="sd">        Parameters</span>
@@ -600,14 +600,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">w</span>
 
 <div class="viewcode-block" id="LoadUDL.get_cnl">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL.get_cnl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
 <span class="sd">        Parameters</span>
@@ -621,7 +621,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Consistent Nodal Loads for this load type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span>
 
@@ -639,7 +639,7 @@
 <div class="viewcode-block" id="LoadUDL.get_mbr_results">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadUDL.html#pycba.load.LoadUDL.get_mbr_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Results along the member from UDL</span>
 
 <span class="sd">        Parameters</span>
@@ -653,7 +653,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        res : MemberResults</span>
 <span class="sd">            A populated :class:`pycba.load.MemberResults` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
@@ -680,12 +680,12 @@
 <div class="viewcode-block" id="LoadPL">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadPL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Point Load class: CNLs and member results</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates a Point Load for the member</span>
 
 <span class="sd">        Parameters</span>
@@ -701,7 +701,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        None.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">P</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
@@ -709,7 +709,7 @@
 <div class="viewcode-block" id="LoadPL.get_cnl">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL.get_cnl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
 <span class="sd">        Parameters</span>
@@ -724,7 +724,7 @@
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Consistent Nodal Loads for this load type</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span>
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
@@ -744,7 +744,7 @@
 <div class="viewcode-block" id="LoadPL.get_mbr_results">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadPL.html#pycba.load.LoadPL.get_mbr_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Results along the member from this load</span>
 
 <span class="sd">        Parameters</span>
@@ -758,7 +758,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        res : MemberResults</span>
 <span class="sd">            A populated :class:`pycba.load.MemberResults` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
@@ -789,9 +789,9 @@
 <div class="viewcode-block" id="LoadPUDL">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadPUDL</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Concrete class for Partial UDLs</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
@@ -802,7 +802,7 @@
 <div class="viewcode-block" id="LoadPUDL.get_cnl">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL.get_cnl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
 <span class="sd">        Parameters</span>
@@ -816,7 +816,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Consistent Nodal Loads for this load type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
@@ -848,7 +848,7 @@
 <div class="viewcode-block" id="LoadPUDL.get_mbr_results">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadPUDL.html#pycba.load.LoadPUDL.get_mbr_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Results along the member from this load</span>
 
 <span class="sd">        Parameters</span>
@@ -862,7 +862,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        res : MemberResults</span>
 <span class="sd">            A populated :class:`pycba.load.MemberResults` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
@@ -908,13 +908,13 @@
 <div class="viewcode-block" id="LoadTrapez">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadTrapez.html#pycba.load.LoadTrapez">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadTrapez</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Trapezoidal (linearly varying) distributed load, optionally partial.</span>
 
 <span class="sd">    The load varies linearly from intensity *w1* at position *a* to *w2* at</span>
 <span class="sd">    position *a + c*.  When *a* = 0 and *c* = span length the load covers</span>
 <span class="sd">    the full span (the default).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -924,7 +924,7 @@
         <span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates a trapezoidal load for the member.</span>
 
 <span class="sd">        Parameters</span>
@@ -941,7 +941,7 @@
 <span class="sd">        c : float or None, optional</span>
 <span class="sd">            Length (cover) of the load.  ``None`` (default) means full span</span>
 <span class="sd">            from *a* to the right end.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w1</span> <span class="o">=</span> <span class="n">w1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w2</span> <span class="o">=</span> <span class="n">w2</span>
@@ -949,11 +949,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># None ⇒ full span from a, resolved when L is known</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve c and clip to span boundaries.</span>
+<span class="w">        </span><span class="sd">"""Resolve c and clip to span boundaries.</span>
 
 <span class="sd">        Returns (w1, w2, dw, a, c) with c &gt; 0, or c = 0 when the load</span>
 <span class="sd">        falls outside the span.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">L</span> <span class="o">-</span> <span class="n">a</span>
         <span class="n">w1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w1</span>
@@ -973,7 +973,7 @@
 <div class="viewcode-block" id="LoadTrapez.get_cnl">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadTrapez.html#pycba.load.LoadTrapez.get_cnl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Consistent Nodal Loads for the trapezoidal load on a fixed-fixed span.</span>
 
 <span class="sd">        Derived from the fixed-end force influence integrals:</span>
@@ -992,7 +992,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Consistent Nodal Loads for this load type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
@@ -1055,7 +1055,7 @@
 <div class="viewcode-block" id="LoadTrapez.get_mbr_results">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadTrapez.html#pycba.load.LoadTrapez.get_mbr_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Simply-supported member results using Macaulay bracket integration.</span>
 
 <span class="sd">        The load ``w(x) = w1 + (w2−w1)·(x−a)/c`` for ``a ≤ x ≤ a+c`` is</span>
@@ -1072,7 +1072,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        res : MemberResults</span>
 <span class="sd">            A populated :class:`pycba.load.MemberResults` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
@@ -1155,9 +1155,9 @@
 <div class="viewcode-block" id="LoadMaMb">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadMaMb</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Member end moment loads</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
@@ -1167,7 +1167,7 @@
 <div class="viewcode-block" id="LoadMaMb.get_cnl">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb.get_cnl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
 <span class="sd">        Parameters</span>
@@ -1181,7 +1181,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Consistent Nodal Loads for this load type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">Ma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ma</span>
         <span class="n">Mb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mb</span>
@@ -1200,7 +1200,7 @@
 <div class="viewcode-block" id="LoadMaMb.get_mbr_results">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadMaMb.html#pycba.load.LoadMaMb.get_mbr_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Results along the member from this load</span>
 
 <span class="sd">        Parameters</span>
@@ -1214,7 +1214,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        res : MemberResults</span>
 <span class="sd">            A populated :class:`pycba.load.MemberResults` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
@@ -1244,9 +1244,9 @@
 <div class="viewcode-block" id="LoadML">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadML</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Moment load applied at a along member</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
@@ -1256,7 +1256,7 @@
 <div class="viewcode-block" id="LoadML.get_cnl">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML.get_cnl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">eType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns the Consistent Nodal Loads for a span of length L of element eType</span>
 
 <span class="sd">        Parameters</span>
@@ -1270,7 +1270,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Consistent Nodal Loads for this load type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span>
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
@@ -1290,7 +1290,7 @@
 <div class="viewcode-block" id="LoadML.get_mbr_results">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadML.html#pycba.load.LoadML.get_mbr_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Results along the member from this load</span>
 
 <span class="sd">        Parameters</span>
@@ -1304,7 +1304,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        res : MemberResults</span>
 <span class="sd">            A populated :class:`pycba.load.MemberResults` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
@@ -1352,7 +1352,7 @@
 <div class="viewcode-block" id="LoadIC">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoadIC</span><span class="p">(</span><span class="n">Load</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Imposed-curvature (initial-strain) member load.</span>
 
 <span class="sd">    Applies a *free* (stress-free) curvature field :math:`\kappa_\text{imp}(x)`</span>
@@ -1389,10 +1389,10 @@
 <span class="sd">        member).  The rigidity is supplied to the load by the</span>
 <span class="sd">        :class:`~pycba.beam.Beam` when the loads are parsed; it therefore need</span>
 <span class="sd">        not be specified by the user.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_span</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">EI</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Creates an imposed-curvature load for the member.</span>
 
 <span class="sd">        Parameters</span>
@@ -1408,7 +1408,7 @@
 <span class="sd">            The flexural rigidity of the member.  Normally left ``None`` and</span>
 <span class="sd">            populated by the owning :class:`~pycba.beam.Beam`; only required to</span>
 <span class="sd">            evaluate the fixed-end forces (:meth:`get_cnl`).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">i_span</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kappa</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">EI</span> <span class="o">=</span> <span class="n">EI</span>
@@ -1416,7 +1416,7 @@
 <div class="viewcode-block" id="LoadIC.kappa_imp">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC.kappa_imp">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">kappa_imp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Evaluate the imposed-curvature field :math:`\kappa_\text{imp}(x)`.</span>
 
 <span class="sd">        Parameters</span>
@@ -1428,18 +1428,18 @@
 <span class="sd">        -------</span>
 <span class="sd">        float or np.ndarray</span>
 <span class="sd">            The imposed curvature at ``x``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># numpy.polyval expects highest-order coefficient first.</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_Ktheta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        End moment-rotation stiffness ``K_theta`` for the member.</span>
 
 <span class="sd">        Uses the closed-form prismatic value when ``EI`` is scalar, or the</span>
 <span class="sd">        flexibility-integrated value for a :class:`~pycba.section.SectionEI`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
@@ -1451,14 +1451,14 @@
         <span class="k">return</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_end_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Fixed-end moments ``[M_a, M_b] = K_theta theta_0`` from the curvature.</span>
 
 <span class="sd">        The primary (simply-supported) end-rotation integrals are split at the</span>
 <span class="sd">        section breakpoints when ``EI`` is a :class:`~pycba.section.SectionEI`,</span>
 <span class="sd">        so an imposed curvature on a non-prismatic member honours every EI</span>
 <span class="sd">        kink/step exactly; for a scalar ``EI`` the single interval is used.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">SectionEI</span>
 
@@ -1486,7 +1486,7 @@
 <div class="viewcode-block" id="LoadIC.get_cnl">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC.get_cnl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">eType</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCNL</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Consistent Nodal Loads (fixed-fixed) for the imposed curvature.</span>
 
 <span class="sd">        Parameters</span>
@@ -1500,11 +1500,11 @@
 <span class="sd">        -------</span>
 <span class="sd">        LoadCNL</span>
 <span class="sd">            Consistent Nodal Loads for this load type</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EI</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;LoadIC requires the member EI to evaluate fixed-end forces; &quot;</span>
-                <span class="s2">&quot;it is normally supplied automatically by the Beam.&quot;</span>
+                <span class="s2">"LoadIC requires the member EI to evaluate fixed-end forces; "</span>
+                <span class="s2">"it is normally supplied automatically by the Beam."</span>
             <span class="p">)</span>
         <span class="n">Ma</span><span class="p">,</span> <span class="n">Mb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_moments</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
         <span class="c1"># No transverse load: the end-moment couple is balanced by end shears.</span>
@@ -1514,7 +1514,7 @@
 <div class="viewcode-block" id="LoadIC.get_mbr_results">
 <a class="viewcode-back" href="../../gen/pycba.load.LoadIC.html#pycba.load.LoadIC.get_mbr_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mbr_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Simply-supported member results from the free (imposed) curvature.</span>
 
 <span class="sd">        The imposed curvature produces **no** internal moment or shear on a</span>
@@ -1538,7 +1538,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        res : MemberResults</span>
 <span class="sd">            A populated :class:`pycba.types.MemberResults` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">npts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
@@ -1573,7 +1573,7 @@
 <div class="viewcode-block" id="parse_LM">
 <a class="viewcode-back" href="../../gen/pycba.load.parse_LM.html#pycba.load.parse_LM">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Load</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This function parses the Load Matrix and returns a list</span>
 <span class="sd">    of Load objects</span>
 
@@ -1588,10 +1588,10 @@
 <span class="sd">    -------</span>
 <span class="sd">    loads : List[Load]</span>
 <span class="sd">        A list of Load objects</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">load</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Load Matrix must be a list of lists&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Load Matrix must be a list of lists"</span><span class="p">)</span>
     <span class="n">loads</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">:</span>
         <span class="n">span</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -1637,7 +1637,7 @@
 <div class="viewcode-block" id="add_LM">
 <a class="viewcode-back" href="../../gen/pycba.load.add_LM.html#pycba.load.add_LM">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_LM</span><span class="p">(</span><span class="n">LM1</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">LM2</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Adds two load matrices and returns the sum; this enables superposition</span>
 
 <span class="sd">    Parameters</span>
@@ -1652,7 +1652,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    LM : LoadMatrix</span>
 <span class="sd">        The superimposed `LoadMatrix` object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">LM</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM1</span><span class="p">:</span>
@@ -1667,7 +1667,7 @@
 <div class="viewcode-block" id="factor_LM">
 <a class="viewcode-back" href="../../gen/pycba.load.factor_LM.html#pycba.load.factor_LM">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">factor_LM</span><span class="p">(</span><span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadMatrix</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Applies a factor to the loads in a `LoadMatrix` object</span>
 
 <span class="sd">    Parameters</span>
@@ -1682,7 +1682,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    LM : LoadMatrix</span>
 <span class="sd">        The factored `LoadMatrix` object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">LMnew</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">:</span>
         <span class="n">i_span</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1734,8 +1734,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1769,7 +1769,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

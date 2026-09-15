@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,10 +432,10 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.units</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Display unit systems.</span>
 
-<span class="sd">PyCBA&#39;s solver is **unit-agnostic**: it performs no unit conversions, so any</span>
+<span class="sd">PyCBA's solver is **unit-agnostic**: it performs no unit conversions, so any</span>
 <span class="sd">internally consistent set of units (e.g. kN/m/kNm, or N/mm/Nmm) may be used as</span>
 <span class="sd">long as all inputs share the same system.  This module does **not** change that</span>
 <span class="sd">contract - it only governs how plots are *labelled* and how deflections are</span>
@@ -443,14 +443,14 @@
 
 <span class="sd">A :class:`UnitSystem` is a small, immutable bundle of label strings (force,</span>
 <span class="sd">length, moment, distributed load) plus a deflection display scale/label.  Pick</span>
-<span class="sd">one of the named presets (``&quot;SI&quot;``, ``&quot;SI-N-mm&quot;``, ``&quot;US-ft&quot;``, ``&quot;US-in&quot;``,</span>
-<span class="sd">``&quot;none&quot;``), set it globally with :func:`set_units`, or pass ``units=`` to any</span>
+<span class="sd">one of the named presets (``"SI"``, ``"SI-N-mm"``, ``"US-ft"``, ``"US-in"``,</span>
+<span class="sd">``"none"``), set it globally with :func:`set_units`, or pass ``units=`` to any</span>
 <span class="sd">plotting method to override it for a single figure.  Build a custom</span>
 <span class="sd">:class:`UnitSystem` for anything else.</span>
 
-<span class="sd">The default is SI with kN and m (``&quot;SI&quot;``), matching PyCBA&#39;s historical plot</span>
+<span class="sd">The default is SI with kN and m (``"SI"``), matching PyCBA's historical plot</span>
 <span class="sd">labels, so existing scripts and figures are unchanged.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -462,7 +462,7 @@
 <a class="viewcode-back" href="../../gen/pycba.units.UnitSystem.html#pycba.units.UnitSystem">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnitSystem</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A display unit system: axis-label units and the deflection display scale.</span>
 
 <span class="sd">    Holds only label strings and a deflection display factor - it is purely a</span>
@@ -472,79 +472,79 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    name : str</span>
-<span class="sd">        Human-readable identifier (e.g. ``&quot;SI (kN, m)&quot;``).</span>
+<span class="sd">        Human-readable identifier (e.g. ``"SI (kN, m)"``).</span>
 <span class="sd">    force : str</span>
-<span class="sd">        Force unit label, e.g. ``&quot;kN&quot;`` (used for shear, reactions, loads).</span>
+<span class="sd">        Force unit label, e.g. ``"kN"`` (used for shear, reactions, loads).</span>
 <span class="sd">    length : str</span>
-<span class="sd">        Length unit label, e.g. ``&quot;m&quot;`` (used for the distance axis).</span>
+<span class="sd">        Length unit label, e.g. ``"m"`` (used for the distance axis).</span>
 <span class="sd">    moment : str</span>
-<span class="sd">        Moment unit label, e.g. ``&quot;kNm&quot;`` (conventions vary, so it is given</span>
+<span class="sd">        Moment unit label, e.g. ``"kNm"`` (conventions vary, so it is given</span>
 <span class="sd">        explicitly rather than composed from force x length).</span>
 <span class="sd">    distributed : str</span>
-<span class="sd">        Distributed-load unit label, e.g. ``&quot;kN/m&quot;``.</span>
+<span class="sd">        Distributed-load unit label, e.g. ``"kN/m"``.</span>
 <span class="sd">    disp_label : str</span>
-<span class="sd">        Unit shown on the deflection axis, e.g. ``&quot;mm&quot;``.</span>
+<span class="sd">        Unit shown on the deflection axis, e.g. ``"mm"``.</span>
 <span class="sd">    disp_scale : float</span>
 <span class="sd">        Factor the native deflection is multiplied by for display.  For SI</span>
 <span class="sd">        (kN, m) this is ``1000`` (m shown as mm); for a system whose length</span>
 <span class="sd">        unit already matches the deflection unit it is ``1``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">force</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">length</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">moment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">distributed</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">disp_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">force</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">moment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">distributed</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">disp_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="n">disp_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="c1"># --- label helpers ------------------------------------------------- #</span>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_suffix</span><span class="p">(</span><span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="n">unit</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">" (</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="n">unit</span> <span class="k">else</span> <span class="s2">""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">moment_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;Bending Moment&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moment</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"Bending Moment"</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moment</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">shear_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;Shear Force&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"Shear Force"</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deflection_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;Deflection&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disp_label</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"Deflection"</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disp_label</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">distance_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;Distance along beam&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"Distance along beam"</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UnitSystem.length_axis">
 <a class="viewcode-back" href="../../gen/pycba.units.UnitSystem.html#pycba.units.UnitSystem.length_axis">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">length_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Distance along beam&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Axis label for a length quantity, e.g. ``length_axis(&quot;Position&quot;)``.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">length_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Distance along beam"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Axis label for a length quantity, e.g. ``length_axis("Position")``."""</span>
         <span class="k">return</span> <span class="n">what</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span></div>
 
 
     <span class="c1"># --- inline value formatting (load annotations) -------------------- #</span>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_val</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">unit</span> <span class="k">else</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">unit</span> <span class="k">else</span> <span class="n">value</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">fmt_force</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">fmt_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">moment</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">moment</span><span class="p">)</span>
 
 <div class="viewcode-block" id="UnitSystem.fmt_distributed">
 <a class="viewcode-back" href="../../gen/pycba.units.UnitSystem.html#pycba.units.UnitSystem.fmt_distributed">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fmt_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">w1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format a (possibly varying) distributed load, e.g. ``5→8 kN/m``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Format a (possibly varying) distributed load, e.g. ``5→8 kN/m``."""</span>
         <span class="k">if</span> <span class="n">w1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">w1</span> <span class="o">==</span> <span class="n">w0</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">w0</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w0</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">w0</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">→</span><span class="si">{</span><span class="n">w1</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w0</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">→</span><span class="si">{</span><span class="n">w1</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributed</span><span class="p">)</span></div>
 </div>
 
@@ -554,94 +554,94 @@
 <span class="c1"># Named presets</span>
 <span class="c1"># --------------------------------------------------------------------------- #</span>
 <span class="n">SI</span> <span class="o">=</span> <span class="n">UnitSystem</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SI (kN, m)&quot;</span><span class="p">,</span>
-    <span class="n">force</span><span class="o">=</span><span class="s2">&quot;kN&quot;</span><span class="p">,</span>
-    <span class="n">length</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span>
-    <span class="n">moment</span><span class="o">=</span><span class="s2">&quot;kNm&quot;</span><span class="p">,</span>
-    <span class="n">distributed</span><span class="o">=</span><span class="s2">&quot;kN/m&quot;</span><span class="p">,</span>
-    <span class="n">disp_label</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"SI (kN, m)"</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="s2">"kN"</span><span class="p">,</span>
+    <span class="n">length</span><span class="o">=</span><span class="s2">"m"</span><span class="p">,</span>
+    <span class="n">moment</span><span class="o">=</span><span class="s2">"kNm"</span><span class="p">,</span>
+    <span class="n">distributed</span><span class="o">=</span><span class="s2">"kN/m"</span><span class="p">,</span>
+    <span class="n">disp_label</span><span class="o">=</span><span class="s2">"mm"</span><span class="p">,</span>
     <span class="n">disp_scale</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">SI_N_MM</span> <span class="o">=</span> <span class="n">UnitSystem</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SI (N, mm)&quot;</span><span class="p">,</span>
-    <span class="n">force</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span>
-    <span class="n">length</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">,</span>
-    <span class="n">moment</span><span class="o">=</span><span class="s2">&quot;N·mm&quot;</span><span class="p">,</span>
-    <span class="n">distributed</span><span class="o">=</span><span class="s2">&quot;N/mm&quot;</span><span class="p">,</span>
-    <span class="n">disp_label</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"SI (N, mm)"</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="s2">"N"</span><span class="p">,</span>
+    <span class="n">length</span><span class="o">=</span><span class="s2">"mm"</span><span class="p">,</span>
+    <span class="n">moment</span><span class="o">=</span><span class="s2">"N·mm"</span><span class="p">,</span>
+    <span class="n">distributed</span><span class="o">=</span><span class="s2">"N/mm"</span><span class="p">,</span>
+    <span class="n">disp_label</span><span class="o">=</span><span class="s2">"mm"</span><span class="p">,</span>
     <span class="n">disp_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">US_KIP_FT</span> <span class="o">=</span> <span class="n">UnitSystem</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;US (kip, ft)&quot;</span><span class="p">,</span>
-    <span class="n">force</span><span class="o">=</span><span class="s2">&quot;kip&quot;</span><span class="p">,</span>
-    <span class="n">length</span><span class="o">=</span><span class="s2">&quot;ft&quot;</span><span class="p">,</span>
-    <span class="n">moment</span><span class="o">=</span><span class="s2">&quot;kip·ft&quot;</span><span class="p">,</span>
-    <span class="n">distributed</span><span class="o">=</span><span class="s2">&quot;kip/ft&quot;</span><span class="p">,</span>
-    <span class="n">disp_label</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"US (kip, ft)"</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="s2">"kip"</span><span class="p">,</span>
+    <span class="n">length</span><span class="o">=</span><span class="s2">"ft"</span><span class="p">,</span>
+    <span class="n">moment</span><span class="o">=</span><span class="s2">"kip·ft"</span><span class="p">,</span>
+    <span class="n">distributed</span><span class="o">=</span><span class="s2">"kip/ft"</span><span class="p">,</span>
+    <span class="n">disp_label</span><span class="o">=</span><span class="s2">"in"</span><span class="p">,</span>
     <span class="n">disp_scale</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">US_KIP_IN</span> <span class="o">=</span> <span class="n">UnitSystem</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;US (kip, in)&quot;</span><span class="p">,</span>
-    <span class="n">force</span><span class="o">=</span><span class="s2">&quot;kip&quot;</span><span class="p">,</span>
-    <span class="n">length</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">,</span>
-    <span class="n">moment</span><span class="o">=</span><span class="s2">&quot;kip·in&quot;</span><span class="p">,</span>
-    <span class="n">distributed</span><span class="o">=</span><span class="s2">&quot;kip/in&quot;</span><span class="p">,</span>
-    <span class="n">disp_label</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"US (kip, in)"</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="s2">"kip"</span><span class="p">,</span>
+    <span class="n">length</span><span class="o">=</span><span class="s2">"in"</span><span class="p">,</span>
+    <span class="n">moment</span><span class="o">=</span><span class="s2">"kip·in"</span><span class="p">,</span>
+    <span class="n">distributed</span><span class="o">=</span><span class="s2">"kip/in"</span><span class="p">,</span>
+    <span class="n">disp_label</span><span class="o">=</span><span class="s2">"in"</span><span class="p">,</span>
     <span class="n">disp_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">NONE</span> <span class="o">=</span> <span class="n">UnitSystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dimensionless&quot;</span><span class="p">)</span>
+<span class="n">NONE</span> <span class="o">=</span> <span class="n">UnitSystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"dimensionless"</span><span class="p">)</span>
 
 <span class="c1"># Friendly aliases -&gt; preset (keys are normalised: lower-case, spaces/underscores</span>
 <span class="c1"># collapsed to hyphens).  EU and AUS practice both use SI kN-m.</span>
 <span class="n">_REGISTRY</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;si&quot;</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
-    <span class="s2">&quot;kn-m&quot;</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
-    <span class="s2">&quot;knm&quot;</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
-    <span class="s2">&quot;eu&quot;</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
-    <span class="s2">&quot;aus&quot;</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
-    <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
-    <span class="s2">&quot;si-n-mm&quot;</span><span class="p">:</span> <span class="n">SI_N_MM</span><span class="p">,</span>
-    <span class="s2">&quot;n-mm&quot;</span><span class="p">:</span> <span class="n">SI_N_MM</span><span class="p">,</span>
-    <span class="s2">&quot;nmm&quot;</span><span class="p">:</span> <span class="n">SI_N_MM</span><span class="p">,</span>
-    <span class="s2">&quot;us&quot;</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
-    <span class="s2">&quot;us-ft&quot;</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
-    <span class="s2">&quot;kip-ft&quot;</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
-    <span class="s2">&quot;us-customary&quot;</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
-    <span class="s2">&quot;us-in&quot;</span><span class="p">:</span> <span class="n">US_KIP_IN</span><span class="p">,</span>
-    <span class="s2">&quot;kip-in&quot;</span><span class="p">:</span> <span class="n">US_KIP_IN</span><span class="p">,</span>
-    <span class="s2">&quot;none&quot;</span><span class="p">:</span> <span class="n">NONE</span><span class="p">,</span>
-    <span class="s2">&quot;dimensionless&quot;</span><span class="p">:</span> <span class="n">NONE</span><span class="p">,</span>
-    <span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="n">NONE</span><span class="p">,</span>
+    <span class="s2">"si"</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
+    <span class="s2">"kn-m"</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
+    <span class="s2">"knm"</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
+    <span class="s2">"eu"</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
+    <span class="s2">"aus"</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
+    <span class="s2">"metric"</span><span class="p">:</span> <span class="n">SI</span><span class="p">,</span>
+    <span class="s2">"si-n-mm"</span><span class="p">:</span> <span class="n">SI_N_MM</span><span class="p">,</span>
+    <span class="s2">"n-mm"</span><span class="p">:</span> <span class="n">SI_N_MM</span><span class="p">,</span>
+    <span class="s2">"nmm"</span><span class="p">:</span> <span class="n">SI_N_MM</span><span class="p">,</span>
+    <span class="s2">"us"</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
+    <span class="s2">"us-ft"</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
+    <span class="s2">"kip-ft"</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
+    <span class="s2">"us-customary"</span><span class="p">:</span> <span class="n">US_KIP_FT</span><span class="p">,</span>
+    <span class="s2">"us-in"</span><span class="p">:</span> <span class="n">US_KIP_IN</span><span class="p">,</span>
+    <span class="s2">"kip-in"</span><span class="p">:</span> <span class="n">US_KIP_IN</span><span class="p">,</span>
+    <span class="s2">"none"</span><span class="p">:</span> <span class="n">NONE</span><span class="p">,</span>
+    <span class="s2">"dimensionless"</span><span class="p">:</span> <span class="n">NONE</span><span class="p">,</span>
+    <span class="s2">""</span><span class="p">:</span> <span class="n">NONE</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">_default</span><span class="p">:</span> <span class="n">UnitSystem</span> <span class="o">=</span> <span class="n">SI</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalise</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="set_units">
 <a class="viewcode-back" href="../../gen/pycba.units.set_units.html#pycba.units.set_units">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_units</span><span class="p">(</span><span class="n">units</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">UnitSystem</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">UnitSystem</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Set the global default display unit system used by plots.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    units : str or UnitSystem</span>
-<span class="sd">        A preset name (e.g. ``&quot;SI&quot;``, ``&quot;US-ft&quot;``, ``&quot;N-mm&quot;``, ``&quot;none&quot;``) or a</span>
+<span class="sd">        A preset name (e.g. ``"SI"``, ``"US-ft"``, ``"N-mm"``, ``"none"``) or a</span>
 <span class="sd">        :class:`UnitSystem` instance.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    UnitSystem</span>
 <span class="sd">        The resolved unit system now in effect.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_default</span>
     <span class="n">_default</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_default</span></div>
@@ -651,7 +651,7 @@
 <div class="viewcode-block" id="get_units">
 <a class="viewcode-back" href="../../gen/pycba.units.get_units.html#pycba.units.get_units">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_units</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">UnitSystem</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the current global default display unit system.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the current global default display unit system."""</span>
     <span class="k">return</span> <span class="n">_default</span></div>
 
 
@@ -659,7 +659,7 @@
 <div class="viewcode-block" id="resolve">
 <a class="viewcode-back" href="../../gen/pycba.units.resolve.html#pycba.units.resolve">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">UnitSystem</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnitSystem</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resolve a units argument to a :class:`UnitSystem`.</span>
 
 <span class="sd">    ``None`` returns the global default (see :func:`set_units`); a string is</span>
@@ -670,7 +670,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    KeyError</span>
 <span class="sd">        If ``units`` is an unknown preset name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_default</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">UnitSystem</span><span class="p">):</span>
@@ -680,8 +680,8 @@
         <span class="k">return</span> <span class="n">_REGISTRY</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Unknown unit system </span><span class="si">{</span><span class="n">units</span><span class="si">!r}</span><span class="s2">. Known presets: &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_REGISTRY</span> <span class="k">if</span> <span class="n">k</span><span class="p">}))</span>
+            <span class="sa">f</span><span class="s2">"Unknown unit system </span><span class="si">{</span><span class="n">units</span><span class="si">!r}</span><span class="s2">. Known presets: "</span>
+            <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_REGISTRY</span> <span class="k">if</span> <span class="n">k</span><span class="p">}))</span>
         <span class="p">)</span></div>
 
 </pre></div>
@@ -713,8 +713,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -748,7 +748,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

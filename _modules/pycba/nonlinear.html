@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,7 +432,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.nonlinear</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA Nonlinear Module — Generalized Clough Model</span>
 <span class="sd">==================================================</span>
 
@@ -454,17 +454,17 @@
 
 <span class="sd">References</span>
 <span class="sd">----------</span>
-<span class="sd">- Clough, R.W. &amp; Johnston, S.B. (1966). &quot;Effect of stiffness degradation</span>
-<span class="sd">  on earthquake ductility requirements.&quot; *Proc. Japan Earthquake</span>
+<span class="sd">- Clough, R.W. &amp; Johnston, S.B. (1966). "Effect of stiffness degradation</span>
+<span class="sd">  on earthquake ductility requirements." *Proc. Japan Earthquake</span>
 <span class="sd">  Engineering Symposium*, Tokyo, pp. 227–232.</span>
 <span class="sd">- Li, G.Q. &amp; Li, J.J. (2007). *Advanced Analysis and Design of Steel</span>
 <span class="sd">  Frames*. John Wiley &amp; Sons, Chapter 4.</span>
 <span class="sd">- McCarthy, L.A. (2012). *Probabilistic Analysis of Indeterminate Highway</span>
 <span class="sd">  Bridges Considering Material Nonlinearity*. MPhil Thesis, Dublin</span>
 <span class="sd">  Institute of Technology.</span>
-<span class="sd">- Caprani, C.C. (2006). &quot;Probabilistic Analysis of Highway Bridge Traffic</span>
-<span class="sd">  Loading.&quot; PhD Thesis, University College Dublin.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">- Caprani, C.C. (2006). "Probabilistic Analysis of Highway Bridge Traffic</span>
+<span class="sd">  Loading." PhD Thesis, University College Dublin.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -485,7 +485,7 @@
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.HingeEvent.html#pycba.nonlinear.HingeEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">HingeEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Record of a yield or plastic-hinge formation event.</span>
+<span class="w">    </span><span class="sd">"""Record of a yield or plastic-hinge formation event.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -497,8 +497,8 @@
 <span class="sd">    node_index : int</span>
 <span class="sd">        Internal mesh node index.</span>
 <span class="sd">    event_type : str</span>
-<span class="sd">        Either ``&#39;initial_yield&#39;`` or ``&#39;plastic_hinge&#39;``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Either ``'initial_yield'`` or ``'plastic_hinge'``.</span>
+<span class="sd">    """</span>
 
     <span class="n">load_factor</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">location</span><span class="p">:</span> <span class="nb">float</span>
@@ -511,7 +511,7 @@
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">NonlinearResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Results container for a nonlinear beam analysis.</span>
+<span class="w">    </span><span class="sd">"""Results container for a nonlinear beam analysis.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -536,7 +536,7 @@
 <span class="sd">    moment_history : list[ndarray]</span>
 <span class="sd">        Recorded moment-distribution snapshots (same length as</span>
 <span class="sd">        *lambda_history*).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">collapse_lambda</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">collapsed</span><span class="p">:</span> <span class="nb">bool</span>
@@ -552,7 +552,7 @@
 <div class="viewcode-block" id="NonlinearResult.plot_moments">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_moments">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the bending moment distribution at collapse.</span>
+<span class="w">        </span><span class="sd">"""Plot the bending moment distribution at collapse.</span>
 
 <span class="sd">        If moment history snapshots were recorded (via ``record_every``),</span>
 <span class="sd">        they are shown as light traces behind the final distribution.</span>
@@ -570,7 +570,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ax : matplotlib Axes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
@@ -578,21 +578,21 @@
             <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
         <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">mom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">moment_history</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 
         <span class="n">label</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Collapse (</span><span class="se">\u03bb</span><span class="s2">=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"Collapse (</span><span class="se">\u03bb</span><span class="s2">=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span>
-            <span class="k">else</span> <span class="s2">&quot;Final&quot;</span>
+            <span class="k">else</span> <span class="s2">"Final"</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_moments</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_moments</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">Mp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">Mp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;$M_p$ = </span><span class="si">{</span><span class="n">Mp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="n">Mp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">Mp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"$M_p$ = </span><span class="si">{</span><span class="n">Mp</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="n">Mp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
@@ -604,9 +604,9 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_draw_beam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">support_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw beam line and support triangles at vertical position *y*.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Draw beam line and support triangles at vertical position *y*."""</span>
         <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">support_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ylim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
             <span class="n">support_size</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.04</span> <span class="ow">or</span> <span class="mf">0.1</span>
@@ -618,8 +618,8 @@
                     <span class="p">[</span><span class="n">xs</span> <span class="o">+</span> <span class="n">support_size</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">support_size</span><span class="p">],</span>
                 <span class="p">],</span>
                 <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
-                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
                 <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="p">)</span>
@@ -628,7 +628,7 @@
 <div class="viewcode-block" id="NonlinearResult.plot_hinge_history">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_hinge_history">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_hinge_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moving</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the hinge formation sequence along the beam.</span>
+<span class="w">        </span><span class="sd">"""Plot the hinge formation sequence along the beam.</span>
 
 <span class="sd">        Each event is shown as a marker at ``(x, stage)`` where *x* is the</span>
 <span class="sd">        hinge location on the beam.</span>
@@ -653,7 +653,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ax : matplotlib Axes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
@@ -663,8 +663,8 @@
         <span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
         <span class="k">for</span> <span class="n">etype</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s2">&quot;initial_yield&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="s2">&quot;Initial yield&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;plastic_hinge&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="s2">&quot;Plastic hinge&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"initial_yield"</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="s2">"C0"</span><span class="p">,</span> <span class="s2">"Initial yield"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"plastic_hinge"</span><span class="p">,</span> <span class="s2">"s"</span><span class="p">,</span> <span class="s2">"C3"</span><span class="p">,</span> <span class="s2">"Plastic hinge"</span><span class="p">),</span>
         <span class="p">]:</span>
             <span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_events</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">etype</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">events</span><span class="p">:</span>
@@ -675,10 +675,10 @@
                 <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">moving</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Load factor $</span><span class="se">\\</span><span class="s2">lambda$&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Load factor $</span><span class="se">\\</span><span class="s2">lambda$"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">length_axis</span><span class="p">(</span><span class="s2">&quot;Front axle position&quot;</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">length_axis</span><span class="p">(</span><span class="s2">"Front axle position"</span><span class="p">))</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -690,7 +690,7 @@
 <div class="viewcode-block" id="NonlinearResult.plot_beam_state">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_beam_state">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_beam_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the beam with hinge locations and optional vehicle position.</span>
+<span class="w">        </span><span class="sd">"""Plot the beam with hinge locations and optional vehicle position.</span>
 
 <span class="sd">        Draws the beam, supports, and marks yield/hinge locations along</span>
 <span class="sd">        the beam line.  If *vehicle* is given and the analysis collapsed,</span>
@@ -709,7 +709,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ax : matplotlib Axes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
@@ -725,8 +725,8 @@
 
         <span class="c1"># Hinge markers on the beam line</span>
         <span class="k">for</span> <span class="n">etype</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">yoff</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s2">&quot;initial_yield&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="s2">&quot;Initial yield&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;plastic_hinge&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;Plastic hinge&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"initial_yield"</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="s2">"C0"</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="s2">"Initial yield"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"plastic_hinge"</span><span class="p">,</span> <span class="s2">"s"</span><span class="p">,</span> <span class="s2">"C3"</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">"Plastic hinge"</span><span class="p">),</span>
         <span class="p">]:</span>
             <span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_events</span> <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="n">etype</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">events</span><span class="p">:</span>
@@ -748,33 +748,33 @@
                 <span class="n">x</span> <span class="o">=</span> <span class="n">front</span> <span class="o">-</span> <span class="n">ac</span>
                 <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">:</span>
                     <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-                        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                        <span class="s2">""</span><span class="p">,</span>
                         <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">beam_y</span><span class="p">),</span>
                         <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">beam_y</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">),</span>
                         <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-                            <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&gt;,head_width=0.3&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span>
+                            <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;,head_width=0.3"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"C2"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span>
                         <span class="p">),</span>
                     <span class="p">)</span>
                     <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
                         <span class="n">x</span><span class="p">,</span>
                         <span class="n">beam_y</span> <span class="o">+</span> <span class="mf">1.1</span><span class="p">,</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                        <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-                        <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
+                        <span class="n">va</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">,</span>
                         <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">"C2"</span><span class="p">,</span>
                     <span class="p">)</span>
 
-            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;collapse&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="s2">&quot;final&quot;</span>
-            <span class="n">lu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vehicle at </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">: front axle x = </span><span class="si">{</span><span class="n">front</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}{</span><span class="n">lu</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">"collapse"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="s2">"final"</span>
+            <span class="n">lu</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">us</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">length</span> <span class="k">else</span> <span class="s2">""</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Vehicle at </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">: front axle x = </span><span class="si">{</span><span class="n">front</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}{</span><span class="n">lu</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ax</span></div>
 
@@ -782,7 +782,7 @@
 <div class="viewcode-block" id="NonlinearResult.plot_collapse">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearResult.html#pycba.nonlinear.NonlinearResult.plot_collapse">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the deformed shape at collapse, with the plastic hinges marked.</span>
+<span class="w">        </span><span class="sd">"""Plot the deformed shape at collapse, with the plastic hinges marked.</span>
 
 <span class="sd">        The undeformed beam is drawn in grey and the (exaggerated) collapse</span>
 <span class="sd">        deflected shape overlaid, with a large marker at every plastic‑hinge</span>
@@ -804,7 +804,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ax : matplotlib Axes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
 
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
@@ -825,50 +825,50 @@
         <span class="n">y</span> <span class="o">=</span> <span class="n">dv</span> <span class="o">*</span> <span class="n">scale</span>
 
         <span class="c1"># undeformed beam (grey) and support triangles</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.6&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.6"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">):</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">,</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">)),</span>
-                <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;^&quot;</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="s2">"^"</span><span class="p">,</span>
                 <span class="n">s</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
-                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.4&quot;</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">"0.4"</span><span class="p">,</span>
                 <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># the collapse deflected shape</span>
         <span class="n">lbl</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Collapse (λ = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"Collapse (λ = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span>
-            <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;Final (λ = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="k">else</span> <span class="sa">f</span><span class="s2">"Final (λ = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_lambda</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">lbl</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">lbl</span><span class="p">)</span>
 
         <span class="c1"># plastic hinges as big dots on the deflected shape</span>
         <span class="n">hx</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-            <span class="p">{</span><span class="n">h</span><span class="o">.</span><span class="n">location</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_events</span> <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;plastic_hinge&quot;</span><span class="p">}</span>
+            <span class="p">{</span><span class="n">h</span><span class="o">.</span><span class="n">location</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hinge_events</span> <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">"plastic_hinge"</span><span class="p">}</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">hx</span><span class="p">:</span>
             <span class="n">hy</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">hx</span><span class="p">]</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
                 <span class="n">hx</span><span class="p">,</span>
                 <span class="n">hy</span><span class="p">,</span>
-                <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
                 <span class="n">s</span><span class="o">=</span><span class="mi">140</span><span class="p">,</span>
-                <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">,</span>
-                <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+                <span class="n">fc</span><span class="o">=</span><span class="s2">"C3"</span><span class="p">,</span>
+                <span class="n">ec</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
                 <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Plastic hinge&quot;</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">"Plastic hinge"</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.04</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mf">1.04</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Collapse mechanism&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="s2">&quot;Deformed shape&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Collapse mechanism"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collapsed</span> <span class="k">else</span> <span class="s2">"Deformed shape"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ax</span></div>
 </div>
 
@@ -880,7 +880,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_k_FF</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixed-fixed 4-DOF beam element stiffness matrix (*k_e* in Clough notation).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fixed-fixed 4-DOF beam element stiffness matrix (*k_e* in Clough notation)."""</span>
     <span class="n">L2</span><span class="p">,</span> <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
     <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -894,7 +894,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_k_PF</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pinned-fixed element stiffness, hinge at left end (*k_1* in Clough notation).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Pinned-fixed element stiffness, hinge at left end (*k_1* in Clough notation)."""</span>
     <span class="n">L2</span><span class="p">,</span> <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
     <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -908,7 +908,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_k_FP</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixed-pinned element stiffness, hinge at right end (*k_2* in Clough notation).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fixed-pinned element stiffness, hinge at right end (*k_2* in Clough notation)."""</span>
     <span class="n">L2</span><span class="p">,</span> <span class="n">L3</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">L3</span>
     <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -927,7 +927,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_mesh</span><span class="p">(</span><span class="n">span_L</span><span class="p">,</span> <span class="n">span_R</span><span class="p">,</span> <span class="n">mesh_size</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate an internal finite-element mesh for the continuous beam.</span>
+<span class="w">    </span><span class="sd">"""Generate an internal finite-element mesh for the continuous beam.</span>
 
 <span class="sd">    Each span is divided into elements of approximately *mesh_size* length.</span>
 <span class="sd">    Boundary conditions are derived from the pycba restraint vector *span_R*.</span>
@@ -952,7 +952,7 @@
 <span class="sd">        Global DOF indices that are restrained.</span>
 <span class="sd">    node_to_span : ndarray</span>
 <span class="sd">        Maps each node index to its parent span index.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">n_spans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">span_L</span><span class="p">)</span>
     <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
     <span class="n">elem_L_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -992,7 +992,7 @@
 <div class="viewcode-block" id="NonlinearBeamAnalysis">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearBeamAnalysis.html#pycba.nonlinear.NonlinearBeamAnalysis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NonlinearBeamAnalysis</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Nonlinear continuous beam analysis using the Generalized Clough model.</span>
+<span class="w">    </span><span class="sd">"""Nonlinear continuous beam analysis using the Generalized Clough model.</span>
 
 <span class="sd">    The beam is automatically meshed into short elements whose end stiffnesses</span>
 <span class="sd">    degrade from elastic (*R* = 1) to plastic (*R* = *q*) as the bending moment</span>
@@ -1037,7 +1037,7 @@
 <span class="sd">    &gt;&gt;&gt; result = nba.analyze(LM=[[1, 2, 100, 6]], lambda_max=5.0)</span>
 <span class="sd">    &gt;&gt;&gt; result.collapsed</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1064,11 +1064,11 @@
         <span class="p">]</span>
         <span class="k">if</span> <span class="n">nonprismatic</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;NonlinearBeamAnalysis supports prismatic (constant-EI) members &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;only; member(s) </span><span class="si">{</span><span class="n">nonprismatic</span><span class="si">}</span><span class="s2"> were supplied as SectionEI &quot;</span>
-                <span class="s2">&quot;(non-prismatic). Use BeamAnalysis for non-prismatic &quot;</span>
-                <span class="s2">&quot;(variable-EI) elastic analysis, or pass a scalar EI for &quot;</span>
-                <span class="s2">&quot;nonlinear analysis.&quot;</span>
+                <span class="s2">"NonlinearBeamAnalysis supports prismatic (constant-EI) members "</span>
+                <span class="sa">f</span><span class="s2">"only; member(s) </span><span class="si">{</span><span class="n">nonprismatic</span><span class="si">}</span><span class="s2"> were supplied as SectionEI "</span>
+                <span class="s2">"(non-prismatic). Use BeamAnalysis for non-prismatic "</span>
+                <span class="s2">"(variable-EI) elastic analysis, or pass a scalar EI for "</span>
+                <span class="s2">"nonlinear analysis."</span>
             <span class="p">)</span>
 
         <span class="n">_as</span> <span class="o">=</span> <span class="p">(</span>
@@ -1115,7 +1115,7 @@
     <span class="c1"># ---- Assembly (vectorized) ----</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_elastic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assemble the global elastic stiffness matrix (all *R* = 1).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Assemble the global elastic stiffness matrix (all *R* = 1)."""</span>
         <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
             <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
@@ -1123,12 +1123,12 @@
         <span class="k">return</span> <span class="n">K</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_from_elem_R</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assemble global stiffness using current element-end *R* values.</span>
+<span class="w">        </span><span class="sd">"""Assemble global stiffness using current element-end *R* values.</span>
 
 <span class="sd">        The element stiffness is interpolated between the fixed-fixed,</span>
 <span class="sd">        pinned-fixed, and fixed-pinned matrices according to the *R*</span>
 <span class="sd">        parameters at each end (see Li &amp; Li, 2007, Chapter 4).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
             <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">R_elem</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R_elem</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -1141,7 +1141,7 @@
         <span class="k">return</span> <span class="n">K</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc_inplace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply BCs to K (modifies and returns K).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Apply BCs to K (modifies and returns K)."""</span>
         <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bc_dofs</span><span class="p">:</span>
             <span class="n">K</span><span class="p">[</span><span class="n">dof</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="n">K</span><span class="p">[:,</span> <span class="n">dof</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -1149,7 +1149,7 @@
         <span class="k">return</span> <span class="n">K</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply boundary conditions to copies of *K* and *F*.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Apply boundary conditions to copies of *K* and *F*."""</span>
         <span class="n">K</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bc_dofs</span><span class="p">:</span>
@@ -1162,10 +1162,10 @@
     <span class="c1"># ---- Force vectors ----</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_build_force_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the global force vector from a pycba load matrix.</span>
+<span class="w">        </span><span class="sd">"""Build the global force vector from a pycba load matrix.</span>
 
 <span class="sd">        Supports UDL (type 1) and point load (type 2) entries.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
         <span class="n">span_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">span_L</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">ld</span> <span class="ow">in</span> <span class="n">LM</span><span class="p">:</span>
@@ -1188,11 +1188,11 @@
         <span class="k">return</span> <span class="n">F</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_add_point_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">F</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a point load *P* at global coordinate *x* into force vector *F*.</span>
+<span class="w">        </span><span class="sd">"""Add a point load *P* at global coordinate *x* into force vector *F*.</span>
 
 <span class="sd">        Uses Hermite shape-function interpolation when *x* falls between</span>
 <span class="sd">        mesh nodes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_length</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">ni</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span> <span class="o">-</span> <span class="n">x</span><span class="p">)))</span>
@@ -1210,7 +1210,7 @@
             <span class="n">F</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nR</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">P</span> <span class="o">*</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_point_load_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a new force vector for a single point load *P* at *x*.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a new force vector for a single point load *P* at *x*."""</span>
         <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_point_load</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">F</span>
@@ -1218,10 +1218,10 @@
     <span class="c1"># ---- Moment extraction (vectorized) ----</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract_moments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract nodal bending moments from displacement vector *u*.</span>
+<span class="w">        </span><span class="sd">"""Extract nodal bending moments from displacement vector *u*.</span>
 
 <span class="sd">        Uses the current (degraded) element stiffnesses defined by *R_elem*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
             <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
@@ -1237,7 +1237,7 @@
         <span class="k">return</span> <span class="n">moments</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract_moments_elastic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract nodal moments assuming fully elastic element stiffnesses.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Extract nodal moments assuming fully elastic element stiffnesses."""</span>
         <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">):</span>
             <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
@@ -1252,15 +1252,15 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_R</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">gamma_max</span><span class="p">,</span> <span class="n">R_elem</span><span class="p">,</span> <span class="n">yielded</span><span class="p">,</span> <span class="n">hinged</span><span class="p">,</span> <span class="n">hinge_events</span><span class="p">,</span> <span class="n">pos_label</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update element-end *R* parameters from current bending moments.</span>
+<span class="w">        </span><span class="sd">"""Update element-end *R* parameters from current bending moments.</span>
 
 <span class="sd">        The normalised moment ratio gamma = |M| / M_p controls stiffness</span>
 <span class="sd">        degradation: *R* = 1 for gamma &lt;= gamma_y, linearly decreasing to</span>
 <span class="sd">        *q* at gamma = 1 (full plasticity).  Unloading resets *R* to 1</span>
-<span class="sd">        (elastic rebound) — the Clough &quot;origin-oriented&quot; rule.</span>
+<span class="sd">        (elastic rebound) — the Clough "origin-oriented" rule.</span>
 
 <span class="sd">        Returns ``True`` if a new plastic hinge formed at any node.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">moments</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_Mp</span>
         <span class="n">new_hinge</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -1283,12 +1283,12 @@
             <span class="k">if</span> <span class="n">gamma</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_gamma_y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">yielded</span><span class="p">:</span>
                 <span class="n">yielded</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
                 <span class="n">hinge_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">HingeEvent</span><span class="p">(</span><span class="n">pos_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;initial_yield&quot;</span><span class="p">)</span>
+                    <span class="n">HingeEvent</span><span class="p">(</span><span class="n">pos_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">j</span><span class="p">,</span> <span class="s2">"initial_yield"</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="n">gamma</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hinged</span><span class="p">:</span>
                 <span class="n">hinged</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
                 <span class="n">hinge_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">HingeEvent</span><span class="p">(</span><span class="n">pos_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;plastic_hinge&quot;</span><span class="p">)</span>
+                    <span class="n">HingeEvent</span><span class="p">(</span><span class="n">pos_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">j</span><span class="p">,</span> <span class="s2">"plastic_hinge"</span><span class="p">)</span>
                 <span class="p">)</span>
                 <span class="n">new_hinge</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">new_hinge</span>
@@ -1296,12 +1296,12 @@
     <span class="c1"># ---- Mechanism test ----</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_cluster_hinges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hinged_nodes</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cluster nearby hinged nodes into representative locations.</span>
+<span class="w">        </span><span class="sd">"""Cluster nearby hinged nodes into representative locations.</span>
 
 <span class="sd">        Because the mesh may produce multiple hinged nodes at nearly the</span>
 <span class="sd">        same physical location, this groups them within *tol* (default</span>
 <span class="sd">        2 * min element length) and returns one representative per cluster.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">hinged_nodes</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">tol</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -1316,12 +1316,12 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_is_mechanism</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hinged_nodes</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test whether the current hinge pattern forms a collapse mechanism.</span>
+<span class="w">        </span><span class="sd">"""Test whether the current hinge pattern forms a collapse mechanism.</span>
 
 <span class="sd">        Builds a test stiffness matrix with *R* = 0 at both element ends</span>
 <span class="sd">        of every clustered hinge location.  If this matrix is rank-deficient</span>
 <span class="sd">        the structure has become a mechanism.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">reps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cluster_hinges</span><span class="p">(</span><span class="n">hinged_nodes</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reps</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -1340,7 +1340,7 @@
 <div class="viewcode-block" id="NonlinearBeamAnalysis.analyze">
 <a class="viewcode-back" href="../../gen/pycba.nonlinear.NonlinearBeamAnalysis.html#pycba.nonlinear.NonlinearBeamAnalysis.analyze">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">,</span> <span class="n">lambda_max</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">record_every</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a proportional-load incremental nonlinear analysis.</span>
+<span class="w">        </span><span class="sd">"""Run a proportional-load incremental nonlinear analysis.</span>
 
 <span class="sd">        The reference load defined by *LM* is scaled by a load factor</span>
 <span class="sd">        lambda that increases from 0 to *lambda_max* (or until collapse).</span>
@@ -1364,7 +1364,7 @@
 <span class="sd">        NonlinearResult</span>
 <span class="sd">            Contains collapse load factor, hinge history, and moment</span>
 <span class="sd">            distribution at end of analysis.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">F_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_force_vector</span><span class="p">(</span><span class="n">LM</span><span class="p">)</span>
         <span class="n">R_elem</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_elem</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
@@ -1444,7 +1444,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_vehicle_force_vector</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">axle_weights</span><span class="p">,</span> <span class="n">axle_coords</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build force vector for a multi-axle vehicle at position *pos*.</span>
 
 <span class="sd">        Parameters</span>
@@ -1453,7 +1453,7 @@
 <span class="sd">        axle_coords : (n_axles,) array of axle positions relative to the</span>
 <span class="sd">            first axle (from :class:`pycba.Vehicle.axle_coords`).</span>
 <span class="sd">        pos : global coordinate of the first (leading) axle.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">ac</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axle_weights</span><span class="p">,</span> <span class="n">axle_coords</span><span class="p">):</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="n">ac</span>  <span class="c1"># axle_coords[0]=0, subsequent trail behind</span>
@@ -1473,7 +1473,7 @@
         <span class="n">n_sub</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
         <span class="n">record_every</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Moving-load nonlinear analysis.</span>
 
 <span class="sd">        A vehicle traverses the beam from left to right.  At each position</span>
@@ -1502,7 +1502,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        NonlinearResult</span>
 <span class="sd">            ``collapse_lambda`` is the front-axle position (m) at collapse.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Resolve vehicle definition</span>
         <span class="k">if</span> <span class="n">vehicle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">aw</span> <span class="o">=</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">axw</span>
@@ -1513,7 +1513,7 @@
             <span class="n">ax_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
             <span class="n">vehicle_L</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Specify either P or vehicle&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Specify either P or vehicle"</span><span class="p">)</span>
 
         <span class="c1"># Front axle travels from 0 to total_length + vehicle_L</span>
         <span class="c1"># (so the rear axle clears the bridge)</span>
@@ -1613,7 +1613,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_mr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">coll</span><span class="p">,</span> <span class="n">he</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">lh</span><span class="p">,</span> <span class="n">mh</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Package analysis state into a :class:`NonlinearResult`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Package analysis state into a :class:`NonlinearResult`."""</span>
         <span class="k">return</span> <span class="n">NonlinearResult</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">coll</span><span class="p">,</span> <span class="n">he</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coords</span><span class="p">,</span> <span class="n">mom</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">support_coords</span><span class="p">,</span> <span class="n">lh</span><span class="p">,</span> <span class="n">mh</span>
         <span class="p">)</span></div>
@@ -1647,8 +1647,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1682,7 +1682,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

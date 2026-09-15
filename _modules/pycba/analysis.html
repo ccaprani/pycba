@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,7 +432,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.analysis</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - Continuous Beam Analysis</span>
 
 <span class="sd">Implements the direct stiffness method for linear-elastic continuous beam</span>
@@ -469,7 +469,7 @@
 
 <span class="sd">An OO Python adaptation of CBA, originally written for MATLAB:</span>
 <span class="sd">http://www.colincaprani.com/programming/matlab/</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -483,7 +483,7 @@
 <div class="viewcode-block" id="BeamAnalysis">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BeamAnalysis</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Direct-stiffness continuous beam analyser.</span>
 
 <span class="sd">    Assembles the global stiffness matrix from individual span stiffness</span>
@@ -500,7 +500,7 @@
 <span class="sd">    * ``beam_results.D``  — global nodal displacement vector.</span>
 <span class="sd">    * ``beam_results.results`` — concatenated member load-effect arrays</span>
 <span class="sd">      (``x``, ``M``, ``V``, ``D``, ``R``).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -514,7 +514,7 @@
         <span class="n">GAv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">kf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Construct a beam analysis object.</span>
 
 <span class="sd">        Parameters</span>
@@ -556,7 +556,7 @@
 <span class="sd">        eletype : array_like, optional</span>
 <span class="sd">            Element type for each span, controlling which end(s) carry moment.</span>
 <span class="sd">            Each entry may be an integer code, a :class:`~pycba.MemberType`,</span>
-<span class="sd">            or its name string (e.g. ``&quot;FP&quot;``):</span>
+<span class="sd">            or its name string (e.g. ``"FP"``):</span>
 
 <span class="sd">            1. ``FF`` Fixed–fixed (default).</span>
 <span class="sd">            2. ``FP`` Fixed–pinned (moment release at right end).</span>
@@ -577,11 +577,11 @@
 <span class="sd">            right), each a support name or a raw ``[vertical, rotation]`` DOF</span>
 <span class="sd">            pair.  Recognised names (case-insensitive):</span>
 
-<span class="sd">            * ``&quot;p&quot;`` / ``&quot;pin&quot;`` / ``&quot;pinned&quot;`` and ``&quot;r&quot;`` / ``&quot;roller&quot;`` —</span>
+<span class="sd">            * ``"p"`` / ``"pin"`` / ``"pinned"`` and ``"r"`` / ``"roller"`` —</span>
 <span class="sd">              vertical held, rotation free.</span>
-<span class="sd">            * ``&quot;e&quot;`` / ``&quot;encastre&quot;`` / ``&quot;fixed&quot;`` / ``&quot;clamped&quot;`` — fully</span>
+<span class="sd">            * ``"e"`` / ``"encastre"`` / ``"fixed"`` / ``"clamped"`` — fully</span>
 <span class="sd">              fixed.</span>
-<span class="sd">            * ``&quot;f&quot;`` / ``&quot;free&quot;`` — unrestrained (e.g. a cantilever tip).</span>
+<span class="sd">            * ``"f"`` / ``"free"`` — unrestrained (e.g. a cantilever tip).</span>
 
 <span class="sd">            Elastic springs are given as a raw pair, e.g. ``[5e4, 0]`` for a</span>
 <span class="sd">            vertical spring.  Lowered to ``R`` via</span>
@@ -608,9 +608,9 @@
 <span class="sd">            If both ``R`` and ``supports`` (or neither) are given, ``R`` and</span>
 <span class="sd">            ``D`` have different lengths, or ``EI`` is not scalar and its length</span>
 <span class="sd">            differs from ``len(L)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="mi">100</span>
-        <span class="c1"># Optional per-member &quot;shear point&quot; sections (0-based member index -&gt;</span>
+        <span class="c1"># Optional per-member "shear point" sections (0-based member index -&gt;</span>
         <span class="c1"># member-local coordinates) spliced into the evaluation grid so the</span>
         <span class="c1"># shear is recovered exactly either side of each section.  ``None``</span>
         <span class="c1"># leaves the uniform grid unchanged; set by a moving-load analysis.</span>
@@ -644,26 +644,26 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">beam_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BeamResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        BeamResults : Post-analysis results object.</span>
 
 <span class="sd">        ``None`` until :meth:`analyze` has been called successfully.</span>
 <span class="sd">        Provides nodal displacements (``D``), reactions at fixed supports</span>
 <span class="sd">        (``R``), spring forces (``Rs``), and per-member load-effect arrays</span>
 <span class="sd">        (``vRes``, ``results``).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span>
 
 <div class="viewcode-block" id="BeamAnalysis.at">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.at">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">)):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">(</span><span class="s2">"M"</span><span class="p">,</span> <span class="s2">"V"</span><span class="p">,</span> <span class="s2">"R"</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Interpolate the load effects at a global coordinate ``x`` (convenience</span>
 <span class="sd">        for :meth:`pycba.results.BeamResults.at`).  Returns a dict, or ``None``</span>
 <span class="sd">        with a message if :meth:`analyze` has not been run.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No results - run analysis first&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"No results - run analysis first"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span></div>
 
@@ -671,12 +671,12 @@
 <div class="viewcode-block" id="BeamAnalysis.to_dataframe">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.to_dataframe">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Member load effects as a :class:`pandas.DataFrame` (``x, M, V, R, D``);</span>
 <span class="sd">        convenience for :meth:`pycba.results.BeamResults.to_dataframe`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No results - run analysis first&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"No results - run analysis first"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span></div>
 
@@ -684,31 +684,31 @@
 <div class="viewcode-block" id="BeamAnalysis.to_csv">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.to_csv">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write the member load effects to a CSV file; convenience for</span>
 <span class="sd">        :meth:`pycba.results.BeamResults.to_csv`.  Returns ``path`` (or ``None``</span>
 <span class="sd">        if the analysis has not been run).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No results - run analysis first&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"No results - run analysis first"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">beam</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beam</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Beam : The underlying :class:`~pycba.beam.Beam` object.</span>
 
 <span class="sd">        Provides direct access to span geometry, stiffness matrices,</span>
 <span class="sd">        restraints, and prescribed displacements.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span>
 
 <div class="viewcode-block" id="BeamAnalysis.set_loads">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.set_loads">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LM</span><span class="p">:</span> <span class="n">LoadMatrix</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Replace the current load matrix with a new one.</span>
 
 <span class="sd">        Any loads previously added via :meth:`add_udl`, :meth:`add_pl`,</span>
@@ -719,14 +719,14 @@
 <span class="sd">        LM : list of list</span>
 <span class="sd">            New load matrix in the same format as the ``LM`` argument of</span>
 <span class="sd">            :meth:`__init__`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">loads</span> <span class="o">=</span> <span class="n">LM</span></div>
 
 
 <div class="viewcode-block" id="BeamAnalysis.add_udl">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_udl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_udl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a full-span uniformly-distributed load.</span>
 
 <span class="sd">        Parameters</span>
@@ -735,7 +735,7 @@
 <span class="sd">            1-based member index.</span>
 <span class="sd">        w : float</span>
 <span class="sd">            Load intensity.  Positive values act downward.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
@@ -743,7 +743,7 @@
 <div class="viewcode-block" id="BeamAnalysis.add_pl">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_pl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a point load.</span>
 
 <span class="sd">        Parameters</span>
@@ -754,7 +754,7 @@
 <span class="sd">            Load magnitude.  Positive values act downward.</span>
 <span class="sd">        a : float</span>
 <span class="sd">            Distance from the left end of the span to the load.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
@@ -762,7 +762,7 @@
 <div class="viewcode-block" id="BeamAnalysis.add_pudl">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_pudl">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_pudl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a partial uniformly-distributed load.</span>
 
 <span class="sd">        Any portion of the load that extends beyond the end of the span is</span>
@@ -778,7 +778,7 @@
 <span class="sd">            Distance from the left end of the span to the start of the load.</span>
 <span class="sd">        c : float</span>
 <span class="sd">            Length (cover) of the partial UDL.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
@@ -786,7 +786,7 @@
 <div class="viewcode-block" id="BeamAnalysis.add_ml">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ml">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a concentrated moment load.</span>
 
 <span class="sd">        Parameters</span>
@@ -797,7 +797,7 @@
 <span class="sd">            Moment magnitude.  Positive values are counter-clockwise.</span>
 <span class="sd">        a : float</span>
 <span class="sd">            Distance from the left end of the span to the load.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
 
@@ -805,7 +805,7 @@
 <div class="viewcode-block" id="BeamAnalysis.add_ic">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.add_ic">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_ic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_member</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Append an imposed-curvature (initial-strain) member load.</span>
 
 <span class="sd">        The free curvature field ``κ(x) = k0 + k1·x + k2·x² + …`` is imposed</span>
@@ -822,7 +822,7 @@
 <span class="sd">        kappa : float or array_like of float</span>
 <span class="sd">            Imposed-curvature polynomial coefficients in increasing powers of</span>
 <span class="sd">            ``x``: ``[k0, k1, k2, ...]``.  A scalar is a uniform curvature.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kappa</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">coeffs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">add_load</span><span class="p">(</span><span class="n">load</span><span class="p">)</span></div>
@@ -838,7 +838,7 @@
         <span class="n">a</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Append a trapezoidal (linearly varying) distributed load.</span>
 
 <span class="sd">        When *a* and *c* are omitted the load covers the full span, varying</span>
@@ -859,9 +859,9 @@
 <span class="sd">            If given, *c* must also be provided.</span>
 <span class="sd">        c : float, optional</span>
 <span class="sd">            Length (cover) of the load.  Required when *a* is provided.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If &#39;a&#39; is specified, &#39;c&#39; must also be provided&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"If 'a' is specified, 'c' must also be provided"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">load</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_member</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -872,7 +872,7 @@
 <div class="viewcode-block" id="BeamAnalysis.analyze">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.analyze">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">check_stability</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Execute the direct-stiffness analysis.</span>
 
 <span class="sd">        Assembles the unrestricted global stiffness matrix, validates the</span>
@@ -908,7 +908,7 @@
 <span class="sd">            If the model is invalid (see :meth:`_validate`) or if the</span>
 <span class="sd">            structure is geometrically unstable (see :meth:`_check_stability`</span>
 <span class="sd">            and :meth:`_solver`).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">npts</span> <span class="ow">and</span> <span class="n">npts</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">npts</span> <span class="o">=</span> <span class="n">npts</span>
 
@@ -937,7 +937,7 @@
 <div class="viewcode-block" id="BeamAnalysis.modal">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.modal">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">modal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass</span><span class="p">,</span> <span class="n">n_modes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">nseg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Free-vibration (modal) analysis: natural frequencies and mode shapes.</span>
 
 <span class="sd">        Assembles a consistent mass matrix alongside the stiffness matrix on a</span>
@@ -966,7 +966,7 @@
 <span class="sd">        -----</span>
 <span class="sd">        Supported for prismatic, fixed-fixed spans without shear flexibility</span>
 <span class="sd">        (``GAv``); other combinations raise a clear ``NotImplementedError``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.modal</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_modal</span>
 
         <span class="k">return</span> <span class="n">solve_modal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="p">,</span> <span class="n">mass</span><span class="p">,</span> <span class="n">n_modes</span><span class="o">=</span><span class="n">n_modes</span><span class="p">,</span> <span class="n">nseg</span><span class="o">=</span><span class="n">nseg</span><span class="p">)</span></div>
@@ -980,7 +980,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_stability</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ksysU</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">restraints</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">d_presc</span><span class="p">:</span> <span class="nb">list</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Detect a mechanism (near-singular structure) before solving.</span>
 
 <span class="sd">        Direct elimination puts ``1.0`` on the diagonal of constrained DOFs,</span>
@@ -1012,7 +1012,7 @@
 <span class="sd">        ValueError</span>
 <span class="sd">            If the free-DOF stiffness partition is singular to within</span>
 <span class="sd">            :attr:`_STABILITY_RCOND`, i.e. the structure is a mechanism.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">free</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">i</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">)</span>
@@ -1026,21 +1026,21 @@
         <span class="n">ev_max</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">ev_max</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ev</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">/</span> <span class="n">ev_max</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_STABILITY_RCOND</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Structure is geometrically unstable: the free-DOF stiffness &quot;</span>
-                <span class="s2">&quot;is singular, indicating a mechanism (e.g. insufficient support &quot;</span>
-                <span class="s2">&quot;restraints or an over-released internal hinge). Add restraint, &quot;</span>
-                <span class="s2">&quot;or pass analyze(check_stability=False) to override this check.&quot;</span>
+                <span class="s2">"Structure is geometrically unstable: the free-DOF stiffness "</span>
+                <span class="s2">"is singular, indicating a mechanism (e.g. insufficient support "</span>
+                <span class="s2">"restraints or an over-released internal hinge). Add restraint, "</span>
+                <span class="s2">"or pass analyze(check_stability=False) to override this check."</span>
             <span class="p">)</span>
 
 <div class="viewcode-block" id="BeamAnalysis.is_stable">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.is_stable">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_stable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return whether the structure is stable (not a mechanism).</span>
 
 <span class="sd">        Runs the same free-DOF stability check as :meth:`analyze` but returns a</span>
 <span class="sd">        boolean instead of raising, so the model can be validated up front</span>
-<span class="sd">        without solving.  A ``True`` result is cached (keyed on the beam&#39;s</span>
+<span class="sd">        without solving.  A ``True`` result is cached (keyed on the beam's</span>
 <span class="sd">        :attr:`~pycba.beam.Beam.structure_version`), so a subsequent</span>
 <span class="sd">        ``analyze()`` does not repeat the check unless the structure changes.</span>
 
@@ -1049,7 +1049,7 @@
 <span class="sd">        bool</span>
 <span class="sd">            ``True`` if the free-DOF stiffness partition is non-singular to</span>
 <span class="sd">            within :attr:`_STABILITY_RCOND`, otherwise ``False``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">restraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
         <span class="n">d_presc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">prescribed_displacements</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1061,10 +1061,10 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_forces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build the unrestricted global nodal force vector from the load matrix.</span>
 
-<span class="sd">        Iterates over spans, retrieves each span&#39;s released end forces</span>
+<span class="sd">        Iterates over spans, retrieves each span's released end forces</span>
 <span class="sd">        (consistent nodal loads adjusted for element type / moment releases),</span>
 <span class="sd">        and accumulates them in the global vector with the sign reversal</span>
 <span class="sd">        required by the direct stiffness method (loads oppose the reactions</span>
@@ -1074,7 +1074,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        f : np.ndarray, shape (nDOF,)</span>
 <span class="sd">            Unrestricted global nodal force vector.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">_set_loads</span><span class="p">()</span>
 
         <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">)</span>
@@ -1092,7 +1092,7 @@
         <span class="n">d_presc</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
         <span class="n">fU</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Pre-analysis model validity check.</span>
 
 <span class="sd">        Currently checks for the one combination that is physically</span>
@@ -1116,23 +1116,23 @@
 <span class="sd">        ValueError</span>
 <span class="sd">            If any DOF simultaneously carries a spring restraint, a prescribed</span>
 <span class="sd">            displacement, and a non-zero consistent nodal load.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">restraints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">d_presc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fU</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Invalid model at DOF </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: a spring support, a prescribed &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;displacement, and a non-zero external nodal load &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(fU[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">] = </span><span class="si">{</span><span class="n">fU</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">) cannot coexist. The elimination &quot;</span>
-                    <span class="s2">&quot;method would silently discard the nodal load. &quot;</span>
-                    <span class="s2">&quot;Remove the prescribed displacement, the spring, or the &quot;</span>
-                    <span class="s2">&quot;external load at this DOF.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Invalid model at DOF </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: a spring support, a prescribed "</span>
+                    <span class="sa">f</span><span class="s2">"displacement, and a non-zero external nodal load "</span>
+                    <span class="sa">f</span><span class="s2">"(fU[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">] = </span><span class="si">{</span><span class="n">fU</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">) cannot coexist. The elimination "</span>
+                    <span class="s2">"method would silently discard the nodal load. "</span>
+                    <span class="s2">"Remove the prescribed displacement, the spring, or the "</span>
+                    <span class="s2">"external load at this DOF."</span>
                 <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Assemble the unrestricted global stiffness matrix.</span>
 
-<span class="sd">        Loops over spans and overlaps each span&#39;s 4×4 stiffness matrix into</span>
+<span class="sd">        Loops over spans and overlaps each span's 4×4 stiffness matrix into</span>
 <span class="sd">        the ``2(N+1) × 2(N+1)`` global matrix using the standard connectivity</span>
 <span class="sd">        pattern.  Spring stiffnesses (``R &gt; 0``) are added to the diagonal</span>
 <span class="sd">        here so that the returned matrix is the *complete* unrestricted system,</span>
@@ -1143,7 +1143,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        ksys : np.ndarray, shape (nDOF, nDOF)</span>
 <span class="sd">            Unrestricted global stiffness matrix including spring contributions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ksys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">):</span>
@@ -1161,7 +1161,7 @@
         <span class="k">return</span> <span class="n">ksys</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_bc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Impose boundary conditions using the direct elimination method.</span>
 
 <span class="sd">        For each DOF with a known displacement ``d_i`` (either explicitly</span>
@@ -1189,7 +1189,7 @@
 <span class="sd">            Restricted stiffness matrix with constrained rows/columns zeroed.</span>
 <span class="sd">        f : np.ndarray, shape (nDOF,)</span>
 <span class="sd">            Modified force vector incorporating prescribed displacement values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
         <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">prescribed_displacements</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nDOF</span><span class="p">):</span>
@@ -1210,7 +1210,7 @@
         <span class="k">return</span> <span class="n">k</span><span class="p">,</span> <span class="n">f</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Recover support reactions and spring forces from the solved displacement field.</span>
 
 <span class="sd">        Uses the unrestricted global stiffness matrix ``k`` (i.e. ``ksysU``</span>
@@ -1244,7 +1244,7 @@
 <span class="sd">        rs : np.ndarray</span>
 <span class="sd">            Spring forces ``-k_s * u_i`` (upward positive) at spring DOFs</span>
 <span class="sd">            (``restraints[i] &gt; 0``), in DOF order.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">k</span> <span class="o">@</span> <span class="n">d</span> <span class="o">-</span> <span class="n">f</span>
         <span class="n">restraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
         <span class="c1"># For fixed DOFs the full nodal residual equals the support reaction,</span>
@@ -1260,7 +1260,7 @@
         <span class="k">return</span> <span class="n">r</span><span class="p">,</span> <span class="n">rs</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Solve the restricted linear system ``A x = b`` for nodal displacements.</span>
 
 <span class="sd">        Parameters</span>
@@ -1280,13 +1280,13 @@
 <span class="sd">        ValueError</span>
 <span class="sd">            If ``A`` is singular, indicating a geometrically unstable</span>
 <span class="sd">            structure (insufficient support restraints).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Structure is geometrically unstable: the stiffness matrix is &quot;</span>
-                <span class="s2">&quot;singular. Check that sufficient support restraints are defined.&quot;</span>
+                <span class="s2">"Structure is geometrically unstable: the stiffness matrix is "</span>
+                <span class="s2">"singular. Check that sufficient support restraints are defined."</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="k">return</span> <span class="n">x</span>
 
@@ -1303,7 +1303,7 @@
         <span class="n">load_cases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Draw a structural schematic of the beam.</span>
 
 <span class="sd">        Convenience wrapper around :meth:`pycba.beam.Beam.plot` so the model</span>
@@ -1316,7 +1316,7 @@
 <span class="sd">        drawn; the loads layer is optional and its source is selected with</span>
 <span class="sd">        ``loads``:</span>
 
-<span class="sd">        * ``None`` (default) - the beam&#39;s own load matrix.</span>
+<span class="sd">        * ``None`` (default) - the beam's own load matrix.</span>
 <span class="sd">        * ``[]`` - draw the bare structure only.</span>
 <span class="sd">        * a PyCBA load matrix, a :class:`~pycba.load_cases.LoadCase`, or a</span>
 <span class="sd">          :class:`~pycba.load_cases.LoadCombination` (supply its</span>
@@ -1357,7 +1357,7 @@
 <span class="sd">            The LaTeX source, when ``tikz=True`` and ``save`` is not given.</span>
 <span class="sd">        pathlib.Path</span>
 <span class="sd">            The written file, when ``tikz=True`` and ``save`` is given.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">loads</span><span class="p">,</span>
             <span class="n">tikz</span><span class="o">=</span><span class="n">tikz</span><span class="p">,</span>
@@ -1380,7 +1380,7 @@
         <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">show_reactions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot bending moment, shear force, and deflection diagrams.</span>
 
 <span class="sd">        Produces a figure of bending moment, shear force, and deflection along</span>
@@ -1401,16 +1401,16 @@
 <span class="sd">            displaying — e.g. to ``savefig`` or restyle the figure first.</span>
 <span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
 <span class="sd">            Display unit system for the axis labels and the deflection scale</span>
-<span class="sd">            (e.g. ``&quot;SI&quot;``, ``&quot;US-ft&quot;``, ``&quot;N-mm&quot;``, ``&quot;none&quot;``).  Defaults to</span>
+<span class="sd">            (e.g. ``"SI"``, ``"US-ft"``, ``"N-mm"``, ``"none"``).  Defaults to</span>
 <span class="sd">            the global default (see :func:`pycba.set_units`); the analysis</span>
 <span class="sd">            itself is unit-agnostic and unaffected.</span>
 <span class="sd">        figsize : tuple(float, float), optional</span>
 <span class="sd">            Figure size in inches. Defaults to 10 wide and ~3 in per subplot</span>
 <span class="sd">            row (so the diagrams are not squashed), consistent with the other</span>
 <span class="sd">            PyCBA result plots; pass an explicit tuple to override.</span>
-<span class="sd">        backend : {&quot;matplotlib&quot;, &quot;plotly&quot;}, optional</span>
+<span class="sd">        backend : {"matplotlib", "plotly"}, optional</span>
 <span class="sd">            Plotting backend; defaults to the global default (see</span>
-<span class="sd">            :func:`pycba.set_backend`).  With ``&quot;plotly&quot;`` an interactive,</span>
+<span class="sd">            :func:`pycba.set_backend`).  With ``"plotly"`` an interactive,</span>
 <span class="sd">            hover-to-read figure of the three diagrams (sharing the x-axis) is</span>
 <span class="sd">            returned; the ``show_beam``, ``show`` and ``figsize`` arguments do</span>
 <span class="sd">            not apply.</span>
@@ -1419,7 +1419,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib.figure.Figure</span>
 <span class="sd">            The figure, or ``None`` if :meth:`analyze` has not been called.</span>
-<span class="sd">            With ``backend=&quot;plotly&quot;`` a single ``plotly.graph_objects.Figure``</span>
+<span class="sd">            With ``backend="plotly"`` a single ``plotly.graph_objects.Figure``</span>
 <span class="sd">            is returned instead of the ``(figure, axes)`` pair.</span>
 <span class="sd">        numpy.ndarray of matplotlib.axes.Axes</span>
 <span class="sd">            The panel axes (length 4 when ``show_beam`` is ``True``, else 3).</span>
@@ -1428,14 +1428,14 @@
 <span class="sd">        -----</span>
 <span class="sd">        Has no effect and prints a warning if :meth:`analyze` has not been</span>
 <span class="sd">        called yet.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_backend</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Nothing to plot - run analysis first"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">resolve_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">resolve_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"plotly"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">results_figure</span>
 
             <span class="k">return</span> <span class="n">results_figure</span><span class="p">(</span>
@@ -1459,7 +1459,7 @@
             <span class="mi">1</span><span class="p">,</span>
             <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ratios</span><span class="p">)),</span>
-            <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="n">ratios</span><span class="p">},</span>
+            <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"height_ratios"</span><span class="p">:</span> <span class="n">ratios</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">axs</span><span class="p">)</span>
         <span class="n">i0</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1467,29 +1467,29 @@
             <span class="c1"># The schematic stretches to fill its panel (equal_aspect=False) so</span>
             <span class="c1"># it stays aligned in x with the diagrams below.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span><span class="p">)</span>
-            <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
             <span class="n">i0</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">diag</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i0</span> <span class="p">:</span> <span class="n">i0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.12</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.12</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">)</span>
 
         <span class="n">ax</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">xd</span><span class="p">,</span> <span class="n">dd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">deflection_curve</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="n">dd</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="n">dd</span> <span class="o">*</span> <span class="n">us</span><span class="o">.</span><span class="n">disp_scale</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">deflection_axis</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">show_reactions</span><span class="p">:</span>
@@ -1503,7 +1503,7 @@
             <span class="n">bp</span><span class="o">.</span><span class="n">render_mpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">rax</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal_aspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">us</span><span class="p">)</span>
             <span class="n">vert</span><span class="p">,</span> <span class="n">mom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reactions_by_node</span><span class="p">()</span>
             <span class="n">bp</span><span class="o">.</span><span class="n">render_reactions_mpl</span><span class="p">(</span><span class="n">rax</span><span class="p">,</span> <span class="n">vert</span><span class="p">,</span> <span class="n">mom</span><span class="p">)</span>
-            <span class="n">rax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Reactions&quot;</span><span class="p">)</span>
+            <span class="n">rax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Reactions"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1511,7 +1511,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_reactions_by_node</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Map the fixed-support reactions (``R``) and spring forces (``Rs``) back</span>
 <span class="sd">        to per-node vertical and moment reactions.</span>
 
@@ -1521,7 +1521,7 @@
 <span class="sd">            Node index -&gt; vertical reaction (positive upward).</span>
 <span class="sd">        mom : dict[int, float]</span>
 <span class="sd">            Node index -&gt; moment reaction (positive counter-clockwise).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">br</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span>
         <span class="n">restraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">restraints</span>
         <span class="n">nDOF</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">restraints</span><span class="p">)</span>
@@ -1544,9 +1544,9 @@
 <div class="viewcode-block" id="BeamAnalysis.plot_reactions">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_reactions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_reactions</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:green"</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Draw the support reactions as labelled arrows on the beam schematic.</span>
 
 <span class="sd">        Vertical reactions are drawn as straight arrows in the force direction</span>
@@ -1571,13 +1571,13 @@
 <span class="sd">        -------</span>
 <span class="sd">        (matplotlib.figure.Figure, matplotlib.axes.Axes) or None</span>
 <span class="sd">            ``None`` (with a message) if the analysis has not been run.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeamPlotter</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Nothing to plot - run analysis first"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1596,7 +1596,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_plot_diagram</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Draw a single result diagram (bending moment, shear, or deflection).</span>
 
 <span class="sd">        Shared backend for :meth:`plot_bmd`, :meth:`plot_sfd` and</span>
@@ -1608,7 +1608,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        kind : {&quot;M&quot;, &quot;V&quot;, &quot;D&quot;}</span>
+<span class="sd">        kind : {"M", "V", "D"}</span>
 <span class="sd">            Which load effect to draw.</span>
 <span class="sd">        ax : matplotlib.axes.Axes, optional</span>
 <span class="sd">            Axes to draw into; a new figure is created if omitted.</span>
@@ -1624,14 +1624,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib.axes.Axes or None</span>
 <span class="sd">            The axes drawn into, or ``None`` if :meth:`analyze` has not run.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_backend</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to plot - run analysis first&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Nothing to plot - run analysis first"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">resolve_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">resolve_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"plotly"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagram_figure</span>
 
             <span class="k">return</span> <span class="n">diagram_figure</span><span class="p">(</span>
@@ -1643,7 +1643,7 @@
         <span class="n">us</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">results</span>
         <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span><span class="o">.</span><span class="n">length</span>
-        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">"D"</span><span class="p">:</span>
             <span class="c1"># the continuous deflected shape, without the diagram-closure</span>
             <span class="c1"># padding that would draw spurious verticals at member ends</span>
             <span class="n">xplot</span><span class="p">,</span> <span class="n">dvals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span><span class="o">.</span><span class="n">deflection_curve</span><span class="p">()</span>
@@ -1651,26 +1651,26 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">xplot</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
             <span class="n">y</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
-                <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="s2">"M"</span><span class="p">:</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">moment_axis</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="s2">"V"</span><span class="p">:</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">shear_axis</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
             <span class="p">}[</span><span class="n">kind</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">distance_axis</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">invert</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"color"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ax</span>
 
 <div class="viewcode-block" id="BeamAnalysis.plot_bmd">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_bmd">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_bmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot the bending-moment diagram.</span>
 
 <span class="sd">        Uses the sagging-positive convention (the y-axis is inverted so sagging</span>
@@ -1684,9 +1684,9 @@
 <span class="sd">            Axes to draw into; a new figure is created if omitted.</span>
 <span class="sd">        units : str or pycba.units.UnitSystem, optional</span>
 <span class="sd">            Display unit system (see :func:`pycba.set_units`).</span>
-<span class="sd">        backend : {&quot;matplotlib&quot;, &quot;plotly&quot;}, optional</span>
+<span class="sd">        backend : {"matplotlib", "plotly"}, optional</span>
 <span class="sd">            Plotting backend; defaults to the global default (see</span>
-<span class="sd">            :func:`pycba.set_backend`).  With ``&quot;plotly&quot;`` an interactive figure</span>
+<span class="sd">            :func:`pycba.set_backend`).  With ``"plotly"`` an interactive figure</span>
 <span class="sd">            is returned and ``ax``/``**kwargs`` do not apply.</span>
 <span class="sd">        **kwargs</span>
 <span class="sd">            Forwarded to the curve plot (``color``, ``ls``, ``lw``, ``label``).</span>
@@ -1695,15 +1695,15 @@
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib.axes.Axes or None</span>
 <span class="sd">            The axes drawn into (``None`` before :meth:`analyze`), or a</span>
-<span class="sd">            ``plotly.graph_objects.Figure`` with ``backend=&quot;plotly&quot;``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<span class="sd">            ``plotly.graph_objects.Figure`` with ``backend="plotly"``.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">"M"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BeamAnalysis.plot_sfd">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_sfd">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_sfd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot the shear-force diagram.</span>
 
 <span class="sd">        See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,</span>
@@ -1713,15 +1713,15 @@
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib.axes.Axes or None</span>
 <span class="sd">            The axes drawn into (``None`` before :meth:`analyze`), or a</span>
-<span class="sd">            ``plotly.graph_objects.Figure`` with ``backend=&quot;plotly&quot;``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<span class="sd">            ``plotly.graph_objects.Figure`` with ``backend="plotly"``.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">"V"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BeamAnalysis.plot_dsd">
 <a class="viewcode-back" href="../../gen/pycba.analysis.BeamAnalysis.html#pycba.analysis.BeamAnalysis.plot_dsd">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_dsd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Plot the deflected-shape diagram.</span>
 
 <span class="sd">        See :meth:`plot_bmd` for the parameters (overlay via ``ax``, ``units``,</span>
@@ -1731,20 +1731,20 @@
 <span class="sd">        -------</span>
 <span class="sd">        matplotlib.axes.Axes or None</span>
 <span class="sd">            The axes drawn into (``None`` before :meth:`analyze`), or a</span>
-<span class="sd">            ``plotly.graph_objects.Figure`` with ``backend=&quot;plotly&quot;``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<span class="sd">            ``plotly.graph_objects.Figure`` with ``backend="plotly"``.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_diagram</span><span class="p">(</span><span class="s2">"D"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam</span>
         <span class="n">n_sup</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">_n_supports</span><span class="p">()</span>
         <span class="n">n_loads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">LM</span><span class="p">)</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;analysed&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;not analysed&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="s2">"analysed"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_results</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"not analysed"</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;BeamAnalysis(</span><span class="si">{</span><span class="n">b</span><span class="o">.</span><span class="n">no_members</span><span class="si">}</span><span class="s2"> member</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">b</span><span class="o">.</span><span class="n">no_members</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_sup</span><span class="si">}</span><span class="s2"> support</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_sup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_loads</span><span class="si">}</span><span class="s2"> load</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_loads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"BeamAnalysis(</span><span class="si">{</span><span class="n">b</span><span class="o">.</span><span class="n">no_members</span><span class="si">}</span><span class="s2"> member</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">b</span><span class="o">.</span><span class="n">no_members</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'s'</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_sup</span><span class="si">}</span><span class="s2"> support</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_sup</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'s'</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_loads</span><span class="si">}</span><span class="s2"> load</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">n_loads</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'s'</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span></div>
 
 </pre></div>
@@ -1776,8 +1776,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1811,7 +1811,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -26,16 +26,16 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
     <script src="../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -432,16 +432,16 @@
                 <article class="bd-article">
                   
   <h1>Source code for pycba.foundation</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">PyCBA - beam on elastic (Winkler) foundation.</span>
 
-<span class="sd">A foundation *member* (PyCBA uses &quot;member&quot; and &quot;span&quot; interchangeably for the</span>
+<span class="sd">A foundation *member* (PyCBA uses "member" and "span" interchangeably for the</span>
 <span class="sd">element between two nodes) is modelled as a *super-element*: internally it is</span>
 <span class="sd">meshed into ``n`` Euler-Bernoulli **sub-elements**, each carrying the standard</span>
 <span class="sd">consistent Winkler foundation stiffness, and the internal nodes are statically</span>
 <span class="sd">condensed out so the member still presents the usual two-node (4-DOF) stiffness</span>
 <span class="sd">to the global assembly.  Applied-load handling and the per-sub-element</span>
-<span class="sd">member-result recovery are inherited from PyCBA&#39;s existing Euler-Bernoulli</span>
+<span class="sd">member-result recovery are inherited from PyCBA's existing Euler-Bernoulli</span>
 <span class="sd">machinery, so no per-load-type closed forms are re-derived; accuracy improves</span>
 <span class="sd">with mesh refinement and the mesh defaults to the foundation characteristic</span>
 <span class="sd">length.  (This internal meshing mirrors the super-element used by the nonlinear</span>
@@ -450,7 +450,7 @@
 <span class="sd">Supported in this version: *prismatic*, fixed-fixed (default ``eletype``)</span>
 <span class="sd">members without shear flexibility (``GAv``), carrying UDL, point-load and</span>
 <span class="sd">partial-UDL loads.  Other combinations raise a clear error.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
@@ -464,7 +464,7 @@
 <div class="viewcode-block" id="characteristic_length">
 <a class="viewcode-back" href="../../gen/pycba.foundation.characteristic_length.html#pycba.foundation.characteristic_length">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">characteristic_length</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">kf</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Winkler characteristic length :math:`\\lambda = (4 EI / k_f)^{1/4}`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Winkler characteristic length :math:`\\lambda = (4 EI / k_f)^{1/4}`."""</span>
     <span class="k">return</span> <span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">EI</span> <span class="o">/</span> <span class="n">kf</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.25</span></div>
 
 
@@ -479,10 +479,10 @@
     <span class="n">n_min</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
     <span class="n">n_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Number of sub-elements for a foundation member: at least ``per_wave`` per</span>
 <span class="sd">    characteristic length, clipped to ``[n_min, n_max]``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">lam</span> <span class="o">=</span> <span class="n">characteristic_length</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">kf</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">per_wave</span> <span class="o">*</span> <span class="n">L</span> <span class="o">/</span> <span class="n">lam</span><span class="p">))</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_min</span><span class="p">,</span> <span class="n">n_max</span><span class="p">))</span></div>
@@ -490,7 +490,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_k_ebeam</span><span class="p">(</span><span class="n">EI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prismatic Euler-Bernoulli element stiffness (PyCBA DOF order).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Prismatic Euler-Bernoulli element stiffness (PyCBA DOF order)."""</span>
     <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
     <span class="n">L3</span> <span class="o">=</span> <span class="n">L2</span> <span class="o">*</span> <span class="n">L</span>
     <span class="k">return</span> <span class="n">EI</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -504,7 +504,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_k_found</span><span class="p">(</span><span class="n">kf</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Consistent Winkler foundation stiffness (cubic Hermite shape functions).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Consistent Winkler foundation stiffness (cubic Hermite shape functions)."""</span>
     <span class="n">L2</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">L</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">kf</span> <span class="o">*</span> <span class="n">L</span> <span class="o">/</span> <span class="mf">420.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
         <span class="p">[</span>
@@ -517,12 +517,12 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_eb_member_values</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">npts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Euler-Bernoulli member-result recovery for one (fixed-fixed) sub-element,</span>
 <span class="sd">    given its end forces ``f = [Va, Ma, Vb, Mb]``, end displacements</span>
 <span class="sd">    ``d = [v_i, θ_i, v_j, θ_j]`` and the loads acting on it (sub-element-local).</span>
 <span class="sd">    Mirrors the prismatic branch of ``BeamResults._member_values``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">dx</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="n">npts</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">npts</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">x</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="n">npts</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">npts</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -542,10 +542,10 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_concat_results</span><span class="p">(</span><span class="n">res_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MemberResults</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate per-sub-element results into a single member result.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Concatenate per-sub-element results into a single member result."""</span>
     <span class="n">arrays</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res_list</span><span class="p">])</span>
-        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"M"</span><span class="p">,</span> <span class="s2">"V"</span><span class="p">,</span> <span class="s2">"R"</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">)</span>
     <span class="p">]</span>
     <span class="k">return</span> <span class="n">MemberResults</span><span class="p">(</span><span class="n">vals</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">arrays</span><span class="p">))</span>
 
@@ -553,7 +553,7 @@
 <div class="viewcode-block" id="FoundationElement">
 <a class="viewcode-back" href="../../gen/pycba.foundation.FoundationElement.html#pycba.foundation.FoundationElement">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FoundationElement</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Beam-on-elastic-foundation super-element for one prismatic member.</span>
 
 <span class="sd">    Parameters</span>
@@ -567,13 +567,13 @@
 <span class="sd">        length: force / length / length).</span>
 <span class="sd">    n : int, optional</span>
 <span class="sd">        Number of internal sub-elements.  Defaults to :func:`auto_subdivisions`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EI</span><span class="p">,</span> <span class="n">kf</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">EI</span><span class="p">,</span> <span class="n">SectionEI</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">&quot;A Winkler foundation currently requires a prismatic (scalar EI) &quot;</span>
-                <span class="s2">&quot;member; non-prismatic foundation members are not yet supported.&quot;</span>
+                <span class="s2">"A Winkler foundation currently requires a prismatic (scalar EI) "</span>
+                <span class="s2">"member; non-prismatic foundation members are not yet supported."</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">EI</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">EI</span><span class="p">)</span>
@@ -599,7 +599,7 @@
 
     <span class="c1"># -- loads ---------------------------------------------------------- #</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_subelement_loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restrict the member&#39;s loads onto each sub-element (local coordinates).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Restrict the member's loads onto each sub-element (local coordinates)."""</span>
         <span class="n">n</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span>
         <span class="n">per</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">load</span> <span class="ow">in</span> <span class="n">loads</span><span class="p">:</span>
@@ -621,13 +621,13 @@
                             <span class="n">per</span><span class="p">[</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LoadPUDL</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">load</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">lo</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Load type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">load</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is not supported on a &quot;</span>
-                    <span class="s2">&quot;Winkler foundation member; use UDL, point or partial-UDL loads.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Load type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">load</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is not supported on a "</span>
+                    <span class="s2">"Winkler foundation member; use UDL, point or partial-UDL loads."</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">per</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_rfull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Full-mesh fixed-end reaction vector and the per-sub-element loads/refs.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Full-mesh fixed-end reaction vector and the per-sub-element loads/refs."""</span>
         <span class="n">per</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subelement_loads</span><span class="p">(</span><span class="n">loads</span><span class="p">)</span>
         <span class="n">Rfull</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span>
         <span class="n">ref_e_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -642,7 +642,7 @@
 <div class="viewcode-block" id="FoundationElement.ref">
 <a class="viewcode-back" href="../../gen/pycba.foundation.FoundationElement.html#pycba.foundation.FoundationElement.ref">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loads</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Condensed two-node fixed-end reactions (PyCBA ``get_ref`` convention).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Condensed two-node fixed-end reactions (PyCBA ``get_ref`` convention)."""</span>
         <span class="n">Rfull</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rfull</span><span class="p">(</span><span class="n">loads</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Rfull</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Krc</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">Kcc_inv</span> <span class="o">@</span> <span class="n">Rfull</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">]</span></div>
 
@@ -651,10 +651,10 @@
 <div class="viewcode-block" id="FoundationElement.recover">
 <a class="viewcode-back" href="../../gen/pycba.foundation.FoundationElement.html#pycba.foundation.FoundationElement.recover">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">recover</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="n">npts</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Member load-effect arrays along the member given its end displacements</span>
 <span class="sd">        ``dr = [v_i, θ_i, v_j, θ_j]`` (from the global solve) and its loads.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">dr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="n">Rfull</span><span class="p">,</span> <span class="n">per</span><span class="p">,</span> <span class="n">ref_e_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rfull</span><span class="p">(</span><span class="n">loads</span><span class="p">)</span>
         <span class="c1"># Internal-node displacements: Kcc dc = Fc - Kcr dr with F = -Rfull.</span>
@@ -704,8 +704,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -739,7 +739,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>
