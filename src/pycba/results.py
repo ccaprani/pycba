@@ -291,6 +291,18 @@ class BeamResults:
         res.R[1:-1] = psi
         res.D[1:-1] = D
 
+        # The padding stations at index 0 and -1 duplicate the true end
+        # stations (x[1] and x[-2]) so that M and V can show their
+        # discontinuity at a support/point load. Rotation and deflection
+        # have no such discontinuity, so the padding should carry the same
+        # (properly computed) value as the true end station, not the raw
+        # per-load superposition value left over from before ``psi``/``D``
+        # were computed above.
+        res.R[0] = psi[0]
+        res.R[-1] = psi[-1]
+        res.D[0] = D[0]
+        res.D[-1] = D[-1]
+
         return res
 
     def at(self, x: float, attrs: Tuple[str, ...] = ("M", "V", "R", "D")) -> Dict:
