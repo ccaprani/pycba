@@ -727,6 +727,18 @@
         <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi</span>
         <span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span>
 
+        <span class="c1"># The padding stations at index 0 and -1 duplicate the true end</span>
+        <span class="c1"># stations (x[1] and x[-2]) so that M and V can show their</span>
+        <span class="c1"># discontinuity at a support/point load. Rotation and deflection</span>
+        <span class="c1"># have no such discontinuity, so the padding should carry the same</span>
+        <span class="c1"># (properly computed) value as the true end station, not the raw</span>
+        <span class="c1"># per-load superposition value left over from before ``psi``/``D``</span>
+        <span class="c1"># were computed above.</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">D</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="n">res</span>
 
 <div class="viewcode-block" id="BeamResults.at">
