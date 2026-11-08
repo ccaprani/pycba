@@ -1094,3 +1094,55 @@ def test_is_stable_predicate():
 
     mech = cba.BeamAnalysis([10.0], 30 * 600e7 * 1e-6, [-1, 0, 0, 0])
     assert mech.is_stable() is False
+
+
+def test_pudl_overhanging_span_end_is_clipped():
+    """
+    A partial UDL running past the end of the span acts only on the span:
+    member results must match the same load cut at the span end.
+    """
+    L = 10.0
+    EI = 3000.0
+    w = 10.0
+    R = [-1, 0, -1, 0]
+
+    overhang = cba.BeamAnalysis([L], EI, R, [[1, 3, w, 7.0, 6.0]])
+    overhang.analyze()
+    clipped = cba.BeamAnalysis([L], EI, R, [[1, 3, w, 7.0, 3.0]])
+    clipped.analyze()
+
+    # Simply supported span with w over [7, 10]
+    Ra = w * 3.0 * 1.5 / L
+    Rb = w * 3.0 - Ra
+    assert overhang.beam_results.R == pytest.approx([Ra, Rb])
+
+    at_mid = overhang.at(5.0)
+    assert at_mid["M"] == pytest.approx(Ra * 5.0)
+    assert at_mid["V"] == pytest.approx(Ra)
+    C1 = -(Ra * L**3 / 6 - w * (L - 7.0) ** 4 / 24) / L
+    assert at_mid["D"] == pytest.approx((Ra * 5.0**3 / 6 + C1 * 5.0) / EI, rel=1e-3)
+
+    res_o = overhang.beam_results.results
+    res_c = clipped.beam_results.results
+    for attr in ("M", "V", "R", "D"):
+        assert getattr(res_o, attr) == pytest.approx(getattr(res_c, attr))
+
+
+def test_pudl_starting_off_span_has_no_effect():
+    """
+    A partial UDL that starts beyond the end of its span contributes nothing.
+    """
+    L = [10.0, 8.0]
+    EI = 3000.0
+    R = [-1, 0, -1, 0, -1, 0]
+
+    with_off_span = cba.BeamAnalysis(L, EI, R, [[1, 1, 5.0], [1, 3, 10.0, 12.0, 2.0]])
+    assert with_off_span.analyze() == 0
+    udl_only = cba.BeamAnalysis(L, EI, R, [[1, 1, 5.0]])
+    udl_only.analyze()
+
+    assert with_off_span.beam_results.R == pytest.approx(udl_only.beam_results.R)
+    res_a = with_off_span.beam_results.results
+    res_b = udl_only.beam_results.results
+    for attr in ("M", "V", "R", "D"):
+        assert getattr(res_a, attr) == pytest.approx(getattr(res_b, attr))

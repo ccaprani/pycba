@@ -334,6 +334,16 @@ class LoadPUDL(Load):
         self.a = a
         self.c = c
 
+    def _cover_on_span(self, L: float) -> Tuple[float, float]:
+        """
+        Returns the start and cover of the part of the load that lies on a
+        span of length L. Any portion beyond the right end of the span is
+        ignored, and the cover is zero when the load starts off the span.
+        """
+        a = self.a
+        c = min(self.c, L - a)
+        return a, max(c, 0.0)
+
     def get_cnl(self, L, eType) -> LoadCNL:
         """
         Returns the Consistent Nodal Loads for a span of length L of element eType
@@ -351,17 +361,10 @@ class LoadPUDL(Load):
             Consistent Nodal Loads for this load type
         """
 
-        a = self.a
-        c = self.c
+        a, c = self._cover_on_span(L)
         w = self.w
-        # Check if on span, if not, return zeros
-        if self.a > L:
-            return [0.0] * 4
-        # Actual cover on span
-        d = L - (a + c)
-        # If cover hangs off span, adjust it
-        if d < 0:
-            c += d
+        if c == 0:
+            return LoadCNL(Va=0.0, Ma=0.0, Vb=0.0, Mb=0.0)
         # More useful vars
         s = a + c / 2
         t = L - s
@@ -398,10 +401,11 @@ class LoadPUDL(Load):
         res = MemberResults(vals=None, n=npts)
         res.x = x
 
-        a = self.a
-        c = self.c
+        a, c = self._cover_on_span(L)
         w = self.w
         b = c + a
+        if c == 0:
+            return res
 
         Va = (L - b + c / 2) * c * w / L
         Ra = (
